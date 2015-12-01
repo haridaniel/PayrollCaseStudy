@@ -6,11 +6,27 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 
 public class Employee {
 	public int id;
-	public String name;
+	private String name;
 	public String address;
 
-	public PaymentClassification paymentClassification;
+	private PaymentClassification paymentClassification;
 	public PaymentSchedule paymentSchedule;
-	public PaymentMethod paymentMethod; 
+	public PaymentMethod paymentMethod;
+	
+	public PaymentClassification getPaymentClassification() {
+		return paymentClassification;
+	}
+
+	public void setPaymentClassification(PaymentClassification paymentClassification) {
+		this.paymentClassification = paymentClassification;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 }

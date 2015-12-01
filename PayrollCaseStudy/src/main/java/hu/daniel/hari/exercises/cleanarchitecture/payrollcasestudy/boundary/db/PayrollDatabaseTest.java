@@ -1,18 +1,20 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.db;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-
-import java.util.Objects;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 
 import org.junit.After;
 import org.junit.Test;
 
-public class PayrollDatabaseTest {
-	
-	private PayrollDatabase payrollDatabase = PayrollDatabase.get();
+public abstract class PayrollDatabaseTest {
+
+	private PayrollDatabase payrollDatabase;
+
+	public PayrollDatabaseTest(PayrollDatabase payrollDatabase) {
+		this.payrollDatabase = payrollDatabase;
+	}
 
 	@Test
 	public void testAddEmployee() {
@@ -25,7 +27,7 @@ public class PayrollDatabaseTest {
 		
 		Employee returnedEmployee = payrollDatabase.getEmployee(employeeId);
 		assertNotNull(returnedEmployee);
-		assertEquals(employee.name, returnedEmployee.name);
+		assertEquals(employee.getName(), returnedEmployee.getName());
 		
 	}
 
@@ -39,7 +41,7 @@ public class PayrollDatabaseTest {
 		
 		assertNull(payrollDatabase.getEmployee(employeeId));
 	}
-	
+
 	@Test
 	public void testDeleteEmployee() throws Exception {
 		int employeeId = 2;
@@ -50,19 +52,17 @@ public class PayrollDatabaseTest {
 		
 		assertNull(payrollDatabase.getEmployee(employeeId));
 	}
-	
-	
+
 	@After
-	public void clean() {
-		PayrollDatabase.get().clearEmployees();
+	public void clearDatabase() {
+		payrollDatabase.clearEmployees();
 	}
 
 	private Employee createTestEmployee(int employeeId) {
 		Employee employee = new Employee();
 		employee.id = employeeId;
-		employee.name = "Bob";
+		employee.setName("Bob");
 		return employee;
 	}
 
-	
 }

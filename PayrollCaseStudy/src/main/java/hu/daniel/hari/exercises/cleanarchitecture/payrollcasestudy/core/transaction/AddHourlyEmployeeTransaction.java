@@ -1,5 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transaction;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
@@ -9,8 +10,8 @@ public class AddHourlyEmployeeTransaction extends AddEmployeeTransaction {
 
 	private int hourlyRate;
 
-	public AddHourlyEmployeeTransaction(int employeeId, String name, String address, int hourlyRate) {
-		super(employeeId, name, address);
+	public AddHourlyEmployeeTransaction(PayrollDatabase payrollDatabase, int employeeId, String name, String address, int hourlyRate) {
+		super(payrollDatabase, employeeId, name, address);
 		this.hourlyRate = hourlyRate;
 	}
 
