@@ -21,11 +21,11 @@
 			<scope>test</scope>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.fitnesse</groupId> -->
-<!-- 			<artifactId>fitnesse</artifactId> -->
-<!-- 			<version>20150814</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.fitnesse</groupId> -->
+		<!-- <artifactId>fitnesse</artifactId> -->
+		<!-- <version>20150814</version> -->
+		<!-- </dependency> -->
 
 		<!-- JPADatabase -->
 
@@ -46,14 +46,21 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.1.1.Final</version>
+			<version>5.0.1.Final</version>
 		</dependency>
-
+			
 		<!-- IN MEMORY JDBC -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.2.8</version>
+		</dependency>
+
+		<!-- PostgreSQL JDBC -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1204-jdbc42</version>
 		</dependency>
 
 

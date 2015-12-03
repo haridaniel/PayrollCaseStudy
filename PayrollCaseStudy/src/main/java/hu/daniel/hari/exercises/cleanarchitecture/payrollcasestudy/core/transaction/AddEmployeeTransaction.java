@@ -22,13 +22,13 @@ public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction 
 	public void execute() {
 		Employee employee = new Employee();
 		
-		employee.id = employeeId;
+		employee.setId(employeeId);
 		employee.setName(name);
-		employee.address = address;
+		employee.setAddress(address);
 		
 		employee.setPaymentClassification(getPaymentClassification());
-		employee.paymentSchedule = getPaymentSchedule();
-		employee.paymentMethod = new HoldPaymentMethod(); //Default
+		employee.setPaymentSchedule(getPaymentSchedule());
+		employee.setPaymentMethod(new HoldPaymentMethod()); //Default
 				
 		payrollDatabase.addEmployee(employee);
 	}

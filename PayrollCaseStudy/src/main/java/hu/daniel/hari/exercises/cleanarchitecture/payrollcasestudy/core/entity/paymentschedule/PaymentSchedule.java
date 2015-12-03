@@ -1,5 +1,11 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule;
 
-public class PaymentSchedule {
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
+import java.time.LocalDate;
+
+public interface PaymentSchedule {
+	
+	DateInterval getDateInterval(LocalDate dateInInterval);
+	
 }

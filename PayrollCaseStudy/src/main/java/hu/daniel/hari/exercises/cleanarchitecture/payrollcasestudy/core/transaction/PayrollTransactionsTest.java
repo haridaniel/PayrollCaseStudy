@@ -2,10 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transac
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.impl.inmemory.InMemoryPayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.requestmodels.AddTimeCardRequestModel;
@@ -20,7 +17,10 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 
 import java.time.LocalDate;
 
+import javax.persistence.EntityTransaction;
+
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PayrollTransactionsTest {
@@ -28,20 +28,11 @@ public class PayrollTransactionsTest {
 	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
 //	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
 
-	private static Employee testEmployee() {
-		return createTestEmployee(1);
-	}
-	
 	@After
 	public void clearDatabase() {
-		payrollDatabase.clearEmployees();
-	}
-
-	private static Employee createTestEmployee(int employeeId) {
-		Employee employee = new Employee();
-		employee.id = employeeId;
-		employee.setName("Boob");
-		return employee;
+		EntityTransaction transaction = payrollDatabase.createTransaction();
+		payrollDatabase.deleteAllEmployees();
+		transaction.commit();
 	}
 
 	@Test
@@ -55,16 +46,17 @@ public class PayrollTransactionsTest {
 		Employee employee = payrollDatabase.getEmployee(employeeId);
 		assertNotNull(employee);
 		assertEquals(employee.getName(), "Bob");
-		assertThat(employee.paymentMethod, instanceOf(HoldPaymentMethod.class));
+		assertThat(employee.getPaymentMethod(), instanceOf(HoldPaymentMethod.class));
 		
 		assertThat(employee.getPaymentClassification(), instanceOf(SalariedPaymentClassification.class));
-		assertThat(((SalariedPaymentClassification) employee.getPaymentClassification()).monthlySalary, is(monthlySalary));
-		assertThat(employee.paymentSchedule, instanceOf(MontlhyPaymentSchedule.class));
+		assertThat(((SalariedPaymentClassification) employee.getPaymentClassification()).getMonthlySalary(), is(monthlySalary));
+
+		assertThat(employee.getPaymentSchedule(), instanceOf(MontlhyPaymentSchedule.class));
 		
 	}
 	
 	@Test
-	public void testAddHourlyRatedEmployeeTransaction() throws Exception {
+	public void testAddHourlyEmployeeTransaction() throws Exception {
 		
 		int employeeId = 1;
 		int hourlyRate = 100;
@@ -75,11 +67,11 @@ public class PayrollTransactionsTest {
 		Employee employee = payrollDatabase.getEmployee(employeeId);
 		assertNotNull(employee);
 		assertEquals(employee.getName(), "Bob");
-		assertThat(employee.paymentMethod, instanceOf(HoldPaymentMethod.class));
+		assertThat(employee.getPaymentMethod(), instanceOf(HoldPaymentMethod.class));
 		
 		assertThat(employee.getPaymentClassification(), instanceOf(HourlyPaymentClassification.class));
-		assertThat(((HourlyPaymentClassification) employee.getPaymentClassification()).hourlyRate, is(hourlyRate));
-		assertThat(employee.paymentSchedule, instanceOf(WeeklyPaymentSchedule.class));
+		assertThat(((HourlyPaymentClassification) employee.getPaymentClassification()).getHourlyWage(), is(hourlyRate));
+		assertThat(employee.getPaymentSchedule(), instanceOf(WeeklyPaymentSchedule.class));
 		
 	}
 
@@ -87,46 +79,54 @@ public class PayrollTransactionsTest {
 	public void testDeleteEmployeeTransaction() throws Exception {
 		payrollDatabase.addEmployee(testEmployee());
 		
-		assertNotNull(payrollDatabase.getEmployee(testEmployee().id));
+		assertNotNull(payrollDatabase.getEmployee(testEmployee().getId()));
 		
-		DeleteEmployeeTransaction deleteEmployeeTransaction = new DeleteEmployeeTransaction(payrollDatabase, testEmployee().id);
+		DeleteEmployeeTransaction deleteEmployeeTransaction = new DeleteEmployeeTransaction(payrollDatabase, testEmployee().getId());
 		deleteEmployeeTransaction.execute();
 		
-		assertNull(payrollDatabase.getEmployee(testEmployee().id));
+		assertNull(payrollDatabase.getEmployee(testEmployee().getId()));
 		
 	}
 	
 	@Test
+	public void testChangeEmployeeNameTransaction() throws Exception {
+		new AddSalariedEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 1005)
+			.execute();
+		
+		new ChangeEmployeeNameTransaction(payrollDatabase, testEmployee().getId(), "Janos")
+			.execute();
+		
+		Employee employee = payrollDatabase.getEmployee(testEmployee().getId());
+		assertEquals("Janos", employee.getName());
+		
+	}
+
+	@Test
 	public void testAddTimeCardTransaction() throws Exception {
-		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().id, testEmployee().getName(), testEmployee().address, 115)
+		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 115)
 			.execute();
 		
 		LocalDate date = LocalDate.of(2015, 11, 01);
 		
 		new AddTimeCardTransaction(payrollDatabase,
-				new AddTimeCardRequestModel(testEmployee().id, date, 8))
+				new AddTimeCardRequestModel(testEmployee().getId(), date, 8))
 				.execute();
 		
-		Employee employee = payrollDatabase.getEmployee(testEmployee().id);
+		Employee employee = payrollDatabase.getEmployee(testEmployee().getId());
 		assertNotNull(employee);
-		assertEquals(HourlyPaymentClassification.class, employee.getPaymentClassification().getClass());
+		assertThat(employee.getPaymentClassification(), instanceOf(HourlyPaymentClassification.class));
 		TimeCard timeCard = ((HourlyPaymentClassification) employee.getPaymentClassification()).getTimeCard(date);
 		assertNotNull(timeCard);
 		
 		assertEquals(8, timeCard.workingHourQty);
 	}
 
-	@Test
-	public void testChangeEmployeeNameTransaction() throws Exception {
-		new AddSalariedEmployeeTransaction(payrollDatabase, testEmployee().id, testEmployee().getName(), testEmployee().address, 1005)
-			.execute();
-		
-		new ChangeEmployeeNameTransaction(payrollDatabase, testEmployee().id, "Janos")
-			.execute();
-		
-		Employee employee = payrollDatabase.getEmployee(testEmployee().id);
-		assertEquals("Janos", employee.getName());
-		
+	private static Employee testEmployee() {
+		Employee employee = new Employee();
+		employee.setId(1);
+		employee.setName("Boob");
+		return employee;
 	}
+	
 	
 }

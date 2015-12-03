@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -9,7 +10,8 @@ import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class JPAPayrollDatabaseModule {
-	private static final String PERSISTENCE_UNIT_NAME = "testDB";
+//	private static final String PERSISTENCE_UNIT_NAME = "testDB";
+	private static final String PERSISTENCE_UNIT_NAME = "postgresTest";
 	
 	private JPAPayrollDatabase jpaPayrollDatabase;
 

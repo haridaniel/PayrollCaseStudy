@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabaseTest;
+
 import org.junit.Test;
 
 public class JPAPayrollDatabaseTest extends PayrollDatabaseTest {
@@ -13,4 +14,5 @@ public class JPAPayrollDatabaseTest extends PayrollDatabaseTest {
 		super(payrollDatabase);
 	}
 
+	
 }

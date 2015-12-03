@@ -4,4 +4,6 @@ import java.time.LocalDate;
 
 public abstract class PaymentClassification {
 
+	public abstract int calculatePay(LocalDate date);
+
 }
