@@ -15,6 +15,15 @@ public class Employee {
 	private PaymentSchedule paymentSchedule;
 	private PaymentMethod paymentMethod;
 	
+	public boolean isPayDate(LocalDate date) {
+		return paymentSchedule.isPayday(date);
+	}
+
+	public int calculatePayAmount(LocalDate payDate) {
+		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
+		return getPaymentClassification().calculateAmount(payInterval);
+	}
+
 	public PaymentClassification getPaymentClassification() {
 		return paymentClassification;
 	}
@@ -61,15 +70,6 @@ public class Employee {
 
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
-	}
-
-	public int calculatePayAmount(LocalDate date) {
-//		paymentSchedule.isPayday(date);
-//		
-//		paymentSchedule.getPayIntervalOfPayday(date);
-		
-		
-		return paymentClassification.calculatePay(date);
 	}
 	
 }

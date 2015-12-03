@@ -3,16 +3,17 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.NotPaydayException;
 
 import java.time.LocalDate;
 
 import org.junit.Test;
 
 public class WeeklyPaymentScheduleTest {
+	private static final LocalDate PREV_SATURDAY = LocalDate.of(2015, 12, 05);
 	private static final LocalDate THIS_MONDAY = LocalDate.of(2015, 12, 07);
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 11);
 	private static final LocalDate NEXT_FRIDAY = LocalDate.of(2015, 12, 18);
-	private static final LocalDate PREV_SATURDAY = LocalDate.of(2015, 12, 05);
 	
 	private WeeklyPaymentSchedule weeklyPaymentSchedule = new WeeklyPaymentSchedule();
 	
@@ -30,15 +31,14 @@ public class WeeklyPaymentScheduleTest {
 	
 	@Test
 	public void getIntervalWithFriday() throws Exception {
-		DateInterval dateInterval = weeklyPaymentSchedule.getPayIntervalOfPayday(THIS_FRIDAY);
+		DateInterval dateInterval = weeklyPaymentSchedule.getPayInterval(THIS_FRIDAY);
 		assertThat(dateInterval.from, 	is(PREV_SATURDAY));
 		assertThat(dateInterval.to, 	is(THIS_FRIDAY));
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected=NotPaydayException.class)
 	public void getIntervalWithNonFriday_ShouldThrow() throws Exception {
-		weeklyPaymentSchedule.getPayIntervalOfPayday(THIS_MONDAY);
-		weeklyPaymentSchedule.getPayIntervalOfPayday(PREV_SATURDAY);
+		weeklyPaymentSchedule.getPayInterval(THIS_MONDAY);
 	}
 	
 }

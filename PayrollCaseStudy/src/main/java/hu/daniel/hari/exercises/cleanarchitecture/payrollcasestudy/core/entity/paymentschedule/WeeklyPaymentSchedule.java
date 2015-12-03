@@ -18,16 +18,16 @@ public class WeeklyPaymentSchedule implements PaymentSchedule {
 	}
 
 	@Override
-	public DateInterval getPayIntervalOfPayday(LocalDate payday) {
-		assertIsPayday(payday);
+	public DateInterval getPayInterval(LocalDate payday) {
+		validatePayday(payday);
 		LocalDate to = payday;
 		LocalDate from = to.minusDays(NR_OF_WEEKDAYS - 1);
 		return new DateInterval(from, to);
 	}
 
-	private void assertIsPayday(LocalDate payday) {
+	private void validatePayday(LocalDate payday) {
 		if (!isPayday(payday))
-			throw new RuntimeException("not a payday");
+			throw new NotPaydayException();
 	}
 
 }

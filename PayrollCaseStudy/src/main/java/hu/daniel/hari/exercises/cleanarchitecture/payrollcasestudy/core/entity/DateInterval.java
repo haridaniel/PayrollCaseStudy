@@ -11,6 +11,12 @@ public class DateInterval {
 		this.to = to;
 	}
 
+	public boolean isBetweenInclusive(LocalDate date) {
+		return 	(date.isAfter(from) || date.isEqual(from)) 
+					&& 
+				(date.isBefore(to) || date.isEqual(to));
+	}
+
 	@Override
 	public String toString() {
 		return "DateInterval [from=" + from + ", to=" + to + "]";

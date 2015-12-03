@@ -19,6 +19,10 @@ import org.junit.Test;
 
 public class PayrollPaydayTransactionTest {
 
+	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
+	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);
+	private static final LocalDate FRIDAY = LocalDate.of(2015, 12, 04);
+	
 	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
 //	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
 
@@ -36,7 +40,7 @@ public class PayrollPaydayTransactionTest {
 				1000).execute();
 
 		//WHEN
-		LocalDate date = LocalDate.of(2015, 11, 01);
+		LocalDate date = LAST_DAY_OF_A_MONTH;
 		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, date);
 		paydayTransaction.execute();
 		
@@ -51,7 +55,7 @@ public class PayrollPaydayTransactionTest {
 		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
 				42).execute();
 		//WHEN
-		LocalDate date = LocalDate.of(2015, 12, 04);
+		LocalDate date = FRIDAY;
 		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, date);
 		paydayTransaction.execute();
 		
@@ -66,11 +70,11 @@ public class PayrollPaydayTransactionTest {
 		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
 				10).execute();
 		
-		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LocalDate.of(2015, 12, 04), 
+		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), FRIDAY, 
 				8)).execute();
 		
 		//WHEN
-		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, LocalDate.of(2015, 12, 04)); //FRIDAY
+		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, FRIDAY); //FRIDAY
 		paydayTransaction.execute();
 		
 		//THEN
@@ -86,11 +90,11 @@ public class PayrollPaydayTransactionTest {
 		
 		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LocalDate.of(2015, 12, 03), 
 				4)).execute();
-		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LocalDate.of(2015, 12, 04), 
+		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), FRIDAY, 
 				8)).execute();
 		
 		//WHEN
-		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, LocalDate.of(2015, 12, 04)); //FRIDAY
+		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, FRIDAY); //FRIDAY
 		paydayTransaction.execute();
 		
 		//THEN
@@ -104,13 +108,13 @@ public class PayrollPaydayTransactionTest {
 		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
 				10).execute();
 		
-		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LocalDate.of(2015, 11, 27), 
+		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LAST_FRIDAY, 
 				4)).execute();
-		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LocalDate.of(2015, 12, 04), 
+		new AddTimeCardTransaction(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), FRIDAY, 
 				8)).execute();
 		
 		//WHEN
-		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, LocalDate.of(2015, 12, 04)); //FRIDAY
+		PaydayTransaction paydayTransaction = new PaydayTransaction(payrollDatabase, FRIDAY);
 		paydayTransaction.execute();
 		
 		//THEN

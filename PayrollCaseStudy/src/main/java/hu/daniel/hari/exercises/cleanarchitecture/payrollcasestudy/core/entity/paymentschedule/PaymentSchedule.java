@@ -7,6 +7,9 @@ import java.time.LocalDate;
 public interface PaymentSchedule {
 	
 	boolean isPayday(LocalDate date);
-	DateInterval getPayIntervalOfPayday(LocalDate paydayDate);
+	DateInterval getPayInterval(LocalDate payDate) throws NotPaydayException;
+	
+	public static class NotPaydayException extends RuntimeException {
+	}
 	
 }

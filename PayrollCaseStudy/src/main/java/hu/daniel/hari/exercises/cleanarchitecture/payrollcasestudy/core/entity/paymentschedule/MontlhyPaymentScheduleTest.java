@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.NotPaydayException;
 
 import java.time.LocalDate;
 
@@ -26,14 +27,14 @@ public class MontlhyPaymentScheduleTest {
 	
 	@Test
 	public void GetIntervalOnPayday() {
-		DateInterval dateInterval = montlhyPaymentSchedule.getPayIntervalOfPayday(LocalDate.of(2015, 12, 31));
+		DateInterval dateInterval = montlhyPaymentSchedule.getPayInterval(LocalDate.of(2015, 12, 31));
 		assertThat(dateInterval.from, 	is(LocalDate.of(2015, 12, 01)));
 		assertThat(dateInterval.to, 	is(LocalDate.of(2015, 12, 31)));
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected=NotPaydayException.class)
 	public void GetIntervalOnNonPayday_ShouldThrowException() {
-		montlhyPaymentSchedule.getPayIntervalOfPayday(LocalDate.of(2015, 11, 1));
+		montlhyPaymentSchedule.getPayInterval(LocalDate.of(2015, 11, 1));
 	}
 	
 }

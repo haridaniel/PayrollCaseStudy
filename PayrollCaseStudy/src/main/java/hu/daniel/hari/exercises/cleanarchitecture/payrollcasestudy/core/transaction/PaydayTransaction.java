@@ -20,15 +20,15 @@ public class PaydayTransaction extends PayrollDatabaseTransaction {
 
 	@Override
 	public void execute() {
-		
 		Collection<Employee> employees = payrollDatabase.getAllEmployees();
 		
 		for (Employee employee : employees) {
-			int payAmount = employee.calculatePayAmount(date);
-			System.out.println(payAmount);
-			
-			PayCheck payCheck = new PayCheck(employee.getId(), payAmount);
-			payChecks.add(payCheck);
+			if(employee.isPayDate(date)) {
+				int payAmount = employee.calculatePayAmount(date);
+				System.out.println(payAmount);
+				PayCheck payCheck = new PayCheck(employee.getId(), payAmount);
+				payChecks.add(payCheck);
+			}
 		}
 		
 	}

@@ -1,9 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification;
 
-import java.time.LocalDate;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
 public abstract class PaymentClassification {
 
-	public abstract int calculatePay(LocalDate date);
+	public abstract int calculateAmount(DateInterval payInterval);
 
 }
