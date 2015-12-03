@@ -8,11 +8,26 @@ import java.time.temporal.TemporalAdjusters;
 public class MontlhyPaymentSchedule implements PaymentSchedule {
 
 	@Override
-	public DateInterval getDateInterval(LocalDate dateInInterval) {
+	public boolean isPayday(LocalDate date) {
+		return isLastDayOfMonth(date);
+	}
+	
+	@Override
+	public DateInterval getPayIntervalOfPayday(LocalDate payday) {
+		assertIsPayday(payday);
 		return new DateInterval(
-				dateInInterval.with(TemporalAdjusters.firstDayOfMonth()), 
-				dateInInterval.with(TemporalAdjusters.lastDayOfMonth())
+				payday.with(TemporalAdjusters.firstDayOfMonth()), 
+				payday.with(TemporalAdjusters.lastDayOfMonth())
 				);
+	}
+
+	private void assertIsPayday(LocalDate date) {
+		if(!isPayday(date))
+			throw new RuntimeException("not a payday");
+	}
+
+	private static boolean isLastDayOfMonth(LocalDate date) {
+		return date.with(TemporalAdjusters.lastDayOfMonth()).equals(date);
 	}
 
 }

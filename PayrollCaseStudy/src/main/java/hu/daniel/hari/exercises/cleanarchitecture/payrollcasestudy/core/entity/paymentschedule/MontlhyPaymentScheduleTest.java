@@ -13,17 +13,27 @@ public class MontlhyPaymentScheduleTest {
 	MontlhyPaymentSchedule montlhyPaymentSchedule = new MontlhyPaymentSchedule();
 
 	@Test
-	public void testGetPeriodWithMonthEndDateShouldBeThisMonth() {
-		DateInterval dateInterval = montlhyPaymentSchedule.getDateInterval(LocalDate.of(2015, 12, 31));
+	public void isPaydayOnLastDayOfMonth_ShouldBeTrue() throws Exception {
+		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 31)), is(true));
+		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 11, 30)), is(true));
+	}
+	@Test
+	public void isPaydayOnNotLastDayOfMonth_ShouldBeFalse() throws Exception {
+		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 11, 24)), is(false));
+		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 01)), is(false));
+		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 02)), is(false));
+	}
+	
+	@Test
+	public void GetIntervalOnPayday() {
+		DateInterval dateInterval = montlhyPaymentSchedule.getPayIntervalOfPayday(LocalDate.of(2015, 12, 31));
 		assertThat(dateInterval.from, 	is(LocalDate.of(2015, 12, 01)));
 		assertThat(dateInterval.to, 	is(LocalDate.of(2015, 12, 31)));
 	}
 
-	@Test
-	public void testGetPeriodWithMonthStartDateShouldBeThisMonth() {
-		DateInterval dateInterval = montlhyPaymentSchedule.getDateInterval(LocalDate.of(2015, 11, 1));
-		assertThat(dateInterval.from, 	is(LocalDate.of(2015, 11, 01)));
-		assertThat(dateInterval.to, 	is(LocalDate.of(2015, 11, 30)));
+	@Test(expected=RuntimeException.class)
+	public void GetIntervalOnNonPayday_ShouldThrowException() {
+		montlhyPaymentSchedule.getPayIntervalOfPayday(LocalDate.of(2015, 11, 1));
 	}
 	
 }

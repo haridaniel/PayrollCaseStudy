@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public interface PaymentSchedule {
 	
-	DateInterval getDateInterval(LocalDate dateInInterval);
+	boolean isPayday(LocalDate date);
+	DateInterval getPayIntervalOfPayday(LocalDate paydayDate);
 	
 }

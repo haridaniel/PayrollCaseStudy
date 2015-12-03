@@ -4,17 +4,30 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.D
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 
 public class WeeklyPaymentSchedule implements PaymentSchedule {
+	private static final int NR_OF_WEEKDAYS = 7;
 
 	@Override
-	public DateInterval getDateInterval(LocalDate dateInInterval) {
-		//PREV FRIDAY + 1
-		LocalDate from = dateInInterval.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)).plusDays(1);
-		//THIS FRIDAY
-		LocalDate to = from.plusDays(6);
+	public boolean isPayday(LocalDate date) {
+		return isFriday(date);
+	}
+
+	private static boolean isFriday(LocalDate date) {
+		return date.getDayOfWeek() == DayOfWeek.FRIDAY;
+	}
+
+	@Override
+	public DateInterval getPayIntervalOfPayday(LocalDate payday) {
+		assertIsPayday(payday);
+		LocalDate to = payday;
+		LocalDate from = to.minusDays(NR_OF_WEEKDAYS - 1);
 		return new DateInterval(from, to);
+	}
+
+	private void assertIsPayday(LocalDate payday) {
+		if (!isPayday(payday))
+			throw new RuntimeException("not a payday");
 	}
 
 }

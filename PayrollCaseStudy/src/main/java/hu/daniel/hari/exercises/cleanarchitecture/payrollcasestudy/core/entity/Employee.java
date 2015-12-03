@@ -63,7 +63,12 @@ public class Employee {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public int getPayAmount(LocalDate date) {
+	public int calculatePayAmount(LocalDate date) {
+//		paymentSchedule.isPayday(date);
+//		
+//		paymentSchedule.getPayIntervalOfPayday(date);
+		
+		
 		return paymentClassification.calculatePay(date);
 	}
 	
