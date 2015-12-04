@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-public abstract class JPAPaymentSize {
+public abstract class JPAPaymentClassification {
 	
 	@Id
 	public Integer employeeId;

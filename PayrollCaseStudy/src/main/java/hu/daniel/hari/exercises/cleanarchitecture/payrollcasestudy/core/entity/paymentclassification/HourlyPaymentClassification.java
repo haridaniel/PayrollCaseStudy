@@ -37,7 +37,7 @@ public class HourlyPaymentClassification extends PaymentClassification {
 		return calculatePayIteratingOnAllTimeCards(payInterval);
 	}
 
-	// TODO: REDESIGN. CPU Resource leak.
+	// TODO: REDESIGN. CPU Resource leak. Get timecards for a period!
 	@Deprecated
 	private int calculatePayIteratingOnAllTimeCards(DateInterval payInterval) {
 		int sumAmount = 0;

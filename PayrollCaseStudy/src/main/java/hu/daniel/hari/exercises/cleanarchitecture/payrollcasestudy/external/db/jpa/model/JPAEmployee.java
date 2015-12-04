@@ -11,7 +11,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize.JPAPaymentSize;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize.JPAPaymentClassification;
 
 @Entity
 public class JPAEmployee {
@@ -23,7 +23,7 @@ public class JPAEmployee {
 	
 	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	@PrimaryKeyJoinColumn
-	public JPAPaymentSize jpaPaymentSize;
+	public JPAPaymentClassification jpaPaymentClassification;
 	
 	@Enumerated(EnumType.STRING)
 	public JPAPaymentSchedule jpaPaymentSchedule;

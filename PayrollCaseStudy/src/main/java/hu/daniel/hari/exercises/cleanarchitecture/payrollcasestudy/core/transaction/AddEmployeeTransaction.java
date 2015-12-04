@@ -5,6 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.E
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxyfactory.EmployeeFactory;
 
 public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction {
 	protected int employeeId;
@@ -20,7 +21,9 @@ public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction 
 	
 	@Override
 	public void execute() {
-		Employee employee = new Employee();
+		
+//		Employee employee = new Employee();
+		Employee employee = EmployeeFactory.create();
 		
 		employee.setId(employeeId);
 		employee.setName(name);

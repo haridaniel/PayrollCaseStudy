@@ -7,64 +7,82 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee.JPAPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.modelfactory.paymentclassification.JPAPaymentClassificationFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.modelfactory.paymentmethod.JPAPaymentMethodFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.modelfactory.paymentschedule.JPAPaymentScheduleFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxyfactory.PaymentClassificationProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxyfactory.PaymentMethodProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxyfactory.PaymentScheduleProxyFactory;
 
 public class EmployeeProxy extends Employee {
 
-	private JPAEmployee jPAEmployee;
+	private JPAEmployee jpaEmployee;
 
 	public EmployeeProxy(JPAEmployee jpaEmployee) {
-		this.jPAEmployee = jpaEmployee;
+		this.jpaEmployee = jpaEmployee;
 	}
 
 	@Override
 	public int getId() {
-		return jPAEmployee.id;
+		return jpaEmployee.id;
 	}
 
 	@Override
 	public void setId(int id) {
-		jPAEmployee.id = id;
+		jpaEmployee.id = id;
 	}
 
 	@Override
 	public String getName() {
-		return jPAEmployee.name;
+		return jpaEmployee.name;
 	}
 
 	@Override
 	public void setName(String name) {
-		jPAEmployee.name = name;
+		jpaEmployee.name = name;
 	}
 
 	@Override
 	public String getAddress() {
-		return jPAEmployee.address;
+		return jpaEmployee.address;
 	}
 
 	@Override
 	public void setAddress(String address) {
-		jPAEmployee.address = address;
+		jpaEmployee.address = address;
 	}
 
 	@Override
 	public PaymentMethod getPaymentMethod() {
-		return jPAEmployee.jpaPaymentMethod == null ? null : 
-			PaymentMethodProxyFactory.create(jPAEmployee.jpaPaymentMethod);
+		return jpaEmployee.jpaPaymentMethod == null ? null : 
+			PaymentMethodProxyFactory.create(jpaEmployee.jpaPaymentMethod);
 	}
 	
 	@Override
 	public PaymentClassification getPaymentClassification() {
-		return jPAEmployee.jpaPaymentSize == null? null : 
-			PaymentClassificationProxyFactory.create(jPAEmployee.jpaPaymentSize);
+		return jpaEmployee.jpaPaymentClassification == null? null : 
+			PaymentClassificationProxyFactory.create(jpaEmployee.jpaPaymentClassification);
 	}
 	
 	@Override
 	public PaymentSchedule getPaymentSchedule() {
-		return jPAEmployee.jpaPaymentSchedule == null? null :
-			PaymentScheduleProxyFactory.create(jPAEmployee.jpaPaymentSchedule);
+		return jpaEmployee.jpaPaymentSchedule == null? null :
+			PaymentScheduleProxyFactory.create(jpaEmployee.jpaPaymentSchedule);
+	}
+	
+	@Override
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		jpaEmployee.jpaPaymentMethod = JPAPaymentMethodFactory.create(paymentMethod); 
+	}
+	
+	@Override
+	public void setPaymentClassification(PaymentClassification paymentClassification) {
+		jpaEmployee.jpaPaymentClassification = JPAPaymentClassificationFactory.create(jpaEmployee, paymentClassification);
+	}
+	
+	@Override
+	public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
+		jpaEmployee.jpaPaymentSchedule = JPAPaymentScheduleFactory.create(paymentSchedule);
 	}
 	
 }

@@ -13,6 +13,10 @@ public class JPAPayrollDatabaseTest extends PayrollDatabaseTest {
 	public JPAPayrollDatabaseTest() {
 		super(payrollDatabase);
 	}
-
+	
+	@Override
+	public void testAddTimeCard() throws Exception {
+		super.testAddTimeCard();
+	}
 	
 }
