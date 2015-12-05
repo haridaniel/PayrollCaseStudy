@@ -10,12 +10,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 public abstract class JPAPaymentClassificationFactory {
 
 	public static JPAPaymentClassification create(JPAEmployee jpaEmployee, PaymentClassification paymentClassification) {
-		if(paymentClassification instanceof SalariedPaymentClassification) {
+		if (paymentClassification instanceof SalariedPaymentClassification) {
 			return new SalariedJPAPaymentClassificationFactory().create(jpaEmployee, (SalariedPaymentClassification) paymentClassification);
-		} else 
-		if(paymentClassification instanceof HourlyPaymentClassification) {
+		} else if (paymentClassification instanceof HourlyPaymentClassification) {
 			return new HourlyJPAPaymentClassificationFactory().create(jpaEmployee, (HourlyPaymentClassification) paymentClassification);
-		} else 
+		} else
 			throw new NotImplementedException();
 	}
 }

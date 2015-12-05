@@ -185,7 +185,7 @@ public abstract class PayrollDatabaseTest {
 		assertEquals(2, employees.size());
 
 	}
-
+	
 	@Test
 	public void testAddTimeCard() throws Exception {
 		EntityTransaction transaction = payrollDatabase.createTransaction();

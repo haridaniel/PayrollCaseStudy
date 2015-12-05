@@ -25,8 +25,8 @@ import org.junit.Test;
 
 public class PayrollTransactionsTest {
 
-//	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
-	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
+	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
+//	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
 
 	@After
 	public void clearDatabase() {
@@ -100,7 +100,7 @@ public class PayrollTransactionsTest {
 		assertEquals("Janos", employee.getName());
 		
 	}
-
+	
 	@Test
 	public void testAddTimeCardTransaction() throws Exception {
 		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 115)

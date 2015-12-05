@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transac
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.impl.inmemory.InMemoryPayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
@@ -24,8 +25,8 @@ public class PayrollPaydayTransactionTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
 	
-//	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
-	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
+	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
+//	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
 
 	@After
 	public void clearDatabase() {

@@ -22,8 +22,8 @@ public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction 
 	@Override
 	public void execute() {
 		
-//		Employee employee = new Employee();
-		Employee employee = EmployeeFactory.create();
+		Employee employee = new Employee();
+//		Employee employee = EmployeeFactory.create();
 		
 		employee.setId(employeeId);
 		employee.setName(name);
