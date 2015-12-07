@@ -1,20 +1,32 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification;
 
-import java.time.LocalDate;
-
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize.HourlyJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize.SalariedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.modelfactory.paymentclassification.hourly.JPATimeCardFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.TimeCardDao;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
 
-public class HourlyPaymentClassificationProxy extends HourlyPaymentClassification {
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import com.google.inject.assistedinject.Assisted;
+
+public class HourlyPaymentClassificationProxy extends HourlyPaymentClassification implements PaymentClassificationProxy {
 
 	private HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
+	
+	@Inject
+	private TimeCardDao timeCardDao;
 
-	public HourlyPaymentClassificationProxy(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
-		super(-1);
+	@Inject
+	public HourlyPaymentClassificationProxy(@Assisted HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
 		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
 	}
 	
@@ -30,13 +42,28 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	
 	@Override
 	public void addTimeCard(TimeCard timeCard) {
-		hourlyJPAPaymentClassification.addJPATimeCard(
-				JPATimeCardFactory.create(timeCard, hourlyJPAPaymentClassification));
+		hourlyJPAPaymentClassification.addJPATimeCard(((TimeCardProxy) timeCard).getJPATimeCard());
 	}
-	
+
 	@Override
-	public TimeCard getTimeCard(LocalDate date) {
-		return hourlyJPAPaymentClassification.getTimeCard(date);
+	public Collection<TimeCard> getTimeCardsIn(DateInterval dateInterval) {
+		return convert(timeCardDao.findTimeCardsIn(dateInterval));
+	}
+
+	private List<TimeCard> convert(Collection<JPATimeCard> jpaTimeCards) {
+		return jpaTimeCards
+				.stream()
+				.map(jpaTimeCard -> new TimeCardProxy(jpaTimeCard))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public JPAPaymentClassification getJPAPaymentClassification() {
+		return hourlyJPAPaymentClassification;
 	}
 	
+	public interface HourlyPaymentClassificationProxyFactory {
+		HourlyPaymentClassificationProxy create(HourlyJPAPaymentClassification hourlyJPAPaymentClassification);
+	}
+
 }

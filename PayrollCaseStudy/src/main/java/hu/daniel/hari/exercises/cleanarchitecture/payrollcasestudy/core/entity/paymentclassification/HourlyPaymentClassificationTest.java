@@ -1,8 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-
 import java.time.LocalDate;
 
 import org.junit.Test;
@@ -16,7 +15,8 @@ public class HourlyPaymentClassificationTest {
 	
 	@Test
 	public void calculatePayForAnyInterval_ShouldNotThrow() throws Exception {
-		new HourlyPaymentClassification(0).calculateAmount(new DateInterval(PREV_SATURDAY, THIS_FRIDAY));
-		new HourlyPaymentClassification(0).calculateAmount(new DateInterval(PREV_SATURDAY, NEXT_FRIDAY));
+		HourlyPaymentClassification hourlyPaymentClassification = mock(HourlyPaymentClassification.class);
+		hourlyPaymentClassification.calculateAmount(new DateInterval(PREV_SATURDAY, THIS_FRIDAY));
+		hourlyPaymentClassification.calculateAmount(new DateInterval(PREV_SATURDAY, NEXT_FRIDAY));
 	}
 }

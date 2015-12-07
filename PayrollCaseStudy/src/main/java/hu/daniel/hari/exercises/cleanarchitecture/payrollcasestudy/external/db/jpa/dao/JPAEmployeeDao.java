@@ -18,12 +18,6 @@ public class JPAEmployeeDao {
 		this.em = em;
 	}
 
-	public EntityTransaction createTransaction() {
-		EntityTransaction transaction = em.getTransaction();
-		transaction.begin();
-		return transaction;
-	}
-
 	public void persist(JPAEmployee jpaEmployee) {
 		em.persist(jpaEmployee);
 	}

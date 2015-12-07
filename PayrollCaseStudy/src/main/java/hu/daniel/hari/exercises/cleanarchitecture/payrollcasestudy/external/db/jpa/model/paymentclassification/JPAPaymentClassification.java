@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 
@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
@@ -22,6 +21,11 @@ public abstract class JPAPaymentClassification {
 	@OneToOne
 	@JoinColumn(name="employeeId", referencedColumnName="id")
 	public JPAEmployee jpaEmployee;
+
+	public void connect(JPAEmployee jpaEmployee) {
+		employeeId = jpaEmployee.id;
+		this.jpaEmployee = jpaEmployee;
+	}
 	
 	
 }

@@ -3,10 +3,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transac
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.impl.inmemory.InMemoryPayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.CurrentTestScope;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.JPAPayrollDatabaseModule;
 
 import java.time.LocalDate;
@@ -17,6 +17,7 @@ import javax.persistence.EntityTransaction;
 import org.junit.After;
 import org.junit.Test;
 
+//@Ignore
 public class PayrollPaydayTransactionTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
@@ -25,9 +26,8 @@ public class PayrollPaydayTransactionTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
 	
-	private PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
-//	private PayrollDatabase payrollDatabase = new JPAPayrollDatabaseModule().getPayrollDatabase();
-
+	private PayrollDatabase payrollDatabase = CurrentTestScope.DATABASE;
+	
 	@After
 	public void clearDatabase() {
 		EntityTransaction transaction = payrollDatabase.createTransaction();
@@ -133,8 +133,8 @@ public class PayrollPaydayTransactionTest {
 		return payChecks.iterator().next();
 	}
 
-	private static Employee testEmployee() {
-		Employee employee = new Employee();
+	private Employee testEmployee() {
+		Employee employee = payrollDatabase.create().employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;

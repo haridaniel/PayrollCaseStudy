@@ -2,56 +2,33 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
-public class HourlyPaymentClassification extends PaymentClassification {
+public abstract class HourlyPaymentClassification extends PaymentClassification {
 
-	private int hourlyWage;
+	public abstract void setHourlyWage(int hourlyWage);
+	public abstract int getHourlyWage();
 
-	private Map<LocalDate, TimeCard> timeCardsByDate = new HashMap<>();
-
-	public HourlyPaymentClassification(int hourlyWage) {
-		this.hourlyWage = hourlyWage;
-	}
-
-	public int getHourlyWage() {
-		return hourlyWage;
-	}
-
-	public void setHourlyWage(int hourlyWage) {
-		this.hourlyWage = hourlyWage;
-	}
-
-	public TimeCard getTimeCard(LocalDate date) {
-		return timeCardsByDate.get(date);
-	}
-
-	public void addTimeCard(TimeCard timeCard) {
-		timeCardsByDate.put(timeCard.date, timeCard);
-	}
+	public abstract void addTimeCard(TimeCard timeCard);
 
 	@Override
 	public int calculateAmount(DateInterval payInterval) {
-		return calculatePayIteratingOnAllTimeCards(payInterval);
+		return calculateAmountIteratingOnTimeCardsInInterval(payInterval);
 	}
 
-	// TODO: REDESIGN. CPU Resource leak. Get timecards for a period!
-	@Deprecated
-	private int calculatePayIteratingOnAllTimeCards(DateInterval payInterval) {
+	private int calculateAmountIteratingOnTimeCardsInInterval(DateInterval payInterval) {
 		int sumAmount = 0;
-		for (LocalDate timeCardDate : timeCardsByDate.keySet()) {
-			if (payInterval.isBetweenInclusive(timeCardDate)) {
-				TimeCard timeCard = timeCardsByDate.get(timeCardDate);
-				sumAmount += calculateAmount(timeCard);
-			}
+		Collection<TimeCard> timeCards = getTimeCardsIn(payInterval);
+		for (TimeCard timeCard : timeCards) {
+			sumAmount += calculateAmount(timeCard);
 		}
 		return sumAmount;
 	}
 
+	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
+
 	private int calculateAmount(TimeCard timeCard) {
-		return timeCard.workingHourQty * hourlyWage;
+		return timeCard.getWorkingHourQty() * getHourlyWage();
 	}
 
 }

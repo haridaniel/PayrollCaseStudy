@@ -3,9 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transac
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxyfactory.EmployeeFactory;
+
+import javax.persistence.EntityTransaction;
 
 public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction {
 	protected int employeeId;
@@ -21,9 +21,9 @@ public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction 
 	
 	@Override
 	public void execute() {
+		EntityTransaction transaction = payrollDatabase.createTransaction();
 		
-		Employee employee = new Employee();
-//		Employee employee = EmployeeFactory.create();
+		Employee employee = payrollDatabase.create().employee();
 		
 		employee.setId(employeeId);
 		employee.setName(name);
@@ -31,9 +31,12 @@ public abstract class AddEmployeeTransaction extends PayrollDatabaseTransaction 
 		
 		employee.setPaymentClassification(getPaymentClassification());
 		employee.setPaymentSchedule(getPaymentSchedule());
-		employee.setPaymentMethod(new HoldPaymentMethod()); //Default
+		
+		employee.setPaymentMethod(payrollDatabase.create().holdPaymentMethod()); //Default
 				
 		payrollDatabase.addEmployee(employee);
+
+		transaction.commit();
 	}
 
 	protected abstract PaymentClassification getPaymentClassification();

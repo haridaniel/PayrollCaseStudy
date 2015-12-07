@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.NotPaydayException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.MonthlyPaymentScheduleImpl;
 
 import java.time.LocalDate;
 
@@ -11,7 +12,7 @@ import org.junit.Test;
 
 public class MontlhyPaymentScheduleTest {
 
-	MontlhyPaymentSchedule montlhyPaymentSchedule = new MontlhyPaymentSchedule();
+	MontlhyPaymentSchedule montlhyPaymentSchedule = new MonthlyPaymentScheduleImpl();
 
 	@Test
 	public void isPaydayOnLastDayOfMonth_ShouldBeTrue() throws Exception {

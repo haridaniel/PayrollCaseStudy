@@ -5,16 +5,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.D
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class WeeklyPaymentSchedule implements PaymentSchedule {
+public abstract class WeeklyPaymentSchedule implements PaymentSchedule {
 	private static final int NR_OF_WEEKDAYS = 7;
 
 	@Override
 	public boolean isPayday(LocalDate date) {
 		return isFriday(date);
-	}
-
-	private static boolean isFriday(LocalDate date) {
-		return date.getDayOfWeek() == DayOfWeek.FRIDAY;
 	}
 
 	@Override
@@ -28,6 +24,10 @@ public class WeeklyPaymentSchedule implements PaymentSchedule {
 	private void validatePayday(LocalDate payday) {
 		if (!isPayday(payday))
 			throw new NotPaydayException();
+	}
+
+	private static boolean isFriday(LocalDate date) {
+		return date.getDayOfWeek() == DayOfWeek.FRIDAY;
 	}
 
 }

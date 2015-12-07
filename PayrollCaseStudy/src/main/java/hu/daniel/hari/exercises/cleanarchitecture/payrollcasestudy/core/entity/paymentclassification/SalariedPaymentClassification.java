@@ -2,29 +2,17 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
-import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 
-public class SalariedPaymentClassification extends PaymentClassification {
+public abstract class SalariedPaymentClassification extends PaymentClassification {
 
-	private int monthlySalary;
-
-	public SalariedPaymentClassification(int monthlySalary) {
-		this.monthlySalary = monthlySalary;
-	}
-
-	public int getMonthlySalary() {
-		return monthlySalary;
-	}
-
-	public void setMonthlySalary(int monthlySalary) {
-		this.monthlySalary = monthlySalary;
-	}
+	public abstract int getMonthlySalary();
+	public abstract void setMonthlySalary(int monthlySalary);
 
 	@Override
 	public int calculateAmount(DateInterval dateInterval) {
 		validateFullMonthInterval(dateInterval);
-		return monthlySalary;
+		return getMonthlySalary();
 	}
 
 	private static void validateFullMonthInterval(DateInterval dateInterval) {
@@ -39,5 +27,5 @@ public class SalariedPaymentClassification extends PaymentClassification {
 	}
 	
 	public static class NotFullMonthIntervalException extends RuntimeException {}
-
+	
 }

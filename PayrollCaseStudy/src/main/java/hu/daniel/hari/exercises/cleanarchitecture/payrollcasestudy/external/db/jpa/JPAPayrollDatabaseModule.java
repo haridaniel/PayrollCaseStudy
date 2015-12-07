@@ -1,11 +1,15 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy.EmployeeProxyFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.HourlyPaymentClassificationProxy.HourlyPaymentClassificationProxyFactory;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
@@ -38,7 +42,12 @@ class GuiceModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		
+		proxyFactories();
+	}
+
+	private void proxyFactories() {
+		install(new FactoryModuleBuilder().build(EmployeeProxyFactory.class));
+		install(new FactoryModuleBuilder().build(HourlyPaymentClassificationProxyFactory.class));
 	}
 	
 }

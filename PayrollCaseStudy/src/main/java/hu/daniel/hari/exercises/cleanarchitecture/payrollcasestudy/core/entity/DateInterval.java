@@ -3,14 +3,14 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity;
 import java.time.LocalDate;
 
 public class DateInterval {
-	public LocalDate from;
-	public LocalDate to;
+	public final LocalDate from;
+	public final LocalDate to;
 
 	public DateInterval(LocalDate from, LocalDate to) {
 		this.from = from;
 		this.to = to;
 	}
-
+	
 	public boolean isBetweenInclusive(LocalDate date) {
 		return 	(date.isAfter(from) || date.isEqual(from)) 
 					&& 
@@ -20,6 +20,10 @@ public class DateInterval {
 	@Override
 	public String toString() {
 		return "DateInterval [from=" + from + ", to=" + to + "]";
+	}
+
+	public static DateInterval of(LocalDate from, LocalDate to) {
+		return new DateInterval(from, to);
 	}
 	
 	

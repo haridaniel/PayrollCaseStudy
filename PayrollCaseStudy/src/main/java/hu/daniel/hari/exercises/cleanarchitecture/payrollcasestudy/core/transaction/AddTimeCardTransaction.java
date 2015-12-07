@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transaction;
 
-import javax.management.RuntimeErrorException;
+import javax.persistence.EntityTransaction;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.requestmodels.AddTimeCardRequestModel;
@@ -20,10 +20,12 @@ public class AddTimeCardTransaction extends PayrollDatabaseTransaction {
 
 	@Override
 	public void execute() {
+		EntityTransaction transaction = payrollDatabase.createTransaction();
 		Employee employee = payrollDatabase.getEmployee(requestModel.employeeId);
 		assertNotNull(employee);
 		
 		toHourlyPaymentClassification(employee.getPaymentClassification()).addTimeCard(toTimeCard());
+		transaction.commit();
 		
 	}
 
@@ -41,7 +43,7 @@ public class AddTimeCardTransaction extends PayrollDatabaseTransaction {
 	}
 
 	private TimeCard toTimeCard() {
-		return new TimeCard(requestModel.date, requestModel.workingHoursQty);
+		return payrollDatabase.create().timeCard(requestModel.date, requestModel.workingHoursQty);
 	}
 	
 }

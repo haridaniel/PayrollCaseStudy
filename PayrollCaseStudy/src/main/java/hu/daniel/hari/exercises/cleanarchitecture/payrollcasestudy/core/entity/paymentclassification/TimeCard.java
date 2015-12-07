@@ -2,13 +2,12 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 
 import java.time.LocalDate;
 
-public class TimeCard {
-	public LocalDate date;
-	public int workingHourQty;
+public abstract class TimeCard {
 
-	public TimeCard(LocalDate date, int workingHourQty) {
-		this.date = date;
-		this.workingHourQty = workingHourQty;
-	}
+	public abstract LocalDate getDate();
+	public abstract int getWorkingHourQty();
+
+	public abstract void setDate(LocalDate date); 
+	public abstract void setWorkingHourQty(int workingHourQty); 
 	
 }

@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentsize;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification;
 
 import javax.persistence.Entity;
 
@@ -7,6 +7,13 @@ import javax.persistence.Entity;
 public class SalariedJPAPaymentClassification extends JPAPaymentClassification {
 	
 	private int monthlySalary;
+
+	@Deprecated
+	public SalariedJPAPaymentClassification() {
+	}
+	public SalariedJPAPaymentClassification(int monthlySalary) {
+		this.monthlySalary = monthlySalary;
+	}
 
 	public int getMonthlySalary() {
 		return monthlySalary;
