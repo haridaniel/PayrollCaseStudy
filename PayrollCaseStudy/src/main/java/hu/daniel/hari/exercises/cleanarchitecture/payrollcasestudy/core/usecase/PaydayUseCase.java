@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transaction;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,35 +6,32 @@ import java.util.Collection;
 
 import javax.persistence.EntityTransaction;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
 
-public class PaydayTransaction extends PayrollDatabaseTransaction {
+public class PaydayUseCase extends TransactionalDatabaseUseCase {
 
 	private LocalDate date;
 	private Collection<PayCheck> payChecks = new ArrayList<>();
 
-	public PaydayTransaction(PayrollDatabase payrollDatabase, LocalDate date) {
+	public PaydayUseCase(PayrollDatabase payrollDatabase, LocalDate date) {
 		super(payrollDatabase);
 		this.date = date;
 	}
 
 	@Override
-	public void execute() {
+	public void executeInTransaction() {
 		Collection<Employee> employees = payrollDatabase.getAllEmployees();
-		EntityTransaction transaction = payrollDatabase.createTransaction();
 		
 		for (Employee employee : employees) {
 			if(employee.isPayDate(date)) {
-				int payAmount = employee.calculatePayAmount(date);
+				int payAmount = employee.calculateAmount(date);
 				System.out.println(payAmount);
 				PayCheck payCheck = new PayCheck(employee.getId(), payAmount);
 				payChecks.add(payCheck);
 			}
 		}
-		transaction.commit();
-		
 	}
 
 	public Collection<PayCheck> getPayChecks() {

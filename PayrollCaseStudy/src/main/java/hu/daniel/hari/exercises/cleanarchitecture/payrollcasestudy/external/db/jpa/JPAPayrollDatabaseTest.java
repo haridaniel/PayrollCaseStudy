@@ -1,7 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabaseTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabaseTest;
 
 public class JPAPayrollDatabaseTest extends PayrollDatabaseTest {
 

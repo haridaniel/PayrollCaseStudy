@@ -1,9 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.impl.inmemory.InMemoryPayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.PayrollAppBoundary;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.impl.PayrollAppBoundaryImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.PayrollAppBoundary;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.impl.PayrollAppBoundaryImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.InMemoryPayrollDatabase;
 
 public class Main {
 	public static void main(String[] args) {

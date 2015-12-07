@@ -5,7 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.D
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 
-public abstract class MontlhyPaymentSchedule implements PaymentSchedule {
+public abstract class MontlhyPaymentSchedule extends PaymentSchedule {
 
 	@Override
 	public boolean isPayday(LocalDate date) {
@@ -13,16 +13,10 @@ public abstract class MontlhyPaymentSchedule implements PaymentSchedule {
 	}
 
 	@Override
-	public DateInterval getPayInterval(LocalDate payday) {
-		validatePayday(payday);
-		return new DateInterval(
+	public DateInterval getPayIntervalForValidatedPaydate(LocalDate payday) {
+		return DateInterval.of(
 				payday.with(TemporalAdjusters.firstDayOfMonth()),
 				payday.with(TemporalAdjusters.lastDayOfMonth()));
-	}
-
-	private void validatePayday(LocalDate date) {
-		if (!isPayday(date))
-			throw new NotPaydayException();
 	}
 
 	private static boolean isLastDayOfMonth(LocalDate date) {

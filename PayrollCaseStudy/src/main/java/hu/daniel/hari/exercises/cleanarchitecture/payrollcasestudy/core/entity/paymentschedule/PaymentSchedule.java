@@ -4,11 +4,22 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.D
 
 import java.time.LocalDate;
 
-public interface PaymentSchedule {
+public abstract class PaymentSchedule {
 	
-	boolean isPayday(LocalDate date);
-	DateInterval getPayInterval(LocalDate payDate) throws NotPaydayException;
+	public abstract boolean isPayday(LocalDate date);
 	
+	public final DateInterval getPayInterval(LocalDate payday) {
+		validatePayday(payday);
+		return getPayIntervalForValidatedPaydate(payday);
+	}
+	
+	private void validatePayday(LocalDate date) {
+		if (!isPayday(date))
+			throw new NotPaydayException();
+	}
+
+	protected abstract DateInterval getPayIntervalForValidatedPaydate(LocalDate payDate) throws NotPaydayException;
+
 	public static class NotPaydayException extends RuntimeException {
 	}
 	

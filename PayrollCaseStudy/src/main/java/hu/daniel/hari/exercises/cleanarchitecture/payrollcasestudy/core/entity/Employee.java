@@ -26,7 +26,7 @@ public abstract class Employee {
 		return getPaymentSchedule().isPayday(date);
 	}
 
-	public int calculatePayAmount(LocalDate payDate) {
+	public int calculateAmount(LocalDate payDate) {
 		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
 		return getPaymentClassification().calculateAmount(payInterval);
 	}

@@ -8,9 +8,6 @@ public class SalariedJPAPaymentClassification extends JPAPaymentClassification {
 	
 	private int monthlySalary;
 
-	@Deprecated
-	public SalariedJPAPaymentClassification() {
-	}
 	public SalariedJPAPaymentClassification(int monthlySalary) {
 		this.monthlySalary = monthlySalary;
 	}

@@ -85,7 +85,7 @@ public class EmployeeProxy extends Employee {
 	public PaymentSchedule getPaymentSchedule() {
 		if(paymentScheduleProxy == null)
 			paymentScheduleProxy = PaymentScheduleProxyFactory.create(jpaEmployee.getJpaPaymentSchedule());
-		return paymentScheduleProxy;
+		return (PaymentSchedule) paymentScheduleProxy;
 	}
 	
 	@Override

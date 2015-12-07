@@ -6,7 +6,7 @@ public class DateInterval {
 	public final LocalDate from;
 	public final LocalDate to;
 
-	public DateInterval(LocalDate from, LocalDate to) {
+	private DateInterval(LocalDate from, LocalDate to) {
 		this.from = from;
 		this.to = to;
 	}

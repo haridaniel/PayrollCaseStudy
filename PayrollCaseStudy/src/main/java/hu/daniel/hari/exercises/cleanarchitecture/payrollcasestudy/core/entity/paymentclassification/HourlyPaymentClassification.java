@@ -16,9 +16,9 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 		return calculateAmountIteratingOnTimeCardsInInterval(payInterval);
 	}
 
-	private int calculateAmountIteratingOnTimeCardsInInterval(DateInterval payInterval) {
+	private int calculateAmountIteratingOnTimeCardsInInterval(DateInterval dateInterval) {
 		int sumAmount = 0;
-		Collection<TimeCard> timeCards = getTimeCardsIn(payInterval);
+		Collection<TimeCard> timeCards = getTimeCardsIn(dateInterval);
 		for (TimeCard timeCard : timeCards) {
 			sumAmount += calculateAmount(timeCard);
 		}

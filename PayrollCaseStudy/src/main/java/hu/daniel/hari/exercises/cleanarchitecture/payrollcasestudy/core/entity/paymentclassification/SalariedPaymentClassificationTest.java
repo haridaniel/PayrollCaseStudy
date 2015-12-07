@@ -19,10 +19,10 @@ public class SalariedPaymentClassificationTest {
 		}
 	}
 
-	private static final DateInterval A_MONTH_INTERVAL = 			new DateInterval(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 31));
-	private static final DateInterval ANOTHER_MONTH_INTERVAL = 		new DateInterval(LocalDate.of(2015, 11, 01), LocalDate.of(2015, 11, 30));
-	private static final DateInterval LESS_THAN_A_MONTH_INTERVAL = 	new DateInterval(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 20));
-	private static final DateInterval MORE_THAN_A_MONTH_INTERVAL = 	new DateInterval(LocalDate.of(2015, 11, 30), LocalDate.of(2015, 12, 31));
+	private static final DateInterval A_MONTH_INTERVAL = 			DateInterval.of(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 31));
+	private static final DateInterval ANOTHER_MONTH_INTERVAL = 		DateInterval.of(LocalDate.of(2015, 11, 01), LocalDate.of(2015, 11, 30));
+	private static final DateInterval LESS_THAN_A_MONTH_INTERVAL = 	DateInterval.of(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 20));
+	private static final DateInterval MORE_THAN_A_MONTH_INTERVAL = 	DateInterval.of(LocalDate.of(2015, 11, 30), LocalDate.of(2015, 12, 31));
 
 	@Test
 	public void calculatePayForAMonthInterval_ShouldNotThrow() throws Exception {

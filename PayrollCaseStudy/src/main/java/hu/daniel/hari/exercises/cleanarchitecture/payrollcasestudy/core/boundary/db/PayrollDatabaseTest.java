@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -27,15 +27,15 @@ public abstract class PayrollDatabaseTest {
 	}
 
 	private Employee testEmployee() {
-		Employee employee = database.create().employee();
+		Employee employee = database.factory().employee();
 		employee.setId(1);
 		employee.setName("Bob");
-		employee.setPaymentMethod(database.create().holdPaymentMethod());
+		employee.setPaymentMethod(database.factory().holdPaymentMethod());
 		return employee;
 	}
 
 	private Employee testEmployee2() {
-		Employee employee = database.create().employee();
+		Employee employee = database.factory().employee();
 		employee.setId(2);
 		employee.setName("Robert");
 		return employee;
@@ -43,15 +43,22 @@ public abstract class PayrollDatabaseTest {
 
 	@Test
 	public void testTransaction() throws Exception {
-		EntityTransaction transaction = database.createTransaction();
+		EntityTransaction transaction = database.getTransaction();
 		database.addEmployee(testEmployee());
 		database.addEmployee(testEmployee2());
 		transaction.commit();
 	}
+	
+	@Test
+	public void testTransactionRollback() throws Exception {
+		
+		
+		
+	}
 
 	@After
 	public void clearDatabase() {
-		EntityTransaction transaction = database.createTransaction();
+		EntityTransaction transaction = database.getTransaction();
 		database.deleteAllEmployees();
 		transaction.commit();
 	}
@@ -71,11 +78,11 @@ public abstract class PayrollDatabaseTest {
 	@Test
 	public void testAddSalariedAndHourlyEmployee() throws Exception {
 		Employee testEmployee = testEmployee();
-		testEmployee.setPaymentClassification(database.create().salariedPaymentClassification(5566));
+		testEmployee.setPaymentClassification(database.factory().salariedPaymentClassification(5566));
 		database.addEmployee(testEmployee);
 
 		Employee testEmployee2 = testEmployee2();
-		testEmployee2.setPaymentClassification(database.create().hourlyPaymentClassification(13));
+		testEmployee2.setPaymentClassification(database.factory().hourlyPaymentClassification(13));
 		database.addEmployee(testEmployee2);
 
 		{
@@ -96,7 +103,7 @@ public abstract class PayrollDatabaseTest {
 	public void testChangeMonthlySalary() throws Exception {
 		// GIVEN
 		Employee testEmployee = testEmployee();
-		testEmployee.setPaymentClassification(database.create().salariedPaymentClassification(5566));
+		testEmployee.setPaymentClassification(database.factory().salariedPaymentClassification(5566));
 		database.addEmployee(testEmployee);
 
 		// WHEN
@@ -114,7 +121,7 @@ public abstract class PayrollDatabaseTest {
 	public void testChangeHourlyWage() throws Exception {
 		// GIVEN
 		Employee testEmployee = testEmployee();
-		testEmployee.setPaymentClassification(database.create().hourlyPaymentClassification(60));
+		testEmployee.setPaymentClassification(database.factory().hourlyPaymentClassification(60));
 		database.addEmployee(testEmployee);
 
 		// WHEN
@@ -134,7 +141,7 @@ public abstract class PayrollDatabaseTest {
 		database.addEmployee(testEmployee());
 		assertNotNull(database.getEmployee(employeeId));
 
-		EntityTransaction transaction = database.createTransaction();
+		EntityTransaction transaction = database.getTransaction();
 		database.deleteAllEmployees();
 		transaction.commit();
 
@@ -169,7 +176,7 @@ public abstract class PayrollDatabaseTest {
 
 	@Test
 	public void testGetAllEmployees() throws Exception {
-		EntityTransaction transaction = database.createTransaction();
+		EntityTransaction transaction = database.getTransaction();
 		database.addEmployee(testEmployee());
 		database.addEmployee(testEmployee2());
 		transaction.commit();
@@ -181,8 +188,8 @@ public abstract class PayrollDatabaseTest {
 	
 	@Test
 	public void testAddTimeCard() throws Exception {
-		EntityTransaction transaction = database.createTransaction();
-		Employee testEmployeeWithTimeCard = testEmployeeWithTimeCard();
+		EntityTransaction transaction = database.getTransaction();
+		Employee testEmployeeWithTimeCard = testEmployeeWithOneTimeCard();
 		
 		database.addEmployee(testEmployeeWithTimeCard);
 		transaction.commit();
@@ -193,13 +200,13 @@ public abstract class PayrollDatabaseTest {
 		assertThat(timeCard.getWorkingHourQty(), is(8));
 	}
 
-	private Employee testEmployeeWithTimeCard() {
+	private Employee testEmployeeWithOneTimeCard() {
 		Employee testEmployee = testEmployee();
-		testEmployee.setPaymentSchedule(database.create().weeklyPaymentSchedule());
-		HourlyPaymentClassification hourlyPaymentClassification = database.create().hourlyPaymentClassification(0);
+		testEmployee.setPaymentSchedule(database.factory().weeklyPaymentSchedule());
+		HourlyPaymentClassification hourlyPaymentClassification = database.factory().hourlyPaymentClassification(0);
 		testEmployee.setPaymentClassification(hourlyPaymentClassification);
-//		hourlyPaymentClassification.addTimeCard(payrollDatabase.create().timeCard(THIS_FRIDAY, 8));
-		((HourlyPaymentClassification) testEmployee.getPaymentClassification()).addTimeCard(database.create().timeCard(THIS_FRIDAY, 8));
+		hourlyPaymentClassification.addTimeCard(database.factory().timeCard(THIS_FRIDAY, 8));
+//		((HourlyPaymentClassification) testEmployee.getPaymentClassification()).addTimeCard(database.create().timeCard(THIS_FRIDAY, 8));
 		return testEmployee;
 	}
 

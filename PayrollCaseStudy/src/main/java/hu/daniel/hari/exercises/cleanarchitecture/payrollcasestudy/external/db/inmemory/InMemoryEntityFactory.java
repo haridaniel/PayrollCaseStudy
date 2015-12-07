@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import java.time.LocalDate;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;

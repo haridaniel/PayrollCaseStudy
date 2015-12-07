@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
@@ -28,10 +28,8 @@ import javax.inject.Singleton;
 @Singleton
 public class JPAEntityFactory implements EntityFactory {
 	
-	@Inject
-	private EmployeeProxyFactory employeeProxyFactory;
-	@Inject
-	private HourlyPaymentClassificationProxyFactory hourlyPaymentClassificationProxyFactory;
+	@Inject private EmployeeProxyFactory employeeProxyFactory;
+	@Inject private HourlyPaymentClassificationProxyFactory hourlyPaymentClassificationProxyFactory;
 	
 	@Override
 	public SalariedPaymentClassification salariedPaymentClassification(int monthlySalary) {

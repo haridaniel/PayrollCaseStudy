@@ -16,7 +16,7 @@ public class HourlyPaymentClassificationTest {
 	@Test
 	public void calculatePayForAnyInterval_ShouldNotThrow() throws Exception {
 		HourlyPaymentClassification hourlyPaymentClassification = mock(HourlyPaymentClassification.class);
-		hourlyPaymentClassification.calculateAmount(new DateInterval(PREV_SATURDAY, THIS_FRIDAY));
-		hourlyPaymentClassification.calculateAmount(new DateInterval(PREV_SATURDAY, NEXT_FRIDAY));
+		hourlyPaymentClassification.calculateAmount(DateInterval.of(PREV_SATURDAY, THIS_FRIDAY));
+		hourlyPaymentClassification.calculateAmount(DateInterval.of(PREV_SATURDAY, NEXT_FRIDAY));
 	}
 }

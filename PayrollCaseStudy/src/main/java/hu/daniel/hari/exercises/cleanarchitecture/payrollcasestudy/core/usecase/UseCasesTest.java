@@ -1,12 +1,12 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.transaction;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.EntityFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.boundary.userapi.requestmodels.AddTimeCardRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
@@ -27,13 +27,13 @@ import javax.persistence.EntityTransaction;
 import org.junit.After;
 import org.junit.Test;
 
-public class PayrollTransactionsTest {
+public class UseCasesTest {
 
 	private PayrollDatabase payrollDatabase = CurrentTestScope.DATABASE;
 
 	@After
 	public void clearDatabase() {
-		EntityTransaction transaction = payrollDatabase.createTransaction();
+		EntityTransaction transaction = payrollDatabase.getTransaction();
 		payrollDatabase.deleteAllEmployees();
 		transaction.commit();
 	}
@@ -43,8 +43,8 @@ public class PayrollTransactionsTest {
 
 		int employeeId = 1;
 		int monthlySalary = 150000;
-		Transaction payrollDatabaseTransaction = new AddSalariedEmployeeTransaction(payrollDatabase, employeeId, "Bob", "Home", monthlySalary);
-		payrollDatabaseTransaction.execute();
+		UseCase payrollDatabaseUseCase = new AddSalariedEmployeeUseCase(payrollDatabase, employeeId, "Bob", "Home", monthlySalary);
+		payrollDatabaseUseCase.execute();
 
 		Employee employee = payrollDatabase.getEmployee(employeeId);
 		assertNotNull(employee);
@@ -64,8 +64,8 @@ public class PayrollTransactionsTest {
 		int employeeId = 1;
 		int hourlyRate = 100;
 		
-		Transaction payrollDatabaseTransaction = new AddHourlyEmployeeTransaction(payrollDatabase, employeeId, "Bob", "Home", hourlyRate);
-		payrollDatabaseTransaction.execute();
+		UseCase payrollDatabaseUseCase = new AddHourlyEmployeeUseCase(payrollDatabase, employeeId, "Bob", "Home", hourlyRate);
+		payrollDatabaseUseCase.execute();
 		
 		Employee employee = payrollDatabase.getEmployee(employeeId);
 		assertNotNull(employee);
@@ -84,8 +84,8 @@ public class PayrollTransactionsTest {
 		
 		assertNotNull(payrollDatabase.getEmployee(testEmployee().getId()));
 		
-		DeleteEmployeeTransaction deleteEmployeeTransaction = new DeleteEmployeeTransaction(payrollDatabase, testEmployee().getId());
-		deleteEmployeeTransaction.execute();
+		DeleteEmployeeUseCase deleteEmployeeUseCase = new DeleteEmployeeUseCase(payrollDatabase, testEmployee().getId());
+		deleteEmployeeUseCase.execute();
 		
 		assertNull(payrollDatabase.getEmployee(testEmployee().getId()));
 		
@@ -93,10 +93,10 @@ public class PayrollTransactionsTest {
 	
 	@Test
 	public void testChangeEmployeeNameTransaction() throws Exception {
-		new AddSalariedEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 1005)
+		new AddSalariedEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 1005)
 			.execute();
 		
-		new ChangeEmployeeNameTransaction(payrollDatabase, testEmployee().getId(), "Janos")
+		new ChangeEmployeeNameUseCase(payrollDatabase, testEmployee().getId(), "Janos")
 			.execute();
 		
 		Employee employee = payrollDatabase.getEmployee(testEmployee().getId());
@@ -106,12 +106,12 @@ public class PayrollTransactionsTest {
 	
 	@Test
 	public void testAddTimeCardTransaction() throws Exception {
-		new AddHourlyEmployeeTransaction(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 115)
+		new AddHourlyEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 115)
 			.execute();
 		
 		LocalDate date = LocalDate.of(2015, 11, 01);
 		
-		new AddTimeCardTransaction(payrollDatabase,
+		new AddTimeCardUseCase(payrollDatabase,
 				new AddTimeCardRequestModel(testEmployee().getId(), date, 8))
 				.execute();
 		
@@ -126,7 +126,7 @@ public class PayrollTransactionsTest {
 	}
 	
 	private Employee testEmployee() {
-		Employee employee = payrollDatabase.create().employee();
+		Employee employee = payrollDatabase.factory().employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;
