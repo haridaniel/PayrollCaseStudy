@@ -53,8 +53,12 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	private List<TimeCard> convert(Collection<JPATimeCard> jpaTimeCards) {
 		return jpaTimeCards
 				.stream()
-				.map(jpaTimeCard -> new TimeCardProxy(jpaTimeCard))
+				.map(jpaTimeCard -> convert(jpaTimeCard))
 				.collect(Collectors.toList());
+	}
+
+	private TimeCardProxy convert(JPATimeCard jpaTimeCard) {
+		return new TimeCardProxy(jpaTimeCard);
 	}
 
 	@Override

@@ -40,5 +40,10 @@ public class JPATimeCard {
 	public HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
 	
 	public int workingHourQty;
+
+	public void connect(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
+		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
+		this.id.employeeId = hourlyJPAPaymentClassification.employeeId;
+	}
 	
 }

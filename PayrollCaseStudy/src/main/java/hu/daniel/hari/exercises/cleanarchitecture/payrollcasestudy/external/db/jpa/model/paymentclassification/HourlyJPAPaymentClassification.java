@@ -32,13 +32,8 @@ public class HourlyJPAPaymentClassification extends JPAPaymentClassification {
 	}
 
 	public void addJPATimeCard(JPATimeCard jpaTimeCard) {
-		connect(jpaTimeCard);
+		jpaTimeCard.connect(this);
 		jpaTimeCards.add(jpaTimeCard);
 	}
 
-	private void connect(JPATimeCard jpaTimeCard) {
-		jpaTimeCard.hourlyJPAPaymentClassification = this;
-		jpaTimeCard.id.employeeId = this.employeeId;
-	}
-	
 }

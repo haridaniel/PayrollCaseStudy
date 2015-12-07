@@ -42,8 +42,8 @@ public class JPAEmployee {
 	}
 
 	public void setJpaPaymentClassification(JPAPaymentClassification jpaPaymentClassification) {
-		this.jpaPaymentClassification = jpaPaymentClassification;
 		jpaPaymentClassification.connect(this);
+		this.jpaPaymentClassification = jpaPaymentClassification;
 	}
 
 	public JPAPaymentMethod getJpaPaymentMethod() {
