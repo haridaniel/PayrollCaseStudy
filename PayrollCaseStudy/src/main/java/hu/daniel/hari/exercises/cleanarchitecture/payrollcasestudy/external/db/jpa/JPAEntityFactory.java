@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
@@ -64,6 +65,19 @@ public class JPAEntityFactory implements EntityFactory {
 	@Override
 	public TimeCard timeCard(LocalDate date, int workingHoursQty) {
 		return new TimeCardProxy(new JPATimeCard(date, workingHoursQty));
+	}
+
+	@Override
+	public CommissionedPaymentClassification commissionedPaymentClassification(int biWeeklyBaseSalary,
+			double commissionRate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PaymentSchedule biWeeklyPaymentSchedule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
