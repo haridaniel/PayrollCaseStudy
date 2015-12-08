@@ -27,14 +27,14 @@ public class MontlhyPaymentScheduleTest {
 	}
 	
 	@Test
-	public void GetIntervalOnPayday() {
+	public void getIntervalOnPayday() {
 		DateInterval dateInterval = montlhyPaymentSchedule.getPayInterval(LocalDate.of(2015, 12, 31));
 		assertThat(dateInterval.from, 	is(LocalDate.of(2015, 12, 01)));
 		assertThat(dateInterval.to, 	is(LocalDate.of(2015, 12, 31)));
 	}
 
 	@Test(expected=NotPaydayException.class)
-	public void GetIntervalOnNonPayday_ShouldThrowException() {
+	public void getIntervalOnNonPayday_ShouldThrowException() {
 		montlhyPaymentSchedule.getPayInterval(LocalDate.of(2015, 11, 1));
 	}
 	

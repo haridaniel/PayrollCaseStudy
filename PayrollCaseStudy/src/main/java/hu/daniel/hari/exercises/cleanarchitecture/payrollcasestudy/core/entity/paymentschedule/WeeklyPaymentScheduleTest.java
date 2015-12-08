@@ -1,10 +1,10 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.NotPaydayException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.WeeklyPaymentScheduleImpl;
 
 import java.time.LocalDate;
 
@@ -16,7 +16,7 @@ public class WeeklyPaymentScheduleTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 11);
 	private static final LocalDate NEXT_FRIDAY = LocalDate.of(2015, 12, 18);
 	
-	private WeeklyPaymentSchedule weeklyPaymentSchedule = new WeeklyPaymentScheduleImpl();
+	private WeeklyPaymentSchedule weeklyPaymentSchedule = mock(WeeklyPaymentSchedule.class, CALLS_REAL_METHODS);
 	
 	@Test
 	public void isPaydayOnFridays_ShouldBeTrue() throws Exception {
