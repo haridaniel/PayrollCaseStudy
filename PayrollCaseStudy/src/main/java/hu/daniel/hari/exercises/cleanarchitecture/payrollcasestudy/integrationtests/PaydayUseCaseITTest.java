@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Constants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddCommissionedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddHourlyEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
@@ -21,7 +23,8 @@ import org.junit.After;
 import org.junit.Test;
 
 //@Ignore
-public class PaydayUseCaseITTest {
+public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
+
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);
@@ -29,39 +32,57 @@ public class PaydayUseCaseITTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
 	
-	private PayrollDatabase payrollDatabase = ITTestScope.DATABASE;
+	public PaydayUseCaseITTest(PayrollDatabase payrollDatabase) {
+		super(payrollDatabase);
+	}
 	
 	@After
 	public void clearDatabase() {
-		EntityTransaction transaction = payrollDatabase.getTransaction();
-		payrollDatabase.deleteAllEmployees();
+		EntityTransaction transaction = database.getTransaction();
+		database.deleteAllEmployees();
 		transaction.commit();
 	}
 
 	@Test
 	public void testPaySingleSalariedEmployee() throws Exception {
 		//GIVEN
-		new AddSalariedEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				1000).execute();
 
 		//WHEN
 		LocalDate date = LAST_DAY_OF_A_MONTH;
-		PaydayUseCase paydayUseCase = new PaydayUseCase(payrollDatabase, date);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, date);
 		paydayUseCase.execute();
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
 		assertThat(payCheck.amount, is(1000));
+	}
+	
+	@Test
+	public void testPaySingleCommissionedEmployee_WithoutSales() throws Exception {
+		int biWeeklyBaseSalary = 70_000;
+		double commissionRate = 0.0d;
+		new AddCommissionedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				biWeeklyBaseSalary, commissionRate).execute();
+		
+		//WHEN
+		LocalDate anEvenFriday = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY.plusDays(14 * 5);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, anEvenFriday);
+		paydayUseCase.execute();
+		
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.amount, is(70_000));
 	}
 
 	@Test
 	public void testPaySingleHourlyEmployeeNoTimeCard() throws Exception {
 		//GIVEN
 		
-		new AddHourlyEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
+		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				42).execute();
 		//WHEN
 		LocalDate date = THIS_FRIDAY;
-		PaydayUseCase paydayUseCase = new PaydayUseCase(payrollDatabase, date);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, date);
 		paydayUseCase.execute();
 		
 		//THEN
@@ -72,14 +93,14 @@ public class PaydayUseCaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeOneTimeCard() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
+		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				10).execute();
 		
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), THIS_FRIDAY, 
 				8)).execute();
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(payrollDatabase, THIS_FRIDAY); //THIS_FRIDAY
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, THIS_FRIDAY); //THIS_FRIDAY
 		paydayUseCase.execute();
 		
 		//THEN
@@ -90,16 +111,16 @@ public class PaydayUseCaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
+		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				10).execute();
 		
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LAST_SATURDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), LAST_SATURDAY, 
 				4)).execute();
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), THIS_FRIDAY, 
 				8)).execute();
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(payrollDatabase, THIS_FRIDAY); //THIS_FRIDAY
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, THIS_FRIDAY); //THIS_FRIDAY
 		paydayUseCase.execute();
 		
 		//THEN
@@ -110,18 +131,18 @@ public class PaydayUseCaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeThreeTimeCardsSpanningTwoPayPeriods() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(payrollDatabase, testEmployee().getId(), testEmployee().getName(), testEmployee().getAddress(), 
+		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				10).execute();
 		
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), LAST_FRIDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), LAST_FRIDAY, 
 				4)).execute(); //This is previous pay period, should be ignored
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), THIS_FRIDAY, 
 				8)).execute(); //This is in this pay period
-		new AddTimeCardUseCase(payrollDatabase, new AddTimeCardRequestModel(testEmployee().getId(), THIS_SATURDAY, 
+		new AddTimeCardUseCase(database, new AddTimeCardRequestModel(employee().getId(), THIS_SATURDAY, 
 				4)).execute(); //This is next pay period, should be ignored
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(payrollDatabase, THIS_FRIDAY);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, THIS_FRIDAY);
 		paydayUseCase.execute();
 		
 		//THEN
@@ -136,8 +157,8 @@ public class PaydayUseCaseITTest {
 		return payChecks.iterator().next();
 	}
 
-	private Employee testEmployee() {
-		Employee employee = payrollDatabase.factory().employee();
+	private Employee employee() {
+		Employee employee = database.factory().employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;

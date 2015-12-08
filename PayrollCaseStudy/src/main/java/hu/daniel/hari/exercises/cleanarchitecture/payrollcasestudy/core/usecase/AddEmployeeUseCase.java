@@ -20,7 +20,7 @@ public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
 	}
 	
 	@Override
-	public void executeInTransaction() {
+	protected void executeInTransaction() {
 		
 		Employee employee = payrollDatabase.factory().employee();
 		

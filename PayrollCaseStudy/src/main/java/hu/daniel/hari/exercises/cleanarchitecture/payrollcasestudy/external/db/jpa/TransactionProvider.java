@@ -18,11 +18,4 @@ public class TransactionProvider {
 		return transaction;
 	}
 
-	private EntityTransaction createOrJoinToTransaction() {
-		EntityTransaction transaction = entityManager.getTransaction();
-		if(!transaction.isActive()) 
-			transaction.begin();
-		return transaction;
-	}
-	
 }

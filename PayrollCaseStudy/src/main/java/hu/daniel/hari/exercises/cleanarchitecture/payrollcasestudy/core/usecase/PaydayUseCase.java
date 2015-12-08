@@ -21,15 +21,13 @@ public class PaydayUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	@Override
-	public void executeInTransaction() {
+	protected void executeInTransaction() {
 		Collection<Employee> employees = payrollDatabase.getAllEmployees();
 		
 		for (Employee employee : employees) {
 			if(employee.isPayDate(date)) {
 				int payAmount = employee.calculateAmount(date);
-				System.out.println(payAmount);
-				PayCheck payCheck = new PayCheck(employee.getId(), payAmount);
-				payChecks.add(payCheck);
+				payChecks.add(new PayCheck(employee.getId(), payAmount));
 			}
 		}
 	}

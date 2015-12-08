@@ -17,7 +17,7 @@ public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	@Override
-	public void executeInTransaction() {
+	protected void executeInTransaction() {
 		Employee employee = payrollDatabase.getEmployee(requestModel.employeeId);
 		assertNotNull(employee);
 		

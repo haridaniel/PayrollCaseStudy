@@ -14,8 +14,8 @@ public abstract class WeeklyPaymentSchedule extends PaymentSchedule {
 	}
 	
 	@Override
-	public DateInterval getPayIntervalForValidatedPaydate(LocalDate payday) {
-		LocalDate to = payday;
+	public DateInterval getPayIntervalForValidatedPaydate(LocalDate intervalEndDate) {
+		LocalDate to = intervalEndDate;
 		LocalDate from = to.minusDays(NR_OF_WEEKDAYS - 1);
 		return DateInterval.of(from, to);
 	}

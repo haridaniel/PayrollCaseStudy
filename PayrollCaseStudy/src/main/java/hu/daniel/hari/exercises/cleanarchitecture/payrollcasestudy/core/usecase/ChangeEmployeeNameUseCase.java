@@ -15,7 +15,7 @@ public class ChangeEmployeeNameUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	@Override
-	public void executeInTransaction() {
+	protected void executeInTransaction() {
 		Employee employee = payrollDatabase.getEmployee(employeeId);
 		employee.setName(newName);
 	}

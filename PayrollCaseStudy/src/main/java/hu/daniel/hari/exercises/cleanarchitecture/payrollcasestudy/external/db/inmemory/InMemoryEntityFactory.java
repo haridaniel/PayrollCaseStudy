@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
@@ -20,6 +21,11 @@ public class InMemoryEntityFactory implements EntityFactory {
 	@Override
 	public HourlyPaymentClassification hourlyPaymentClassification(int hourlyWage) {
 		return new HourlyPaymentClassificationImpl(hourlyWage);
+	}
+
+	@Override
+	public CommissionedPaymentClassification commissionedPaymentClassification(int biWeeklyBaseSalary, double commissionRate) {
+		return new CommissionedPaymentClassificationImpl(biWeeklyBaseSalary, commissionRate);
 	}
 
 	@Override
@@ -40,6 +46,11 @@ public class InMemoryEntityFactory implements EntityFactory {
 	@Override
 	public PaymentSchedule weeklyPaymentSchedule() {
 		return new WeeklyPaymentScheduleImpl();
+	}
+
+	@Override
+	public PaymentSchedule biWeeklyPaymentSchedule() {
+		return new BiWeeklyPaymentScheduleImpl();
 	}
 
 	@Override

@@ -31,15 +31,10 @@ public class WeeklyPaymentScheduleTest {
 	}
 	
 	@Test
-	public void getIntervalWithFriday() throws Exception {
+	public void getIntervalOnAFriday() throws Exception {
 		DateInterval dateInterval = weeklyPaymentSchedule.getPayInterval(THIS_FRIDAY);
 		assertThat(dateInterval.from, 	is(PREV_SATURDAY));
 		assertThat(dateInterval.to, 	is(THIS_FRIDAY));
 	}
 
-	@Test(expected=NotPaydayException.class)
-	public void getIntervalWithNonFriday_ShouldThrow() throws Exception {
-		weeklyPaymentSchedule.getPayInterval(THIS_MONDAY);
-	}
-	
 }

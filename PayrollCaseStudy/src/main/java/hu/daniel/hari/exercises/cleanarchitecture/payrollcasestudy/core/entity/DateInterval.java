@@ -26,5 +26,4 @@ public class DateInterval {
 		return new DateInterval(from, to);
 	}
 	
-	
 }

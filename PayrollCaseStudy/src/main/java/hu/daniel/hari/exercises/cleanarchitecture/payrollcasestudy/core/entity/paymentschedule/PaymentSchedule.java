@@ -8,9 +8,9 @@ public abstract class PaymentSchedule {
 	
 	public abstract boolean isPayday(LocalDate date);
 	
-	public final DateInterval getPayInterval(LocalDate payday) {
-		validatePayday(payday);
-		return getPayIntervalForValidatedPaydate(payday);
+	public final DateInterval getPayInterval(LocalDate intervalEndDate) {
+		validatePayday(intervalEndDate);
+		return getPayIntervalForValidatedPaydate(intervalEndDate);
 	}
 	
 	private void validatePayday(LocalDate date) {

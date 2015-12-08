@@ -12,7 +12,7 @@ public class DeleteEmployeeUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	@Override
-	public void executeInTransaction() {
+	protected void executeInTransaction() {
 		payrollDatabase.deleteEmployee(employeeId);
 	}
 

@@ -24,14 +24,8 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+			<version>2.0.2-beta</version>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.fitnesse</groupId> -->
-		<!-- <artifactId>fitnesse</artifactId> -->
-		<!-- <version>20150814</version> -->
-		<!-- </dependency> -->
 
 		<!-- JPADatabase -->
 
