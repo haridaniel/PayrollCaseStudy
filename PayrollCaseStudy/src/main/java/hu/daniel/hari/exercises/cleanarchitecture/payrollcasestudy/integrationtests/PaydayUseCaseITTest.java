@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.integrationt
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Constants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
@@ -10,6 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.P
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddCommissionedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddHourlyEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalariedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.PaydayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.JPAPayrollDatabaseModule;
@@ -20,9 +22,9 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
-//@Ignore
 public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
@@ -72,6 +74,56 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
 		assertThat(payCheck.amount, is(70_000));
+	}
+	
+	@Test
+	public void testPaySingleCommissionedEmployee_TwoSalesReceipt() throws Exception {
+		//GIVEN
+		int biWeeklyBaseSalary = 70_000;
+		double commissionRate = 0.1d;
+		LocalDate payDate = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
+		LocalDate salesReceiptDate1 = payDate;
+		LocalDate salesReceiptDate2 = payDate.minusDays(10);
+		
+		new AddCommissionedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				biWeeklyBaseSalary, commissionRate).execute();
+		
+		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), salesReceiptDate1, 10000)).execute();
+		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), salesReceiptDate2, 10000)).execute();
+
+		//WHEN
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, payDate);
+		paydayUseCase.execute();
+		
+		//THEN
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.amount, is(72_000));
+	}
+
+	@Test
+	public void testPaySingleCommissionedEmployee_ThreeSalesReceiptsSpanningThreePayPeriod() throws Exception {
+		//GIVEN
+		int biWeeklyBaseSalary = 70_000;
+		double commissionRate = 0.1d;
+		LocalDate payDate = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
+		LocalDate dateInPreviousPayPeriod = payDate.minusDays(14);
+		LocalDate dateInPayPeriod = payDate.minusDays(13);//Only this should be included!
+		LocalDate dateInNextPayPeriod = payDate.plusDays(1);
+		
+		new AddCommissionedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				biWeeklyBaseSalary, commissionRate).execute();
+		
+		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), dateInPayPeriod, 25000)).execute();
+		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), dateInPreviousPayPeriod, 25000)).execute();
+		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), dateInNextPayPeriod, 25000)).execute();
+		
+		//WHEN
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, payDate);
+		paydayUseCase.execute();
+		
+		//THEN
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.amount, is(72_500));
 	}
 
 	@Test

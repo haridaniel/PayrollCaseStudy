@@ -12,6 +12,7 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 	public abstract int getHourlyWage();
 
 	public abstract void addTimeCard(TimeCard timeCard);
+	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
 
 	@Override
 	public int calculateAmount(DateInterval payInterval) {
@@ -20,14 +21,11 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 
 	private int calculateAmountIteratingOnTimeCardsInInterval(DateInterval dateInterval) {
 		int sumAmount = 0;
-		Collection<TimeCard> timeCards = getTimeCardsIn(dateInterval);
-		for (TimeCard timeCard : timeCards) {
+		for (TimeCard timeCard : getTimeCardsIn(dateInterval)) {
 			sumAmount += calculateAmount(timeCard);
 		}
 		return sumAmount;
 	}
-
-	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
 
 	private int calculateAmount(TimeCard timeCard) {
 		SeparatedHours hours = SeparatedHours.of(timeCard.getWorkingHourQty());

@@ -28,15 +28,6 @@ public class JPAEmployee {
 	@Enumerated(EnumType.STRING)
 	private JPAPaymentMethod jpaPaymentMethod;
 
-	public enum JPAPaymentSchedule {
-		WEEKLY,
-		MONTHLY
-	}
-	
-	public enum JPAPaymentMethod {
-		HOLD
-	}
-
 	public JPAPaymentClassification getJpaPaymentClassification() {
 		return jpaPaymentClassification;
 	}

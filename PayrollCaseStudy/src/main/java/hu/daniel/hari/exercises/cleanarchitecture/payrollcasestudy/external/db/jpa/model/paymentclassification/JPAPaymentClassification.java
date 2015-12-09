@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -12,6 +13,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(length=255)
 public abstract class JPAPaymentClassification {
 	
 	@Id

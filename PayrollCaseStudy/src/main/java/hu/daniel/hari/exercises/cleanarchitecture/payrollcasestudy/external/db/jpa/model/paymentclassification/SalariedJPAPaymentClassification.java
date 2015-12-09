@@ -2,8 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import javax.persistence.Entity;
 
-/** FIXME: used shorter name for psql column size limit **/
-@Entity(name="SalariedJPAPaymentClass")
+@Entity
 public class SalariedJPAPaymentClassification extends JPAPaymentClassification {
 	
 	private int monthlySalary;

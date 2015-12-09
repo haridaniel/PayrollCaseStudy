@@ -40,16 +40,16 @@ public class HourlyPaymentClassificationTest {
 		return hourlyPaymentClassificationWithMultipleTimeCard(hourlyWage, Arrays.asList(workingHourQty));
 	}
 
-	private HourlyPaymentClassification hourlyPaymentClassificationWithMultipleTimeCard(int hourlyWage,
-			List<Integer> workingHourQtys) {
+	private HourlyPaymentClassification hourlyPaymentClassificationWithMultipleTimeCard(int hourlyWage, List<Integer> workingHourQtys) {
 		HourlyPaymentClassification hourlyPaymentClassification = mock(HourlyPaymentClassification.class, CALLS_REAL_METHODS);
 		when(hourlyPaymentClassification.getHourlyWage()).thenReturn(hourlyWage);
+		
 		ArrayList<TimeCard> timeCards = new ArrayList<TimeCard>() {{
 				for (Integer workingHourQty : workingHourQtys) {
 					add(timeCardMock(workingHourQty));
 				}
 			}};
-		when(hourlyPaymentClassification.getTimeCardsIn(any())).thenReturn(timeCards);
+		when(hourlyPaymentClassification.getTimeCardsIn(ANY_ITERVAL)).thenReturn(timeCards);
 		return hourlyPaymentClassification;
 	}
 

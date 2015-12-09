@@ -6,6 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.E
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.exception.NoSuchEmployeeException;
 
 public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 
@@ -21,26 +22,28 @@ public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 		Employee employee = payrollDatabase.getEmployee(requestModel.employeeId);
 		assertNotNull(employee);
 		
-		HourlyPaymentClassification hourlyPaymentClassification = toHourlyPaymentClassification(employee.getPaymentClassification());
-		
-		hourlyPaymentClassification.addTimeCard(toTimeCard());
+		castHourlyPaymentClassification(employee.getPaymentClassification())
+			.addTimeCard(createTimeCard());
 	}
 
-	private HourlyPaymentClassification toHourlyPaymentClassification(PaymentClassification paymentClassification) {
+	private HourlyPaymentClassification castHourlyPaymentClassification(PaymentClassification paymentClassification) {
 		if(paymentClassification instanceof HourlyPaymentClassification) {
 			return (HourlyPaymentClassification) paymentClassification;
 		} else {
-			throw new RuntimeException("Tried to add timecard to non-hourly employee");
+			throw new TriedToAddTimeCardToNonHourlyEmployeeException();
 		}
 	}
 
 	private void assertNotNull(Employee employee) {
 		if(employee == null)
-			throw new RuntimeException("No such employee");
+			throw new NoSuchEmployeeException();
 	}
 
-	private TimeCard toTimeCard() {
+	private TimeCard createTimeCard() {
 		return payrollDatabase.factory().timeCard(requestModel.date, requestModel.workingHoursQty);
+	}
+	
+	public static class TriedToAddTimeCardToNonHourlyEmployeeException extends RuntimeException {
 	}
 	
 }

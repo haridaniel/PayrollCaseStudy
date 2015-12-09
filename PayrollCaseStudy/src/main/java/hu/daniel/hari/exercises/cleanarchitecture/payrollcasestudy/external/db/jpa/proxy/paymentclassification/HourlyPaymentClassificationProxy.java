@@ -3,7 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.TimeCardDao;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPATimeCardDao;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
@@ -23,7 +23,7 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	private HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
 	
 	@Inject
-	private TimeCardDao timeCardDao;
+	private JPATimeCardDao timeCardDao;
 
 	@Inject
 	public HourlyPaymentClassificationProxy(@Assisted HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
@@ -47,17 +47,17 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 
 	@Override
 	public Collection<TimeCard> getTimeCardsIn(DateInterval dateInterval) {
-		return convert(timeCardDao.findTimeCardsIn(dateInterval));
+		return proxyAll(timeCardDao.findJPATimeCardsIn(dateInterval));
 	}
 
-	private List<TimeCard> convert(Collection<JPATimeCard> jpaTimeCards) {
+	private List<TimeCard> proxyAll(Collection<JPATimeCard> jpaTimeCards) {
 		return jpaTimeCards
 				.stream()
-				.map(jpaTimeCard -> convert(jpaTimeCard))
+				.map(jpaTimeCard -> proxy(jpaTimeCard))
 				.collect(Collectors.toList());
 	}
 
-	private TimeCardProxy convert(JPATimeCard jpaTimeCard) {
+	private TimeCardProxy proxy(JPATimeCard jpaTimeCard) {
 		return new TimeCardProxy(jpaTimeCard);
 	}
 

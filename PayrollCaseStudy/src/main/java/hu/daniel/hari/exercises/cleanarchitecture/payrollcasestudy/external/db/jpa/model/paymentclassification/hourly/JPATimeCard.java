@@ -16,7 +16,7 @@ public class JPATimeCard {
 	
 	public JPATimeCard(LocalDate date, int workingHoursQty) {
 		id.date = date;
-		workingHourQty = workingHoursQty;
+		this.workingHourQty = workingHoursQty;
 	}
 	
 	@EmbeddedId
@@ -35,11 +35,11 @@ public class JPATimeCard {
 		}
 	}
 	
+	public int workingHourQty;
+	
 	@ManyToOne  	
 	@JoinColumn(name="employeeId", referencedColumnName="employeeId", insertable = false, updatable = false)
 	public HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
-	
-	public int workingHourQty;
 
 	public void connect(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
 		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
