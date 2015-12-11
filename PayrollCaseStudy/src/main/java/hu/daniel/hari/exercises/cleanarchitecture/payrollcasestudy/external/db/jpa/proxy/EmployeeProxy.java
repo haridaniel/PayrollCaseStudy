@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
@@ -108,6 +109,18 @@ public class EmployeeProxy extends Employee {
 	
 	public interface EmployeeProxyFactory {
 		public EmployeeProxy create(JPAEmployee jpaEmployee);
+	}
+
+	@Override
+	public Affiliation getAffiliation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setAffiliation(Affiliation affiliation) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -1,5 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class DateInterval {
@@ -15,6 +16,16 @@ public class DateInterval {
 		return 	(date.isAfter(from) || date.isEqual(from)) 
 					&& 
 				(date.isBefore(to) || date.isEqual(to));
+	}
+	
+	//NOT efficient
+	public int countWeekDayInclusive(DayOfWeek dayOfWeek) {
+		int count = 0; 
+		for (LocalDate date = from; date.isBefore(to) || date.isEqual(to); date = date.plusDays(1)) {
+			if(date.getDayOfWeek().equals(dayOfWeek))
+				count++;
+		}
+		return count;
 	}
 
 	@Override

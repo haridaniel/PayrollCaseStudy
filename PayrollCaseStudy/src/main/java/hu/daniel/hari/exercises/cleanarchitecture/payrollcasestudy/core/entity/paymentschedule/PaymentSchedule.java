@@ -6,15 +6,15 @@ import java.time.LocalDate;
 
 public abstract class PaymentSchedule {
 	
-	public abstract boolean isPayday(LocalDate date);
+	public abstract boolean isPayDate(LocalDate date);
 	
-	public final DateInterval getPayInterval(LocalDate intervalEndDate) {
-		validatePayday(intervalEndDate);
-		return getPayIntervalForValidatedPaydate(intervalEndDate);
+	public final DateInterval getPayInterval(LocalDate payDate) {
+		validatePayDate(payDate);
+		return getPayIntervalForValidatedPaydate(payDate);
 	}
 	
-	private void validatePayday(LocalDate date) {
-		if (!isPayday(date))
+	private void validatePayDate(LocalDate date) {
+		if (!isPayDate(date))
 			throw new NotPaydayException();
 	}
 

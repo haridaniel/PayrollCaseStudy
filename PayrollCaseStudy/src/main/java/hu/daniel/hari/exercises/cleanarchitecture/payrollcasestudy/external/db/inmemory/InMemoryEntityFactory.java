@@ -4,13 +4,16 @@ import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.BiWeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
 
 public class InMemoryEntityFactory implements EntityFactory {
 
@@ -40,17 +43,17 @@ public class InMemoryEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public PaymentSchedule monthlyPaymentSchedule() {
+	public MontlhyPaymentSchedule monthlyPaymentSchedule() {
 		return new MonthlyPaymentScheduleImpl();
 	}
 
 	@Override
-	public PaymentSchedule weeklyPaymentSchedule() {
+	public WeeklyPaymentSchedule weeklyPaymentSchedule() {
 		return new WeeklyPaymentScheduleImpl();
 	}
 
 	@Override
-	public PaymentSchedule biWeeklyPaymentSchedule() {
+	public BiWeeklyPaymentSchedule biWeeklyPaymentSchedule() {
 		return new BiWeeklyPaymentScheduleImpl();
 	}
 
@@ -62,6 +65,11 @@ public class InMemoryEntityFactory implements EntityFactory {
 	@Override
 	public SalesReceipt salesReceipt(LocalDate date, int amount) {
 		return new SalesReceiptImpl(date, amount);
+	}
+
+	@Override
+	public UnionMemberAffiliation unionMemberAffiliation(int unionMemberId, int weeklyDueAmount) {
+		return new UnionMemberAffiliationImpl(unionMemberId, weeklyDueAmount);
 	}
 	
 }

@@ -12,12 +12,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.P
 
 public class PaydayUseCase extends TransactionalDatabaseUseCase {
 
-	private LocalDate date;
+	private LocalDate payDate;
 	private Collection<PayCheck> payChecks = new ArrayList<>();
 
-	public PaydayUseCase(PayrollDatabase payrollDatabase, LocalDate date) {
+	public PaydayUseCase(PayrollDatabase payrollDatabase, LocalDate payDate) {
 		super(payrollDatabase);
-		this.date = date;
+		this.payDate = payDate;
 	}
 
 	@Override
@@ -25,13 +25,13 @@ public class PaydayUseCase extends TransactionalDatabaseUseCase {
 		Collection<Employee> employees = payrollDatabase.getAllEmployees();
 		
 		for (Employee employee : employees) {
-			if(employee.isPayDate(date)) {
-				int payAmount = employee.calculateAmount(date);
-				payChecks.add(new PayCheck(employee.getId(), payAmount));
+			if(employee.isPayDate(payDate)) {
+				payChecks.add(employee.createPayCheck(payDate));
 			}
 		}
 	}
-
+	
+	//TODO: Useless. Paycheck has no employeeId
 	public Collection<PayCheck> getPayChecks() {
 		return payChecks;
 	}

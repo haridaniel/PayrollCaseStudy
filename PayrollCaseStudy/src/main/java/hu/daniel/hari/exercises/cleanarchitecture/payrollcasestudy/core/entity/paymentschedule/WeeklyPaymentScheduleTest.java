@@ -20,14 +20,14 @@ public class WeeklyPaymentScheduleTest {
 	
 	@Test
 	public void isPaydayOnFridays_ShouldBeTrue() throws Exception {
-		assertThat(weeklyPaymentSchedule.isPayday(THIS_FRIDAY), is(true));
-		assertThat(weeklyPaymentSchedule.isPayday(NEXT_FRIDAY), is(true));
+		assertThat(weeklyPaymentSchedule.isPayDate(THIS_FRIDAY), is(true));
+		assertThat(weeklyPaymentSchedule.isPayDate(NEXT_FRIDAY), is(true));
 	}
 	
 	@Test
 	public void isPaydayOnNonFridays_ShouldBeFalse() throws Exception {
-		assertThat(weeklyPaymentSchedule.isPayday(THIS_MONDAY), is(false));
-		assertThat(weeklyPaymentSchedule.isPayday(PREV_SATURDAY), is(false));
+		assertThat(weeklyPaymentSchedule.isPayDate(THIS_MONDAY), is(false));
+		assertThat(weeklyPaymentSchedule.isPayDate(PREV_SATURDAY), is(false));
 	}
 	
 	@Test

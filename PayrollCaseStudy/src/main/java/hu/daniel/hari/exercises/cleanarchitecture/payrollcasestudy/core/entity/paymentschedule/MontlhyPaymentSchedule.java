@@ -8,7 +8,7 @@ import java.time.temporal.TemporalAdjusters;
 public abstract class MontlhyPaymentSchedule extends PaymentSchedule {
 
 	@Override
-	public boolean isPayday(LocalDate date) {
+	public boolean isPayDate(LocalDate date) {
 		return isLastDayOfMonth(date);
 	}
 

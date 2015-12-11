@@ -11,8 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification.NotBiWeeklyIntervalException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification.NotFullMonthIntervalException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.StrictIntervalPaymentClassification.InvalidIntervalException;
 
 import org.junit.Test;
 
@@ -68,12 +67,12 @@ public class CommissionedPaymentClassificationTest {
 		}
 	}
 
-	@Test(expected = NotBiWeeklyIntervalException.class)
+	@Test(expected = InvalidIntervalException.class)
 	public void calculatePayForLessThanBiWeeklyInterval_ShouldThrow() throws Exception {
 		new GivenBiWeeklyBaseSalary().calculateAmount(LESS_THAN_A_BIWEEK_INTERVAL);
 	}
 
-	@Test(expected = NotBiWeeklyIntervalException.class)
+	@Test(expected = InvalidIntervalException.class)
 	public void calculatePayForMoreThanAMonthInterval_ShouldThrow() throws Exception {
 		new GivenBiWeeklyBaseSalary().calculateAmount(MORE_THAN_A_BIWEEK_INTERVAL);
 	}

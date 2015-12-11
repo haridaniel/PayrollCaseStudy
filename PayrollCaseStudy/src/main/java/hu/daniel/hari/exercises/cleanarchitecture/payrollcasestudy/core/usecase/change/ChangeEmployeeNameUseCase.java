@@ -1,22 +1,19 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 
-public class ChangeEmployeeNameUseCase extends TransactionalDatabaseUseCase {
+public class ChangeEmployeeNameUseCase extends ChangeEmployeeUseCase {
 
-	private int employeeId;
 	private String newName;
 
 	public ChangeEmployeeNameUseCase(PayrollDatabase payrollDatabase, int employeeId, String newName) {
-		super(payrollDatabase);
-		this.employeeId = employeeId;
+		super(payrollDatabase, employeeId);
 		this.newName = newName;
 	}
 
 	@Override
-	protected void executeInTransaction() {
-		Employee employee = payrollDatabase.getEmployee(employeeId);
+	protected void change(Employee employee) {
 		employee.setName(newName);
 	}
 

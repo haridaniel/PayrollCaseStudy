@@ -9,7 +9,7 @@ public abstract class WeeklyPaymentSchedule extends PaymentSchedule {
 	private static final int NR_OF_WEEKDAYS = 7;
 
 	@Override
-	public boolean isPayday(LocalDate date) {
+	public boolean isPayDate(LocalDate date) {
 		return isFriday(date);
 	}
 	

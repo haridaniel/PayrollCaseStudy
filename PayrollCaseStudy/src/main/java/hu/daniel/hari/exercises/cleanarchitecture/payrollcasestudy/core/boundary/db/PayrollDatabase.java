@@ -15,5 +15,10 @@ public interface PayrollDatabase {
 	Employee getEmployee(int employeeId);
 	Collection<Employee> getAllEmployees();
 	void deleteEmployee(int employeeId);
-	void deleteAllEmployees();
+	void clearDatabase();
+	int getEmployeeIdByUnionMemberId(int unionMemberId);
+	
+	public static class NoEmployeeWithSuchUnionMemberIdException extends RuntimeException {
+	}
+
 }

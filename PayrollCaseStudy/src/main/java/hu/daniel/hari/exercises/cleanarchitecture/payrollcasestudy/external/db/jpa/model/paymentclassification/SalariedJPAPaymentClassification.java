@@ -7,6 +7,7 @@ public class SalariedJPAPaymentClassification extends JPAPaymentClassification {
 	
 	private int monthlySalary;
 
+	public SalariedJPAPaymentClassification() {}
 	public SalariedJPAPaymentClassification(int monthlySalary) {
 		this.monthlySalary = monthlySalary;
 	}

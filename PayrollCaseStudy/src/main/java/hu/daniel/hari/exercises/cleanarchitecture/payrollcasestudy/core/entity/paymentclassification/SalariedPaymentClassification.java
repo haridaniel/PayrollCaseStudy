@@ -4,20 +4,19 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.D
 
 import java.time.temporal.TemporalAdjusters;
 
-public abstract class SalariedPaymentClassification extends PaymentClassification {
+public abstract class SalariedPaymentClassification extends StrictIntervalPaymentClassification {
 
 	public abstract int getMonthlySalary();
 	public abstract void setMonthlySalary(int monthlySalary);
 
 	@Override
-	public int calculateAmount(DateInterval dateInterval) {
-		validateFullMonthInterval(dateInterval);
+	protected int calculateAmountOnValidatedInterval(DateInterval dateInterval) {
 		return getMonthlySalary();
 	}
-
-	private static void validateFullMonthInterval(DateInterval dateInterval) {
-		if (!isFullMonthInterval(dateInterval))
-			throw new NotFullMonthIntervalException();
+	
+	@Override
+	protected boolean isValidInterval(DateInterval dateInterval) {
+		return isFullMonthInterval(dateInterval);
 	}
 
 	private static boolean isFullMonthInterval(DateInterval dateInterval) {
@@ -25,7 +24,5 @@ public abstract class SalariedPaymentClassification extends PaymentClassificatio
 		boolean toIsLastDayOfMonth = dateInterval.to.equals(dateInterval.to.with(TemporalAdjusters.lastDayOfMonth()));
 		return fromIsFirstDayOfMonth && toIsLastDayOfMonth;
 	}
-	
-	public static class NotFullMonthIntervalException extends RuntimeException {}
 	
 }

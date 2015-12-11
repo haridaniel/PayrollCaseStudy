@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 
 public class InMemoryPayrollDatabase implements PayrollDatabase {
 
@@ -36,7 +37,7 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 	}
 	
 	@Override
-	public void deleteAllEmployees() {
+	public void clearDatabase() {
 		employeesById.clear();
 	}
 
@@ -48,6 +49,17 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 	@Override
 	public EntityTransaction getTransaction() {
 		return new DummyTransaction();
+	}
+
+	// Wrong performance, but now better than introduce complexity to business rules.
+	@Override
+	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
+		return employeesById.values().stream()
+				.filter(employee -> (employee.getAffiliation() instanceof UnionMemberAffiliation))
+				.filter(employee -> ((UnionMemberAffiliation) employee.getAffiliation()).getUnionMemberId() == unionMemberId)
+				.findFirst()
+				.orElseThrow(() -> new NoEmployeeWithSuchUnionMemberIdException())
+				.getId();
 	}
 
 }

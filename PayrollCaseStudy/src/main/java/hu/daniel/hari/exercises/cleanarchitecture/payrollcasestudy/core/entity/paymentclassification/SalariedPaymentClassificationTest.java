@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification.NotFullMonthIntervalException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.StrictIntervalPaymentClassification.InvalidIntervalException;
 
 import org.junit.Test;
 
@@ -32,12 +32,12 @@ public class SalariedPaymentClassificationTest {
 		assertThat(salariedPaymentClassification.calculateAmount(ANOTHER_MONTH_INTERVAL), is(1000));
 	}
 	
-	@Test(expected=NotFullMonthIntervalException.class)
+	@Test(expected=InvalidIntervalException.class)
 	public void calculatePayForLessThanAMonthInterval_ShouldThrow() throws Exception {
 		salariedPaymentClassification.calculateAmount(LESS_THAN_A_MONTH_INTERVAL);
 	}
 
-	@Test(expected=NotFullMonthIntervalException.class)
+	@Test(expected=InvalidIntervalException.class)
 	public void calculatePayForMoreThanAMonthInterval_ShouldThrow() throws Exception {
 		salariedPaymentClassification.calculateAmount(MORE_THAN_A_MONTH_INTERVAL);
 	}

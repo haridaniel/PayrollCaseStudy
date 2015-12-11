@@ -60,7 +60,7 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	}
 	
 	@Override
-	public void deleteAllEmployees() {
+	public void clearDatabase() {
 		jPAEmployeeDao.deleteAll();
 	}
 
@@ -73,6 +73,12 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 
 	private Employee convertNullable(JPAEmployee jpaEmployee) {
 		return jpaEmployee == null ? null : employeeProxyFactory.create(jpaEmployee);
+	}
+
+	@Override
+	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
@@ -13,6 +14,7 @@ public class EmployeeImpl extends Employee {
 	private PaymentClassification paymentClassification;
 	private PaymentSchedule paymentSchedule;
 	private PaymentMethod paymentMethod;
+	private Affiliation affiliation;
 	
 	@Override
 	public PaymentClassification getPaymentClassification() {
@@ -74,4 +76,13 @@ public class EmployeeImpl extends Employee {
 		this.paymentMethod = paymentMethod;
 	}
 	
+	@Override
+	public Affiliation getAffiliation() {
+		return affiliation;
+	}
+	
+	@Override
+	public void setAffiliation(Affiliation affiliation) {
+		this.affiliation = affiliation;
+	}
 }

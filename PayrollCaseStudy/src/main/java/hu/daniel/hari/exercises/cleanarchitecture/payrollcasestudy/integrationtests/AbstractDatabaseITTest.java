@@ -18,7 +18,7 @@ public abstract class AbstractDatabaseITTest {
 		return Arrays.asList(new PayrollDatabase[][] {
 			
 			{new InMemoryPayrollDatabase()},
-			{new JPAPayrollDatabaseModule().getPayrollDatabase()}
+//			{new JPAPayrollDatabaseModule().getPayrollDatabase()}
 			
 		});
 	}

@@ -16,14 +16,14 @@ public class MontlhyPaymentScheduleTest {
 
 	@Test
 	public void isPaydayOnLastDayOfMonth_ShouldBeTrue() throws Exception {
-		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 31)), is(true));
-		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 11, 30)), is(true));
+		assertThat(montlhyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 31)), is(true));
+		assertThat(montlhyPaymentSchedule.isPayDate(LocalDate.of(2015, 11, 30)), is(true));
 	}
 	@Test
 	public void isPaydayOnNotLastDayOfMonth_ShouldBeFalse() throws Exception {
-		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 11, 24)), is(false));
-		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 01)), is(false));
-		assertThat(montlhyPaymentSchedule.isPayday(LocalDate.of(2015, 12, 02)), is(false));
+		assertThat(montlhyPaymentSchedule.isPayDate(LocalDate.of(2015, 11, 24)), is(false));
+		assertThat(montlhyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 01)), is(false));
+		assertThat(montlhyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 02)), is(false));
 	}
 	
 	@Test

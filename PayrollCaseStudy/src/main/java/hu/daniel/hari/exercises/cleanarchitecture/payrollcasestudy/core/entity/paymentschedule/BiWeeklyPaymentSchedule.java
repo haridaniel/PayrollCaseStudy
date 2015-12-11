@@ -14,7 +14,7 @@ public abstract class BiWeeklyPaymentSchedule extends PaymentSchedule {
 	private static final int TWO_WEEK_DAYS_NR = 14;
 	
 	@Override
-	public boolean isPayday(LocalDate date) {
+	public boolean isPayDate(LocalDate date) {
 		return isFriday(date) && isOnEvenWeekBasedOnReferenceDate(date);
 	}
 

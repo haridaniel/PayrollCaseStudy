@@ -22,20 +22,20 @@ public class BiWeeklyPaymentScheduleTest {
 	
 	@Test
 	public void isPaydayOnNotFridays_ShouldBeFalse() throws Exception {
-		assertThat(biWeeklyPaymentSchedule.isPayday(ODD_FRIDAY.plusDays(1)), is(false));
-		assertThat(biWeeklyPaymentSchedule.isPayday(ODD_FRIDAY.minusDays(1)), is(false));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(ODD_FRIDAY.plusDays(1)), is(false));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(ODD_FRIDAY.minusDays(1)), is(false));
 	}
 	
 	@Test
 	public void isPaydayOnEvenFridays_ShouldBeTrue() throws Exception {
-		assertThat(biWeeklyPaymentSchedule.isPayday(REFERENCE_EVEN_FRIDAY), is(true));
-		assertThat(biWeeklyPaymentSchedule.isPayday(NEXT_EVEN_FRIDAY), is(true));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(REFERENCE_EVEN_FRIDAY), is(true));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(NEXT_EVEN_FRIDAY), is(true));
 	}
 	
 	@Test
 	public void isPaydayOnOddFridays_ShouldBeFalse() throws Exception {
-		assertThat(biWeeklyPaymentSchedule.isPayday(ODD_FRIDAY), is(false));
-		assertThat(biWeeklyPaymentSchedule.isPayday(NEXT_ODD_FRIDAY), is(false));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(ODD_FRIDAY), is(false));
+		assertThat(biWeeklyPaymentSchedule.isPayDate(NEXT_ODD_FRIDAY), is(false));
 	}
 	
 	@Test

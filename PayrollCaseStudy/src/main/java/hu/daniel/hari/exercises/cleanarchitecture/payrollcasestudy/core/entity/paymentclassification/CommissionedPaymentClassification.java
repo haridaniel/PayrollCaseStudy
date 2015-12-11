@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
-public abstract class CommissionedPaymentClassification extends PaymentClassification {
+public abstract class CommissionedPaymentClassification extends StrictIntervalPaymentClassification {
 	private static final int TWO_WEEK_DAYS = 14;
 
 	public abstract int getBiWeeklyBaseSalary();
@@ -15,11 +15,10 @@ public abstract class CommissionedPaymentClassification extends PaymentClassific
 	public abstract Collection<SalesReceipt> getSalesReceiptsIn(DateInterval dateInterval);
 
 	@Override
-	public int calculateAmount(DateInterval dateInterval) {
-		validateBiWeekInterval(dateInterval);
+	protected int calculateAmountOnValidatedInterval(DateInterval dateInterval) {
 		return getBiWeeklyBaseSalary() + calculateCommissionAmount(dateInterval);
 	}
-
+	
 	private int calculateCommissionAmount(DateInterval dateInterval) {
 		Integer sumAmount = 0;
 		Collection<SalesReceipt> salesReceipts = getSalesReceiptsIn(dateInterval);
@@ -33,18 +32,16 @@ public abstract class CommissionedPaymentClassification extends PaymentClassific
 		return (int) (salesReceipt.getAmount() * getCommissionRate());
 	}
 	
-	private void validateBiWeekInterval(DateInterval dateInterval) {
-		if (!isBiWeekInterval(dateInterval))
-			throw new NotBiWeeklyIntervalException();
+	@Override
+	protected boolean isValidInterval(DateInterval dateInterval) {
+		return isBiWeeklyInterval(dateInterval);
 	}
-
-	private boolean isBiWeekInterval(DateInterval dateInterval) {
+	
+	private boolean isBiWeeklyInterval(DateInterval dateInterval) {
 		long daysBetween = Duration.between(dateInterval.from.atStartOfDay(), dateInterval.to.atStartOfDay()).toDays();
 		long daysTotal = daysBetween + 1;
 		return daysTotal == TWO_WEEK_DAYS;
 	}
-
-	public static class NotBiWeeklyIntervalException extends RuntimeException {}
 
 
 }

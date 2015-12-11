@@ -37,23 +37,8 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	@After
 	public void clearDatabase() {
 		EntityTransaction transaction = database.getTransaction();
-		database.deleteAllEmployees();
+		database.clearDatabase();
 		transaction.commit();
-	}
-
-	private Employee employee() {
-		Employee employee = database.factory().employee();
-		employee.setId(1);
-		employee.setName("Bob");
-		employee.setPaymentMethod(database.factory().holdPaymentMethod());
-		return employee;
-	}
-
-	private Employee employee2() {
-		Employee employee = database.factory().employee();
-		employee.setId(2);
-		employee.setName("Robert");
-		return employee;
 	}
 
 	@Test
@@ -150,13 +135,13 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	}
 
 	@Test
-	public void testClearEmployees() throws Exception {
+	public void testClearDatabase() throws Exception {
 		int employeeId = employee().getId();
 		database.addEmployee(employee());
 		assertNotNull(database.getEmployee(employeeId));
 
 		EntityTransaction transaction = database.getTransaction();
-		database.deleteAllEmployees();
+		database.clearDatabase();
 		transaction.commit();
 
 		assertNull(database.getEmployee(employeeId));
@@ -212,6 +197,32 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification()).getTimeCardsIn(DateInterval.of(THIS_FRIDAY, THIS_FRIDAY)));
 		assertThat(timeCard, notNullValue());
 		assertThat(timeCard.getWorkingHourQty(), is(8));
+	}
+	
+	@Test
+	public void testGetEmployeeIdByUnionMemberId() throws Exception {
+		EntityTransaction transaction = database.getTransaction();
+		Employee employee = employee();
+		employee.setAffiliation(database.factory().unionMemberAffiliation(7000, 0));
+		database.addEmployee(employee);
+		transaction.commit();
+		
+		assertThat(database.getEmployeeIdByUnionMemberId(7000), is(employee.getId()));
+	}
+
+	private Employee employee() {
+		Employee employee = database.factory().employee();
+		employee.setId(1);
+		employee.setName("Bob");
+		employee.setPaymentMethod(database.factory().holdPaymentMethod());
+		return employee;
+	}
+
+	private Employee employee2() {
+		Employee employee = database.factory().employee();
+		employee.setId(2);
+		employee.setName("Robert");
+		return employee;
 	}
 
 	private Employee employeeWithOneTimeCard() {

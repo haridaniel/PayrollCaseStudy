@@ -14,6 +14,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.PaydayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change.ChangeEmployeeAddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.JPAPayrollDatabaseModule;
 
 import java.time.LocalDate;
@@ -28,11 +29,13 @@ import org.junit.Test;
 public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
+	private static final LocalDate LAST_DAY_OF_A_MONTH_THAT_HAS_4_FRIDAYS = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);
 	private static final LocalDate LAST_SATURDAY = LocalDate.of(2015, 11, 28);
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
+
 	
 	public PaydayUseCaseITTest(PayrollDatabase payrollDatabase) {
 		super(payrollDatabase);
@@ -41,23 +44,37 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	@After
 	public void clearDatabase() {
 		EntityTransaction transaction = database.getTransaction();
-		database.deleteAllEmployees();
+		database.clearDatabase();
 		transaction.commit();
 	}
 
+	@Test
+	public void paySingleSalariedEmployee_OnNotPayday_ShouldNotCreatePayCheck() throws Exception {
+		//GIVEN
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				1000).execute();
+
+		//WHEN
+		LocalDate notAPayDate = LAST_DAY_OF_A_MONTH.minusDays(5);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, notAPayDate);
+		paydayUseCase.execute();
+		
+		assertTrue(paydayUseCase.getPayChecks().isEmpty());
+	}
+	
 	@Test
 	public void testPaySingleSalariedEmployee() throws Exception {
 		//GIVEN
 		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
 				1000).execute();
-
+		
 		//WHEN
 		LocalDate date = LAST_DAY_OF_A_MONTH;
 		PaydayUseCase paydayUseCase = new PaydayUseCase(database, date);
 		paydayUseCase.execute();
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(1000));
+		assertThat(payCheck.getNetAmount(), is(1000));
 	}
 	
 	@Test
@@ -73,7 +90,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		paydayUseCase.execute();
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(70_000));
+		assertThat(payCheck.getNetAmount(), is(70_000));
 	}
 	
 	@Test
@@ -97,7 +114,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(72_000));
+		assertThat(payCheck.getNetAmount(), is(72_000));
 	}
 
 	@Test
@@ -123,7 +140,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(72_500));
+		assertThat(payCheck.getNetAmount(), is(72_500));
 	}
 
 	@Test
@@ -139,7 +156,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(0));
+		assertThat(payCheck.getNetAmount(), is(0));
 	}
 	
 	@Test
@@ -157,7 +174,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(80));
+		assertThat(payCheck.getNetAmount(), is(80));
 	}
 
 	@Test
@@ -177,7 +194,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(120));
+		assertThat(payCheck.getNetAmount(), is(120));
 	}
 	
 	@Test
@@ -199,7 +216,28 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//THEN
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
-		assertThat(payCheck.amount, is(80));
+		assertThat(payCheck.getNetAmount(), is(80));
+	}
+	
+	@Test
+	public void testPaySingleSalariedEmployee_UnionMemberAffiliationWeeklyDues_Deducted() throws Exception {
+		int weeklyDueAmount = 25;
+		
+		//GIVEN
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				1000).execute();
+		
+		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), 0, weeklyDueAmount)
+				.execute();
+		
+		
+		//WHEN
+		LocalDate date = LAST_DAY_OF_A_MONTH_THAT_HAS_4_FRIDAYS;
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, date);
+		paydayUseCase.execute();
+		
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.getDeductionsAmount(), is(4 * 25));
 	}
 	
 	private PayCheck getSinglePaycheck(PaydayUseCase paydayUseCase) {

@@ -16,13 +16,13 @@ public class PaymentScheduleTest {
 	@Test(expected=NotPaydayException.class)
 	public void getIntervalOnNonPayDay_ShouldThrow() throws Exception {
 		PaymentSchedule paymentSchedule = mock(PaymentSchedule.class, CALLS_REAL_METHODS);
-		when(paymentSchedule.isPayday(ANY_DATE)).thenReturn(false);
+		when(paymentSchedule.isPayDate(ANY_DATE)).thenReturn(false);
 		paymentSchedule.getPayInterval(ANY_DATE);
 	}
 	@Test
 	public void getIntervalOnPayDay_ShouldNotThrow() throws Exception {
 		PaymentSchedule paymentSchedule = mock(PaymentSchedule.class, CALLS_REAL_METHODS);
-		when(paymentSchedule.isPayday(ANY_DATE)).thenReturn(true);
+		when(paymentSchedule.isPayDate(ANY_DATE)).thenReturn(true);
 		paymentSchedule.getPayInterval(ANY_DATE);
 	}
 

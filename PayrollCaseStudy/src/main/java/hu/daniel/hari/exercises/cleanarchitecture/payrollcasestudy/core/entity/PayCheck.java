@@ -2,19 +2,24 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity;
 
 public class PayCheck {
 	
-	//TODO: ki lesz véve, only debug
-	public int employeeId;
+	private final int grossAmount;
+	private int deductionsAmount;
 	
-	public int amount;
-	
-	public PayCheck(int employeeId, int amount) {
-		this.employeeId = employeeId;
-		this.amount = amount;
+	public PayCheck(int grossAmount, int deductionsAmount) {
+		this.grossAmount = grossAmount;
+		this.deductionsAmount = deductionsAmount;
 	}
 
-	@Override
-	public String toString() {
-		return "PayCheck [employeeId=" + employeeId + ", amount=" + amount + "]";
+	public int getGrossAmount() {
+		return grossAmount;
+	}
+	
+	public int getDeductionsAmount() {
+		return deductionsAmount;
+	}
+	
+	public int getNetAmount() {
+		return grossAmount - deductionsAmount;
 	}
 	
 }
