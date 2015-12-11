@@ -16,15 +16,9 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 
 	@Override
 	public int calculateAmount(DateInterval payInterval) {
-		return calculateAmountIteratingOnTimeCardsInInterval(payInterval);
-	}
-
-	private int calculateAmountIteratingOnTimeCardsInInterval(DateInterval dateInterval) {
-		int sumAmount = 0;
-		for (TimeCard timeCard : getTimeCardsIn(dateInterval)) {
-			sumAmount += calculateAmount(timeCard);
-		}
-		return sumAmount;
+		return getTimeCardsIn(payInterval).stream()
+				.mapToInt(timeCard -> calculateAmount(timeCard))
+				.sum();
 	}
 
 	private int calculateAmount(TimeCard timeCard) {

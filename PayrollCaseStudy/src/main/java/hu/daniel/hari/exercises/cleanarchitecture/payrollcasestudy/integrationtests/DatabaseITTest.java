@@ -10,6 +10,7 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
@@ -134,7 +135,7 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		assertEquals(40, ((HourlyPaymentClassification) employee.getPaymentClassification()).getHourlyWage());
 	}
 
-	@Test
+	@Test(expected = NoSuchEmployeeException.class)
 	public void testClearDatabase() throws Exception {
 		int employeeId = employee().getId();
 		database.addEmployee(employee());
@@ -144,17 +145,17 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		database.clearDatabase();
 		transaction.commit();
 
-		assertNull(database.getEmployee(employeeId));
+		database.getEmployee(employeeId);
 	}
 
-	@Test
+	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployee() throws Exception {
 		database.addEmployee(employee());
 		assertNotNull(database.getEmployee(employee().getId()));
 
 		database.deleteEmployee(employee().getId());
 
-		assertNull(database.getEmployee(employee().getId()));
+		database.getEmployee(employee().getId());
 	}
 
 	@Test

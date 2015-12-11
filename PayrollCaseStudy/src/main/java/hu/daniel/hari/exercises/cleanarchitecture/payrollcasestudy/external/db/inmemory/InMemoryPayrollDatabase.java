@@ -28,7 +28,14 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 
 	@Override
 	public Employee getEmployee(int employeeId) {
-		return employeesById.get(employeeId);
+		Employee employee = employeesById.get(employeeId);
+		assertNotNull(employee);
+		return employee;
+	}
+
+	private void assertNotNull(Employee employee) {
+		if(employee == null)
+			throw new NoSuchEmployeeException();
 	}
 
 	@Override

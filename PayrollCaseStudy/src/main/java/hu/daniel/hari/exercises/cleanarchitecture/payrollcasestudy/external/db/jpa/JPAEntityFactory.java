@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
@@ -92,6 +93,12 @@ public class JPAEntityFactory implements EntityFactory {
 
 	@Override
 	public UnionMemberAffiliation unionMemberAffiliation(int unionMemberId, int weeklyDueAmount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceCharge serviceCharge(LocalDate date, int amount) {
 		// TODO Auto-generated method stub
 		return null;
 	}

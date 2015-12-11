@@ -12,13 +12,21 @@ public interface PayrollDatabase {
 	EntityTransaction getTransaction();
 	
 	void addEmployee(Employee employee);
+	
+	/**
+	 * @throws NoSuchEmployeeException
+	 */
 	Employee getEmployee(int employeeId);
 	Collection<Employee> getAllEmployees();
 	void deleteEmployee(int employeeId);
 	void clearDatabase();
+	
+	/**
+	 * @throws NoEmployeeWithSuchUnionMemberIdException
+	 */
 	int getEmployeeIdByUnionMemberId(int unionMemberId);
 	
-	public static class NoEmployeeWithSuchUnionMemberIdException extends RuntimeException {
-	}
+	public class NoSuchEmployeeException extends RuntimeException {}
+	public static class NoEmployeeWithSuchUnionMemberIdException extends RuntimeException {}
 
 }

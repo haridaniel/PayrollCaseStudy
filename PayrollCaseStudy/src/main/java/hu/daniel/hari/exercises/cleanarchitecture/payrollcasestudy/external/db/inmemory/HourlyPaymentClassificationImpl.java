@@ -36,10 +36,10 @@ public class HourlyPaymentClassificationImpl extends HourlyPaymentClassification
 	}
 
 	@Override
-	public Collection<TimeCard> getTimeCardsIn(DateInterval payInterval) {
-		return timeCardsByDate.entrySet().stream()
-				.filter(entry -> payInterval.isBetweenInclusive(entry.getKey()))
-				.map(entry -> entry.getValue())
+	public Collection<TimeCard> getTimeCardsIn(DateInterval dateInterval) {
+		return timeCardsByDate.keySet().stream()
+				.filter(date -> dateInterval.isBetweenInclusive(date))
+				.map(date -> timeCardsByDate.get(date))
 				.collect(Collectors.toList());
 	}
 

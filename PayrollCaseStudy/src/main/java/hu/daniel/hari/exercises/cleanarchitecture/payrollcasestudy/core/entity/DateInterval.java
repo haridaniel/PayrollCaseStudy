@@ -36,5 +36,9 @@ public class DateInterval {
 	public static DateInterval of(LocalDate from, LocalDate to) {
 		return new DateInterval(from, to);
 	}
+
+	public static DateInterval ofSingleDate(LocalDate fromAndTo) {
+		return of(fromAndTo, fromAndTo);
+	}
 	
 }

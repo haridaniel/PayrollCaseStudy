@@ -13,12 +13,15 @@ import org.junit.After;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
@@ -32,17 +35,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddCommissionedEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddHourlyEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddServiceChargeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.DeleteEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change.ChangeEmployeeNameUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change.ChangeEmployeeRemoveUnionMemberAffiliationUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change.ChangeEmployeeAddUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddCommissionedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddHourlyEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeAddUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeNameUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeRemoveUnionMemberAffiliationUseCase;
 
 public class UseCasesITTest extends AbstractDatabaseITTest {
+
+	private static final LocalDate A_DATE = LocalDate.of(2015, 11, 01);
 
 	public UseCasesITTest(PayrollDatabase payrollDatabase) {
 		super(payrollDatabase);
@@ -79,25 +85,11 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	}
 
 	@Test
-	public void testAddCommissionedEmployeeUseCase() throws Exception {
-		int biWeeklyBaseSalary = 70_000;
-		double commissionRate = 0.1d;
-		new AddCommissionedEmployeeUseCase(database, 1, "Bob", "Home", biWeeklyBaseSalary, commissionRate).execute();
-		
-		Employee employee = database.getEmployee(1);
-		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
-		assertEmployee(employee, "Bob", CommissionedPaymentClassification.class, BiWeeklyPaymentSchedule.class);
-		CommissionedPaymentClassification commissionedPaymentClassification = (CommissionedPaymentClassification) employee.getPaymentClassification();
-		assertThat(commissionedPaymentClassification.getBiWeeklyBaseSalary(), is(70_000));
-		assertThat(commissionedPaymentClassification.getCommissionRate(), is(0.1d));
-	}
-	
-	@Test
 	public void testAddTimeCardUseCase() throws Exception {
 		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 115)
 			.execute();
 		
-		LocalDate timecardDate = LocalDate.of(2015, 11, 01);
+		LocalDate timecardDate = A_DATE;
 		
 		new AddTimeCardUseCase(database,
 				new AddTimeCardRequestModel(employee().getId(), timecardDate, 8))
@@ -110,26 +102,57 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	}
 
 	@Test
+	public void testAddCommissionedEmployeeUseCase() throws Exception {
+		int biWeeklyBaseSalary = 70_000;
+		double commissionRate = 0.1d;
+		new AddCommissionedEmployeeUseCase(database, 1, "Bob", "Home", biWeeklyBaseSalary, commissionRate).execute();
+		
+		Employee employee = database.getEmployee(1);
+		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
+		assertEmployee(employee, "Bob", CommissionedPaymentClassification.class, BiWeeklyPaymentSchedule.class);
+		CommissionedPaymentClassification commissionedPaymentClassification = (CommissionedPaymentClassification) employee.getPaymentClassification();
+		assertThat(commissionedPaymentClassification.getBiWeeklyBaseSalary(), is(70_000));
+		assertThat(commissionedPaymentClassification.getCommissionRate(), is(0.1d));
+	}
+
+	@Test
 	public void testAddSalesReceiptUseCase() throws Exception {
 		new AddCommissionedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0, (double) 0).execute();
-		LocalDate salesReceiptDate = LocalDate.of(2015, 11, 01);
+		LocalDate salesReceiptDate = A_DATE;
 		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), salesReceiptDate, 25000)).execute();
 		
 		Employee employee = database.getEmployee(employee().getId());
 		SalesReceipt salesReceipt = singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
 				.getSalesReceiptsIn(DateInterval.of(salesReceiptDate, salesReceiptDate)));
 		assertThat(salesReceipt.getAmount(), is(25000));
-		System.out.println();
 	}
 	
 	
 	@Test
+	public void testAddServiceChargeUseCase() throws Exception {
+		int unionMemberId = 7005;
+		
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0)
+			.execute();
+		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, 0)
+			.execute();
+		new AddServiceChargeUseCase(database, new AddServiceChargeRequestModel(unionMemberId, A_DATE, 25))
+			.execute();
+		
+		Employee employee = database.getEmployee(1);
+		UnionMemberAffiliation affiliation = (UnionMemberAffiliation) employee.getAffiliation();
+		ServiceCharge serviceCharge = singleResult(affiliation.getServiceChargesIn(DateInterval.ofSingleDate(A_DATE)));
+		assertThat(serviceCharge.getAmount(), is(25));
+		
+	}
+
+	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployeeUseCase() throws Exception {
 		database.addEmployee(employee());
-		
+
 		new DeleteEmployeeUseCase(database, employee().getId()).execute();
-		
-		assertNull(database.getEmployee(employee().getId()));
+
+		database.getEmployee(employee().getId());
 	}
 	
 	@Test
@@ -149,7 +172,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		int unionMemberId = 7150;
 		int weeklyDueAmount = 25;
 		
-		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 1005)
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0)
 			.execute();
 		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, weeklyDueAmount)
 			.execute();

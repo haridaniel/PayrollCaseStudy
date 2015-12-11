@@ -4,10 +4,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.exception.NoSuchEmployeeException;
 
 public class AddSalesReceiptUseCase extends TransactionalDatabaseUseCase {
 
@@ -21,7 +19,6 @@ public class AddSalesReceiptUseCase extends TransactionalDatabaseUseCase {
 	@Override
 	protected void executeInTransaction() {
 		Employee employee = payrollDatabase.getEmployee(requestModel.employeeId);
-		assertNotNull(employee);
 		
 		castCommissionedPaymentClassification(employee.getPaymentClassification())
 			.addSalesReceipt(createSalesReceipt());
@@ -33,11 +30,6 @@ public class AddSalesReceiptUseCase extends TransactionalDatabaseUseCase {
 		} else {
 			throw new TriedToAddSalesReceiptToNonCommissionedEmployeeException();
 		}
-	}
-	
-	private void assertNotNull(Employee employee) {
-		if(employee == null)
-			throw new NoSuchEmployeeException();
 	}
 	
 	private SalesReceipt createSalesReceipt() {

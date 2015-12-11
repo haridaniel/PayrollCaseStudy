@@ -4,17 +4,19 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Constants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddCommissionedEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddHourlyEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddServiceChargeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.PaydayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.change.ChangeEmployeeAddUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddCommissionedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddHourlyEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeAddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.JPAPayrollDatabaseModule;
 
 import java.time.LocalDate;
@@ -35,7 +37,6 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	private static final LocalDate LAST_SATURDAY = LocalDate.of(2015, 11, 28);
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
-
 	
 	public PaydayUseCaseITTest(PayrollDatabase payrollDatabase) {
 		super(payrollDatabase);
@@ -225,7 +226,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		//GIVEN
 		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
-				1000).execute();
+				0).execute();
 		
 		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), 0, weeklyDueAmount)
 				.execute();
@@ -238,6 +239,55 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
 		assertThat(payCheck.getDeductionsAmount(), is(4 * 25));
+	}
+	
+	@Test
+	public void testPaySingleSalariedEmployee_UnionMemberAffiliationOneServiceCharge_Deducted() throws Exception {
+		int unionMemberId = 7005;
+		LocalDate date = LAST_DAY_OF_A_MONTH;
+		
+		//GIVEN
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				0).execute();
+		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, 0)
+			.execute();
+		new AddServiceChargeUseCase(database, new AddServiceChargeRequestModel(unionMemberId, date, 25))
+			.execute();
+		
+		//SERVICECHARGES
+		
+		//WHEN
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, date);
+		paydayUseCase.execute();
+		
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.getDeductionsAmount(), is(25));
+	}
+	
+	@Test
+	public void testPaySingleSalariedEmployee_UnionMemberAffiliationOneServiceCharge_DeductedOfTwo_SpanningMultiplePayPeriods() throws Exception {
+		int unionMemberId = 7005;
+		LocalDate dateInPayPeriod = LAST_DAY_OF_A_MONTH;
+		LocalDate dateNotInPayPeriod = LAST_DAY_OF_A_MONTH.plusDays(1);
+		
+		//GIVEN
+		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 
+				0).execute();
+		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, 0)
+			.execute();
+		new AddServiceChargeUseCase(database, new AddServiceChargeRequestModel(unionMemberId, dateInPayPeriod, 25))
+			.execute();
+		new AddServiceChargeUseCase(database, new AddServiceChargeRequestModel(unionMemberId, dateNotInPayPeriod, 25))
+			.execute();
+		
+		//SERVICECHARGES
+		
+		//WHEN
+		PaydayUseCase paydayUseCase = new PaydayUseCase(database, dateInPayPeriod);
+		paydayUseCase.execute();
+		
+		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
+		assertThat(payCheck.getDeductionsAmount(), is(25));
 	}
 	
 	private PayCheck getSinglePaycheck(PaydayUseCase paydayUseCase) {

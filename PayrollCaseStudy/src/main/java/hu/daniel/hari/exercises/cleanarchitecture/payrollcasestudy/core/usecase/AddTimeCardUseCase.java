@@ -6,7 +6,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.E
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.exception.NoSuchEmployeeException;
 
 public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 
@@ -20,7 +19,6 @@ public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 	@Override
 	protected void executeInTransaction() {
 		Employee employee = payrollDatabase.getEmployee(requestModel.employeeId);
-		assertNotNull(employee);
 		
 		castHourlyPaymentClassification(employee.getPaymentClassification())
 			.addTimeCard(createTimeCard());
@@ -32,11 +30,6 @@ public class AddTimeCardUseCase extends TransactionalDatabaseUseCase {
 		} else {
 			throw new TriedToAddTimeCardToNonHourlyEmployeeException();
 		}
-	}
-
-	private void assertNotNull(Employee employee) {
-		if(employee == null)
-			throw new NoSuchEmployeeException();
 	}
 
 	private TimeCard createTimeCard() {

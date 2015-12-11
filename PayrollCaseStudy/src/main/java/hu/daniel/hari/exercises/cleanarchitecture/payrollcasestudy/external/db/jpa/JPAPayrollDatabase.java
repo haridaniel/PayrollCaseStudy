@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
@@ -46,12 +47,19 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 
 	@Override
 	public Employee getEmployee(int employeeId) {
-		return convertNullable(jPAEmployeeDao.find(employeeId));
+		JPAEmployee jpaEmployee = jPAEmployeeDao.find(employeeId);
+		assertNotNull(jpaEmployee);
+		return proxy(jpaEmployee);
+	}
+
+	private void assertNotNull(JPAEmployee jpaEmployee) {
+		if(jpaEmployee == null)
+			throw new NoSuchEmployeeException();
 	}
 	
 	@Override
 	public Collection<Employee> getAllEmployees() {
-		return convert(jPAEmployeeDao.findAll());
+		return proxyAll(jPAEmployeeDao.findAll());
 	}
 
 	@Override
@@ -64,15 +72,15 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 		jPAEmployeeDao.deleteAll();
 	}
 
-	private Collection<Employee> convert(List<JPAEmployee> findAll) {
+	private Collection<Employee> proxyAll(List<JPAEmployee> findAll) {
 		return findAll
 				.stream()
-				.map(jPAEmployee -> convertNullable(jPAEmployee))
+				.map(jPAEmployee -> proxy(jPAEmployee))
 				.collect(Collectors.toList());
 	}
 
-	private Employee convertNullable(JPAEmployee jpaEmployee) {
-		return jpaEmployee == null ? null : employeeProxyFactory.create(jpaEmployee);
+	private Employee proxy(JPAEmployee jpaEmployee) {
+		return employeeProxyFactory.create(jpaEmployee);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public abstract class CommissionedPaymentClassification extends StrictIntervalPa
 	public abstract int getBiWeeklyBaseSalary();
 	public abstract double getCommissionRate();
 	
-	public abstract void addSalesReceipt(SalesReceipt createSalesReceipt);
+	public abstract void addSalesReceipt(SalesReceipt salesReceipt);
 	public abstract Collection<SalesReceipt> getSalesReceiptsIn(DateInterval dateInterval);
 
 	@Override
