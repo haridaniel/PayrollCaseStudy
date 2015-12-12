@@ -14,11 +14,6 @@ import javax.persistence.ManyToOne;
 @Entity
 public class JPATimeCard {
 	
-	public JPATimeCard(LocalDate date, int workingHoursQty) {
-		id.date = date;
-		this.workingHourQty = workingHoursQty;
-	}
-	
 	@EmbeddedId
 	public ID id = new ID();
 	
@@ -41,6 +36,12 @@ public class JPATimeCard {
 	@JoinColumn(name="employeeId", referencedColumnName="employeeId", insertable = false, updatable = false)
 	public HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
 
+	public JPATimeCard() {}
+	public JPATimeCard(LocalDate date, int workingHoursQty) {
+		id.date = date;
+		this.workingHourQty = workingHoursQty;
+	}
+	
 	public void connect(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
 		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
 		this.id.employeeId = hourlyJPAPaymentClassification.employeeId;

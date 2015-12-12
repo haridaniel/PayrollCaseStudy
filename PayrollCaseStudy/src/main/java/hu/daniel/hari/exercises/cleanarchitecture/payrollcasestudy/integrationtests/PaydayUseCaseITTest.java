@@ -25,6 +25,7 @@ import java.util.Collection;
 import javax.persistence.EntityTransaction;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -42,11 +43,11 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		super(payrollDatabase);
 	}
 	
-	@After
+	@Before
 	public void clearDatabase() {
-		EntityTransaction transaction = database.getTransaction();
-		database.clearDatabase();
-		transaction.commit();
+		database.executeInTransaction(() -> 
+			database.clearDatabase()
+		);
 	}
 
 	@Test

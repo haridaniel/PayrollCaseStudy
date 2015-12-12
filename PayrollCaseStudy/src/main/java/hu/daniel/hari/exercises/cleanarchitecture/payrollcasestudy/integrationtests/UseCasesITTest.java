@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
@@ -54,11 +55,11 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		super(payrollDatabase);
 	}
 
-	@After
+	@Before
 	public void clearDatabase() {
-		EntityTransaction transaction = database.getTransaction();
-		database.clearDatabase();
-		transaction.commit();
+		database.executeInTransaction(() -> 
+			database.clearDatabase()
+		);
 	}
 
 	@Test
@@ -149,9 +150,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployeeUseCase() throws Exception {
 		database.addEmployee(employee());
-
 		new DeleteEmployeeUseCase(database, employee().getId()).execute();
-
 		database.getEmployee(employee().getId());
 	}
 	

@@ -36,6 +36,7 @@ public class JPASalesReceipt {
 	@JoinColumn(name="employeeId", referencedColumnName="employeeId", insertable = false, updatable = false)
 	public CommissionedJPAPaymentClassification commissionedJPAPaymentClassification;
 
+	public JPASalesReceipt() {}
 	public JPASalesReceipt(LocalDate date, int amount) {
 		id.date = date;
 		this.amount = amount;

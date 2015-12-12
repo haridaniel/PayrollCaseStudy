@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoEmployeeWithSuchUnionMemberIdException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 
 public class JPAPayrollDatabase implements PayrollDatabase {
 
@@ -28,7 +30,7 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	public EntityFactory factory() {
 		return jpaEntityFactory;
 	}
-
+	
 	@Inject
 	public JPAPayrollDatabase(JPAEmployeeDao jPAEmployeeDao, JPAEntityFactory jpaEntityFactory) {
 		this.jPAEmployeeDao = jPAEmployeeDao;
@@ -85,8 +87,11 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 
 	@Override
 	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return jPAEmployeeDao.getEmployeeIdByUnionMemberId(unionMemberId);
+		} catch (NoResultException e) {
+			throw new NoEmployeeWithSuchUnionMemberIdException();
+		}
 	}
 
 }

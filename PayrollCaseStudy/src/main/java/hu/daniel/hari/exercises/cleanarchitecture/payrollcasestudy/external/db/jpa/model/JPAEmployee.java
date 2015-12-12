@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
 
 @Entity
@@ -28,29 +29,42 @@ public class JPAEmployee {
 	@Enumerated(EnumType.STRING)
 	private JPAPaymentMethod jpaPaymentMethod;
 
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
+	@PrimaryKeyJoinColumn
+	private JPAAffiliation jpaAffiliation;
+	
+	public JPAEmployee() {}
+	
 	public JPAPaymentClassification getJpaPaymentClassification() {
 		return jpaPaymentClassification;
-	}
-
-	public void setJpaPaymentClassification(JPAPaymentClassification jpaPaymentClassification) {
-		jpaPaymentClassification.connect(this);
-		this.jpaPaymentClassification = jpaPaymentClassification;
 	}
 
 	public JPAPaymentMethod getJpaPaymentMethod() {
 		return jpaPaymentMethod;
 	}
 
-	public void setJpaPaymentMethod(JPAPaymentMethod jpaPaymentMethod) {
-		this.jpaPaymentMethod = jpaPaymentMethod;
-	}
-
 	public JPAPaymentSchedule getJpaPaymentSchedule() {
 		return jpaPaymentSchedule;
 	}
 
+	public JPAAffiliation getJpaAffiliation() {
+		return jpaAffiliation;
+	}
+
+	public void setJpaPaymentClassification(JPAPaymentClassification jpaPaymentClassification) {
+		this.jpaPaymentClassification = jpaPaymentClassification;
+	}
+
+	public void setJpaPaymentMethod(JPAPaymentMethod jpaPaymentMethod) {
+		this.jpaPaymentMethod = jpaPaymentMethod;
+	}
+
 	public void setJpaPaymentSchedule(JPAPaymentSchedule jpaPaymentSchedule) {
 		this.jpaPaymentSchedule = jpaPaymentSchedule;
+	}
+	
+	public void setJpaAffiliation(JPAAffiliation jpaAffiliation) {
+		this.jpaAffiliation = jpaAffiliation;
 	}
 
 }

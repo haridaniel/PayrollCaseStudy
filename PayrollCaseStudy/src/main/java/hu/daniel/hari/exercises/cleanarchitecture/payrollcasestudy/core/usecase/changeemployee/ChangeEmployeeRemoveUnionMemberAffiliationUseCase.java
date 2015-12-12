@@ -16,7 +16,7 @@ public class ChangeEmployeeRemoveUnionMemberAffiliationUseCase extends Transacti
 
 	@Override
 	protected void executeInTransaction() {
-		getEmployeeByUnionMemberId().setAffiliation(new NoAffiliation());
+		getEmployeeByUnionMemberId().setAffiliation(payrollDatabase.factory().noAffiliation());
 	}
 
 	private Employee getEmployeeByUnionMemberId() {

@@ -17,8 +17,9 @@ public class HourlyJPAPaymentClassification extends JPAPaymentClassification {
 
 	@OneToMany(mappedBy="hourlyJPAPaymentClassification", orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
 	@PrimaryKeyJoinColumn
-	public Set<JPATimeCard> jpaTimeCards = new HashSet<>();
+	private Set<JPATimeCard> jpaTimeCards = new HashSet<>();
 	
+	public HourlyJPAPaymentClassification() {}
 	public HourlyJPAPaymentClassification(int hourlyWage) {
 		this.hourlyWage = hourlyWage;
 	}

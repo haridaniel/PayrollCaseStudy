@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 
-public class NoAffiliation implements Affiliation {
+public abstract class NoAffiliation implements Affiliation {
 
 	@Override
 	public int calculateDeductionsAmount(DateInterval payInterval) {

@@ -20,6 +20,7 @@ public class CommissionedJPAPaymentClassification extends JPAPaymentClassificati
 	@PrimaryKeyJoinColumn
 	public Set<JPASalesReceipt> jpaSalesReceipts = new HashSet<>();
 
+	public CommissionedJPAPaymentClassification() {}
 	public CommissionedJPAPaymentClassification(int biWeeklyBaseSalary, double commissionRate) {
 		this.biWeeklyBaseSalary = biWeeklyBaseSalary;
 		this.commissionRate = commissionRate;

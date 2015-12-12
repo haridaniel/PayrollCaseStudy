@@ -15,8 +15,7 @@ public abstract class ChangeEmployeeUseCase extends TransactionalDatabaseUseCase
 
 	@Override
 	protected final void executeInTransaction() {
-		Employee employee = payrollDatabase.getEmployee(employeeId);
-		change(employee);
+		change(payrollDatabase.getEmployee(employeeId));
 	}
 
 	protected abstract void change(Employee employee);

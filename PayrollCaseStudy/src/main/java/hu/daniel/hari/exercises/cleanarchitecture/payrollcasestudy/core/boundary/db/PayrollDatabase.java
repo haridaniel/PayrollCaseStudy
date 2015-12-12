@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundar
 
 import java.util.Collection;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 
@@ -28,5 +29,18 @@ public interface PayrollDatabase {
 	
 	public class NoSuchEmployeeException extends RuntimeException {}
 	public static class NoEmployeeWithSuchUnionMemberIdException extends RuntimeException {}
+	
+	public default void executeInTransaction(Runnable runnable) {
+		EntityTransaction transaction = getTransaction();
+		try {
+			runnable.run();
+			transaction.commit();
+		} catch (RuntimeException e) {
+			if(transaction.isActive()) {
+				transaction.rollback();
+			}
+			throw e;
+		}
+	}
 
 }

@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import java.util.List;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -42,6 +43,16 @@ public class JPAEmployeeDao {
 		for (JPAEmployee jpaEmployee : findAll()) {
 			em.remove(jpaEmployee);
 		}
+	}
+
+	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
+		return em.createQuery(
+				  "SELECT employeeId "
+				+ "FROM JPAUnionMemberAffiliation unionMemberAffiliation "
+				+ "WHERE unionMemberAffiliation.unionMemberId = :unionMemberId ",
+						Integer.class)
+				.setParameter("unionMemberId", unionMemberId)
+				.getSingleResult();
 	}
 
 }

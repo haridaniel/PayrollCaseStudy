@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundar
 import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
@@ -28,11 +29,13 @@ public interface EntityFactory {
 	WeeklyPaymentSchedule weeklyPaymentSchedule();
 	BiWeeklyPaymentSchedule biWeeklyPaymentSchedule();
 	
+	NoAffiliation noAffiliation();
 	UnionMemberAffiliation unionMemberAffiliation(int unionMemberId, int weeklyDueAmount);
 	
 	TimeCard timeCard(LocalDate date, int workingHoursQty);
 	SalesReceipt salesReceipt(LocalDate date, int amount);
 	ServiceCharge serviceCharge(LocalDate date, int amount);
+
 
 	
 }

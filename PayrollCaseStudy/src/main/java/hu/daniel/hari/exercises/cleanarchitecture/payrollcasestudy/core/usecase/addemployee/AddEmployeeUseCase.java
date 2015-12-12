@@ -29,7 +29,7 @@ public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
 		
 		setFields();
 		setDefaultFields();
-		setDescendentClassFields();
+		setEmployeeTypeSpecificFields();
 				
 		payrollDatabase.addEmployee(employee);
 	}
@@ -42,10 +42,10 @@ public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
 
 	private void setDefaultFields() {
 		employee.setPaymentMethod(payrollDatabase.factory().holdPaymentMethod());
-		employee.setAffiliation(new NoAffiliation());
+		employee.setAffiliation(payrollDatabase.factory().noAffiliation());
 	}
 
-	private void setDescendentClassFields() {
+	private void setEmployeeTypeSpecificFields() {
 		employee.setPaymentClassification(getPaymentClassification());
 		employee.setPaymentSchedule(getPaymentSchedule());
 	}
