@@ -16,4 +16,9 @@ public class BiWeeklyPaymentScheduleProxy extends BiWeeklyPaymentSchedule implem
 		return jpaPaymentSchedule;
 	}
 
+	@Override
+	public JPAPaymentSchedule getJPAEntity() {
+		return jpaPaymentSchedule;
+	}
+
 }

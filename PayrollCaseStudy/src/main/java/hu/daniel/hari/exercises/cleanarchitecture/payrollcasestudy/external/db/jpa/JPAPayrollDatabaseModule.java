@@ -14,8 +14,6 @@ public class JPAPayrollDatabaseModule {
 	private static final String PERSISTENCE_UNIT_NAME = "postgresTest";
 	
 	private JPAPayrollDatabase jpaPayrollDatabase;
-	@Deprecated
-	public static Injector INJECTOR;
 
 	public JPAPayrollDatabaseModule() {
 		Injector injector = Guice.createInjector(Stage.DEVELOPMENT,
@@ -24,8 +22,6 @@ public class JPAPayrollDatabaseModule {
 				);
 		injector.getInstance(PersistService.class).start();
 
-		INJECTOR = injector;
-		
 		jpaPayrollDatabase = injector.getInstance(JPAPayrollDatabase.class);
 		
 	}

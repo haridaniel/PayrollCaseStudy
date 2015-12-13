@@ -61,11 +61,19 @@ public class ProxyAssignmentConfiguration {
 	}
 
 	public Class<?> getProxyClassFor(Object jpaEntity) {
-		Class<?> proxyClassByJPAEntityClass = proxyClassesByJPAEntityClass.get(jpaEntity.getClass());
-		if(proxyClassByJPAEntityClass != null)
-			return proxyClassByJPAEntityClass;
-		Class<?> proxyClassByJPAEntity = proxyClassesByJPAEntity.get(jpaEntity);
-		return assertNotNull(proxyClassByJPAEntity);
+		Class<?> proxy = getProxyByJPAClass(jpaEntity.getClass());
+		if(proxy != null)
+			return proxy;
+		else
+			return assertNotNull(getProxyByJPAObject(jpaEntity));
+	}
+
+	private Class<?> getProxyByJPAClass(Class<? extends Object> class1) {
+		return proxyClassesByJPAEntityClass.get(class1);
+	}
+
+	private Class<?> getProxyByJPAObject(Object jpaEntity) {
+		return proxyClassesByJPAEntity.get(jpaEntity);
 	}
 
 	private Class<?> assertNotNull(Class<?> proxyClass) {

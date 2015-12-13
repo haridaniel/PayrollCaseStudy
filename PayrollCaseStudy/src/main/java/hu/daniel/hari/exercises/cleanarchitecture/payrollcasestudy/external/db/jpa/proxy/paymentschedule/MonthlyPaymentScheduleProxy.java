@@ -16,5 +16,10 @@ public class MonthlyPaymentScheduleProxy extends MontlhyPaymentSchedule implemen
 		return jpaPaymentSchedule;
 	}
 
+	@Override
+	public JPAPaymentSchedule getJPAEntity() {
+		return jpaPaymentSchedule;
+	}
+
 
 }

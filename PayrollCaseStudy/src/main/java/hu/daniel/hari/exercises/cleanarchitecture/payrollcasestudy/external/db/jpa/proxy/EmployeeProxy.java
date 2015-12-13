@@ -21,7 +21,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 /**
  * Violates LSP
  */
-public class EmployeeProxy extends Employee {
+public class EmployeeProxy extends Employee implements Proxy<JPAEmployee>{
 
 	private JPAEmployee jpaEmployee;
 	
@@ -149,6 +149,11 @@ public class EmployeeProxy extends Employee {
 				em.flush();
 			}
 		}
+	}
+
+	@Override
+	public JPAEmployee getJPAEntity() {
+		return getJpaEmployee();
 	}
 	
 }

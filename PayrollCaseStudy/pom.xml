@@ -54,6 +54,17 @@
 			<version>3.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC2</version>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.javassist</groupId> -->
+<!-- 			<artifactId>javassist</artifactId> -->
+<!-- 			<version>3.18.2-GA</version> -->
+<!-- 		</dependency> -->
 
 		<!-- ORM -->
 		<dependency>
