@@ -1,15 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoEmployeeWithSuchUnionMemberIdException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase.NoSuchEmployeeException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy.EmployeeProxyFactory;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,12 +9,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
+
 public class JPAPayrollDatabase implements PayrollDatabase {
 
 	@Inject private JPAEntityFactory jpaEntityFactory;
 	@Inject private JPAEmployeeDao jPAEmployeeDao;
 	@Inject private TransactionProvider transactionProvider;
-	@Inject private EmployeeProxyFactory employeeProxyFactory;
+	@Inject private ProxyFactory proxyFactory;
 	
 	@Override
 	public EntityFactory factory() {
@@ -70,8 +68,9 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	}
 	
 	@Override
-	public void clearDatabase() {
-		jPAEmployeeDao.deleteAll();
+	public void clearDatabaseInTransaction() {
+		executeInTransaction(() -> 
+			jPAEmployeeDao.deleteAll());
 	}
 
 	private Collection<Employee> proxyAll(List<JPAEmployee> findAll) {
@@ -82,7 +81,7 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	}
 
 	private Employee proxy(JPAEmployee jpaEmployee) {
-		return employeeProxyFactory.create(jpaEmployee);
+		return proxyFactory.create(EmployeeProxy.class, jpaEmployee);
 	}
 
 	@Override

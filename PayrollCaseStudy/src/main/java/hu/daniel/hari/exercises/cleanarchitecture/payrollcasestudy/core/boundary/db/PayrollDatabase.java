@@ -20,7 +20,7 @@ public interface PayrollDatabase {
 	Employee getEmployee(int employeeId);
 	Collection<Employee> getAllEmployees();
 	void deleteEmployee(int employeeId);
-	void clearDatabase();
+	void clearDatabaseInTransaction();
 	
 	/**
 	 * @throws NoEmployeeWithSuchUnionMemberIdException

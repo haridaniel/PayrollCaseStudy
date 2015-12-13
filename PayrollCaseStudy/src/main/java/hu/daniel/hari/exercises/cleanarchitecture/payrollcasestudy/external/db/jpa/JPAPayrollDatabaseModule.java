@@ -1,25 +1,21 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy.EmployeeProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.UnionMemberAffiliationProxy.UnionMemberAffiliationProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.CommissionedPaymentClassificationProxy.CommissionedPaymentClassificationProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.HourlyPaymentClassificationProxy.HourlyPaymentClassificationProxyFactory;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 
 public class JPAPayrollDatabaseModule {
 //	private static final String PERSISTENCE_UNIT_NAME = "testDB";
 	private static final String PERSISTENCE_UNIT_NAME = "postgresTest";
 	
 	private JPAPayrollDatabase jpaPayrollDatabase;
+	@Deprecated
+	public static Injector INJECTOR;
 
 	public JPAPayrollDatabaseModule() {
 		Injector injector = Guice.createInjector(Stage.DEVELOPMENT,
@@ -28,7 +24,10 @@ public class JPAPayrollDatabaseModule {
 				);
 		injector.getInstance(PersistService.class).start();
 
+		INJECTOR = injector;
+		
 		jpaPayrollDatabase = injector.getInstance(JPAPayrollDatabase.class);
+		
 	}
 	
 	public PayrollDatabase getPayrollDatabase() {
@@ -44,14 +43,6 @@ class GuiceModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		assistedProxyFactories();
-	}
-	
-	private void assistedProxyFactories() {
-		install(new FactoryModuleBuilder().build(EmployeeProxyFactory.class));
-		install(new FactoryModuleBuilder().build(HourlyPaymentClassificationProxyFactory.class));
-		install(new FactoryModuleBuilder().build(CommissionedPaymentClassificationProxyFactory.class));
-		install(new FactoryModuleBuilder().build(UnionMemberAffiliationProxyFactory.class));
 	}
 	
 }

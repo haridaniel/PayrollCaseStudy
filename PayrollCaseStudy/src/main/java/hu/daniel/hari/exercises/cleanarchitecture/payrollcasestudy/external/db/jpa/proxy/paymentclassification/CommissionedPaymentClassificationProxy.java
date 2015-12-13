@@ -14,14 +14,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
 
 public class CommissionedPaymentClassificationProxy extends CommissionedPaymentClassification implements PaymentClassificationProxy {
 
 	private CommissionedJPAPaymentClassification commissionedJPAPaymentClassification;
 
-	@Inject
-	private JPASalesReceiptDao salesReceiptDao;
+	@Inject private JPASalesReceiptDao salesReceiptDao;
+	@Inject private ProxyFactory proxyFactory;
 	
 	@Inject
 	public CommissionedPaymentClassificationProxy(@Assisted CommissionedJPAPaymentClassification commissionedJPAPaymentClassification) {
@@ -56,7 +57,7 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 	}
 
 	private SalesReceipt proxy(JPASalesReceipt jpaSalesReceipt) {
-		return new SalesReceiptProxy(jpaSalesReceipt);
+		return proxyFactory.create(SalesReceiptProxy.class, jpaSalesReceipt);
 	}
 
 	@Override
@@ -64,9 +65,4 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 		return commissionedJPAPaymentClassification;
 	}
 
-	public interface CommissionedPaymentClassificationProxyFactory {
-		CommissionedPaymentClassificationProxy create(CommissionedJPAPaymentClassification commissionedJPAPaymentClassification);
-	}
-
-	
 }

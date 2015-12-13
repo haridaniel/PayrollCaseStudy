@@ -45,9 +45,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	
 	@Before
 	public void clearDatabase() {
-		database.executeInTransaction(() -> 
-			database.clearDatabase()
-		);
+		database.clearDatabaseInTransaction();
 	}
 
 	@Test

@@ -46,9 +46,7 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	
 	@Before
 	public void clearDatabase() {
-		database.executeInTransaction(() -> 
-			database.clearDatabase()
-		);
+		database.clearDatabaseInTransaction();
 	}
 	
 	@Ignore
@@ -146,12 +144,12 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testClearDatabase() throws Exception {
 		int employeeId = employee().getId();
-		database.addEmployee(employee());
+		database.executeInTransaction(() -> {
+			database.addEmployee(employee());
+		});
 		assertNotNull(database.getEmployee(employeeId));
 
-		EntityTransaction transaction = database.getTransaction();
-		database.clearDatabase();
-		transaction.commit();
+		database.clearDatabaseInTransaction();
 
 		database.getEmployee(employeeId);
 	}

@@ -7,6 +7,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
 
 import java.util.Collection;
@@ -22,8 +23,8 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 
 	private HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
 	
-	@Inject
-	private JPATimeCardDao timeCardDao;
+	@Inject	private JPATimeCardDao timeCardDao;
+	@Inject private ProxyFactory proxyFactory;
 
 	@Inject
 	public HourlyPaymentClassificationProxy(@Assisted HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
@@ -58,7 +59,7 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	}
 
 	private TimeCardProxy proxy(JPATimeCard jpaTimeCard) {
-		return new TimeCardProxy(jpaTimeCard);
+		return proxyFactory.create(TimeCardProxy.class, jpaTimeCard);
 	}
 
 	@Override
@@ -66,8 +67,4 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 		return hourlyJPAPaymentClassification;
 	}
 	
-	public interface HourlyPaymentClassificationProxyFactory {
-		HourlyPaymentClassificationProxy create(HourlyJPAPaymentClassification hourlyJPAPaymentClassification);
-	}
-
 }

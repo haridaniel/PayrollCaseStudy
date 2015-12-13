@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.unionmember;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,16 +15,18 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAUnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.unionmember.JPAServiceCharge;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.unionmember.ServiceChargeProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.AffiliationProxy;
 
 public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implements AffiliationProxy {
 
 	private JPAUnionMemberAffiliation jpaUnionMemberAffiliation;
 
 	@Inject private JPAServiceChargeDao jpaServiceChargeDao;
+	@Inject private ProxyFactory proxyFactory;
 	
 	@Inject 
-	public UnionMemberAffiliationProxy(@Assisted JPAUnionMemberAffiliation jpaUnionMemberAffiliation) {
+	public UnionMemberAffiliationProxy(JPAUnionMemberAffiliation jpaUnionMemberAffiliation) {
 		this.jpaUnionMemberAffiliation = jpaUnionMemberAffiliation;
 	}
 
@@ -56,7 +58,7 @@ public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implemen
 	}
 
 	private ServiceChargeProxy proxy(JPAServiceCharge jpaServiceCharge) {
-		return new ServiceChargeProxy(jpaServiceCharge);
+		return proxyFactory.create(ServiceChargeProxy.class, jpaServiceCharge);
 	}
 
 	@Override
@@ -64,9 +66,4 @@ public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implemen
 		return jpaUnionMemberAffiliation;
 	}
 
-	public interface UnionMemberAffiliationProxyFactory {
-		UnionMemberAffiliationProxy create(JPAUnionMemberAffiliation jpaUnionMemberAffiliation);
-	}
-
-	
 }

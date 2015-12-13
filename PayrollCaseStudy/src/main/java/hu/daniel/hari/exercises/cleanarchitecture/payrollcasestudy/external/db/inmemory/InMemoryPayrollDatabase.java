@@ -45,7 +45,7 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 	}
 	
 	@Override
-	public void clearDatabase() {
+	public void clearDatabaseInTransaction() {
 		employeesById.clear();
 	}
 

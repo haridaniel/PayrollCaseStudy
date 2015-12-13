@@ -14,10 +14,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.AffiliationProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.factory.AffiliationProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.factory.PaymentClassificationProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.factory.PaymentMethodProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.factory.PaymentScheduleProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.PaymentClassificationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentmethod.PaymentMethodProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentschedule.PaymentScheduleProxy;
@@ -34,13 +30,13 @@ public class EmployeeProxy extends Employee {
 	private PaymentScheduleProxy paymentScheduleProxy;
 	private AffiliationProxy affiliationProxy;
 
-	@Inject private PaymentClassificationProxyFactory paymentClassificationProxyFactory;
-	@Inject private AffiliationProxyFactory affiliationProxyFactory;
+	@Inject private ProxyFactory proxyFactory;
 	@Inject private EntityManager em;
+	
 	private JPAUpdater updater = new JPAUpdater();
 	
 	@Inject
-	public EmployeeProxy(@Assisted JPAEmployee jpaEmployee) {
+	public EmployeeProxy(JPAEmployee jpaEmployee) {
 		this.jpaEmployee = jpaEmployee;
 	}
 
@@ -81,28 +77,28 @@ public class EmployeeProxy extends Employee {
 	@Override
 	public PaymentMethod getPaymentMethod() {
 		if(paymentMethodProxy == null)
-			paymentMethodProxy = PaymentMethodProxyFactory.create(jpaEmployee.getJpaPaymentMethod());
+			paymentMethodProxy = proxyFactory.create(PaymentMethodProxy.class, jpaEmployee.getJpaPaymentMethod());
 		return paymentMethodProxy;
 	}
 	
 	@Override
 	public PaymentClassification getPaymentClassification() {
 		if(paymentClassificationProxy == null)
-			paymentClassificationProxy = (PaymentClassificationProxy) paymentClassificationProxyFactory.create(jpaEmployee.getJpaPaymentClassification());
+			paymentClassificationProxy = proxyFactory.create(PaymentClassificationProxy.class, jpaEmployee.getJpaPaymentClassification());
 		return (PaymentClassification) paymentClassificationProxy;
 	}
 	
 	@Override
 	public PaymentSchedule getPaymentSchedule() {
 		if(paymentScheduleProxy == null)
-			paymentScheduleProxy = PaymentScheduleProxyFactory.create(jpaEmployee.getJpaPaymentSchedule());
+			paymentScheduleProxy = proxyFactory.create(PaymentScheduleProxy.class, jpaEmployee.getJpaPaymentSchedule());
 		return (PaymentSchedule) paymentScheduleProxy;
 	}
 	
 	@Override
 	public Affiliation getAffiliation() {
 		if (affiliationProxy == null)
-			affiliationProxy = affiliationProxyFactory.create(jpaEmployee.getJpaAffiliation());
+			affiliationProxy = proxyFactory.create(AffiliationProxy.class, jpaEmployee.getJpaAffiliation());
 		return (Affiliation) affiliationProxy;
 	}
 
@@ -153,12 +149,6 @@ public class EmployeeProxy extends Employee {
 				em.flush();
 			}
 		}
-	}
-	
-
-
-	public interface EmployeeProxyFactory {
-		public EmployeeProxy create(JPAEmployee jpaEmployee);
 	}
 	
 }

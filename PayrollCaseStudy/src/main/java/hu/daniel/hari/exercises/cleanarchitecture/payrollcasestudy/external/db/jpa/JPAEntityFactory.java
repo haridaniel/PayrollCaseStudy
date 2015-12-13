@@ -20,6 +20,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPANoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAUnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.unionmember.JPAServiceCharge;
@@ -28,13 +30,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy.EmployeeProxyFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.NoAffiliationProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.UnionMemberAffiliationProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.UnionMemberAffiliationProxy.UnionMemberAffiliationProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.unionmember.ServiceChargeProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.unionmember.UnionMemberAffiliationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.CommissionedPaymentClassificationProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.HourlyPaymentClassificationProxy.HourlyPaymentClassificationProxyFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.HourlyPaymentClassificationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.SalariedPaymentClassificationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
@@ -46,73 +48,71 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 @Singleton
 public class JPAEntityFactory implements EntityFactory {
 	
-	@Inject private EmployeeProxyFactory employeeProxyFactory;
-	@Inject private HourlyPaymentClassificationProxyFactory hourlyPaymentClassificationProxyFactory;
-	@Inject private UnionMemberAffiliationProxyFactory unionMemberAffiliationProxyFactory;
+	@Inject private ProxyFactory proxyFactory;
 	
 	@Override
 	public Employee employee() {
-		return employeeProxyFactory.create(new JPAEmployee());
+		return proxyFactory.create(EmployeeProxy.class, new JPAEmployee());
 	}
 
 	@Override
 	public SalariedPaymentClassification salariedPaymentClassification(int monthlySalary) {
-		return new SalariedPaymentClassificationProxy(new SalariedJPAPaymentClassification(monthlySalary));
+		return proxyFactory.create(SalariedPaymentClassificationProxy.class, new SalariedJPAPaymentClassification(monthlySalary));
 	}
 
 	@Override
 	public HourlyPaymentClassification hourlyPaymentClassification(int hourlyWage) {
-		return hourlyPaymentClassificationProxyFactory.create(new HourlyJPAPaymentClassification(hourlyWage));
+		return proxyFactory.create(HourlyPaymentClassificationProxy.class, new HourlyJPAPaymentClassification(hourlyWage));
 	}
 
 	@Override
 	public CommissionedPaymentClassification commissionedPaymentClassification(int biWeeklyBaseSalary, double commissionRate) {
-		return new CommissionedPaymentClassificationProxy(new CommissionedJPAPaymentClassification(biWeeklyBaseSalary, commissionRate));
+		return proxyFactory.create(CommissionedPaymentClassificationProxy.class, new CommissionedJPAPaymentClassification(biWeeklyBaseSalary, commissionRate));
 	}
 
 	@Override
 	public HoldPaymentMethod holdPaymentMethod() {
-		return new HoldPaymentMethodProxy();
+		return proxyFactory.create(HoldPaymentMethodProxy.class, JPAPaymentMethod.HOLD);
 	}
 
 	@Override
 	public MontlhyPaymentSchedule monthlyPaymentSchedule() {
-		return new MonthlyPaymentScheduleProxy();
+		return proxyFactory.create(MonthlyPaymentScheduleProxy.class, JPAPaymentSchedule.MONTHLY);
 	}
 
 	@Override
 	public WeeklyPaymentSchedule weeklyPaymentSchedule() {
-		return new WeeklyPaymentScheduleProxy();
+		return proxyFactory.create(WeeklyPaymentScheduleProxy.class, JPAPaymentSchedule.WEEKLY);
 	}
 
 	@Override
 	public BiWeeklyPaymentSchedule biWeeklyPaymentSchedule() {
-		return new BiWeeklyPaymentScheduleProxy();
+		return proxyFactory.create(BiWeeklyPaymentScheduleProxy.class, JPAPaymentSchedule.BI_WEEKLY);
 	}
 
 	@Override
 	public TimeCard timeCard(LocalDate date, int workingHoursQty) {
-		return new TimeCardProxy(new JPATimeCard(date, workingHoursQty));
+		return proxyFactory.create(TimeCardProxy.class, new JPATimeCard(date, workingHoursQty));
 	}
 
 	@Override
 	public SalesReceipt salesReceipt(LocalDate date, int amount) {
-		return new SalesReceiptProxy(new JPASalesReceipt(date, amount));
+		return proxyFactory.create(SalesReceiptProxy.class, new JPASalesReceipt(date, amount));
 	}
 
 	@Override
 	public NoAffiliation noAffiliation() {
-		return new NoAffiliationProxy(new JPANoAffiliation());
+		return proxyFactory.create(NoAffiliationProxy.class, new JPANoAffiliation());
 	}
 
 	@Override
 	public UnionMemberAffiliation unionMemberAffiliation(int unionMemberId, int weeklyDueAmount) {
-		return unionMemberAffiliationProxyFactory.create(new JPAUnionMemberAffiliation(unionMemberId, weeklyDueAmount));
+		return proxyFactory.create(UnionMemberAffiliationProxy.class, new JPAUnionMemberAffiliation(unionMemberId, weeklyDueAmount));
 	}
 
 	@Override
 	public ServiceCharge serviceCharge(LocalDate date, int amount) {
-		return new ServiceChargeProxy(new JPAServiceCharge(date, amount));
+		return proxyFactory.create(ServiceChargeProxy.class, new JPAServiceCharge(date, amount));
 	}
 	
 }
