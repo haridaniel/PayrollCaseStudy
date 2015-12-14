@@ -13,6 +13,8 @@ public class ProxyFactory {
 	private ProxyAssignmentConfiguration proxyAssignmentConfiguration;
 	
 	private @Inject Injector injector;
+	
+	@Deprecated
 	private @Inject ReflectionTesting reflectionTesting;
 	
 	@Inject
