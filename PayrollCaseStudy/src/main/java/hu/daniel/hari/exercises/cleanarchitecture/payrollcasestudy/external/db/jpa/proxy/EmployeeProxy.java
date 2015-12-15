@@ -152,8 +152,13 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	}
 
 	@Override
-	public JPAEmployee getJPAEntity() {
+	public JPAEmployee getJPAObject() {
 		return getJpaEmployee();
 	}
-	
+
+	@Override
+	public Class<JPAEmployee> getJPAClass() {
+		return JPAEmployee.class;
+	}
+
 }

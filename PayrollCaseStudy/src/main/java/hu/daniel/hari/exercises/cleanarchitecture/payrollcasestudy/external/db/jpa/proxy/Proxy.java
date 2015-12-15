@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 /**
  * @param <T> - JPA Entity type
  */
-public interface Proxy<T> {
-	public T getJPAEntity();
+public interface Proxy<T extends Object> {
+	Class<T> getJPAClass();
+	T getJPAObject();
 }

@@ -2,11 +2,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,55 +16,51 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+import com.google.inject.TypeLiteral;
+
 
 public class ReflectionTesting {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		new ReflectionTesting();
 	}
 	
-	public ReflectionTesting() {
-		
+	
+	public ReflectionTesting() throws NoSuchMethodException, SecurityException {
 		
 		Reflections reflections = new Reflections(EmployeeProxy.class.getPackage().getName());
 		
-		Set<Class<? extends Proxy>> classes = reflections.getSubTypesOf(Proxy.class);
+		Set<Class<? extends Proxy>> allProxyClasses = reflections.getSubTypesOf(Proxy.class);
+		Set<Class<? extends ValueAssignedProxy>> valueAssignedProxyClasses = reflections.getSubTypesOf(ValueAssignedProxy.class);
 		
-		System.out.println(classes.size());
+		Set<Class<? extends Proxy>> proxyClasses = new HashSet<>(allProxyClasses);
+		proxyClasses.removeAll(valueAssignedProxyClasses);
 		
-		for (Class<? extends Proxy> proxyClass : classes) {
-			System.out.println("get type for " + proxyClass);
-			System.out.println((Class<Proxy>) getProxyGenericType(proxyClass));
-			// Nem fog menni!
+		
+
+		Map<Class<?>, Class<?>> proxyClassesByJPAEntityClass = new HashMap<>();
+
+		
+		for (Class<? extends Proxy> proxyClass : allProxyClasses) {
+			
+			TypeLiteral<? extends Proxy> typeLiteral = TypeLiteral.get(proxyClass);
+			Method method = proxyClass.getMethod("getJPAObject");
+			
+			
+			TypeLiteral<?> parameterType = typeLiteral.getReturnType(method);
+			Type type = parameterType.getType();
+//			Class<?> jpaClass = (Class<?>) type;
+			System.out.println(type);
+			
+//			proxyClassesByJPAEntityClass.put(proxyClass.getClass(), value)
+			
+			System.out.println();
 		}
 		
+		
+		
+		System.out.println(proxyClasses.size());
 	}
 
-	private List<Type> getGenericInterfaces1(Class<? extends Proxy> class1) {
-		List<Type> genericInterfaces = Arrays.asList(class1.getGenericInterfaces());
-		for (Type genericInterface : genericInterfaces) {
-		    if (genericInterface instanceof ParameterizedType) {
-		    	
-		        Type[] genericTypes = ((ParameterizedType) genericInterface).getActualTypeArguments();
-		        for (Type genericType : genericTypes) {
-		            System.out.println("Generic type: " + genericType);
-		        }
-		    }
-		}
-		return genericInterfaces;
-	}
-	private Type getProxyGenericType(Class<? extends Proxy> class1) {
-		List<Type> genericInterfaces = Arrays.asList(class1.getGenericInterfaces());
-		ParameterizedType parameterisedType = genericInterfaces.stream()
-				.filter(t -> t instanceof ParameterizedType)
-				.map(t -> (ParameterizedType) t)
-				.filter(t -> ( ((Class)((ParameterizedType)t).getRawType()).isAssignableFrom(Proxy.class)))
-				.findFirst()
-				.get();
-		Type genericType = Arrays.asList(parameterisedType.getActualTypeArguments()).stream()
-				.findFirst()
-				.get();
-		return genericType;
-	}
 	
 }

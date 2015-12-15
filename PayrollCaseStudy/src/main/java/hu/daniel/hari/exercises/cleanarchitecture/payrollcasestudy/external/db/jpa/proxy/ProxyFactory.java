@@ -14,9 +14,6 @@ public class ProxyFactory {
 	
 	private @Inject Injector injector;
 	
-	@Deprecated
-	private @Inject ReflectionTesting reflectionTesting;
-	
 	@Inject
 	public ProxyFactory(ProxyAssignmentConfiguration proxyAssignmentConfiguration) {
 		this.proxyAssignmentConfiguration = proxyAssignmentConfiguration;

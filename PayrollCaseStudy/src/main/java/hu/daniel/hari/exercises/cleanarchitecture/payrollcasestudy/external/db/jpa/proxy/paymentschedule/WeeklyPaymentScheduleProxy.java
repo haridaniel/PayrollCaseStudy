@@ -17,8 +17,13 @@ public class WeeklyPaymentScheduleProxy extends WeeklyPaymentSchedule implements
 	}
 
 	@Override
-	public JPAPaymentSchedule getJPAEntity() {
+	public JPAPaymentSchedule getJPAObject() {
 		return jpaPaymentSchedule;
+	}
+
+	@Override
+	public Class<JPAPaymentSchedule> getJPAClass() {
+		return JPAPaymentSchedule.class;
 	}
 
 }
