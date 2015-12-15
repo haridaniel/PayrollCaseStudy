@@ -2,14 +2,14 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentmethod.JPAPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAPaymentSchedule;
 
 @Entity
 public class JPAEmployee {
@@ -23,10 +23,12 @@ public class JPAEmployee {
 	@PrimaryKeyJoinColumn
 	private JPAPaymentClassification jpaPaymentClassification;
 	
-	@Enumerated(EnumType.STRING)
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@PrimaryKeyJoinColumn
 	private JPAPaymentSchedule jpaPaymentSchedule;
 	
-	@Enumerated(EnumType.STRING)
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@PrimaryKeyJoinColumn
 	private JPAPaymentMethod jpaPaymentMethod;
 
 	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})

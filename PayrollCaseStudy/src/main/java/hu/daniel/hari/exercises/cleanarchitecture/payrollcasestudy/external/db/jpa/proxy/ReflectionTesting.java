@@ -27,40 +27,24 @@ public class ReflectionTesting {
 	
 	
 	public ReflectionTesting() throws NoSuchMethodException, SecurityException {
-		
+//		test1();
+		test2();
+	}
+
+
+	private void test2() {
 		Reflections reflections = new Reflections(EmployeeProxy.class.getPackage().getName());
+		Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(JPAProxy.class);
 		
-		Set<Class<? extends Proxy>> allProxyClasses = reflections.getSubTypesOf(Proxy.class);
-		Set<Class<? extends ValueAssignedProxy>> valueAssignedProxyClasses = reflections.getSubTypesOf(ValueAssignedProxy.class);
-		
-		Set<Class<? extends Proxy>> proxyClasses = new HashSet<>(allProxyClasses);
-		proxyClasses.removeAll(valueAssignedProxyClasses);
-		
-		
-
-		Map<Class<?>, Class<?>> proxyClassesByJPAEntityClass = new HashMap<>();
-
-		
-		for (Class<? extends Proxy> proxyClass : allProxyClasses) {
+		for (Class<?> class1 : typesAnnotatedWith) {
+			JPAProxy annotation = class1.getAnnotation(JPAProxy.class);
 			
-			TypeLiteral<? extends Proxy> typeLiteral = TypeLiteral.get(proxyClass);
-			Method method = proxyClass.getMethod("getJPAObject");
-			
-			
-			TypeLiteral<?> parameterType = typeLiteral.getReturnType(method);
-			Type type = parameterType.getType();
-//			Class<?> jpaClass = (Class<?>) type;
-			System.out.println(type);
-			
-//			proxyClassesByJPAEntityClass.put(proxyClass.getClass(), value)
 			
 			System.out.println();
 		}
 		
-		
-		
-		System.out.println(proxyClasses.size());
 	}
+
 
 	
 }

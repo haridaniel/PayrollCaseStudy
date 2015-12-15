@@ -1,10 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentschedule;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ValueAssignedProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.Proxy;
 
-public interface PaymentScheduleProxy extends ValueAssignedProxy<JPAPaymentSchedule> {
-
-	JPAPaymentSchedule getJPAPaymentSchedule();
-
+public interface PaymentScheduleProxy extends Proxy<JPAPaymentSchedule> {
 }

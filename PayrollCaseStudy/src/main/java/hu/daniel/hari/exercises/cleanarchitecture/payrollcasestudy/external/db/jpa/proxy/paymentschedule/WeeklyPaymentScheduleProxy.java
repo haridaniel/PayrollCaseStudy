@@ -1,29 +1,23 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentschedule;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAWeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.JPAProxy;
 
+@JPAProxy
 public class WeeklyPaymentScheduleProxy extends WeeklyPaymentSchedule implements PaymentScheduleProxy {
 	
-	private JPAPaymentSchedule jpaPaymentSchedule;
+	private JPAWeeklyPaymentSchedule jpaPaymentSchedule;
 
-	public WeeklyPaymentScheduleProxy(JPAPaymentSchedule jpaPaymentSchedule) {
+	public WeeklyPaymentScheduleProxy(JPAWeeklyPaymentSchedule jpaPaymentSchedule) {
 		this.jpaPaymentSchedule = jpaPaymentSchedule;
 	}
 	
 	@Override
-	public JPAPaymentSchedule getJPAPaymentSchedule() {
+	public JPAWeeklyPaymentSchedule getJPAObject() {
 		return jpaPaymentSchedule;
 	}
 
-	@Override
-	public JPAPaymentSchedule getJPAObject() {
-		return jpaPaymentSchedule;
-	}
-
-	@Override
-	public Class<JPAPaymentSchedule> getJPAClass() {
-		return JPAPaymentSchedule.class;
-	}
 
 }

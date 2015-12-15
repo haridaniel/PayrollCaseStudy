@@ -13,6 +13,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentmethod.JPAPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.AffiliationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.PaymentClassificationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentmethod.PaymentMethodProxy;
@@ -21,6 +23,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 /**
  * Violates LSP
  */
+@JPAProxy
 public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 
 	private JPAEmployee jpaEmployee;
@@ -33,7 +36,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	@Inject private ProxyFactory proxyFactory;
 	@Inject private EntityManager em;
 	
-	private JPAUpdater updater = new JPAUpdater();
+	private OneToOneRelationsUpdater oneToOneRelationsUpdater = new OneToOneRelationsUpdater();
 	
 	@Inject
 	public EmployeeProxy(JPAEmployee jpaEmployee) {
@@ -105,33 +108,45 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	@Override
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethodProxy = (PaymentMethodProxy) paymentMethod;
-		jpaEmployee.setJpaPaymentMethod(paymentMethodProxy.getJPAPaymentMethod()); 
+		oneToOneRelationsUpdater.update(paymentMethodProxy.getJPAPaymentMethod()); 
 	}
 
 	@Override
 	public void setPaymentClassification(PaymentClassification paymentClassification) {
 		this.paymentClassificationProxy = (PaymentClassificationProxy) paymentClassification;
-		updater.update(paymentClassificationProxy.getJPAPaymentClassification());
+		oneToOneRelationsUpdater.update(paymentClassificationProxy.getJPAPaymentClassification());
 	}
 
 
 	@Override
 	public void setPaymentSchedule(PaymentSchedule paymentSchedule) {
 		this.paymentScheduleProxy = (PaymentScheduleProxy) paymentSchedule;
-		jpaEmployee.setJpaPaymentSchedule(paymentScheduleProxy.getJPAPaymentSchedule());
+		oneToOneRelationsUpdater.update(paymentScheduleProxy.getJPAObject());
 	}
 	
 	@Override
 	public void setAffiliation(Affiliation affiliation) {
 		this.affiliationProxy = (AffiliationProxy) affiliation;
-		updater.update(affiliationProxy.getJpaAffiliation());
+		oneToOneRelationsUpdater.update(affiliationProxy.getJpaAffiliation());
 	}
 
-	private class JPAUpdater {
+	private class OneToOneRelationsUpdater {
 		
 		private void update(JPAAffiliation newValue) {
 			removeOldIfChanged(jpaEmployee.getJpaAffiliation(), newValue, () -> jpaEmployee.setJpaAffiliation(null));
 			jpaEmployee.setJpaAffiliation(newValue);
+			newValue.connect(jpaEmployee);
+		}
+
+		public void update(JPAPaymentSchedule newValue) {
+			removeOldIfChanged(jpaEmployee.getJpaPaymentSchedule(), newValue, () -> jpaEmployee.setJpaPaymentSchedule(null));
+			jpaEmployee.setJpaPaymentSchedule(newValue);
+			newValue.connect(jpaEmployee);
+		}
+
+		public void update(JPAPaymentMethod newValue) {
+			removeOldIfChanged(jpaEmployee.getJpaPaymentMethod(), newValue, () -> jpaEmployee.setJpaPaymentMethod(null));
+			jpaEmployee.setJpaPaymentMethod(newValue);
 			newValue.connect(jpaEmployee);
 		}
 
@@ -154,11 +169,6 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	@Override
 	public JPAEmployee getJPAObject() {
 		return getJpaEmployee();
-	}
-
-	@Override
-	public Class<JPAEmployee> getJPAClass() {
-		return JPAEmployee.class;
 	}
 
 }

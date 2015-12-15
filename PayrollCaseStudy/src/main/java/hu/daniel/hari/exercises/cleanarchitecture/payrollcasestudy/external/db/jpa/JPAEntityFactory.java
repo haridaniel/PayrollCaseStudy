@@ -20,8 +20,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPANoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAUnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.unionmember.JPAServiceCharge;
@@ -30,6 +28,10 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentmethod.JPAHoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPABiWeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAMonthlyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentschedule.JPAWeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.NoAffiliationProxy;
@@ -72,22 +74,22 @@ public class JPAEntityFactory implements EntityFactory {
 
 	@Override
 	public HoldPaymentMethod holdPaymentMethod() {
-		return proxyFactory.create(HoldPaymentMethodProxy.class, JPAPaymentMethod.HOLD);
+		return proxyFactory.create(HoldPaymentMethodProxy.class, new JPAHoldPaymentMethod());
 	}
 
 	@Override
 	public MontlhyPaymentSchedule monthlyPaymentSchedule() {
-		return proxyFactory.create(MonthlyPaymentScheduleProxy.class, JPAPaymentSchedule.MONTHLY);
+		return proxyFactory.create(MonthlyPaymentScheduleProxy.class, new JPAMonthlyPaymentSchedule());
 	}
 
 	@Override
 	public WeeklyPaymentSchedule weeklyPaymentSchedule() {
-		return proxyFactory.create(WeeklyPaymentScheduleProxy.class, JPAPaymentSchedule.WEEKLY);
+		return proxyFactory.create(WeeklyPaymentScheduleProxy.class, new JPAWeeklyPaymentSchedule());
 	}
 
 	@Override
 	public BiWeeklyPaymentSchedule biWeeklyPaymentSchedule() {
-		return proxyFactory.create(BiWeeklyPaymentScheduleProxy.class, JPAPaymentSchedule.BI_WEEKLY);
+		return proxyFactory.create(BiWeeklyPaymentScheduleProxy.class, new JPABiWeeklyPaymentSchedule());
 	}
 
 	@Override
