@@ -4,8 +4,11 @@ import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.unionmember.JPAServiceCharge;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.Proxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
-public class ServiceChargeProxy implements ServiceCharge {
+@AutoBindedProxy(JPAServiceCharge.class)
+public class ServiceChargeProxy implements ServiceCharge, Proxy<JPAServiceCharge> {
 
 	private JPAServiceCharge jpaServiceCharge;
 
@@ -13,10 +16,6 @@ public class ServiceChargeProxy implements ServiceCharge {
 		this.jpaServiceCharge = jpaServiceCharge;
 	}
 	
-	public JPAServiceCharge getJpaServiceCharge() {
-		return jpaServiceCharge;
-	}
-
 	@Override
 	public int getAmount() {
 		return jpaServiceCharge.amount;
@@ -35,6 +34,11 @@ public class ServiceChargeProxy implements ServiceCharge {
 	@Override
 	public void setDate(LocalDate date) {
 		jpaServiceCharge.id.date = date;
+	}
+
+	@Override
+	public JPAServiceCharge getJPAObject() {
+		return jpaServiceCharge;
 	}
 
 }

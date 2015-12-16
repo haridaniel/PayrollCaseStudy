@@ -1,40 +1,18 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy;
 
-import java.lang.reflect.Constructor;
-
 import javax.inject.Inject;
 
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxyFactory;
 
 @Singleton
 public class ProxyFactory {
 
-	private ProxyAssignmentConfiguration proxyAssignmentConfiguration;
-	
-	private @Inject Injector injector;
-	
-	@Inject
-	public ProxyFactory(ProxyAssignmentConfiguration proxyAssignmentConfiguration) {
-		this.proxyAssignmentConfiguration = proxyAssignmentConfiguration;
-	}
+	@Inject private AutoBindedProxyFactory autoBindedProxyFactory;
 	
 	public <T> T create(Class<T> proxyClass, Object jpaEntity) {
-		T proxy = (T) createProxyFor(jpaEntity);
-		injector.injectMembers(proxy);
-		return proxy;
+		return autoBindedProxyFactory.create(proxyClass, jpaEntity);
 	}
 
-	private Object createProxyFor(Object jpaEntity) {
-		return newInstanceWithParameter(proxyAssignmentConfiguration.getProxyClassFor(jpaEntity), jpaEntity);
-	}
-		
-	private <T> T newInstanceWithParameter(Class<T> type, Object parameter) {
-		try {
-			Constructor<T> constructor = type.getDeclaredConstructor(parameter.getClass());
-			return (T) constructor.newInstance(parameter);
-		} catch (Throwable e) {
-			throw new RuntimeException(e);
-		}
-	}
 }

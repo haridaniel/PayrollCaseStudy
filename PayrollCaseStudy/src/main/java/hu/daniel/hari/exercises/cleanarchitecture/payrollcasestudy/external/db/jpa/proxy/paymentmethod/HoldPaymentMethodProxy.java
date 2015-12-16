@@ -3,7 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentmethod.JPAHoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentmethod.JPAPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
+@AutoBindedProxy(JPAHoldPaymentMethod.class)
 public class HoldPaymentMethodProxy extends HoldPaymentMethod implements PaymentMethodProxy {
 
 	private JPAPaymentMethod jpaPaymentMethod;
@@ -11,9 +13,9 @@ public class HoldPaymentMethodProxy extends HoldPaymentMethod implements Payment
 	public HoldPaymentMethodProxy(JPAHoldPaymentMethod jpaPaymentMethod) {
 		this.jpaPaymentMethod = jpaPaymentMethod;
 	}
-	
+
 	@Override
-	public JPAPaymentMethod getJPAPaymentMethod() {
+	public JPAPaymentMethod getJPAObject() {
 		return jpaPaymentMethod;
 	}
 

@@ -10,8 +10,8 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
 
 public class JPAPayrollDatabaseModule {
-//	private static final String PERSISTENCE_UNIT_NAME = "hsql-db";
-	private static final String PERSISTENCE_UNIT_NAME = "postgres-local-db";
+	private static final String PERSISTENCE_UNIT_NAME = "hsql-db";
+//	private static final String PERSISTENCE_UNIT_NAME = "postgres-local-db";
 	
 	private JPAPayrollDatabase jpaPayrollDatabase;
 

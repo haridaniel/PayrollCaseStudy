@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import com.google.inject.assistedinject.Assisted;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
@@ -16,7 +14,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
+@AutoBindedProxy(CommissionedJPAPaymentClassification.class)
 public class CommissionedPaymentClassificationProxy extends CommissionedPaymentClassification implements PaymentClassificationProxy {
 
 	private CommissionedJPAPaymentClassification commissionedJPAPaymentClassification;
@@ -25,7 +25,7 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 	@Inject private ProxyFactory proxyFactory;
 	
 	@Inject
-	public CommissionedPaymentClassificationProxy(@Assisted CommissionedJPAPaymentClassification commissionedJPAPaymentClassification) {
+	public CommissionedPaymentClassificationProxy(CommissionedJPAPaymentClassification commissionedJPAPaymentClassification) {
 		this.commissionedJPAPaymentClassification = commissionedJPAPaymentClassification;
 	}
 
@@ -41,7 +41,7 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 
 	@Override
 	public void addSalesReceipt(SalesReceipt salesReceipt) {
-		commissionedJPAPaymentClassification.addJPASalesReceipt(((SalesReceiptProxy) salesReceipt).getJPASalesReceipt());
+		commissionedJPAPaymentClassification.addJPASalesReceipt(((SalesReceiptProxy) salesReceipt).getJPAObject());
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 	}
 
 	@Override
-	public JPAPaymentClassification getJPAPaymentClassification() {
+	public JPAPaymentClassification getJPAObject() {
 		return commissionedJPAPaymentClassification;
 	}
 

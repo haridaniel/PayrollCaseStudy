@@ -3,7 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPANoAffiliation;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
+@AutoBindedProxy(JPANoAffiliation.class)
 public class NoAffiliationProxy extends NoAffiliation implements AffiliationProxy {
 
 	private JPANoAffiliation jpaNoAffiliation;
@@ -13,7 +15,7 @@ public class NoAffiliationProxy extends NoAffiliation implements AffiliationProx
 	}
 	
 	@Override
-	public JPAAffiliation getJpaAffiliation() {
+	public JPAAffiliation getJPAObject() {
 		return jpaNoAffiliation;
 	}
 

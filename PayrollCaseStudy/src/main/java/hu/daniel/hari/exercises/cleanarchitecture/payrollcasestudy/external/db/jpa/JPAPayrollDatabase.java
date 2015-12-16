@@ -42,7 +42,7 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	
 	@Override
 	public void addEmployee(Employee employee) {
-		jPAEmployeeDao.persist(((EmployeeProxy) employee).getJpaEmployee());
+		jPAEmployeeDao.persist(((EmployeeProxy) employee).getJPAObject());
 	}
 
 	@Override

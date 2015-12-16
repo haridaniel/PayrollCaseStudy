@@ -19,11 +19,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.PaymentClassificationProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentmethod.PaymentMethodProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentschedule.PaymentScheduleProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
 /**
  * Violates LSP
  */
-@JPAProxy
+@AutoBindedProxy(JPAEmployee.class)
 public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 
 	private JPAEmployee jpaEmployee;
@@ -43,10 +44,6 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 		this.jpaEmployee = jpaEmployee;
 	}
 
-	public JPAEmployee getJpaEmployee() {
-		return jpaEmployee;
-	}
-	
 	@Override
 	public int getId() {
 		return jpaEmployee.id;
@@ -81,7 +78,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	public PaymentMethod getPaymentMethod() {
 		if(paymentMethodProxy == null)
 			paymentMethodProxy = proxyFactory.create(PaymentMethodProxy.class, jpaEmployee.getJpaPaymentMethod());
-		return paymentMethodProxy;
+		return (PaymentMethod) paymentMethodProxy;
 	}
 	
 	@Override
@@ -108,13 +105,13 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	@Override
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethodProxy = (PaymentMethodProxy) paymentMethod;
-		oneToOneRelationsUpdater.update(paymentMethodProxy.getJPAPaymentMethod()); 
+		oneToOneRelationsUpdater.update(paymentMethodProxy.getJPAObject()); 
 	}
 
 	@Override
 	public void setPaymentClassification(PaymentClassification paymentClassification) {
 		this.paymentClassificationProxy = (PaymentClassificationProxy) paymentClassification;
-		oneToOneRelationsUpdater.update(paymentClassificationProxy.getJPAPaymentClassification());
+		oneToOneRelationsUpdater.update(paymentClassificationProxy.getJPAObject());
 	}
 
 
@@ -127,12 +124,12 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	@Override
 	public void setAffiliation(Affiliation affiliation) {
 		this.affiliationProxy = (AffiliationProxy) affiliation;
-		oneToOneRelationsUpdater.update(affiliationProxy.getJpaAffiliation());
+		oneToOneRelationsUpdater.update(affiliationProxy.getJPAObject());
 	}
 
 	private class OneToOneRelationsUpdater {
 		
-		private void update(JPAAffiliation newValue) {
+		public void update(JPAAffiliation newValue) {
 			removeOldIfChanged(jpaEmployee.getJpaAffiliation(), newValue, () -> jpaEmployee.setJpaAffiliation(null));
 			jpaEmployee.setJpaAffiliation(newValue);
 			newValue.connect(jpaEmployee);
@@ -150,7 +147,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 			newValue.connect(jpaEmployee);
 		}
 
-		private void update(JPAPaymentClassification newValue) {
+		public void update(JPAPaymentClassification newValue) {
 			removeOldIfChanged(jpaEmployee.getJpaPaymentClassification(), newValue, () -> jpaEmployee.setJpaPaymentClassification(null));
 			jpaEmployee.setJpaPaymentClassification(newValue);
 			newValue.connect(jpaEmployee);
@@ -168,7 +165,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 
 	@Override
 	public JPAEmployee getJPAObject() {
-		return getJpaEmployee();
+		return jpaEmployee;
 	}
 
 }

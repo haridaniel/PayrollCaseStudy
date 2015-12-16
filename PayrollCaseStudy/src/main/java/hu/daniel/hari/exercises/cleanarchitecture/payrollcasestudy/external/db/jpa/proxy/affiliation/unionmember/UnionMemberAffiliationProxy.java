@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import com.google.inject.assistedinject.Assisted;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
@@ -17,7 +15,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.unionmember.JPAServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.affiliation.AffiliationProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
+@AutoBindedProxy(JPAUnionMemberAffiliation.class)
 public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implements AffiliationProxy {
 
 	private JPAUnionMemberAffiliation jpaUnionMemberAffiliation;
@@ -42,7 +42,7 @@ public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implemen
 
 	@Override
 	public void addServiceCharge(ServiceCharge serviceCharge) {
-		jpaUnionMemberAffiliation.addServiceCharge(((ServiceChargeProxy) serviceCharge).getJpaServiceCharge());
+		jpaUnionMemberAffiliation.addServiceCharge(((ServiceChargeProxy) serviceCharge).getJPAObject());
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implemen
 	}
 
 	@Override
-	public JPAAffiliation getJpaAffiliation() {
+	public JPAAffiliation getJPAObject() {
 		return jpaUnionMemberAffiliation;
 	}
 

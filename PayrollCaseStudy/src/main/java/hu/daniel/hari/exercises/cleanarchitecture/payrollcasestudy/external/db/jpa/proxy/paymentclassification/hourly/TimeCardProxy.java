@@ -3,9 +3,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.
 import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.Proxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
-public class TimeCardProxy extends TimeCard {
+@AutoBindedProxy(JPATimeCard.class)
+public class TimeCardProxy extends TimeCard implements Proxy<JPATimeCard> {
 
 	private JPATimeCard jpaTimeCard;
 
@@ -33,7 +37,8 @@ public class TimeCardProxy extends TimeCard {
 		jpaTimeCard.workingHourQty = workingHourQty;
 	}
 
-	public JPATimeCard getJPATimeCard() {
+	@Override
+	public JPATimeCard getJPAObject() {
 		return jpaTimeCard;
 	}
 	

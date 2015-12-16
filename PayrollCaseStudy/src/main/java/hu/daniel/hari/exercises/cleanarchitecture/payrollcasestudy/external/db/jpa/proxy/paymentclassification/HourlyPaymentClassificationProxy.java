@@ -6,9 +6,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPATimeCardDao;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.paymentclassification.hourly.JPATimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 
+@AutoBindedProxy(HourlyJPAPaymentClassification.class)
 public class HourlyPaymentClassificationProxy extends HourlyPaymentClassification implements PaymentClassificationProxy {
 
 	private HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
@@ -27,7 +30,7 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	@Inject private ProxyFactory proxyFactory;
 
 	@Inject
-	public HourlyPaymentClassificationProxy(@Assisted HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
+	public HourlyPaymentClassificationProxy(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
 		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
 	}
 	
@@ -43,7 +46,7 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	
 	@Override
 	public void addTimeCard(TimeCard timeCard) {
-		hourlyJPAPaymentClassification.addJPATimeCard(((TimeCardProxy) timeCard).getJPATimeCard());
+		hourlyJPAPaymentClassification.addJPATimeCard(((TimeCardProxy) timeCard).getJPAObject());
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	}
 
 	@Override
-	public JPAPaymentClassification getJPAPaymentClassification() {
+	public JPAPaymentClassification getJPAObject() {
 		return hourlyJPAPaymentClassification;
 	}
 	
