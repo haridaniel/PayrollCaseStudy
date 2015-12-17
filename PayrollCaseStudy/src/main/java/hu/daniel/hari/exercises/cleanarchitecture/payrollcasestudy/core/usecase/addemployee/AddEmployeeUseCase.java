@@ -1,23 +1,23 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalDatabaseUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
 
 import javax.persistence.EntityTransaction;
 
-public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
+public abstract class AddEmployeeUseCase extends TransactionalUseCase {
 	private int employeeId;
 	private String name;
 	private String address;
 	
 	private Employee employee;
 	
-	public AddEmployeeUseCase(PayrollDatabase payrollDatabase, int employeeId, String name, String address) {
-		super(payrollDatabase);
+	public AddEmployeeUseCase(Database database, int employeeId, String name, String address) {
+		super(database);
 		this.employeeId = employeeId;
 		this.name = name;
 		this.address = address;
@@ -25,13 +25,13 @@ public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
 	
 	@Override
 	protected final void executeInTransaction() {
-		employee = payrollDatabase.factory().employee();
+		employee = entityGateway.factory().employee();
 		
 		setFields();
 		setDefaultFields();
 		setEmployeeTypeSpecificFields();
 				
-		payrollDatabase.addEmployee(employee);
+		entityGateway.addEmployee(employee);
 	}
 
 	private void setFields() {
@@ -41,8 +41,8 @@ public abstract class AddEmployeeUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	private void setDefaultFields() {
-		employee.setPaymentMethod(payrollDatabase.factory().holdPaymentMethod());
-		employee.setAffiliation(payrollDatabase.factory().noAffiliation());
+		employee.setPaymentMethod(entityGateway.factory().holdPaymentMethod());
+		employee.setAffiliation(entityGateway.factory().noAffiliation());
 	}
 
 	private void setEmployeeTypeSpecificFields() {

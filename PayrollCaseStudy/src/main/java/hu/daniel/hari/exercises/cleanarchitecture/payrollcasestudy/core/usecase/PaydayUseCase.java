@@ -6,23 +6,23 @@ import java.util.Collection;
 
 import javax.persistence.EntityTransaction;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
 
-public class PaydayUseCase extends TransactionalDatabaseUseCase {
+public class PaydayUseCase extends TransactionalUseCase {
 
 	private LocalDate payDate;
 	private Collection<PayCheck> payChecks = new ArrayList<>();
 
-	public PaydayUseCase(PayrollDatabase payrollDatabase, LocalDate payDate) {
-		super(payrollDatabase);
+	public PaydayUseCase(Database database, LocalDate payDate) {
+		super(database);
 		this.payDate = payDate;
 	}
 
 	@Override
 	protected void executeInTransaction() {
-		Collection<Employee> employees = payrollDatabase.getAllEmployees();
+		Collection<Employee> employees = entityGateway.getAllEmployees();
 		
 		for (Employee employee : employees) {
 			if(employee.isPayDate(payDate)) {

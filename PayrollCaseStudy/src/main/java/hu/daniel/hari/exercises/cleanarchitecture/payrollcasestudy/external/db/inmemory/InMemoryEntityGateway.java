@@ -5,18 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 
-public class InMemoryPayrollDatabase implements PayrollDatabase {
+public class InMemoryEntityGateway implements EntityGateway {
 
 	private Map<Integer, Employee> employeesById = new HashMap<>();
-
+	
 	@Override
 	public EntityFactory factory() {
 		return new InMemoryEntityFactory();
@@ -44,17 +43,12 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 		return new ArrayList<>(employeesById.values());
 	}
 	
-	@Override
-	public void clearDatabaseInTransaction() {
-		employeesById.clear();
-	}
 
 	@Override
 	public void deleteEmployee(int employeeId) {
 		employeesById.remove(employeeId);
 	}
 
-	@Override
 	public EntityTransaction getTransaction() {
 		return new DummyTransaction();
 	}
@@ -68,6 +62,11 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
 				.findFirst()
 				.orElseThrow(() -> new NoEmployeeWithSuchUnionMemberIdException())
 				.getId();
+	}
+
+	@Override
+	public void deleteAllEmployees() {
+		employeesById.clear();
 	}
 
 }

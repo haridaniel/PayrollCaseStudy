@@ -2,7 +2,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.integrationt
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
@@ -39,13 +41,21 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
 	
-	public PaydayUseCaseITTest(PayrollDatabase payrollDatabase) {
-		super(payrollDatabase);
+	private Database database;
+	private EntityGateway entityGateway;
+	private TransactionalRunner transactionalRunner;
+	
+	public PaydayUseCaseITTest(Database database) {
+		this.database = database;
+		entityGateway = database.getEntityGateway();
+		transactionalRunner = database.getTransactionalRunner();
 	}
 	
 	@Before
-	public void clearDatabase() {
-		database.clearDatabaseInTransaction();
+	public void clearDatabaseInTransaction() {
+		transactionalRunner.executeInTransaction(() -> {
+			entityGateway.deleteAllEmployees();
+		});
 	}
 
 	@Test
@@ -297,7 +307,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	}
 
 	private Employee employee() {
-		Employee employee = database.factory().employee();
+		Employee employee = entityGateway.factory().employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;

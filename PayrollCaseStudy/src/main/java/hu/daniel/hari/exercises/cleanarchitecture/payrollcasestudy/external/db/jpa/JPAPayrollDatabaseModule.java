@@ -7,26 +7,22 @@ import com.google.inject.Stage;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 
 public class JPAPayrollDatabaseModule {
-	private static final String PERSISTENCE_UNIT_NAME = "hsql-db";
-//	private static final String PERSISTENCE_UNIT_NAME = "postgres-local-db";
-	
-	private JPAPayrollDatabase jpaPayrollDatabase;
+	private JPADatabase jpaPayrollDatabase;
 
-	public JPAPayrollDatabaseModule() {
+	public JPAPayrollDatabaseModule(String persistenceUnitName) {
 		Injector injector = Guice.createInjector(Stage.DEVELOPMENT,
 				new GuiceModule(),
-				new JpaPersistModule(PERSISTENCE_UNIT_NAME)
+				new JpaPersistModule(persistenceUnitName)
 				);
 		injector.getInstance(PersistService.class).start();
 
-		jpaPayrollDatabase = injector.getInstance(JPAPayrollDatabase.class);
-		
+		jpaPayrollDatabase = injector.getInstance(JPADatabase.class);
 	}
 	
-	public PayrollDatabase getPayrollDatabase() {
+	public Database getPayrollDatabase() {
 		return jpaPayrollDatabase;
 	}
 

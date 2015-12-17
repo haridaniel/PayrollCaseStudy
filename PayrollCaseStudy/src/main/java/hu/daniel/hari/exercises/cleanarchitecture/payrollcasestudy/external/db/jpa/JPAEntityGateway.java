@@ -5,41 +5,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.EmployeeProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 
-public class JPAPayrollDatabase implements PayrollDatabase {
-
+public class JPAEntityGateway implements EntityGateway {
 	@Inject private JPAEntityFactory jpaEntityFactory;
 	@Inject private JPAEmployeeDao jPAEmployeeDao;
-	@Inject private TransactionProvider transactionProvider;
 	@Inject private ProxyFactory proxyFactory;
-	
+
 	@Override
 	public EntityFactory factory() {
 		return jpaEntityFactory;
 	}
-	
+
 	@Inject
-	public JPAPayrollDatabase(JPAEmployeeDao jPAEmployeeDao, JPAEntityFactory jpaEntityFactory) {
+	public JPAEntityGateway(JPAEmployeeDao jPAEmployeeDao, JPAEntityFactory jpaEntityFactory) {
 		this.jPAEmployeeDao = jPAEmployeeDao;
 		this.jpaEntityFactory = jpaEntityFactory;
 	}
 
-	@Override
-	public EntityTransaction getTransaction() {
-		return transactionProvider.getTransaction();
-	}
-	
 	@Override
 	public void addEmployee(Employee employee) {
 		jPAEmployeeDao.persist(((EmployeeProxy) employee).getJPAObject());
@@ -56,7 +47,7 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 		if(jpaEmployee == null)
 			throw new NoSuchEmployeeException();
 	}
-	
+
 	@Override
 	public Collection<Employee> getAllEmployees() {
 		return proxyAll(jPAEmployeeDao.findAll());
@@ -66,11 +57,10 @@ public class JPAPayrollDatabase implements PayrollDatabase {
 	public void deleteEmployee(int employeeId) {
 		jPAEmployeeDao.delete(employeeId);
 	}
-	
+
 	@Override
-	public void clearDatabaseInTransaction() {
-		executeInTransaction(() -> 
-			jPAEmployeeDao.deleteAll());
+	public void deleteAllEmployees() {
+		jPAEmployeeDao.deleteAll();
 	}
 
 	private Collection<Employee> proxyAll(List<JPAEmployee> findAll) {

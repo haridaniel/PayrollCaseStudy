@@ -1,19 +1,20 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 
-public class DeleteEmployeeUseCase extends TransactionalDatabaseUseCase {
+public class DeleteEmployeeUseCase extends TransactionalUseCase {
 
 	private int employeeId;
 
-	public DeleteEmployeeUseCase(PayrollDatabase payrollDatabase, int employeeId) {
-		super(payrollDatabase);
+	public DeleteEmployeeUseCase(Database database, int employeeId) {
+		super(database);
 		this.employeeId = employeeId;
 	}
 
 	@Override
 	protected void executeInTransaction() {
-		payrollDatabase.deleteEmployee(employeeId);
+		entityGateway.deleteEmployee(employeeId);
 	}
 
 }

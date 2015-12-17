@@ -16,6 +16,19 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.BiWeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.BiWeeklyPaymentScheduleImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.CommissionedPaymentClassificationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.EmployeeImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.HoldPaymentMethodImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.HourlyPaymentClassificationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.MonthlyPaymentScheduleImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.NoAffiliationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.SalariedPaymentClassificationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.SalesReceiptImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.ServiceChargeImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.TimeCardImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.UnionMemberAffiliationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.WeeklyPaymentScheduleImpl;
 
 public class InMemoryEntityFactory implements EntityFactory {
 

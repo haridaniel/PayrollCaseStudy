@@ -1,26 +1,26 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalDatabaseUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
 
-public class ChangeEmployeeRemoveUnionMemberAffiliationUseCase extends TransactionalDatabaseUseCase {
+public class ChangeEmployeeRemoveUnionMemberAffiliationUseCase extends TransactionalUseCase {
 	
 	private int unionMemberId;
 
-	public ChangeEmployeeRemoveUnionMemberAffiliationUseCase(PayrollDatabase database, int unionMemberId) {
+	public ChangeEmployeeRemoveUnionMemberAffiliationUseCase(Database database, int unionMemberId) {
 		super(database);
 		this.unionMemberId = unionMemberId;
 	}
 
 	@Override
 	protected void executeInTransaction() {
-		getEmployeeByUnionMemberId().setAffiliation(payrollDatabase.factory().noAffiliation());
+		getEmployeeByUnionMemberId().setAffiliation(entityGateway.factory().noAffiliation());
 	}
 
 	private Employee getEmployeeByUnionMemberId() {
-		return payrollDatabase.getEmployee(payrollDatabase.getEmployeeIdByUnionMemberId(unionMemberId));
+		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	

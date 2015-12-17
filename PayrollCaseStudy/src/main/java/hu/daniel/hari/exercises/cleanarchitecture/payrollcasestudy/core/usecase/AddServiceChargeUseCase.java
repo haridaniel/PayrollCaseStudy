@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
@@ -12,12 +12,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase.TriedToAddSalesReceiptToNonCommissionedEmployeeException;
 
-public class AddServiceChargeUseCase extends TransactionalDatabaseUseCase {
+public class AddServiceChargeUseCase extends TransactionalUseCase {
 
 	private AddServiceChargeRequestModel requestModel;
 
-	public AddServiceChargeUseCase(PayrollDatabase payrollDatabase, AddServiceChargeRequestModel addServiceChargeRequestModel) {
-		super(payrollDatabase);
+	public AddServiceChargeUseCase(Database database, AddServiceChargeRequestModel addServiceChargeRequestModel) {
+		super(database);
 		this.requestModel = addServiceChargeRequestModel;
 	}
 
@@ -31,7 +31,7 @@ public class AddServiceChargeUseCase extends TransactionalDatabaseUseCase {
 
 
 	private Employee getEmployeeByUnionMemberId() {
-		return payrollDatabase.getEmployee(payrollDatabase.getEmployeeIdByUnionMemberId(requestModel.unionMemberId));
+		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(requestModel.unionMemberId));
 	}
 
 	private UnionMemberAffiliation castUnionMemberAffiliation(Affiliation affiliation) {
@@ -43,7 +43,7 @@ public class AddServiceChargeUseCase extends TransactionalDatabaseUseCase {
 	}
 
 	private ServiceCharge createServiceCharge() {
-		return payrollDatabase.factory().serviceCharge(requestModel.date, requestModel.amount);
+		return entityGateway.factory().serviceCharge(requestModel.date, requestModel.amount);
 	}
 
 }

@@ -1,14 +1,14 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.PayrollDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 
 public class ChangeEmployeeNameUseCase extends ChangeEmployeeUseCase {
 
 	private String newName;
 
-	public ChangeEmployeeNameUseCase(PayrollDatabase payrollDatabase, int employeeId, String newName) {
-		super(payrollDatabase, employeeId);
+	public ChangeEmployeeNameUseCase(Database database, int employeeId, String newName) {
+		super(database, employeeId);
 		this.newName = newName;
 	}
 

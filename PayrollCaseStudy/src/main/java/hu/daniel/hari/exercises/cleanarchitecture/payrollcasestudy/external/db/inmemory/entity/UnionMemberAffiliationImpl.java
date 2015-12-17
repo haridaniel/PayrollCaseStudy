@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity;
 
 import java.time.LocalDate;
 import java.util.Collection;
