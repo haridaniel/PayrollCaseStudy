@@ -22,7 +22,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.util.autobind.AutoBindedProxy;
 
 /**
- * Violates LSP
+ * Violates LSP by downcasting in the setter methods?
  */
 @AutoBindedProxy(JPAEmployee.class)
 public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
