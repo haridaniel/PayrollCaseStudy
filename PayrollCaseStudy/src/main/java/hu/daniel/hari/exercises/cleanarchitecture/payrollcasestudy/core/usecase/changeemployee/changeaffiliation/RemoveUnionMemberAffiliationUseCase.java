@@ -1,18 +1,23 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class RemoveUnionMemberAffiliationUseCase extends TransactionalUseCase<RemoveUnionMemberAffiliationRequest> {
 	
 	private AffiliationFactory affiliationFactory;
 
-	public RemoveUnionMemberAffiliationUseCase(Database database, AffiliationFactory affiliationFactory) {
-		super(database);
+	public RemoveUnionMemberAffiliationUseCase(
+			TransactionalRunner transactionalRunner, 
+			EmployeeGateway employeeGateway, 
+			AffiliationFactory affiliationFactory
+			) {
+		super(transactionalRunner, employeeGateway);
 		this.affiliationFactory = affiliationFactory;
 	}
 
@@ -22,7 +27,7 @@ public class RemoveUnionMemberAffiliationUseCase extends TransactionalUseCase<Re
 	}
 
 	private Employee getEmployeeByUnionMemberId(int unionMemberId) {
-		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(unionMemberId));
+		return employeeGateway.getEmployee(employeeGateway.getEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	

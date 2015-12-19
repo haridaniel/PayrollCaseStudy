@@ -21,7 +21,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.BiWeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPANoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.model.affiliation.JPAUnionMemberAffiliation;
@@ -51,7 +51,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.paymentschedule.WeeklyPaymentScheduleProxy;
 
 @Singleton
-public class JPAAllEntityFactory implements AllEntityFactory {
+public class JPAAllEntityFactory implements EntityFactory {
 	
 	@Inject private ProxyFactory proxyFactory;
 

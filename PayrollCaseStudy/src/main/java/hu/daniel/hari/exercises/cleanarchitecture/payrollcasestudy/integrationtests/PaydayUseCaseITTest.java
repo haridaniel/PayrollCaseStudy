@@ -10,7 +10,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequest;
@@ -31,7 +31,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddHourlyEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation.AddUnionMemberAffiliationUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
@@ -45,33 +45,33 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	private static final LocalDate THIS_SATURDAY = LocalDate.of(2015, 12, 05);
 	
 	private Database database;
-	private EntityGateway entityGateway;
+	private EmployeeGateway employeeGateway;
 	private TransactionalRunner transactionalRunner;
-	private AllEntityFactory allEntityFactory;
+	private EntityFactory entityFactory;
 	
 	public PaydayUseCaseITTest(Database database) {
 		this.database = database;
-		entityGateway = database.getEntityGateway();
-		transactionalRunner = database.getTransactionalRunner();
-		allEntityFactory = database.allEntityFactory();
+		employeeGateway = database.employeeGateway();
+		transactionalRunner = database.transactionalRunner();
+		entityFactory = database.entityFactory();
 	}
 	
 	@Before
 	public void clearDatabaseInTransaction() {
 		transactionalRunner.executeInTransaction(() -> {
-			entityGateway.deleteAllEmployees();
+			employeeGateway.deleteAllEmployees();
 		});
 	}
 
 	@Test
 	public void paySingleSalariedEmployee_OnNotPayday_ShouldNotCreatePayCheck() throws Exception {
 		//GIVEN
-		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1000));
 
 		//WHEN
 		LocalDate notAPayDate = LAST_DAY_OF_A_MONTH.minusDays(5);
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(notAPayDate));
 		
 		assertTrue(paydayUseCase.getPayChecks().isEmpty());
@@ -80,12 +80,12 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	@Test
 	public void testPaySingleSalariedEmployee() throws Exception {
 		//GIVEN
-		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1000));
 		
 		//WHEN
 		LocalDate date = LAST_DAY_OF_A_MONTH;
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(date));
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
@@ -96,12 +96,12 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	public void testPaySingleCommissionedEmployee_WithoutSales() throws Exception {
 		int biWeeklyBaseSalary = 70_000;
 		double commissionRate = 0.0d;
-		new AddCommissionedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddCommissionedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), biWeeklyBaseSalary, commissionRate));
 		
 		//WHEN
 		LocalDate anEvenFriday = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY.plusDays(14 * 5);
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(anEvenFriday));
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
@@ -117,14 +117,14 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		LocalDate salesReceiptDate1 = payDate;
 		LocalDate salesReceiptDate2 = payDate.minusDays(10);
 		
-		new AddCommissionedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddCommissionedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), biWeeklyBaseSalary, commissionRate));
 		
-		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate1, 10000));
-		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate2, 10000));
+		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate1, 10000));
+		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate2, 10000));
 
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(payDate));
 		
 		//THEN
@@ -142,15 +142,15 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		LocalDate dateInPayPeriod = payDate.minusDays(13);//Only this should be included!
 		LocalDate dateInNextPayPeriod = payDate.plusDays(1);
 		
-		new AddCommissionedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddCommissionedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), biWeeklyBaseSalary, commissionRate));
 		
-		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInPayPeriod, 25000));
-		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInPreviousPayPeriod, 25000));
-		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInNextPayPeriod, 25000));
+		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInPayPeriod, 25000));
+		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInPreviousPayPeriod, 25000));
+		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), dateInNextPayPeriod, 25000));
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(payDate));
 		
 		//THEN
@@ -162,11 +162,11 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	public void testPaySingleHourlyEmployeeNoTimeCard() throws Exception {
 		//GIVEN
 		
-		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 42));
 		//WHEN
 		LocalDate date = THIS_FRIDAY;
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(date));
 		
 		//THEN
@@ -177,14 +177,14 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeOneTimeCard() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 10));
 
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
 						8));
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database); //THIS_FRIDAY
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway); //THIS_FRIDAY
 		paydayUseCase.execute(new PaydayRequest(THIS_FRIDAY));
 		
 		//THEN
@@ -195,16 +195,16 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 10));
 		
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), LAST_SATURDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), LAST_SATURDAY, 
 						4));
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
 						8));
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database); //THIS_FRIDAY
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway); //THIS_FRIDAY
 		paydayUseCase.execute(new PaydayRequest(THIS_FRIDAY));
 		
 		//THEN
@@ -215,18 +215,18 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	@Test
 	public void testPaySingleHourlyEmployeeThreeTimeCardsSpanningTwoPayPeriods() throws Exception {
 		//GIVEN
-		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 10));
 		
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), LAST_FRIDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), LAST_FRIDAY, 
 						4)); //This is previous pay period, should be ignored
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_FRIDAY, 
 						8)); //This is in this pay period
-		new AddTimeCardUseCase(database, allEntityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_SATURDAY, 
+		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory).execute(new AddTimeCardRequest(employee().getId(), THIS_SATURDAY, 
 						4)); //This is next pay period, should be ignored
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(THIS_FRIDAY));
 		
 		//THEN
@@ -239,16 +239,16 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		int weeklyDueAmount = 25;
 		
 		//GIVEN
-		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
 		
-		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
+		new AddUnionMemberAffiliationUseCase(transactionalRunner, employeeGateway, entityFactory)
 				.execute(new AddUnionMemberAffiliationRequest(employee().getId(), 0, weeklyDueAmount));
 		
 		
 		//WHEN
 		LocalDate date = LAST_DAY_OF_A_MONTH_THAT_HAS_4_FRIDAYS;
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(date));
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
@@ -261,17 +261,17 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		LocalDate date = LAST_DAY_OF_A_MONTH;
 		
 		//GIVEN
-		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
-		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
+		new AddUnionMemberAffiliationUseCase(transactionalRunner, employeeGateway, entityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
-		new AddServiceChargeUseCase(database, allEntityFactory)
+		new AddServiceChargeUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory)
 			.execute(new AddServiceChargeRequest(unionMemberId, date, 25));
 		
 		//SERVICECHARGES
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(date));
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
@@ -285,19 +285,19 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 		LocalDate dateNotInPayPeriod = LAST_DAY_OF_A_MONTH.plusDays(1);
 		
 		//GIVEN
-		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
-		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
+		new AddUnionMemberAffiliationUseCase(transactionalRunner, employeeGateway, entityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
-		new AddServiceChargeUseCase(database, allEntityFactory)
+		new AddServiceChargeUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory)
 			.execute(new AddServiceChargeRequest(unionMemberId, dateInPayPeriod, 25));
-		new AddServiceChargeUseCase(database, allEntityFactory)
+		new AddServiceChargeUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory)
 			.execute(new AddServiceChargeRequest(unionMemberId, dateNotInPayPeriod, 25));
 		
 		//SERVICECHARGES
 		
 		//WHEN
-		PaydayUseCase paydayUseCase = new PaydayUseCase(database);
+		PaydayUseCase paydayUseCase = new PaydayUseCase(transactionalRunner, employeeGateway);
 		paydayUseCase.execute(new PaydayRequest(dateInPayPeriod));
 		
 		PayCheck payCheck = getSinglePaycheck(paydayUseCase);
@@ -312,7 +312,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	}
 
 	private Employee employee() {
-		Employee employee = allEntityFactory.employee();
+		Employee employee = entityFactory.employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;

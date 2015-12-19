@@ -4,28 +4,28 @@ import javax.persistence.EntityManager;
 
 import org.mockito.Mockito;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class InMemoryDatabase implements Database {
 
 	private InMemoryTransactionalRunner transactionalRunner = new InMemoryTransactionalRunner();
-	private EntityGateway entityGateway = new InMemoryEntityGateway();
+	private EmployeeGateway employeeGateway = new InMemoryEntityGateway();
 
 	public InMemoryDatabase() {
 		
 	}
 	
 	@Override
-	public TransactionalRunner getTransactionalRunner() {
+	public TransactionalRunner transactionalRunner() {
 		return transactionalRunner;
 	}
 
 	@Override
-	public EntityGateway getEntityGateway() {
-		return entityGateway;
+	public EmployeeGateway employeeGateway() {
+		return employeeGateway;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class InMemoryDatabase implements Database {
 	}
 
 	@Override
-	public AllEntityFactory allEntityFactory() {
+	public EntityFactory entityFactory() {
 		return new InMemoryAllEntityFactory();
 	}
 

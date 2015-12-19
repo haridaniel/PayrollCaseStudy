@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee.EmployeeFactory;
@@ -9,7 +11,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends TransactionalUseCase<R> {
 	private Employee employee;
@@ -18,12 +19,13 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	private AffiliationFactory affiliationFactory;
 	
 	public AddEmployeeUseCase(
-			Database database, 
+			TransactionalRunner transactionalRunner, 
+			EmployeeGateway employeeGateway, 
 			EmployeeFactory employeeFactory, 
-			PaymentMethodFactory paymentMethodFactory,
+			PaymentMethodFactory paymentMethodFactory, 
 			AffiliationFactory affiliationFactory
 			) {
-		super(database);
+		super(transactionalRunner, employeeGateway);
 		this.employeeFactory = employeeFactory;
 		this.paymentMethodFactory = paymentMethodFactory;
 		this.affiliationFactory = affiliationFactory;
@@ -37,7 +39,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		setDefaultFields();
 		setEmployeeTypeSpecificFields(request);
 				
-		entityGateway.addEmployee(employee);
+		employeeGateway.addEmployee(employee);
 	}
 
 	private void setFields(R request) {

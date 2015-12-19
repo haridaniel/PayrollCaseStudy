@@ -5,9 +5,9 @@ import javax.persistence.EntityManager;
 
 import com.google.inject.Singleton;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 @Singleton
@@ -17,19 +17,19 @@ public class JPADatabase implements Database {
 	@Inject private JPATransactionalRunner jpaTransactionalRunner;
 	
 	@Inject private EntityManager entityManager;
-	@Inject private AllEntityFactory allEntityFactory;
+	@Inject private EntityFactory entityFactory;
 
 	@Inject
 	public JPADatabase() {
 	}
 
 	@Override
-	public TransactionalRunner getTransactionalRunner() {
+	public TransactionalRunner transactionalRunner() {
 		return jpaTransactionalRunner;
 	}
 
 	@Override
-	public EntityGateway getEntityGateway() {
+	public EmployeeGateway employeeGateway() {
 		return jpaEntityGateway;
 	}
 
@@ -40,8 +40,8 @@ public class JPADatabase implements Database {
 	}
 
 	@Override
-	public AllEntityFactory allEntityFactory() {
-		return allEntityFactory;
+	public EntityFactory entityFactory() {
+		return entityFactory;
 	}
 	
 }

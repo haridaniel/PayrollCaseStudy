@@ -1,17 +1,17 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public abstract class TransactionalUseCase<T extends Request> implements UseCase<T> {
 	private TransactionalRunner transactionalRunner;
-	protected EntityGateway entityGateway;
+	protected EmployeeGateway employeeGateway;
 
-	public TransactionalUseCase(Database database) {
-		transactionalRunner = database.getTransactionalRunner();
-		entityGateway = database.getEntityGateway();
+	public TransactionalUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
+		this.transactionalRunner = transactionalRunner;
+		this.employeeGateway = employeeGateway;
 	}
 
 	@Override

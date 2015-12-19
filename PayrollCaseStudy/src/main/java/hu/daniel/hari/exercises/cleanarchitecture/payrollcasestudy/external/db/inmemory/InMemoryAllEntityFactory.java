@@ -15,7 +15,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.BiWeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.BiWeeklyPaymentScheduleImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.CommissionedPaymentClassificationImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.EmployeeImpl;
@@ -30,7 +30,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.i
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.UnionMemberAffiliationImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.WeeklyPaymentScheduleImpl;
 
-public class InMemoryAllEntityFactory implements AllEntityFactory {
+public class InMemoryAllEntityFactory implements EntityFactory {
 
 	@Override
 	public SalariedPaymentClassification salariedPaymentClassification(int monthlySalary) {

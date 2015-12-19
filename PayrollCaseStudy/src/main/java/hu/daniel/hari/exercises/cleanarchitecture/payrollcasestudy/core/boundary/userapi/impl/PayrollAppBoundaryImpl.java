@@ -19,21 +19,21 @@ public class PayrollAppBoundaryImpl implements PayrollAppBoundary {
 
 	@Override
 	public void addSalariedEmployeeTransaction(int employeeId, String name, String address, int monthlySalary) {
-		new AddSalariedEmployeeUseCase(database, null, null, null, null, null)
+		new AddSalariedEmployeeUseCase(null, null, null, null, null, null, null)
 				.execute(new AddSalariedEmployeeRequest(employeeId, name, address, monthlySalary));
 
 	}
 
 	@Override
 	public void deleteEmployeeTransaction(int employeeId) {
-		new DeleteEmployeeUseCase(database)
+		new DeleteEmployeeUseCase(database.transactionalRunner(), database.employeeGateway())
 				.execute(new DeleteEmployeeRequest(employeeId));
 
 	}
 
 	@Override
 	public void changeEmployeeNameTransaction(int employeeId, String newName) {
-		new ChangeEmployeeNameUseCase(database)
+		new ChangeEmployeeNameUseCase(null, null)
 				.execute(new ChangeEmployeeNameRequest(employeeId, newName));
 
 	}

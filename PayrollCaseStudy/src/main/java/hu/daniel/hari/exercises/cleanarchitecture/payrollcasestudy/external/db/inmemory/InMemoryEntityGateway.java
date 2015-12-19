@@ -7,11 +7,11 @@ import java.util.Map;
 
 import javax.persistence.EntityTransaction;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
 
-public class InMemoryEntityGateway implements EntityGateway {
+public class InMemoryEntityGateway implements EmployeeGateway {
 
 	private Map<Integer, Employee> employeesById = new HashMap<>();
 	

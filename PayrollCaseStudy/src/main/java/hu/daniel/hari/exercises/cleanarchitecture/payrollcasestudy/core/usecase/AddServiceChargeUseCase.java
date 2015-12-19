@@ -1,25 +1,25 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge.ServiceChargeFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase.TriedToAddSalesReceiptToNonCommissionedEmployeeException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class AddServiceChargeUseCase extends TransactionalUseCase<AddServiceChargeRequest> {
 
 	private ServiceChargeFactory serviceChargeFactory;
 
-	public AddServiceChargeUseCase(Database database, ServiceChargeFactory serviceChargeFactory) {
-		super(database);
+	public AddServiceChargeUseCase(
+			TransactionalRunner transactionalRunner, 
+			EmployeeGateway employeeGateway, 
+			ServiceChargeFactory serviceChargeFactory
+			) {
+		super(transactionalRunner, employeeGateway);
 		this.serviceChargeFactory = serviceChargeFactory;
 	}
 
@@ -33,7 +33,7 @@ public class AddServiceChargeUseCase extends TransactionalUseCase<AddServiceChar
 
 
 	private Employee getEmployeeByUnionMemberId(int unionMemberId) {
-		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(unionMemberId));
+		return employeeGateway.getEmployee(employeeGateway.getEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	private UnionMemberAffiliation castUnionMemberAffiliation(Affiliation affiliation) {

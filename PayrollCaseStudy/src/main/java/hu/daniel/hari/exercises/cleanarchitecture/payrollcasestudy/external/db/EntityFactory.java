@@ -9,7 +9,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
 
-public interface AllEntityFactory extends 
+public interface EntityFactory extends 
 	EmployeeFactory, 
 	PaymentClassificationFactory, 
 	PaymentMethodFactory,

@@ -15,7 +15,7 @@ public class AddTimeCardUseCaseFactoryImpl implements AddTimeCardUseCaseFactory 
 
 	@Override
 	public AddTimeCardUseCase create() {
-		return new AddTimeCardUseCase(database, database.allEntityFactory());
+		return new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), database.entityFactory());
 	}
 
 }

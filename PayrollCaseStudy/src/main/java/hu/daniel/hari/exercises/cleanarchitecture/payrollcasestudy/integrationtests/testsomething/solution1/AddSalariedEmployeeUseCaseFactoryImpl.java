@@ -14,7 +14,7 @@ public class AddSalariedEmployeeUseCaseFactoryImpl  implements AddSalariedEmploy
 
 	@Override
 	public AddSalariedEmployeeUseCase create() {
-		return new AddSalariedEmployeeUseCase(database, null, null, null, null, null);
+		return new AddSalariedEmployeeUseCase(null, null, null, null, null, null, null);
 	}
 
 }
