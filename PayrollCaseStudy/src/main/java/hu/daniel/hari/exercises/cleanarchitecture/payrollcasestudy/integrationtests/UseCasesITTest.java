@@ -12,7 +12,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
@@ -52,6 +51,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeNameUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation.AddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class UseCasesITTest extends AbstractDatabaseITTest {
 
@@ -60,11 +61,13 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	private Database database;
 	private EntityGateway entityGateway;
 	private TransactionalRunner transactionalRunner;
+	private AllEntityFactory allEntityFactory;
 
 	public UseCasesITTest(Database database) {
 		this.database = database;
 		entityGateway = database.getEntityGateway();
 		transactionalRunner = database.getTransactionalRunner();
+		allEntityFactory = database.allEntityFactory();
 	}
 
 	@Before
@@ -76,7 +79,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddSalariedEmployeeUseCase() throws Exception {
-		new AddSalariedEmployeeUseCase(database).execute(new AddSalariedEmployeeRequest(1, "Bob", "Home", 150_000));
+		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory).execute(new AddSalariedEmployeeRequest(1, "Bob", "Home", 150_000));
 
 		Employee employee = entityGateway.getEmployee(1);
 		
@@ -88,7 +91,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddHourlyEmployeeUseCase() throws Exception {
-		new AddHourlyEmployeeUseCase(database).execute(new AddHourlyEmployeeRequest(1, "Bob", "Home", 100));
+		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory).execute(new AddHourlyEmployeeRequest(1, "Bob", "Home", 100));
 		
 		Employee employee = entityGateway.getEmployee(1);
 		
@@ -99,12 +102,12 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddTimeCardUseCase() throws Exception {
-		new AddHourlyEmployeeUseCase(database)
+		new AddHourlyEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 115));
 		
 		LocalDate timecardDate = A_DATE;
 		
-		new AddTimeCardUseCase(database)
+		new AddTimeCardUseCase(database, allEntityFactory)
 				.execute(new AddTimeCardRequest(employee().getId(), timecardDate, 8));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
@@ -117,7 +120,8 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddCommissionedEmployeeUseCase() throws Exception {
 		int biWeeklyBaseSalary = 70_000;
 		double commissionRate = 0.1d;
-		new AddCommissionedEmployeeUseCase(database).execute(new AddCommissionedEmployeeRequest(1, "Bob", "Home", biWeeklyBaseSalary, commissionRate));
+		new AddCommissionedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+			.execute(new AddCommissionedEmployeeRequest(1, "Bob", "Home", biWeeklyBaseSalary, commissionRate));
 		
 		Employee employee = entityGateway.getEmployee(1);
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
@@ -129,9 +133,10 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddSalesReceiptUseCase() throws Exception {
-		new AddCommissionedEmployeeUseCase(database).execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0, (double) 0));
+		new AddCommissionedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
+			.execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0, (double) 0));
 		LocalDate salesReceiptDate = A_DATE;
-		new AddSalesReceiptUseCase(database).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate, 25000));
+		new AddSalesReceiptUseCase(database, allEntityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate, 25000));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		SalesReceipt salesReceipt = singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
@@ -144,11 +149,11 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddServiceChargeUseCase() throws Exception {
 		int unionMemberId = 7005;
 		
-		new AddSalariedEmployeeUseCase(database)
+		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
-		new AddUnionMemberAffiliationUseCase(database)
+		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
-		new AddServiceChargeUseCase(database)
+		new AddServiceChargeUseCase(database, allEntityFactory)
 			.execute(new AddServiceChargeRequest(unionMemberId, A_DATE, 25));
 		
 		Employee employee = entityGateway.getEmployee(1);
@@ -167,7 +172,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	
 	@Test
 	public void testChangeEmployeeNameUseCase() throws Exception {
-		new AddSalariedEmployeeUseCase(database)
+		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1005));
 		
 		new ChangeEmployeeNameUseCase(database)
@@ -182,9 +187,9 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		int unionMemberId = 7150;
 		int weeklyDueAmount = 25;
 		
-		new AddSalariedEmployeeUseCase(database)
+		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
-		new AddUnionMemberAffiliationUseCase(database)
+		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, weeklyDueAmount));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
@@ -198,11 +203,11 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testChangeEmployeeRemoveUnionMemberAffiliationUseCase() throws Exception {
 		int unionMemberId = 7150;
 		
-		new AddSalariedEmployeeUseCase(database)
+		new AddSalariedEmployeeUseCase(database, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory, allEntityFactory)
 			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1005));
-		new AddUnionMemberAffiliationUseCase(database)
+		new AddUnionMemberAffiliationUseCase(database, allEntityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
-		new RemoveUnionMemberAffiliationUseCase(database)
+		new RemoveUnionMemberAffiliationUseCase(database, allEntityFactory)
 			.execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
@@ -222,7 +227,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	}
 
 	private Employee employee() {
-		Employee employee = entityGateway.factory().employee();
+		Employee employee = allEntityFactory.employee();
 		employee.setId(1);
 		employee.setName("Boob");
 		return employee;

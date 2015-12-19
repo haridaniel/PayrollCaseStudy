@@ -35,5 +35,9 @@ public abstract class Employee {
 		int deductionsAmount = getAffiliation().calculateDeductionsAmount(payInterval);
 		return new PayCheck(grossAmount, deductionsAmount);
 	}
+	
+	public static interface EmployeeFactory {
+		Employee employee();
+	}
 
 }

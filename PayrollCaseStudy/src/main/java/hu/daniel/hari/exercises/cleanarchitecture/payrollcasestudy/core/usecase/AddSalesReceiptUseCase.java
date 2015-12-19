@@ -1,17 +1,21 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt.SalesReceiptFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class AddSalesReceiptUseCase extends TransactionalUseCase<AddSalesReceiptRequest> {
 
-	public AddSalesReceiptUseCase(Database database) {
+	private SalesReceiptFactory salesReceiptFactory;
+
+	public AddSalesReceiptUseCase(Database database, SalesReceiptFactory salesReceiptFactory) {
 		super(database);
+		this.salesReceiptFactory = salesReceiptFactory;
 	}
 
 	@Override
@@ -31,7 +35,7 @@ public class AddSalesReceiptUseCase extends TransactionalUseCase<AddSalesReceipt
 	}
 	
 	private SalesReceipt createSalesReceipt(AddSalesReceiptRequest request) {
-		return entityGateway.factory().salesReceipt(request.date, request.amount);
+		return salesReceiptFactory.salesReceipt(request.date, request.amount);
 	}
 	
 	public static class TriedToAddSalesReceiptToNonCommissionedEmployeeException extends RuntimeException {

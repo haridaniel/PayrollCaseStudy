@@ -1,8 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-
 import java.time.LocalDate;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 
 public abstract class PaymentSchedule {
 	
@@ -22,5 +23,12 @@ public abstract class PaymentSchedule {
 
 	public static class NotPaydayException extends RuntimeException {
 	}
+
+	public static interface PaymentScheduleFactory {
+		MontlhyPaymentSchedule monthlyPaymentSchedule();
+		WeeklyPaymentSchedule weeklyPaymentSchedule();
+		BiWeeklyPaymentSchedule biWeeklyPaymentSchedule();
+	}
+
 	
 }

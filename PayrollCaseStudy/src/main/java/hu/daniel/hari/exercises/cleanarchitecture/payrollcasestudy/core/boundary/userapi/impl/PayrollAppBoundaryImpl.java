@@ -1,6 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.impl;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.PayrollAppBoundary;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.DeleteEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddSalariedEmployeeRequest;
@@ -8,6 +7,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.DeleteEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeNameUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class PayrollAppBoundaryImpl implements PayrollAppBoundary {
 
@@ -19,7 +19,7 @@ public class PayrollAppBoundaryImpl implements PayrollAppBoundary {
 
 	@Override
 	public void addSalariedEmployeeTransaction(int employeeId, String name, String address, int monthlySalary) {
-		new AddSalariedEmployeeUseCase(database)
+		new AddSalariedEmployeeUseCase(database, null, null, null, null, null)
 				.execute(new AddSalariedEmployeeRequest(employeeId, name, address, monthlySalary));
 
 	}

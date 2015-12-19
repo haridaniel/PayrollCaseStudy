@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.persistence.EntityTransaction;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
@@ -16,10 +15,10 @@ public class InMemoryEntityGateway implements EntityGateway {
 
 	private Map<Integer, Employee> employeesById = new HashMap<>();
 	
-	@Override
-	public EntityFactory factory() {
-		return new InMemoryEntityFactory();
-	}
+//	@Override
+//	public EntityFactory factory() {
+//		return new InMemoryEntityFactory();
+//	}
 	
 	@Override
 	public void addEmployee(Employee employee) {

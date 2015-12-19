@@ -4,9 +4,10 @@ import javax.persistence.EntityManager;
 
 import org.mockito.Mockito;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class InMemoryDatabase implements Database {
 
@@ -30,6 +31,11 @@ public class InMemoryDatabase implements Database {
 	@Override
 	public EntityManager getEntityManager() {
 		return Mockito.mock(EntityManager.class);
+	}
+
+	@Override
+	public AllEntityFactory allEntityFactory() {
+		return new InMemoryAllEntityFactory();
 	}
 
 }

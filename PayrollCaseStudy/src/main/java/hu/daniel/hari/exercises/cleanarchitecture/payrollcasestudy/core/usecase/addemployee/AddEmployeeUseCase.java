@@ -1,22 +1,37 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee.EmployeeFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends TransactionalUseCase<R> {
 	private Employee employee;
+	private EmployeeFactory employeeFactory;
+	private PaymentMethodFactory paymentMethodFactory;
+	private AffiliationFactory affiliationFactory;
 	
-	public AddEmployeeUseCase(Database database) {
+	public AddEmployeeUseCase(
+			Database database, 
+			EmployeeFactory employeeFactory, 
+			PaymentMethodFactory paymentMethodFactory,
+			AffiliationFactory affiliationFactory
+			) {
 		super(database);
+		this.employeeFactory = employeeFactory;
+		this.paymentMethodFactory = paymentMethodFactory;
+		this.affiliationFactory = affiliationFactory;
 	}
 	
 	@Override
 	protected final void executeInTransaction(R request) {
-		employee = entityGateway.factory().employee();
+		employee = employeeFactory.employee();
 		
 		setFields(request);
 		setDefaultFields();
@@ -32,8 +47,8 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 
 	private void setDefaultFields() {
-		employee.setPaymentMethod(entityGateway.factory().holdPaymentMethod());
-		employee.setAffiliation(entityGateway.factory().noAffiliation());
+		employee.setPaymentMethod(paymentMethodFactory.holdPaymentMethod());
+		employee.setAffiliation(affiliationFactory.noAffiliation());
 	}
 
 	private void setEmployeeTypeSpecificFields(R request) {

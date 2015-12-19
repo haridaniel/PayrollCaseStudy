@@ -9,5 +9,9 @@ public abstract class SalesReceipt {
 	
 	public abstract void setAmount(int amount);
 	public abstract void setDate(LocalDate date);
+
+	public static interface SalesReceiptFactory {
+		SalesReceipt salesReceipt(LocalDate date, int amount);
+	}	
 	
 }

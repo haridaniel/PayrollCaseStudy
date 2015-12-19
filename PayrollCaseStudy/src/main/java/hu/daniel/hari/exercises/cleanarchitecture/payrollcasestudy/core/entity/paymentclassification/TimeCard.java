@@ -10,4 +10,8 @@ public abstract class TimeCard {
 	public abstract void setDate(LocalDate date); 
 	public abstract void setWorkingHourQty(int workingHourQty); 
 	
+	public static interface TimeCardFactory {
+		TimeCard timeCard(LocalDate date, int workingHoursQty);
+	}
+	
 }

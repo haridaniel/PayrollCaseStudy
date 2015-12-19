@@ -52,10 +52,10 @@ public class ClassPathScannerProxyClassProvider {
 	}
 
 	public Class<?> getProxyClassFor(Class<?> targetClass) {
-		return assertExists(proxyClassesByBindedClass.get(targetClass));
+		return assertNotNull(proxyClassesByBindedClass.get(targetClass));
 	}
 
-	private Class<?> assertExists(Class<?> proxyClass) {
+	private Class<?> assertNotNull(Class<?> proxyClass) {
 		if (proxyClass == null)
 			throw new NoProxyClassFoundException();
 		return proxyClass;

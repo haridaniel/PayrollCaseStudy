@@ -3,10 +3,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase
 import java.util.ArrayList;
 import java.util.Collection;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.PaydayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class PaydayUseCase extends TransactionalUseCase<PaydayRequest> {
 	private Collection<PayCheck> payChecks = new ArrayList<>();

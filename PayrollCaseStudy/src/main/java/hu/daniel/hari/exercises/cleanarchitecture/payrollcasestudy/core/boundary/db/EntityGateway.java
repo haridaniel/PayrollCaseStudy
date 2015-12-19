@@ -6,7 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.E
 
 public interface EntityGateway {
 	
-	EntityFactory factory();
+//	EntityFactory factory();
 	
 	/**
 	 * @throws NoSuchEmployeeException

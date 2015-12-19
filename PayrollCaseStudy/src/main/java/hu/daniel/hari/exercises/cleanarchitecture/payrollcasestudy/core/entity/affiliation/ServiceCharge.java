@@ -9,5 +9,9 @@ public interface ServiceCharge {
 	
 	void setAmount(int amount);
 	void setDate(LocalDate date);
-	
+
+	public static interface ServiceChargeFactory {
+		ServiceCharge serviceCharge(LocalDate date, int amount);
+	}
+
 }

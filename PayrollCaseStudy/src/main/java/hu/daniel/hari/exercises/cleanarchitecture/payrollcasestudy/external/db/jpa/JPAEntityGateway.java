@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.dao.JPAEmployeeDao;
@@ -16,19 +15,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.j
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.jpa.proxy.ProxyFactory;
 
 public class JPAEntityGateway implements EntityGateway {
-	@Inject private JPAEntityFactory jpaEntityFactory;
 	@Inject private JPAEmployeeDao jPAEmployeeDao;
 	@Inject private ProxyFactory proxyFactory;
 
-	@Override
-	public EntityFactory factory() {
-		return jpaEntityFactory;
-	}
-
 	@Inject
-	public JPAEntityGateway(JPAEmployeeDao jPAEmployeeDao, JPAEntityFactory jpaEntityFactory) {
+	public JPAEntityGateway(JPAEmployeeDao jPAEmployeeDao) {
 		this.jPAEmployeeDao = jPAEmployeeDao;
-		this.jpaEntityFactory = jpaEntityFactory;
 	}
 
 	@Override

@@ -7,7 +7,8 @@ import com.google.inject.Stage;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.AllEntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.Database;
 
 public class JPAPayrollDatabaseModule {
 	private JPADatabase jpaPayrollDatabase;
@@ -35,6 +36,7 @@ class GuiceModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
+		bind(AllEntityFactory.class).to(JPAAllEntityFactory.class);
 	}
 	
 }

@@ -2,4 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.
 
 public interface PaymentMethod {
 
+	public static interface PaymentMethodFactory {
+		PaymentMethod holdPaymentMethod();
+	}
+
 }
