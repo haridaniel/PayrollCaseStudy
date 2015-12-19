@@ -35,7 +35,7 @@ public interface EntityFactory {
 	TimeCard timeCard(LocalDate date, int workingHoursQty);
 	SalesReceipt salesReceipt(LocalDate date, int amount);
 	ServiceCharge serviceCharge(LocalDate date, int amount);
-
-
+	
+	
 	
 }

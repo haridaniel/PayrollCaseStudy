@@ -1,22 +1,21 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 
 
-public class AddSalariedEmployeeUseCase extends AddEmployeeUseCase {
+public class AddSalariedEmployeeUseCase extends AddEmployeeUseCase<AddSalariedEmployeeRequest> {
 
-	private int monthlySalary;
-
-	public AddSalariedEmployeeUseCase(Database database, int employeeId, String name, String address, int monthlySalary) {
-		super(database, employeeId, name, address);
-		this.monthlySalary = monthlySalary;
+	public AddSalariedEmployeeUseCase(Database database) {
+		super(database);
 	}
 
 	@Override
-	protected PaymentClassification getPaymentClassification() {
-		return entityGateway.factory().salariedPaymentClassification(monthlySalary);
+	protected PaymentClassification getPaymentClassification(AddSalariedEmployeeRequest request) {
+		return entityGateway.factory().salariedPaymentClassification(request.monthlySalary);
 	}
 
 	@Override

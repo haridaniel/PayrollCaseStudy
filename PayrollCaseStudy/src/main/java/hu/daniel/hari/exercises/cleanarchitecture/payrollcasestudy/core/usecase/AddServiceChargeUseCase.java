@@ -1,8 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.Affiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
@@ -12,26 +13,23 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase.TriedToAddSalesReceiptToNonCommissionedEmployeeException;
 
-public class AddServiceChargeUseCase extends TransactionalUseCase {
+public class AddServiceChargeUseCase extends TransactionalUseCase<AddServiceChargeRequest> {
 
-	private AddServiceChargeRequestModel requestModel;
-
-	public AddServiceChargeUseCase(Database database, AddServiceChargeRequestModel addServiceChargeRequestModel) {
+	public AddServiceChargeUseCase(Database database) {
 		super(database);
-		this.requestModel = addServiceChargeRequestModel;
 	}
 
 	@Override
-	protected void executeInTransaction() {
-		Employee employee = getEmployeeByUnionMemberId();
+	protected void executeInTransaction(AddServiceChargeRequest request) {
+		Employee employee = getEmployeeByUnionMemberId(request.unionMemberId);
 		
 		UnionMemberAffiliation unionMemberAffiliation = castUnionMemberAffiliation(employee.getAffiliation());
-		unionMemberAffiliation.addServiceCharge(createServiceCharge());
+		unionMemberAffiliation.addServiceCharge(createServiceCharge(request));
 	}
 
 
-	private Employee getEmployeeByUnionMemberId() {
-		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(requestModel.unionMemberId));
+	private Employee getEmployeeByUnionMemberId(int unionMemberId) {
+		return entityGateway.getEmployee(entityGateway.getEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	private UnionMemberAffiliation castUnionMemberAffiliation(Affiliation affiliation) {
@@ -42,8 +40,8 @@ public class AddServiceChargeUseCase extends TransactionalUseCase {
 		}
 	}
 
-	private ServiceCharge createServiceCharge() {
-		return entityGateway.factory().serviceCharge(requestModel.date, requestModel.amount);
+	private ServiceCharge createServiceCharge(AddServiceChargeRequest request) {
+		return entityGateway.factory().serviceCharge(request.date, request.amount);
 	}
 
 }

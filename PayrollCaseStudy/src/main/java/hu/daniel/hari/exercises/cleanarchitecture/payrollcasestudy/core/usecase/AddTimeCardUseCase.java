@@ -1,27 +1,24 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
 
-public class AddTimeCardUseCase extends TransactionalUseCase {
+public class AddTimeCardUseCase extends TransactionalUseCase<AddTimeCardRequest> {
 
-	private AddTimeCardRequestModel requestModel;
-
-	public AddTimeCardUseCase(Database database, AddTimeCardRequestModel requestModel) {
+	public AddTimeCardUseCase(Database database) {
 		super(database);
-		this.requestModel = requestModel;
 	}
 
 	@Override
-	protected void executeInTransaction() {
-		Employee employee = entityGateway.getEmployee(requestModel.employeeId);
+	protected void executeInTransaction(AddTimeCardRequest request) {
+		Employee employee = entityGateway.getEmployee(request.employeeId);
 		
 		castHourlyPaymentClassification(employee.getPaymentClassification())
-			.addTimeCard(createTimeCard());
+			.addTimeCard(createTimeCard(request));
 	}
 
 	private HourlyPaymentClassification castHourlyPaymentClassification(PaymentClassification paymentClassification) {
@@ -32,8 +29,8 @@ public class AddTimeCardUseCase extends TransactionalUseCase {
 		}
 	}
 
-	private TimeCard createTimeCard() {
-		return entityGateway.factory().timeCard(requestModel.date, requestModel.workingHoursQty);
+	private TimeCard createTimeCard(AddTimeCardRequest request) {
+		return entityGateway.factory().timeCard(request.date, request.workingHoursQty);
 	}
 	
 	public static class TriedToAddTimeCardToNonHourlyEmployeeException extends RuntimeException {

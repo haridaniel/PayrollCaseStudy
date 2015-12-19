@@ -1,21 +1,20 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 
-public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase {
+public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase<AddHourlyEmployeeRequest> {
 
-	private int hourlyWage;
-
-	public AddHourlyEmployeeUseCase(Database database, int employeeId, String name, String address, int hourlyWage) {
-		super(database, employeeId, name, address);
-		this.hourlyWage = hourlyWage;
+	public AddHourlyEmployeeUseCase(Database database) {
+		super(database);
 	}
 
 	@Override
-	protected PaymentClassification getPaymentClassification() {
-		return entityGateway.factory().hourlyPaymentClassification(hourlyWage);
+	protected PaymentClassification getPaymentClassification(AddHourlyEmployeeRequest request) {
+		return entityGateway.factory().hourlyPaymentClassification(request.hourlyWage);
 	}
 
 	@Override

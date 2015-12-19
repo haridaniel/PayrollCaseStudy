@@ -1,27 +1,25 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
 
-public class AddSalesReceiptUseCase extends TransactionalUseCase {
+public class AddSalesReceiptUseCase extends TransactionalUseCase<AddSalesReceiptRequest> {
 
-	private AddSalesReceiptRequestModel requestModel;
-
-	public AddSalesReceiptUseCase(Database database, AddSalesReceiptRequestModel addSalesReceiptRequestModel) {
+	public AddSalesReceiptUseCase(Database database) {
 		super(database);
-		this.requestModel = addSalesReceiptRequestModel;
 	}
 
 	@Override
-	protected void executeInTransaction() {
-		Employee employee = entityGateway.getEmployee(requestModel.employeeId);
+	protected void executeInTransaction(AddSalesReceiptRequest request) {
+		Employee employee = entityGateway.getEmployee(request.employeeId);
 		
 		castCommissionedPaymentClassification(employee.getPaymentClassification())
-			.addSalesReceipt(createSalesReceipt());
+			.addSalesReceipt(createSalesReceipt(request));
 	}
 
 	private CommissionedPaymentClassification castCommissionedPaymentClassification(PaymentClassification paymentClassification) {
@@ -32,8 +30,8 @@ public class AddSalesReceiptUseCase extends TransactionalUseCase {
 		}
 	}
 	
-	private SalesReceipt createSalesReceipt() {
-		return entityGateway.factory().salesReceipt(requestModel.date, requestModel.amount);
+	private SalesReceipt createSalesReceipt(AddSalesReceiptRequest request) {
+		return entityGateway.factory().salesReceipt(request.date, request.amount);
 	}
 	
 	public static class TriedToAddSalesReceiptToNonCommissionedEmployeeException extends RuntimeException {

@@ -2,14 +2,14 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundar
 
 import java.time.LocalDate;
 
-public class AddSalesReceiptRequestModel {
+public class AddTimeCardRequest implements Request {
 	public final int employeeId;
 	public final LocalDate date;
-	public final int amount;
-	
-	public AddSalesReceiptRequestModel(int employeeId, LocalDate date, int amount) {
+	public final int workingHoursQty;
+
+	public AddTimeCardRequest(int employeeId, LocalDate date, int workingHoursQty) {
 		this.employeeId = employeeId;
 		this.date = date;
-		this.amount = amount;
+		this.workingHoursQty = workingHoursQty;
 	}
 }

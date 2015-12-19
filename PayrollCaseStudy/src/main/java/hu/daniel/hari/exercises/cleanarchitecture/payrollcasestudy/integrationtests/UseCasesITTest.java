@@ -16,9 +16,16 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EntityGateway.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequestModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequestModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequestModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.DeleteEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddCommissionedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddHourlyEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddSalariedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.ChangeEmployeeNameRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
@@ -42,9 +49,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddCommissionedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddHourlyEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeAddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeNameUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeRemoveUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation.AddUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
 
 public class UseCasesITTest extends AbstractDatabaseITTest {
 
@@ -69,7 +76,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddSalariedEmployeeUseCase() throws Exception {
-		new AddSalariedEmployeeUseCase(database, 1, "Bob", "Home", 150_000).execute();
+		new AddSalariedEmployeeUseCase(database).execute(new AddSalariedEmployeeRequest(1, "Bob", "Home", 150_000));
 
 		Employee employee = entityGateway.getEmployee(1);
 		
@@ -81,7 +88,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddHourlyEmployeeUseCase() throws Exception {
-		new AddHourlyEmployeeUseCase(database, 1, "Bob", "Home", 100).execute();
+		new AddHourlyEmployeeUseCase(database).execute(new AddHourlyEmployeeRequest(1, "Bob", "Home", 100));
 		
 		Employee employee = entityGateway.getEmployee(1);
 		
@@ -92,14 +99,13 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddTimeCardUseCase() throws Exception {
-		new AddHourlyEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 115)
-			.execute();
+		new AddHourlyEmployeeUseCase(database)
+			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 115));
 		
 		LocalDate timecardDate = A_DATE;
 		
-		new AddTimeCardUseCase(database,
-				new AddTimeCardRequestModel(employee().getId(), timecardDate, 8))
-				.execute();
+		new AddTimeCardUseCase(database)
+				.execute(new AddTimeCardRequest(employee().getId(), timecardDate, 8));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification())
@@ -111,7 +117,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddCommissionedEmployeeUseCase() throws Exception {
 		int biWeeklyBaseSalary = 70_000;
 		double commissionRate = 0.1d;
-		new AddCommissionedEmployeeUseCase(database, 1, "Bob", "Home", biWeeklyBaseSalary, commissionRate).execute();
+		new AddCommissionedEmployeeUseCase(database).execute(new AddCommissionedEmployeeRequest(1, "Bob", "Home", biWeeklyBaseSalary, commissionRate));
 		
 		Employee employee = entityGateway.getEmployee(1);
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
@@ -123,9 +129,9 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test
 	public void testAddSalesReceiptUseCase() throws Exception {
-		new AddCommissionedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0, (double) 0).execute();
+		new AddCommissionedEmployeeUseCase(database).execute(new AddCommissionedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0, (double) 0));
 		LocalDate salesReceiptDate = A_DATE;
-		new AddSalesReceiptUseCase(database, new AddSalesReceiptRequestModel(employee().getId(), salesReceiptDate, 25000)).execute();
+		new AddSalesReceiptUseCase(database).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate, 25000));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		SalesReceipt salesReceipt = singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
@@ -138,12 +144,12 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddServiceChargeUseCase() throws Exception {
 		int unionMemberId = 7005;
 		
-		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0)
-			.execute();
-		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, 0)
-			.execute();
-		new AddServiceChargeUseCase(database, new AddServiceChargeRequestModel(unionMemberId, A_DATE, 25))
-			.execute();
+		new AddSalariedEmployeeUseCase(database)
+			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
+		new AddUnionMemberAffiliationUseCase(database)
+			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
+		new AddServiceChargeUseCase(database)
+			.execute(new AddServiceChargeRequest(unionMemberId, A_DATE, 25));
 		
 		Employee employee = entityGateway.getEmployee(1);
 		UnionMemberAffiliation affiliation = (UnionMemberAffiliation) employee.getAffiliation();
@@ -155,17 +161,17 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployeeUseCase() throws Exception {
 		entityGateway.addEmployee(employee());
-		new DeleteEmployeeUseCase(database, employee().getId()).execute();
+		new DeleteEmployeeUseCase(database).execute(new DeleteEmployeeRequest(employee().getId()));
 		entityGateway.getEmployee(employee().getId());
 	}
 	
 	@Test
 	public void testChangeEmployeeNameUseCase() throws Exception {
-		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 1005)
-			.execute();
+		new AddSalariedEmployeeUseCase(database)
+			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1005));
 		
-		new ChangeEmployeeNameUseCase(database, employee().getId(), "Janos")
-			.execute();
+		new ChangeEmployeeNameUseCase(database)
+			.execute(new ChangeEmployeeNameRequest(employee().getId(), "Janos"));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		assertEquals("Janos", employee.getName());
@@ -176,10 +182,10 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		int unionMemberId = 7150;
 		int weeklyDueAmount = 25;
 		
-		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 0)
-			.execute();
-		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, weeklyDueAmount)
-			.execute();
+		new AddSalariedEmployeeUseCase(database)
+			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 0));
+		new AddUnionMemberAffiliationUseCase(database)
+			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, weeklyDueAmount));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		assertThat(employee.getAffiliation(), instanceOf(UnionMemberAffiliation.class));
@@ -192,12 +198,12 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testChangeEmployeeRemoveUnionMemberAffiliationUseCase() throws Exception {
 		int unionMemberId = 7150;
 		
-		new AddSalariedEmployeeUseCase(database, employee().getId(), employee().getName(), employee().getAddress(), 1005)
-			.execute();
-		new ChangeEmployeeAddUnionMemberAffiliationUseCase(database, employee().getId(), unionMemberId, 0)
-			.execute();
-		new ChangeEmployeeRemoveUnionMemberAffiliationUseCase(database, unionMemberId)
-			.execute();
+		new AddSalariedEmployeeUseCase(database)
+			.execute(new AddSalariedEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 1005));
+		new AddUnionMemberAffiliationUseCase(database)
+			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, 0));
+		new RemoveUnionMemberAffiliationUseCase(database)
+			.execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
 		
 		Employee employee = entityGateway.getEmployee(employee().getId());
 		assertThat(employee.getAffiliation(), instanceOf(NoAffiliation.class));

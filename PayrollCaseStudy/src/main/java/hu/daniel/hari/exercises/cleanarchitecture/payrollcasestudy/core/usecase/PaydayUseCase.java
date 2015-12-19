@@ -1,32 +1,27 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.EntityTransaction;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.PaydayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.PayCheck;
 
-public class PaydayUseCase extends TransactionalUseCase {
-
-	private LocalDate payDate;
+public class PaydayUseCase extends TransactionalUseCase<PaydayRequest> {
 	private Collection<PayCheck> payChecks = new ArrayList<>();
 
-	public PaydayUseCase(Database database, LocalDate payDate) {
+	public PaydayUseCase(Database database) {
 		super(database);
-		this.payDate = payDate;
 	}
 
 	@Override
-	protected void executeInTransaction() {
+	protected void executeInTransaction(PaydayRequest request) {
 		Collection<Employee> employees = entityGateway.getAllEmployees();
 		
 		for (Employee employee : employees) {
-			if(employee.isPayDate(payDate)) {
-				payChecks.add(employee.createPayCheck(payDate));
+			if(employee.isPayDate(request.payDate)) {
+				payChecks.add(employee.createPayCheck(request.payDate));
 			}
 		}
 	}

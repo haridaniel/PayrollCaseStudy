@@ -1,43 +1,34 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
 
-import javax.persistence.EntityTransaction;
-
-public abstract class AddEmployeeUseCase extends TransactionalUseCase {
-	private int employeeId;
-	private String name;
-	private String address;
-	
+public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends TransactionalUseCase<R> {
 	private Employee employee;
 	
-	public AddEmployeeUseCase(Database database, int employeeId, String name, String address) {
+	public AddEmployeeUseCase(Database database) {
 		super(database);
-		this.employeeId = employeeId;
-		this.name = name;
-		this.address = address;
 	}
 	
 	@Override
-	protected final void executeInTransaction() {
+	protected final void executeInTransaction(R request) {
 		employee = entityGateway.factory().employee();
 		
-		setFields();
+		setFields(request);
 		setDefaultFields();
-		setEmployeeTypeSpecificFields();
+		setEmployeeTypeSpecificFields(request);
 				
 		entityGateway.addEmployee(employee);
 	}
 
-	private void setFields() {
-		employee.setId(employeeId);
-		employee.setName(name);
-		employee.setAddress(address);
+	private void setFields(R request) {
+		employee.setId(request.employeeId);
+		employee.setName(request.name);
+		employee.setAddress(request.address);
 	}
 
 	private void setDefaultFields() {
@@ -45,12 +36,12 @@ public abstract class AddEmployeeUseCase extends TransactionalUseCase {
 		employee.setAffiliation(entityGateway.factory().noAffiliation());
 	}
 
-	private void setEmployeeTypeSpecificFields() {
-		employee.setPaymentClassification(getPaymentClassification());
+	private void setEmployeeTypeSpecificFields(R request) {
+		employee.setPaymentClassification(getPaymentClassification(request));
 		employee.setPaymentSchedule(getPaymentSchedule());
 	}
 
-	protected abstract PaymentClassification getPaymentClassification();
+	protected abstract PaymentClassification getPaymentClassification(R request);
 	protected abstract PaymentSchedule getPaymentSchedule();
 
 }
