@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.NotPaydayException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.external.db.inmemory.entity.MonthlyPaymentScheduleImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.impl.inmemory.entity.MonthlyPaymentScheduleImpl;
 
 import java.time.LocalDate;
 

@@ -44,5 +44,9 @@ public class AddTimeCardUseCase extends TransactionalUseCase<AddTimeCardRequest>
 	
 	public static class TriedToAddTimeCardToNonHourlyEmployeeException extends RuntimeException {
 	}
+
+	public static interface AddTimeCardUseCaseFactory {
+		AddTimeCardUseCase addTimeCardUseCase();
+	}
 	
 }

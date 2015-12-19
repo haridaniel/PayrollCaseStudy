@@ -11,6 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 
 public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase<AddHourlyEmployeeRequest> {
 	private PaymentClassificationFactory paymentClassificationFactory;
@@ -39,5 +40,5 @@ public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase<AddHourlyEmploy
 	protected PaymentSchedule getPaymentSchedule() {
 		return paymentScheduleFactory.weeklyPaymentSchedule();
 	}
-	
+
 }

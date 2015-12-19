@@ -10,6 +10,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.p
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.TransactionalUseCase;
 
 public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends TransactionalUseCase<R> {
@@ -61,4 +62,10 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	protected abstract PaymentClassification getPaymentClassification(R request);
 	protected abstract PaymentSchedule getPaymentSchedule();
 
+	public static interface AddEmployeeUseCaseFactory {
+		AddSalariedEmployeeUseCase addSalariedEmployeeUseCase();
+		AddHourlyEmployeeUseCase addHourlyEmployeeUseCase();
+		AddCommissionedEmployeeUseCase addCommissionedEmployeeUseCase();
+	}
+	
 }
