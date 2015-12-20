@@ -5,7 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.Database;
 
-public abstract class TransactionalUseCase<T extends Request> implements UseCase<T> {
+public abstract class TransactionalUseCase<R extends Request> implements UseCase<R> {
 	private TransactionalRunner transactionalRunner;
 	protected EmployeeGateway employeeGateway;
 
@@ -15,12 +15,12 @@ public abstract class TransactionalUseCase<T extends Request> implements UseCase
 	}
 
 	@Override
-	public final void execute(T request) {
+	public final void execute(R request) {
 		transactionalRunner.executeInTransaction(() -> {
 			executeInTransaction(request);
 		});
 	}
 
-	protected abstract void executeInTransaction(T request);
+	protected abstract void executeInTransaction(R request);
 
 }

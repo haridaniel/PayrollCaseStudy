@@ -34,5 +34,9 @@ public class PaydayUseCase extends TransactionalUseCase<PaydayRequest> {
 	public Collection<PayCheck> getPayChecks() {
 		return payChecks;
 	}
-	
+
+	public static interface PaydayUseCaseFactory {
+		PaydayUseCase paydayUseCase();
+	}
+
 }

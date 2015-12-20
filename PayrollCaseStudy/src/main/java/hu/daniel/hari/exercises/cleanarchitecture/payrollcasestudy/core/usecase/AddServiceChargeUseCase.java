@@ -48,4 +48,8 @@ public class AddServiceChargeUseCase extends TransactionalUseCase<AddServiceChar
 		return serviceChargeFactory.serviceCharge(request.date, request.amount);
 	}
 
+	public static interface AddServiceChargeUseCaseFactory {
+		AddServiceChargeUseCase addServiceChargeUseCase();
+	}
+	
 }

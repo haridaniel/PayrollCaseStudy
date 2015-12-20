@@ -15,4 +15,8 @@ public class DeleteEmployeeUseCase extends TransactionalUseCase<DeleteEmployeeRe
 		employeeGateway.deleteEmployee(request.employeeId);
 	}
 
+	public static interface DeleteEmployeeUseCaseFactory {
+		DeleteEmployeeUseCase deleteEmployeeUseCase();
+	}
+
 }

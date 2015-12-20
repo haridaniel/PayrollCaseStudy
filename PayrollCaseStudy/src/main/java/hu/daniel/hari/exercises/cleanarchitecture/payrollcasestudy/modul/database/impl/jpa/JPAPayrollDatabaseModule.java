@@ -11,6 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.databas
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.details.EntityFactory;
 
 public class JPAPayrollDatabaseModule {
+
 	private JPADatabase jpaPayrollDatabase;
 
 	public JPAPayrollDatabaseModule(String persistenceUnitName) {

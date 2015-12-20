@@ -3,7 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
@@ -45,4 +44,9 @@ public class AddSalesReceiptUseCase extends TransactionalUseCase<AddSalesReceipt
 	
 	public static class TriedToAddSalesReceiptToNonCommissionedEmployeeException extends RuntimeException {
 	}
+	
+	public static interface AddSalesReceiptUseCaseFactory {
+		AddSalesReceiptUseCase addSalesReceiptUseCaseFactory();
+	}
+	
 }
