@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.testsomething.solution1;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.UseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.UseCase;
 
 public class UseCaseFactoryImpl implements UseCaseFactory {
 

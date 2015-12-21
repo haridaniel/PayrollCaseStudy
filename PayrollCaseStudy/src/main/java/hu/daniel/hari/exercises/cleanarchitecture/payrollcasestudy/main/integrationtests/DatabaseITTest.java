@@ -14,18 +14,18 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway.NoEmployeeWithSuchUnionMemberIdException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway.NoSuchEmployeeException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.Database;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.details.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoEmployeeWithSuchUnionMemberIdException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoSuchEmployeeException;
 
 public class DatabaseITTest extends AbstractDatabaseITTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
@@ -45,7 +45,7 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	@Before
 	public void clearDatabaseInTransaction() {
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.deleteAllEmployees();
+			employeeGateway.deleteAll();
 		});
 	}
 	
@@ -54,22 +54,22 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	public void testTransactionRollback() throws Exception {
 		try {
 			transactionalRunner.executeInTransaction(() -> {
-				employeeGateway.addEmployee(employee());
-				employeeGateway.addEmployee(employee());
+				employeeGateway.addNew(employee());
+				employeeGateway.addNew(employee());
 			});
 			fail("Should have thrown exception for duplicate id");
 		} catch (RuntimeException e) {
 		}
-		assertThat(employeeGateway.getAllEmployees().size(), is(0));
+		assertThat(employeeGateway.findAll().size(), is(0));
 	}
 
 	@Test
 	public void testAddEmployee() {
 		int employeeId = employee().getId();
 		Employee employee = employee();
-		employeeGateway.addEmployee(employee);
+		employeeGateway.addNew(employee);
 
-		Employee returnedEmployee = employeeGateway.getEmployee(employeeId);
+		Employee returnedEmployee = employeeGateway.findById(employeeId);
 		assertNotNull(returnedEmployee);
 		assertEquals(employee.getName(), returnedEmployee.getName());
 
@@ -82,20 +82,20 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		
 		transactionalRunner.executeInTransaction(() -> {
 			testEmployee.setPaymentClassification(entityFactory.salariedPaymentClassification(5566));
-			employeeGateway.addEmployee(testEmployee);
+			employeeGateway.addNew(testEmployee);
 			
 			testEmployee2.setPaymentClassification(entityFactory.hourlyPaymentClassification(13));
-			employeeGateway.addEmployee(testEmployee2);
+			employeeGateway.addNew(testEmployee2);
 		});
 		
 		{
-			Employee employee = employeeGateway.getEmployee(testEmployee.getId());
+			Employee employee = employeeGateway.findById(testEmployee.getId());
 			PaymentClassification paymentClassification = employee.getPaymentClassification();
 			assertEquals(((SalariedPaymentClassification) paymentClassification).getMonthlySalary(), 5566);
 		}
 
 		{
-			Employee employee = employeeGateway.getEmployee(testEmployee2.getId());
+			Employee employee = employeeGateway.findById(testEmployee2.getId());
 			PaymentClassification paymentClassification = employee.getPaymentClassification();
 			assertEquals(((HourlyPaymentClassification) paymentClassification).getHourlyWage(), 13);
 		}
@@ -108,17 +108,17 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		Employee testEmployee = employee();
 		transactionalRunner.executeInTransaction(() -> {
 			testEmployee.setPaymentClassification(entityFactory.salariedPaymentClassification(5566));
-			employeeGateway.addEmployee(testEmployee);
+			employeeGateway.addNew(testEmployee);
 		});
 
 		// WHEN
 		{
-			Employee employee = employeeGateway.getEmployee(testEmployee.getId());
+			Employee employee = employeeGateway.findById(testEmployee.getId());
 			((SalariedPaymentClassification) employee.getPaymentClassification()).setMonthlySalary(4000);
 		}
 
 		// THEN
-		Employee employee = employeeGateway.getEmployee(testEmployee.getId());
+		Employee employee = employeeGateway.findById(testEmployee.getId());
 		assertEquals(4000, ((SalariedPaymentClassification) employee.getPaymentClassification()).getMonthlySalary());
 	}
 
@@ -128,17 +128,17 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		Employee testEmployee = employee();
 		transactionalRunner.executeInTransaction(() -> {
 			testEmployee.setPaymentClassification(entityFactory.hourlyPaymentClassification(60));
-			employeeGateway.addEmployee(testEmployee);
+			employeeGateway.addNew(testEmployee);
 		});
 
 		// WHEN
 		{
-			Employee employee = employeeGateway.getEmployee(testEmployee.getId());
+			Employee employee = employeeGateway.findById(testEmployee.getId());
 			((HourlyPaymentClassification) employee.getPaymentClassification()).setHourlyWage(40);
 		}
 
 		// THEN
-		Employee employee = employeeGateway.getEmployee(testEmployee.getId());
+		Employee employee = employeeGateway.findById(testEmployee.getId());
 		assertEquals(40, ((HourlyPaymentClassification) employee.getPaymentClassification()).getHourlyWage());
 	}
 
@@ -146,37 +146,37 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	public void testClearDatabase() throws Exception {
 		int employeeId = employee().getId();
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.addEmployee(employee());
+			employeeGateway.addNew(employee());
 		});
-		assertNotNull(employeeGateway.getEmployee(employeeId));
+		assertNotNull(employeeGateway.findById(employeeId));
 
 		clearDatabaseInTransaction();
 
-		employeeGateway.getEmployee(employeeId);
+		employeeGateway.findById(employeeId);
 	}
 
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployee() throws Exception {
-		employeeGateway.addEmployee(employee());
-		assertNotNull(employeeGateway.getEmployee(employee().getId()));
+		employeeGateway.addNew(employee());
+		assertNotNull(employeeGateway.findById(employee().getId()));
 
-		employeeGateway.deleteEmployee(employee().getId());
+		employeeGateway.deleteById(employee().getId());
 
-		employeeGateway.getEmployee(employee().getId());
+		employeeGateway.findById(employee().getId());
 	}
 
 	@Test
 	public void testChangeEmployeeName() throws Exception {
-		employeeGateway.addEmployee(employee());
+		employeeGateway.addNew(employee());
 
 		{
 //			EntityTransaction transaction = database.getTransaction();
-			Employee employee = employeeGateway.getEmployee(employee().getId());
+			Employee employee = employeeGateway.findById(employee().getId());
 			employee.setName("Bela");
 //			transaction.commit();
 		}
 
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		assertEquals(employee.getName(), "Bela");
 
 	}
@@ -184,10 +184,10 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	@Test
 	public void testGetAllEmployees() throws Exception {
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.addEmployee(employee());
-			employeeGateway.addEmployee(employee2());
+			employeeGateway.addNew(employee());
+			employeeGateway.addNew(employee2());
 		});
-		Collection<Employee> employees = employeeGateway.getAllEmployees();
+		Collection<Employee> employees = employeeGateway.findAll();
 		assertEquals(2, employees.size());
 	}
 	
@@ -195,12 +195,12 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	public void testAddTimeCard() throws Exception {
 		Employee testEmployeeWithTimeCard = employeeWithOneTimeCard();
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.addEmployee(testEmployeeWithTimeCard);
+			employeeGateway.addNew(testEmployeeWithTimeCard);
 		});
 		
 		database.getEntityManager().clear();
 
-		Employee employee = employeeGateway.getEmployee(testEmployeeWithTimeCard.getId());
+		Employee employee = employeeGateway.findById(testEmployeeWithTimeCard.getId());
 		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification()).getTimeCardsIn(DateInterval.of(THIS_FRIDAY, THIS_FRIDAY)));
 		assertThat(timeCard, notNullValue());
 		assertThat(timeCard.getWorkingHourQty(), is(8));
@@ -212,15 +212,15 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 		employee.setAffiliation(entityFactory.unionMemberAffiliation(7000, 0));
 		
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.addEmployee(employee);
+			employeeGateway.addNew(employee);
 		});
 		
-		assertThat(employeeGateway.getEmployeeIdByUnionMemberId(7000), is(employee.getId()));
+		assertThat(employeeGateway.findByUnionMemberId(7000), is(employee.getId()));
 	}
 	
 	@Test(expected = NoEmployeeWithSuchUnionMemberIdException.class)
 	public void testGetEmployeeIdByUnionMemberId_WithWrongId_ShouldThrow() throws Exception {
-		employeeGateway.getEmployeeIdByUnionMemberId(7999);
+		employeeGateway.findByUnionMemberId(7999);
 	}
 
 	private Employee employee() {

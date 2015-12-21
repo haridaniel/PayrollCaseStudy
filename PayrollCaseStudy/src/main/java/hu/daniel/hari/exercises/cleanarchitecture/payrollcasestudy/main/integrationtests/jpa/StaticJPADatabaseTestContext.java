@@ -1,7 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.jpa;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.impl.jpa.JPAPayrollDatabaseModule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.JPAPayrollDatabaseModule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
 
 public class StaticJPADatabaseTestContext {
 	

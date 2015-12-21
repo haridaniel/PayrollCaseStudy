@@ -12,47 +12,47 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.EmployeeGateway.NoSuchEmployeeException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.db.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddSalesReceiptRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddServiceChargeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.AddTimeCardRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.DeleteEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddCommissionedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddHourlyEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.ChangeEmployeeNameRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.boundary.userapi.requestmodels.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.NoAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.ServiceCharge;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.affiliation.UnionMemberAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalariedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.SalesReceipt;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentmethod.HoldPaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.BiWeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.MontlhyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.PaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.entity.paymentschedule.WeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddSalesReceiptUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddServiceChargeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.AddTimeCardUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.DeleteEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddCommissionedEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddHourlyEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.addemployee.AddSalariedEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeaffiliation.AddUnionMemberAffiliationUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.core.usecase.changeemployee.ChangeEmployeeNameUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.Database;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.modul.database.interfaces.details.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation.NoAffiliation;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation.ServiceCharge;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation.UnionMemberAffiliation;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.CommissionedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalesReceipt;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.BiWeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MontlhyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.PaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.WeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddSalesReceiptUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddServiceChargeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddTimeCardUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.DeleteEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddCommissionedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddHourlyEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddSalariedEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeaffiliation.AddUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeemployee.ChangeEmployeeNameUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoSuchEmployeeException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.AddSalesReceiptRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.AddServiceChargeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.AddTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.DeleteEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddCommissionedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddHourlyEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddSalariedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.changeemployee.ChangeEmployeeNameRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 
 public class UseCasesITTest extends AbstractDatabaseITTest {
 
@@ -73,7 +73,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	@Before
 	public void clearDatabaseInTransaction() {
 		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.deleteAllEmployees();
+			employeeGateway.deleteAll();
 		});
 	}
 
@@ -81,7 +81,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddSalariedEmployeeUseCase() throws Exception {
 		new AddSalariedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory).execute(new AddSalariedEmployeeRequest(1, "Bob", "Home", 150_000));
 
-		Employee employee = employeeGateway.getEmployee(1);
+		Employee employee = employeeGateway.findById(1);
 		
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
 		assertEmployee(employee, "Bob", SalariedPaymentClassification.class, MontlhyPaymentSchedule.class);
@@ -93,7 +93,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 	public void testAddHourlyEmployeeUseCase() throws Exception {
 		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory).execute(new AddHourlyEmployeeRequest(1, "Bob", "Home", 100));
 		
-		Employee employee = employeeGateway.getEmployee(1);
+		Employee employee = employeeGateway.findById(1);
 		
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
 		assertEmployee(employee, "Bob", HourlyPaymentClassification.class, WeeklyPaymentSchedule.class);
@@ -110,7 +110,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new AddTimeCardUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory)
 				.execute(new AddTimeCardRequest(employee().getId(), timecardDate, 8));
 		
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification())
 				.getTimeCardsIn(DateInterval.of(timecardDate, timecardDate)));
 		assertEquals(8, timeCard.getWorkingHourQty());
@@ -123,7 +123,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new AddCommissionedEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddCommissionedEmployeeRequest(1, "Bob", "Home", biWeeklyBaseSalary, commissionRate));
 		
-		Employee employee = employeeGateway.getEmployee(1);
+		Employee employee = employeeGateway.findById(1);
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
 		assertEmployee(employee, "Bob", CommissionedPaymentClassification.class, BiWeeklyPaymentSchedule.class);
 		CommissionedPaymentClassification commissionedPaymentClassification = (CommissionedPaymentClassification) employee.getPaymentClassification();
@@ -138,7 +138,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		LocalDate salesReceiptDate = A_DATE;
 		new AddSalesReceiptUseCase(transactionalRunner, employeeGateway, entityFactory).execute(new AddSalesReceiptRequest(employee().getId(), salesReceiptDate, 25000));
 		
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		SalesReceipt salesReceipt = singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
 				.getSalesReceiptsIn(DateInterval.of(salesReceiptDate, salesReceiptDate)));
 		assertThat(salesReceipt.getAmount(), is(25000));
@@ -156,7 +156,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new AddServiceChargeUseCase(database.transactionalRunner(), database.employeeGateway(), entityFactory)
 			.execute(new AddServiceChargeRequest(unionMemberId, A_DATE, 25));
 		
-		Employee employee = employeeGateway.getEmployee(1);
+		Employee employee = employeeGateway.findById(1);
 		UnionMemberAffiliation affiliation = (UnionMemberAffiliation) employee.getAffiliation();
 		ServiceCharge serviceCharge = singleResult(affiliation.getServiceChargesIn(DateInterval.ofSingleDate(A_DATE)));
 		assertThat(serviceCharge.getAmount(), is(25));
@@ -165,9 +165,9 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testDeleteEmployeeUseCase() throws Exception {
-		employeeGateway.addEmployee(employee());
+		employeeGateway.addNew(employee());
 		new DeleteEmployeeUseCase(database.transactionalRunner(), database.employeeGateway()).execute(new DeleteEmployeeRequest(employee().getId()));
-		employeeGateway.getEmployee(employee().getId());
+		employeeGateway.findById(employee().getId());
 	}
 	
 	@Test
@@ -178,7 +178,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new ChangeEmployeeNameUseCase(transactionalRunner, employeeGateway)
 			.execute(new ChangeEmployeeNameRequest(employee().getId(), "Janos"));
 		
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		assertEquals("Janos", employee.getName());
 	}
 
@@ -192,7 +192,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new AddUnionMemberAffiliationUseCase(transactionalRunner, employeeGateway, entityFactory)
 			.execute(new AddUnionMemberAffiliationRequest(employee().getId(), unionMemberId, weeklyDueAmount));
 		
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		assertThat(employee.getAffiliation(), instanceOf(UnionMemberAffiliation.class));
 		assertThat(((UnionMemberAffiliation) employee.getAffiliation()).getUnionMemberId(), is(unionMemberId));
 		assertThat(((UnionMemberAffiliation) employee.getAffiliation()).getWeeklyDueAmount(), is(weeklyDueAmount));
@@ -210,7 +210,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		new RemoveUnionMemberAffiliationUseCase(transactionalRunner, employeeGateway, entityFactory)
 			.execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
 		
-		Employee employee = employeeGateway.getEmployee(employee().getId());
+		Employee employee = employeeGateway.findById(employee().getId());
 		assertThat(employee.getAffiliation(), instanceOf(NoAffiliation.class));
 	}
 	
