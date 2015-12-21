@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.interfaceadapters.database;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -9,6 +9,8 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.util.Collection;
+
+import javax.inject.Provider;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -22,12 +24,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.enti
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoEmployeeWithSuchUnionMemberIdException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoSuchEmployeeException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
 
-public class DatabaseITTest extends AbstractDatabaseITTest {
+public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	
 	private Database database;
@@ -35,18 +37,11 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	private TransactionalRunner transactionalRunner;
 	private EntityFactory entityFactory;
 
-	public DatabaseITTest(Database database) {
-		this.database = database;
+	public DatabaseITTest(DatabaseProvider databaseProvider) {
+		this.database = databaseProvider.get();
 		employeeGateway = database.employeeGateway();
 		transactionalRunner = database.transactionalRunner();
 		entityFactory = database.entityFactory();
-	}
-	
-	@Before
-	public void clearDatabaseInTransaction() {
-		transactionalRunner.executeInTransaction(() -> {
-			employeeGateway.deleteAll();
-		});
 	}
 	
 	@Ignore
@@ -143,15 +138,17 @@ public class DatabaseITTest extends AbstractDatabaseITTest {
 	}
 
 	@Test(expected = NoSuchEmployeeException.class)
-	public void testClearDatabase() throws Exception {
+	public void testDeleteAllEmployee() throws Exception {
 		int employeeId = employee().getId();
 		transactionalRunner.executeInTransaction(() -> {
 			employeeGateway.addNew(employee());
 		});
 		assertNotNull(employeeGateway.findById(employeeId));
 
-		clearDatabaseInTransaction();
-
+		database.transactionalRunner().executeInTransaction(() -> {
+			database.employeeGateway().deleteAll();
+		});
+		
 		employeeGateway.findById(employeeId);
 	}
 
