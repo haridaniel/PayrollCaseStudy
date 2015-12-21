@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
@@ -54,6 +55,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 
+@Ignore
 public class UseCasesITTest extends AbstractDatabaseITTest {
 
 	private static final LocalDate A_DATE = LocalDate.of(2015, 11, 01);

@@ -1,5 +1,0 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.addemployee.fucking.shit.windows;
-
-public class FuckThisShitYouPieceOfShitMotherFuckerFuckThisShitYouPieceOfShitMotherFucker {
-
-}
