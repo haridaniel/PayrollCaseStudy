@@ -25,7 +25,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.enti
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.BiWeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MontlhyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddSalesReceiptUseCase;
@@ -84,7 +84,7 @@ public class UseCasesITTest extends AbstractDatabaseITTest {
 		Employee employee = employeeGateway.findById(1);
 		
 		assertEmployeeDefaultFieldsAfterAddEmployee(employee);
-		assertEmployee(employee, "Bob", SalariedPaymentClassification.class, MontlhyPaymentSchedule.class);
+		assertEmployee(employee, "Bob", SalariedPaymentClassification.class, MonthlyPaymentSchedule.class);
 		assertThat(((SalariedPaymentClassification) employee.getPaymentClassification()).getMonthlySalary(), is(150_000));
 	}
 

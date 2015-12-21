@@ -5,7 +5,7 @@ import java.time.temporal.TemporalAdjusters;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
 
-public abstract class MontlhyPaymentSchedule extends PaymentSchedule {
+public abstract class MonthlyPaymentSchedule extends PaymentSchedule {
 
 	@Override
 	public boolean isPayDate(LocalDate date) {

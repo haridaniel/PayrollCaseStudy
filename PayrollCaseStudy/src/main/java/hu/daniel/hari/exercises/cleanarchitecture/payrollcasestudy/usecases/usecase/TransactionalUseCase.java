@@ -4,7 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.Request;
 
-public abstract class TransactionalUseCase<R extends Request> extends SingleExecutableUseCase<R> {
+public abstract class TransactionalUseCase<R extends Request> extends OnceExecutableUseCase<R> {
 	private TransactionalRunner transactionalRunner;
 	protected EmployeeGateway employeeGateway;
 
@@ -14,7 +14,7 @@ public abstract class TransactionalUseCase<R extends Request> extends SingleExec
 	}
 
 	@Override
-	public final void doExecute(R request) {
+	protected final void executeOnce(R request) {
 		transactionalRunner.executeInTransaction(() -> {
 			executeInTransaction(request);
 		});

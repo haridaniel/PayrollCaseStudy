@@ -1,0 +1,72 @@
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.addemployee;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation.NoAffiliation;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MonthlyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.PaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddSalariedEmployeeRequest;
+
+public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseITTest {
+
+	public AbstractAddEmployeeUseCaseITTest(DatabaseProvider databaseProvider) {
+		super(databaseProvider);
+	}
+
+	final int employeeId = 1;
+	final String name = "Bob";
+	final String address = "Liverside road";
+	
+	protected void testAddEmployeeUseCase() {
+		when();
+		then(database.employeeGateway().findById(employeeId));
+	}
+
+	private void when() {
+		executeUseCase();
+	}
+
+	protected abstract void executeUseCase();
+
+	private void then(Employee employee) {
+		assertEmployeeDefaultFields(employee);
+		assertEmployeeFields(employee, name, address);
+		assertEmployeeTypeSpecificFields(employee, getPaymentClassificationClass(), getPaymentScheduleClass());
+		doAssertEmployeeTypeSpecificFields(employee);
+	}
+
+	private void assertEmployeeDefaultFields(Employee employee) {
+		assertThat(employee.getPaymentMethod(), instanceOf(HoldPaymentMethod.class));
+		assertThat(employee.getAffiliation(), instanceOf(NoAffiliation.class));
+	}
+
+	private void assertEmployeeFields(Employee employee, String name, String address) {
+		assertNotNull(employee);
+		assertEquals(employee.getName(), name);
+		assertEquals(employee.getAddress(), address);
+	}
+	
+	private void assertEmployeeTypeSpecificFields(Employee employee, Class<? extends PaymentClassification> paymentClassification, Class<? extends PaymentSchedule> paymentSchedule) {
+		assertThat(employee.getPaymentClassification(), instanceOf(paymentClassification));
+		assertThat(employee.getPaymentSchedule(), instanceOf(paymentSchedule));
+	}
+
+	protected abstract Class<? extends PaymentClassification> getPaymentClassificationClass();
+	
+	protected abstract Class<? extends PaymentSchedule> getPaymentScheduleClass();
+	
+	protected abstract void doAssertEmployeeTypeSpecificFields(Employee employee);
+	
+}

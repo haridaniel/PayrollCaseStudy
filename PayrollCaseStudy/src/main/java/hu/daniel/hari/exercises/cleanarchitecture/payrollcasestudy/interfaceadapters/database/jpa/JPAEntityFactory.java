@@ -46,7 +46,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.enti
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard.TimeCardFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.BiWeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MontlhyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
 
@@ -81,7 +81,7 @@ public class JPAEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public MontlhyPaymentSchedule monthlyPaymentSchedule() {
+	public MonthlyPaymentSchedule monthlyPaymentSchedule() {
 		return proxyFactory.create(MonthlyPaymentScheduleProxy.class, new JPAMonthlyPaymentSchedule());
 	}
 

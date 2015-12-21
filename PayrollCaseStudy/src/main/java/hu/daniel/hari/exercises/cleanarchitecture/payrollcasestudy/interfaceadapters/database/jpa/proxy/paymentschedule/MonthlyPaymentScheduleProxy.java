@@ -2,10 +2,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceada
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentschedule.JPAMonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MontlhyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.MonthlyPaymentSchedule;
 
 @AutoBindedProxy(JPAMonthlyPaymentSchedule.class)
-public class MonthlyPaymentScheduleProxy extends MontlhyPaymentSchedule implements PaymentScheduleProxy {
+public class MonthlyPaymentScheduleProxy extends MonthlyPaymentSchedule implements PaymentScheduleProxy {
 
 	private JPAMonthlyPaymentSchedule jpaPaymentSchedule;
 

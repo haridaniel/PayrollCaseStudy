@@ -25,7 +25,7 @@ public abstract class PaymentSchedule {
 	}
 
 	public static interface PaymentScheduleFactory {
-		MontlhyPaymentSchedule monthlyPaymentSchedule();
+		MonthlyPaymentSchedule monthlyPaymentSchedule();
 		WeeklyPaymentSchedule weeklyPaymentSchedule();
 		BiWeeklyPaymentSchedule biWeeklyPaymentSchedule();
 	}

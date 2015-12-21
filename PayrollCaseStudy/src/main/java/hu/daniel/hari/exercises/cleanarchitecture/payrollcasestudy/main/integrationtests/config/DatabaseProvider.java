@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.interfaceadapters.database;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config;
 
 import javax.inject.Provider;
 

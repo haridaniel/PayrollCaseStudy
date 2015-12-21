@@ -10,19 +10,17 @@ import static org.junit.Assert.fail;
 import java.time.LocalDate;
 import java.util.Collection;
 
-import javax.inject.Provider;
-
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.ParameterizedMultipleDatabaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.HourlyPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoEmployeeWithSuchUnionMemberIdException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoSuchEmployeeException;
@@ -32,13 +30,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 	private static final LocalDate THIS_FRIDAY = LocalDate.of(2015, 12, 04);
 	
-	private Database database;
 	private EmployeeGateway employeeGateway;
 	private TransactionalRunner transactionalRunner;
 	private EntityFactory entityFactory;
 
 	public DatabaseITTest(DatabaseProvider databaseProvider) {
-		this.database = databaseProvider.get();
+		super(databaseProvider);
 		employeeGateway = database.employeeGateway();
 		transactionalRunner = database.transactionalRunner();
 		entityFactory = database.entityFactory();

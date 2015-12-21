@@ -2,18 +2,18 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.use
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.Request;
 
-public abstract class SingleExecutableUseCase<R extends Request> implements UseCase<R>{
+public abstract class OnceExecutableUseCase<R extends Request> implements UseCase<R>{
 	boolean executed = false;
 	
 	@Override
 	public final void execute(R request) {
 		if(executed)
 			throw new TriedToExecuteUseCaseMultipleTimesException();
-		doExecute(request);
+		executeOnce(request);
 		executed = true;
 	}
 
-	protected abstract void doExecute(R request);
+	protected abstract void executeOnce(R request);
 
 	public static class TriedToExecuteUseCaseMultipleTimesException extends RuntimeException {}
 }

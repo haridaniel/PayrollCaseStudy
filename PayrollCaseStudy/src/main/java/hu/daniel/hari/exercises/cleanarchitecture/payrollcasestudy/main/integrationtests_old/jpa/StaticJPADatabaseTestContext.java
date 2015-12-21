@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integra
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.JPAPayrollDatabaseModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
 
+@Deprecated
 public class StaticJPADatabaseTestContext {
 	
 	private static StaticJPADatabaseTestContext INSTANCE;
