@@ -5,8 +5,10 @@ import java.util.Collection;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
 
 public abstract class HourlyPaymentClassification extends PaymentClassification {
-	private static final int DAILY_NORMAL_HOURS = 8;
-	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
+	// Business rule constants 
+	// (can be refactored to configurable later whenever business requests it) 
+	public static final int DAILY_NORMAL_HOURS = 8;
+	public static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
 
 	public abstract void setHourlyWage(int hourlyWage);
 	public abstract int getHourlyWage();

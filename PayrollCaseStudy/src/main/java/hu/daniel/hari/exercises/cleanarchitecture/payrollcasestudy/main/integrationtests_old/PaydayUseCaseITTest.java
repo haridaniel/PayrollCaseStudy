@@ -215,7 +215,7 @@ public class PaydayUseCaseITTest extends AbstractDatabaseITTest {
 	}
 	
 	@Test
-	public void testPaySingleHourlyEmployeeThreeTimeCardsSpanningTwoPayPeriods() throws Exception {
+	public void testPaySingleHourlyEmployeeThreeTimeCardsSpanningThreePayPeriods() throws Exception {
 		//GIVEN
 		new AddHourlyEmployeeUseCase(transactionalRunner, employeeGateway, entityFactory, entityFactory, entityFactory, entityFactory, entityFactory)
 			.execute(new AddHourlyEmployeeRequest(employee().getId(), employee().getName(), employee().getAddress(), 10));
