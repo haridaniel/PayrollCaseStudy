@@ -17,55 +17,46 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.PaydayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddSalariedEmployeeRequest;
 
-public class PayDayUseCase_SalariedEmployee_ITTest extends AbstractUseCaseITTest {
+public class PayDayUseCase_SalariedEmployee_ITTest extends AbstractPayDayUseCase_ITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
+	
+	private static final LocalDate A_PAYDAY = LAST_DAY_OF_A_MONTH;
+	private static final LocalDate NOT_A_PAYDAY = LAST_DAY_OF_A_MONTH.minusDays(5);
 
 	private final int employeeId = 1;
 	private final int monthlySalary = 1000;
-	private LocalDate payDate;
 
 	public PayDayUseCase_SalariedEmployee_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
 	@Test
-	public void paySingleSalariedEmployee_OnNotPayday_ShouldNotCreatePayCheck() throws Exception {
+	public void testPaySingleSalariedEmployee_OnPayday_ShouldCreateCorrectPayCheck() throws Exception {
 		givenASalariedEmployee();
-		givenPayDateNotAPayday();
-		thenNoPayCheckShouldBeCreated(whenPayDayUseCaseExecuted());
-	}
-
-	@Test
-	public void paySingleSalariedEmployee_OnPayday_ShouldCreatePayCheck() throws Exception {
-		givenASalariedEmployee();
-		givenPayDateLastDayOfAMonth();
-		thenPayCheckNetAmountShouldBeTheSalary(whenPayDayUseCaseExecuted());
+		thenPayCheckNetAmountShouldBeTheSalary(whenPayDayUseCaseExecuted(getAPayday()));
 	}
 
 	private void givenASalariedEmployee() {
 		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
 	}
 
-	private void givenPayDateNotAPayday() {
-		payDate = LAST_DAY_OF_A_MONTH.minusDays(5);
-	}
-
-	private void givenPayDateLastDayOfAMonth() {
-		payDate = LAST_DAY_OF_A_MONTH;
-	}
-
-	private Collection<PayCheck> whenPayDayUseCaseExecuted() {
-		PaydayUseCase paydayUseCase = useCaseFactory.paydayUseCase();
-		paydayUseCase.execute(new PaydayRequest(payDate));
-		return paydayUseCase.getPayChecks();
-	}
-
-	private void thenNoPayCheckShouldBeCreated(Collection<PayCheck> payChecks) {
-		assertTrue(payChecks.isEmpty());
-	}
-
 	private void thenPayCheckNetAmountShouldBeTheSalary(Collection<PayCheck> payChecks) {
 		assertThat(TestUtils.singleResult(payChecks).getNetAmount(), is(monthlySalary));
+	}
+
+	@Override
+	protected void givenAnEmployee() {
+		givenASalariedEmployee();
+	}
+
+	@Override
+	protected LocalDate getNotAPayday() {
+		return NOT_A_PAYDAY;
+	}
+
+	@Override
+	protected LocalDate getAPayday() {
+		return A_PAYDAY;
 	}
 
 }
