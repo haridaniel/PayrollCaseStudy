@@ -23,11 +23,6 @@ public class AddHourlyEmployeeUseCaseITTest extends AbstractAddEmployeeUseCaseIT
 		super(databaseProvider);
 	}
 
-	@Test
-	public void testAddHourlyEmployeeUseCase() {
-		testAddEmployeeUseCase();
-	}
-	
 	@Override
 	protected void executeUseCase() {
 		useCaseFactory.addHourlyEmployeeUseCase().execute(addHourlyEmployeeRequest);

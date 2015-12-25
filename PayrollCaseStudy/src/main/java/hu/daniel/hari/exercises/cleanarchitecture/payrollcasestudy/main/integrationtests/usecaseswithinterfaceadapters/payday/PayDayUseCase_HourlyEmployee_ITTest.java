@@ -115,7 +115,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 		
 		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(getAPayday());
 		
-		thenPayChecksNetAmountSumShouldBe(payChecks, theCase.thenPayCheckNetAmountSum);
+		thenPayCheckNetAmountSumShouldBe(payChecks, theCase.thenPayCheckNetAmountSum);
 	}
 
 	private void givenAHourlyEmployee() {
@@ -128,11 +128,8 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 		}
 	}
 
-	private void thenPayChecksNetAmountSumShouldBe(Collection<PayCheck> payChecks, int netAmount) {
-		int sumNetAmount = payChecks.stream()
-			.mapToInt(payCheck -> payCheck.getNetAmount())
-			.sum();
-		assertThat(sumNetAmount, is(netAmount));
+	private void thenPayCheckNetAmountSumShouldBe(Collection<PayCheck> payChecks, int netAmount) {
+		assertThat(TestUtils.singleResult(payChecks).getNetAmount(), is(netAmount));
 	}
 
 	@Override

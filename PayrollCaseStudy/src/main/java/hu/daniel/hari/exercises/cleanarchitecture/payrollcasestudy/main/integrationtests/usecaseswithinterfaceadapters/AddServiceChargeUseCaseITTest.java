@@ -42,8 +42,8 @@ public class AddServiceChargeUseCaseITTest extends AbstractUseCaseITTest {
 	@Test
 	public void testAddServiceChargeUseCase() {
 		givenAUnionMemberAffiliatedEmployee();
-		whenAddingSalesReceipt();
-		thenSalesReceiptShouldBeAdded(database.employeeGateway().findById(employeeId));
+		whenAddingServiceCharge();
+		thenServiceChargeShouldBeAdded(database.employeeGateway().findById(employeeId));
 	}
 
 	private void givenAUnionMemberAffiliatedEmployee() {
@@ -51,13 +51,13 @@ public class AddServiceChargeUseCaseITTest extends AbstractUseCaseITTest {
 		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
 	}
 
-	private void whenAddingSalesReceipt() {
+	private void whenAddingServiceCharge() {
 		useCaseFactory.addServiceChargeUseCase().execute(new AddServiceChargeRequest(unionMemberId, serviceChargeDate, serviceChargeAmount));
 	}
 
-	private void thenSalesReceiptShouldBeAdded(Employee employee) {
+	private void thenServiceChargeShouldBeAdded(Employee employee) {
 		ServiceCharge serviceCharge = TestUtils.singleResult(((UnionMemberAffiliation) employee.getAffiliation())
-				.getServiceChargesIn(DateInterval.of(serviceChargeDate, serviceChargeDate)));
+				.getServiceChargesIn(DateInterval.ofSingleDate(serviceChargeDate)));
 		assertThat(serviceCharge.getAmount(), is(serviceChargeAmount));
 	}
 }

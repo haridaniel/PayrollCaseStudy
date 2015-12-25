@@ -24,7 +24,7 @@ public class AddUnionMemberAffiliationUseCaseITTest extends AbstractUseCaseITTes
 	}
 	
 	@Test
-	public void testAddServiceChargeUseCase() {
+	public void testAddUnionMemberAffiliationUseCase() {
 		givenAnEmployee();
 		whenAddingUnionMemberAffiliation();
 		thenShouldBeUnionAffiliated(database.employeeGateway().findById(employeeId));

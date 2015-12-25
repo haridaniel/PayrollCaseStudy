@@ -29,7 +29,8 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 	final String name = "Bob";
 	final String address = "Liverside road";
 	
-	protected void testAddEmployeeUseCase() {
+	@Test
+	public void testAddEmployeeUseCase() {
 		when();
 		then(database.employeeGateway().findById(employeeId));
 	}

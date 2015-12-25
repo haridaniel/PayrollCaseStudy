@@ -32,11 +32,6 @@ public class AddCommissionedEmployeeUseCaseITTest extends AbstractAddEmployeeUse
 		super(databaseProvider);
 	}
 
-	@Test
-	public void testAddCommissionedEmployeeUseCase() {
-		testAddEmployeeUseCase();
-	}
-	
 	@Override
 	protected void executeUseCase() {
 		useCaseFactory.addCommissionedEmployeeUseCase().execute(addCommissionedEmployeeRequest);

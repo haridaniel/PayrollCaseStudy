@@ -48,7 +48,7 @@ public class AddSalesReceiptUseCaseITTest extends AbstractUseCaseITTest {
 
 	private void thenSalesReceiptShouldBeAdded(Employee employee) {
 		SalesReceipt salesReceipt = TestUtils.singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
-				.getSalesReceiptsIn(DateInterval.of(salesReceiptDate, salesReceiptDate)));
+				.getSalesReceiptsIn(DateInterval.ofSingleDate(salesReceiptDate)));
 		assertThat(salesReceipt.getAmount(), is(salesReceiptAmount));
 	}
 }

@@ -28,11 +28,6 @@ public class AddSalariedEmployeeUseCaseITTest extends AbstractAddEmployeeUseCase
 		super(databaseProvider);
 	}
 
-	@Test
-	public void testAddSalariedEmployeeUseCase() {
-		testAddEmployeeUseCase();
-	}
-	
 	@Override
 	protected void executeUseCase() {
 		useCaseFactory.addSalariedEmployeeUseCase().execute(addSalariedEmployeeRequest);
