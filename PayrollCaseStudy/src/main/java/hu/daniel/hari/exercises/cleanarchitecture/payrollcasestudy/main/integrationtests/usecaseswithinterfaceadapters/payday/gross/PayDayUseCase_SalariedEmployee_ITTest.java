@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -17,7 +17,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.PaydayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddSalariedEmployeeRequest;
 
-public class PayDayUseCase_SalariedEmployee_ITTest extends AbstractPayDayUseCase_ITTest {
+public class PayDayUseCase_SalariedEmployee_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate A_PAYDAY = LAST_DAY_OF_A_MONTH;
@@ -33,15 +33,15 @@ public class PayDayUseCase_SalariedEmployee_ITTest extends AbstractPayDayUseCase
 	@Test
 	public void testPaySingleSalariedEmployee_OnPayday_ShouldCreateCorrectPayCheck() throws Exception {
 		givenASalariedEmployee();
-		thenPayCheckNetAmountShouldBeTheSalary(whenPayDayUseCaseExecuted(getAPayday()));
+		thenPayCheckGrossAmountSumShouldBeTheSalary(whenPayDayUseCaseExecuted(getAPayday()));
 	}
 
 	private void givenASalariedEmployee() {
 		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
 	}
 
-	private void thenPayCheckNetAmountShouldBeTheSalary(Collection<PayCheck> payChecks) {
-		assertThat(TestUtils.singleResult(payChecks).getNetAmount(), is(monthlySalary));
+	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayCheck> payChecks) {
+		thenPayCheckGrossAmountShouldBe(payChecks, monthlySalary);
 	}
 
 	@Override

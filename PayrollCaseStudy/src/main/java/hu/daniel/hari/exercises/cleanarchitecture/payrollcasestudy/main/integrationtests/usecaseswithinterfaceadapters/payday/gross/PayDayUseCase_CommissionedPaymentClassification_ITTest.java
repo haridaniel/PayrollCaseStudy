@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.enti
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddCommissionedEmployeeRequest;
 
-public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends AbstractPayDayUseCase_ITTest {
+public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate AN_EVEN_FRIDAY = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
 	private static final LocalDate AN_ODD_FRIDAY = AN_EVEN_FRIDAY.plusDays(7);
 
@@ -34,7 +34,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 
 	private abstract class Case {
 		List<AddSalesReceiptRequest> salesReceipts;
-		int thenPayCheckNetAmountSum;
+		int thenPayCheckGrossAmountSum;
 	}
 	
 	public PayDayUseCase_CommissionedPaymentClassification_ITTest(DatabaseProvider databaseProvider) {
@@ -45,7 +45,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 	public void testPaySingleCommissionedEmployee_NoSalesReceipt_ThenBiWeeklyAmountPayCheck() throws Exception {
 		givenWhenThen(new Case() {{
 			salesReceipts = Collections.emptyList();
-			thenPayCheckNetAmountSum = biWeeklyBaseSalary;
+			thenPayCheckGrossAmountSum = biWeeklyBaseSalary;
 		}});
 	}
 	
@@ -56,7 +56,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 				add(new AddSalesReceiptRequest(employeeId, AN_EVEN_FRIDAY, 1000));
 			}};
 			int commisionAmount = (int) (commissionRate * (1000));
-			thenPayCheckNetAmountSum = biWeeklyBaseSalary + commisionAmount;
+			thenPayCheckGrossAmountSum = biWeeklyBaseSalary + commisionAmount;
 		}});
 	}
 	
@@ -68,7 +68,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 				add(new AddSalesReceiptRequest(employeeId, A_PAYPERIOD_END, 1100));
 			}};
 			int commisionAmount = (int) (commissionRate * (1000 + 1100));
-			thenPayCheckNetAmountSum = biWeeklyBaseSalary + commisionAmount;
+			thenPayCheckGrossAmountSum = biWeeklyBaseSalary + commisionAmount;
 		}});
 	}
 	
@@ -81,7 +81,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 					add(new AddSalesReceiptRequest(employeeId, A_PAYPERIOD_END.plusDays(1), 1300));		//should be ignored
 				}};
 				int commisionAmount = (int) (commissionRate * (1200));
-				thenPayCheckNetAmountSum = biWeeklyBaseSalary + commisionAmount;
+				thenPayCheckGrossAmountSum = biWeeklyBaseSalary + commisionAmount;
 			}}
 		);
 	}
@@ -92,7 +92,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 		
 		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(getAPayday());
 		
-		thenPayCheckNetAmountSumShouldBe(payChecks, theCase.thenPayCheckNetAmountSum);
+		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmountSum);
 	}
 	
 	private void givenACommissionedEmployee() {
@@ -105,10 +105,6 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends Abst
 		}
 	}
 
-	private void thenPayCheckNetAmountSumShouldBe(Collection<PayCheck> payChecks, int netAmount) {
-		assertThat(TestUtils.singleResult(payChecks).getNetAmount(), is(netAmount));
-	}
-	
 	@Override
 	protected void givenAnEmployee() {
 		givenACommissionedEmployee();

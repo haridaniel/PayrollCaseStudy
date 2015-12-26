@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -23,7 +23,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.request.addemployee.AddSalariedEmployeeRequest;
 
-public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_ITTest {
+public class PayDayUseCase_HourlyEmployee_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
 	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);	//in previous period
@@ -39,19 +39,19 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 	
 	private abstract class Case {
 		List<AddTimeCardRequest> timeCards;
-		int thenPayCheckNetAmountSum;
+		int thenPayCheckGrossAmount;
 	}
 	
 	private class NoTimeCard_ThenZeroAmountPayCheck extends Case {{
 		timeCards = Collections.emptyList();
-		thenPayCheckNetAmountSum = 0;
+		thenPayCheckGrossAmount = 0;
 	}}
 	
 	private class OneTimeCard extends Case {{
 		timeCards = new ArrayList<AddTimeCardRequest>() {{
 			add(new AddTimeCardRequest(employeeId, THIS_FRIDAY, 8));
 		}};
-		thenPayCheckNetAmountSum = hourlyWage * (8);
+		thenPayCheckGrossAmount = hourlyWage * (8);
 	}}
 
 	private class TwoTimeCards_AtBordersOfPayPeriod extends Case {{
@@ -59,7 +59,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 			add(new AddTimeCardRequest(employeeId, LAST_SATURDAY, 4));
 			add(new AddTimeCardRequest(employeeId, THIS_FRIDAY, 8));
 		}};
-		thenPayCheckNetAmountSum = hourlyWage * (4 + 8);
+		thenPayCheckGrossAmount = hourlyWage * (4 + 8);
 	}}
 
 	private class ThreeTimeCards_SpanningThreePayPeriods_ThenShouldIgnoreOtherPeriods extends Case {{
@@ -68,7 +68,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 			add(new AddTimeCardRequest(employeeId, THIS_FRIDAY, 5)); 	//In this pay period
 			add(new AddTimeCardRequest(employeeId, THIS_SATURDAY, 7)); 	//In next pay period, should be IGNORED
 		}};
-		thenPayCheckNetAmountSum = hourlyWage * (5);
+		thenPayCheckGrossAmount = hourlyWage * (5);
 	}}
 	
 	private class OneTimeCard_OverTimeWorkingHours extends Case {{
@@ -77,7 +77,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 		}};
 		int normalWage = hourlyWage * (8);
 		int overTimeWage = (int) (hourlyWage * OVERTIME_WAGE_MULTIPLIER * (4));
-		thenPayCheckNetAmountSum = normalWage + overTimeWage;
+		thenPayCheckGrossAmount = normalWage + overTimeWage;
 	}}
 	
 	public PayDayUseCase_HourlyEmployee_ITTest(DatabaseProvider databaseProvider) {
@@ -115,7 +115,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 		
 		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(getAPayday());
 		
-		thenPayCheckNetAmountSumShouldBe(payChecks, theCase.thenPayCheckNetAmountSum);
+		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmount);
 	}
 
 	private void givenAHourlyEmployee() {
@@ -126,10 +126,6 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends AbstractPayDayUseCase_I
 		for (AddTimeCardRequest addTimeCardRequest : addTimeCardRequests) {
 			useCaseFactory.addTimeCardUseCase().execute(addTimeCardRequest);
 		}
-	}
-
-	private void thenPayCheckNetAmountSumShouldBe(Collection<PayCheck> payChecks, int netAmount) {
-		assertThat(TestUtils.singleResult(payChecks).getNetAmount(), is(netAmount));
 	}
 
 	@Override
