@@ -4,6 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddServiceChargeUseCase.AddServiceChargeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddTimeCardUseCase.AddTimeCardUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.DeleteEmployeeUseCase.DeleteEmployeeUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase.EmployeesOverviewUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.PaydayUseCase.PaydayUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeaffiliation.AddUnionMemberAffiliationUseCase.AddUnionMemberAffiliationUseCaseFactory;
@@ -19,6 +20,7 @@ public interface UseCaseFactory extends
 		AddServiceChargeUseCaseFactory,
 		AddTimeCardUseCaseFactory,
 		DeleteEmployeeUseCaseFactory,
-		PaydayUseCaseFactory
+		PaydayUseCaseFactory,
+		EmployeesOverviewUseCaseFactory
 {
 }

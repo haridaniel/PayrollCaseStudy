@@ -4,6 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddServiceChargeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.DeleteEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.PaydayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddSalesReceiptUseCase.AddSalesReceiptUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddCommissionedEmployeeUseCase;
@@ -83,6 +84,11 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
 	@Override
 	public PaydayUseCase paydayUseCase() {
 		return new PaydayUseCase(transactionalRunner, employeeGateway);
+	}
+
+	@Override
+	public EmployeesOverviewUseCase employeesOverviewUseCase() {
+		return new EmployeesOverviewUseCase(transactionalRunner, employeeGateway);
 	}
 	
 }
