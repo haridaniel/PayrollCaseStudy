@@ -1,11 +1,20 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing;
 
+import java.awt.Component;
+
 import com.google.common.eventbus.EventBus;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.EmployeeManagerController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.EmployeeManagerView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table.EmployeesTableController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table.EmployeesTableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.components.statusbar.StatusBarController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.components.statusbar.StatusBarView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.util.eventbus.EventQueueAsyncEventBus;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.MainFrameController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.MainFrameView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.EmployeeManagerController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.EmployeeManagerView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.dialog.AddEmployeeDialogController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.dialog.AddEmployeeDialogView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.usecasefactory.UseCaseFactory;
 
 public class ViewFactory {
@@ -36,8 +45,20 @@ public class ViewFactory {
 	
 	public MainFrameView mainFrameView() {
 		MainFrameView mainFrameView = new MainFrameView(this);
-		new MainFrameController(mainFrameView);
+		new MainFrameController(mainFrameView, this);
 		return mainFrameView;
+	}
+
+	public AddEmployeeDialogView addEmployeeDialogView() {
+		AddEmployeeDialogView dialog = new AddEmployeeDialogView();
+		new AddEmployeeDialogController(dialog, useCaseFactory, eventBus);
+		return dialog;
+	}
+
+	public StatusBarView statusBarView() {
+		StatusBarView statusBarView = new StatusBarView();
+		new StatusBarController(statusBarView, eventBus);
+		return statusBarView;
 	}
 
 	

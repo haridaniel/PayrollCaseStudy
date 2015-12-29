@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.ViewFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table.EmployeesTableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableView;
 
 public class EmployeeManagerView extends JPanel {
 	private JPanel tablePanel;

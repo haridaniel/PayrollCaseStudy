@@ -4,15 +4,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddServiceChargeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.DeleteEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.PaydayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.AddSalesReceiptUseCase.AddSalesReceiptUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddCommissionedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddHourlyEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.addemployee.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeaffiliation.AddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.changeemployee.ChangeEmployeeNameUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find.GetEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find.ListEmployeesUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
@@ -87,8 +87,13 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
 	}
 
 	@Override
-	public EmployeesOverviewUseCase employeesOverviewUseCase() {
-		return new EmployeesOverviewUseCase(transactionalRunner, employeeGateway);
+	public ListEmployeesUseCase listEmployeesUseCase() {
+		return new ListEmployeesUseCase(transactionalRunner, employeeGateway);
+	}
+
+	@Override
+	public GetEmployeeUseCase getEmployeeUseCase() {
+		return new GetEmployeeUseCase(transactionalRunner, employeeGateway);
 	}
 	
 }

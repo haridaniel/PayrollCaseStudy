@@ -1,32 +1,28 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Vector;
 import java.util.stream.Collectors;
-
-import javax.swing.table.DefaultTableModel;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.EmployeeCountChangedEvent;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table.EmployeesTableView.EmployeesOverviewPanelListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.employeemanager.table.EmployeesTableViewModel.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase.EmployeesOverviewUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.events.EmployeeCountChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableView.EmployeesOverviewPanelListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableViewModel.EmployeeViewItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find.ListEmployeesUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find.ListEmployeesUseCase.ListEmployeesUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request.EmptyRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeesOverviewUseCaseResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeesOverviewUseCaseResponse.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.ListEmployeesUseCaseResponse;
 
 public class EmployeesTableController implements EmployeesOverviewPanelListener {
 	
 	private EmployeesTableView view;
-	private EmployeesOverviewUseCaseFactory useCaseFactory;
+	private ListEmployeesUseCaseFactory useCaseFactory;
 	private EmployeesOverviewPanelPresenter presenter;
 	private EventBus eventBus;
 
-	public EmployeesTableController(EmployeesTableView view, EmployeesOverviewUseCaseFactory useCaseFactory, EventBus eventBus) {
+	public EmployeesTableController(EmployeesTableView view, ListEmployeesUseCaseFactory useCaseFactory, EventBus eventBus) {
 		this.view = view;
 		this.eventBus = eventBus;
 		this.presenter = new EmployeesOverviewPanelPresenter();
@@ -46,14 +42,14 @@ public class EmployeesTableController implements EmployeesOverviewPanelListener 
 	}
 	
 	private void updateTable() {
-		EmployeesOverviewUseCase useCase = useCaseFactory.employeesOverviewUseCase();
+		ListEmployeesUseCase useCase = useCaseFactory.listEmployeesUseCase();
 		useCase.execute(new EmptyRequest());
 		view.setModel(presenter.present(useCase.getResponse()));
 	}
 
 	private static class EmployeesOverviewPanelPresenter {
 		
-		public EmployeesTableViewModel present(EmployeesOverviewUseCaseResponse response) {
+		public EmployeesTableViewModel present(ListEmployeesUseCaseResponse response) {
 			return new EmployeesTableViewModel(present(response.employeeItems));
 		}
 		

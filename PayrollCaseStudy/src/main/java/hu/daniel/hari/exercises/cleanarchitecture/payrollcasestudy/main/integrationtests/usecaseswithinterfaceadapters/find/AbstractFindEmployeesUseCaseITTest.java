@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.find;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -6,30 +6,31 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.EmployeesOverviewUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request.EmptyRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeesOverviewUseCaseResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeesOverviewUseCaseResponse.EmployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeesOverviewUseCaseResponse.EmployeeItem.PaymentClassificationType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeeItem.PaymentClassificationType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.ListEmployeesUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.Response;
 
-public class EmployeesOverviewUseCaseITTest2 extends AbstractUseCaseITTest {
-	private int employeeId = 1;
+public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> extends AbstractUseCaseITTest {
+
+	protected int employeeId = 1;
+
 	private String name = "Bela";
-	private String address = "address"; 
-	
-	private abstract class Case {
+	private String address = "address";
+
+	abstract class Case {
 		abstract void givenAnEmployee();
 		PaymentClassificationType paymentClassificationType;
 	}
 	
-	public EmployeesOverviewUseCaseITTest2(DatabaseProvider databaseProvider) {
+	public AbstractFindEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
-
+	
 	@Test
 	public void givenASalariedEmployee_whenExecuteEmployeesOverview_thenResponseShouldBeOK() {
 		givenThenWhen(new Case() {
@@ -42,7 +43,7 @@ public class EmployeesOverviewUseCaseITTest2 extends AbstractUseCaseITTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void givenAHourlyEmployee_whenExecuteEmployeesOverview_thenResponseShouldBeOK() {
 		givenThenWhen(new Case() {
@@ -55,7 +56,7 @@ public class EmployeesOverviewUseCaseITTest2 extends AbstractUseCaseITTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void givenACommissionedEmployee_whenExecuteEmployeesOverview_thenResponseShouldBeOK() {
 		givenThenWhen(new Case() {
@@ -69,22 +70,13 @@ public class EmployeesOverviewUseCaseITTest2 extends AbstractUseCaseITTest {
 		});
 	}
 
-
 	private void givenThenWhen(Case theCase) {
 		theCase.givenAnEmployee();
-		thenResponseShouldBeCorrect(whenExecuteEmployeesOverview(), theCase);
+		thenResponseShouldBeCorrect(whenExecuteUseCase(), theCase);
 	}
 
-	private EmployeesOverviewUseCaseResponse whenExecuteEmployeesOverview() {
-		EmployeesOverviewUseCase employeesOverviewUseCase = useCaseFactory.employeesOverviewUseCase();
-		employeesOverviewUseCase.execute(new EmptyRequest());
-		return employeesOverviewUseCase.getResponse();
-		
-	}
-
-	private void thenResponseShouldBeCorrect(EmployeesOverviewUseCaseResponse response, Case theCase) {
-		assertThat(response.employeeItems.size(), is(1));
-		assertEmployeeItem(TestUtils.singleResult(response.employeeItems), theCase);
+	private void thenResponseShouldBeCorrect(T response, Case theCase) {
+		assertEmployeeItem(getSingleResultEmployeeItem(response), theCase);
 	}
 
 	private void assertEmployeeItem(EmployeeItem employeeItem, Case theCase) {
@@ -93,5 +85,9 @@ public class EmployeesOverviewUseCaseITTest2 extends AbstractUseCaseITTest {
 		assertThat(employeeItem.address, is(address));
 		assertThat(employeeItem.paymentClassificationType, is(theCase.paymentClassificationType));
 	}
+
+	protected abstract T whenExecuteUseCase();
+
+	protected abstract EmployeeItem getSingleResultEmployeeItem(T response);
 
 }
