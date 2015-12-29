@@ -71,7 +71,7 @@ public class JPAEntityGateway implements EmployeeGateway {
 		try {
 			return jPAEmployeeDao.getEmployeeIdByUnionMemberId(unionMemberId);
 		} catch (NoResultException e) {
-			throw new NoEmployeeWithSuchUnionMemberIdException();
+			throw new NoSuchEmployeeException();
 		}
 	}
 

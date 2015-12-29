@@ -11,7 +11,7 @@ public interface EmployeeGateway {
 	 */
 	Employee findById(int employeeId);
 	/**
-	 * @throws NoEmployeeWithSuchUnionMemberIdException
+	 * @throws NoSuchEmployeeException
 	 */
 	int findByUnionMemberId(int unionMemberId);
 	
@@ -24,6 +24,5 @@ public interface EmployeeGateway {
 	void deleteAll();
 	
 	public static class NoSuchEmployeeException extends RuntimeException {}
-	public static class NoEmployeeWithSuchUnionMemberIdException extends RuntimeException {}
 
 }

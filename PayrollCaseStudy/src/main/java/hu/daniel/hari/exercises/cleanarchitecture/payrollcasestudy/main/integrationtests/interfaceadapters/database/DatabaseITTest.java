@@ -22,7 +22,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.enti
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoEmployeeWithSuchUnionMemberIdException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway.NoSuchEmployeeException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EntityFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
@@ -212,7 +211,7 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 		assertThat(employeeGateway.findByUnionMemberId(7000), is(employee.getId()));
 	}
 	
-	@Test(expected = NoEmployeeWithSuchUnionMemberIdException.class)
+	@Test(expected = NoSuchEmployeeException.class)
 	public void testGetEmployeeIdByUnionMemberId_WithWrongId_ShouldThrow() throws Exception {
 		employeeGateway.findByUnionMemberId(7999);
 	}

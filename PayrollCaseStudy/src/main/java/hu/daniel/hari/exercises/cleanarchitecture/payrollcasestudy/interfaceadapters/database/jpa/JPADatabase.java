@@ -13,19 +13,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 @Singleton
 public class JPADatabase implements Database {
 
-	@Inject private JPAEntityGateway jpaEntityGateway;
 	@Inject private JPATransactionalRunner jpaTransactionalRunner;
+	@Inject private JPAEntityFactory entityFactory;
+	@Inject private JPAEntityGateway jpaEntityGateway;
 	
 	@Inject private EntityManager entityManager;
-	@Inject private EntityFactory entityFactory;
-
-	@Inject
-	public JPADatabase() {
-	}
 
 	@Override
 	public TransactionalRunner transactionalRunner() {
 		return jpaTransactionalRunner;
+	}
+
+	@Override
+	public EntityFactory entityFactory() {
+		return entityFactory;
 	}
 
 	@Override
@@ -37,11 +38,6 @@ public class JPADatabase implements Database {
 	@Override
 	public EntityManager getEntityManager() {
 		return entityManager;
-	}
-
-	@Override
-	public EntityFactory entityFactory() {
-		return entityFactory;
 	}
 	
 }

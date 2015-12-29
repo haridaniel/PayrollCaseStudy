@@ -50,7 +50,7 @@ public class InMemoryEntityGateway implements EmployeeGateway {
 				.filter(employee -> (employee.getAffiliation() instanceof UnionMemberAffiliation))
 				.filter(employee -> ((UnionMemberAffiliation) employee.getAffiliation()).getUnionMemberId() == unionMemberId)
 				.findFirst()
-				.orElseThrow(() -> new NoEmployeeWithSuchUnionMemberIdException())
+				.orElseThrow(() -> new NoSuchEmployeeException())
 				.getId();
 	}
 

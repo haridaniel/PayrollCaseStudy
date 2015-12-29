@@ -13,13 +13,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadap
 
 @Singleton
 public class ClassPathScannerProxyClassProvider {
-	private static final String PACKAGE_TO_SCAN = EmployeeProxy.class.getPackage().getName();
+	private static final String PACKAGE_ROOT_TO_SCAN = EmployeeProxy.class.getPackage().getName();
 
 	private Map<Class<?>, Class<?>> proxyClassesByBindedClass = new HashMap<>();
-
-	public static void main(String[] args) {
-		new ClassPathScannerProxyClassProvider();
-	}
 
 	public ClassPathScannerProxyClassProvider() {
 		init();
@@ -42,7 +38,7 @@ public class ClassPathScannerProxyClassProvider {
 	}
 
 	private Set<Class<?>> getAnnotatedClasses() {
-		return new Reflections(PACKAGE_TO_SCAN).getTypesAnnotatedWith(AutoBindedProxy.class);
+		return new Reflections(PACKAGE_ROOT_TO_SCAN).getTypesAnnotatedWith(AutoBindedProxy.class);
 	}
 
 	private Class<Proxy<?>> ensureImplementsProxyInterface(Class<?> class1) {

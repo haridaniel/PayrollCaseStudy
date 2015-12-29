@@ -37,7 +37,6 @@ class GuiceModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		bind(EntityFactory.class).to(JPAEntityFactory.class);
 	}
 	
 }

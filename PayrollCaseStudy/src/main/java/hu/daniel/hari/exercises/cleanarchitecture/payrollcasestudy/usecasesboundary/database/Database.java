@@ -5,8 +5,8 @@ import javax.persistence.EntityManager;
 public interface Database {
 	
 	TransactionalRunner transactionalRunner();
-	EmployeeGateway employeeGateway();
 	EntityFactory entityFactory();
+	EmployeeGateway employeeGateway();
 
 	
 	@Deprecated
