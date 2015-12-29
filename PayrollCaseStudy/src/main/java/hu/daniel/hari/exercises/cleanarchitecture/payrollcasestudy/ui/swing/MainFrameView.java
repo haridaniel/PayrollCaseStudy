@@ -7,17 +7,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class MainFrame extends JFrame {
+public class MainFrameView extends JFrame {
 	
 	private JPanel contentPane;
 
 	/**
 	 * Create the frame.
 	 */
-	public MainFrame(EmployeesOverviewPanelView employeesOverviewPanelView) {
+	public MainFrameView(ViewFactory viewFactory) {
 		initUI();
-		contentPane.add(employeesOverviewPanelView);
-		doShow();
+		contentPane.add(viewFactory.employeeManagerView());
 	}
 
 	private void initUI() {
@@ -33,7 +32,8 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 	}
 
-	private void doShow() {
+	public void doShow() {
+//		pack();
 		setVisible(true);
 	}
 

@@ -93,6 +93,14 @@
 			<version>9.4-1204-jdbc42</version>
 		</dependency>
 
+		<!-- Guava. using: -->
+		<!-- 	Eventbus -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>10.0.1</version>
+		</dependency>
+		
 
 	</dependencies>
 

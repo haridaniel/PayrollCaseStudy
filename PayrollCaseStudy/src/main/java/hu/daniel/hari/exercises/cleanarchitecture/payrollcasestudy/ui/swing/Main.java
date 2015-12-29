@@ -21,15 +21,15 @@ public class Main {
 
 	public Main() {
 		
-		Database database = new JPAPayrollDatabaseModule(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB).getPayrollDatabase();
-//		Database database = new InMemoryDatabase();
+//		Database database = new JPAPayrollDatabaseModule(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB).getPayrollDatabase();
+		Database database = new InMemoryDatabase();
 		UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database);
 		ViewFactory viewFactory = new ViewFactory(useCaseFactory);
 
 		clearDatabaseAndInsertTestData(database, useCaseFactory);
 		
 		invokeLater(() -> {
-			viewFactory.mainFrame();
+			viewFactory.mainFrameView().doShow();
 		});
 	}
 
