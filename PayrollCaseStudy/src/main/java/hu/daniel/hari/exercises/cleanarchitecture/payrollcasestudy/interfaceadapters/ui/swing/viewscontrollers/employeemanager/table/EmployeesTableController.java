@@ -20,11 +20,9 @@ public class EmployeesTableController implements EmployeesOverviewPanelListener 
 	private EmployeesTableView view;
 	private ListEmployeesUseCaseFactory useCaseFactory;
 	private EmployeesOverviewPanelPresenter presenter;
-	private EventBus eventBus;
 
 	public EmployeesTableController(EmployeesTableView view, ListEmployeesUseCaseFactory useCaseFactory, EventBus eventBus) {
 		this.view = view;
-		this.eventBus = eventBus;
 		this.presenter = new EmployeesOverviewPanelPresenter();
 		this.useCaseFactory = useCaseFactory;
 		eventBus.register(this);

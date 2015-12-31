@@ -1,14 +1,13 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing;
 
-import java.awt.Component;
-
 import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.components.statusbar.StatusBarController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.components.statusbar.StatusBarView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.util.eventbus.EventQueueAsyncEventBus;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.MainFrameController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.MainFrameView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.dialog.ErrorDialogController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.dialog.ErrorDialogView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.EmployeeManagerController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.EmployeeManagerView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.dialog.AddEmployeeDialogController;
@@ -22,14 +21,9 @@ public class ViewFactory {
 	private UseCaseFactory useCaseFactory;
 	private EventBus eventBus;
 
-	public ViewFactory(UseCaseFactory useCaseFactory) {
+	public ViewFactory(UseCaseFactory useCaseFactory, EventBus eventBus) {
 		this.useCaseFactory = useCaseFactory;
-		eventBus = createEventBus();
-	}
-	
-	private EventBus createEventBus() {
-//		return new EventBus();
-		return new EventQueueAsyncEventBus();
+		this.eventBus = eventBus;
 	}
 
 	public EmployeeManagerView employeeManagerView() {
@@ -59,6 +53,12 @@ public class ViewFactory {
 		StatusBarView statusBarView = new StatusBarView();
 		new StatusBarController(statusBarView, eventBus);
 		return statusBarView;
+	}
+
+	public ErrorDialogView errorDialogView(Throwable e) {
+		ErrorDialogView dialog = new ErrorDialogView();
+		new ErrorDialogController(dialog, e);
+		return dialog;
 	}
 
 	

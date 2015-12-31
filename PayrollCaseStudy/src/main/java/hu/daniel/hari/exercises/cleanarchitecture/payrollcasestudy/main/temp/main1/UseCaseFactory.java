@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.main1;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.UseCase;
 
