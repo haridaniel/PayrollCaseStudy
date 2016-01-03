@@ -1,6 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.exception.NotImplementedException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.CommissionedPaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.HourlyPaymentClassification;
@@ -27,6 +26,6 @@ class EmployeeItemConverter {
 		else if (paymentClassification instanceof CommissionedPaymentClassification)
 			return PaymentClassificationType.COMMISSIONED;
 		else
-			throw new NotImplementedException();
+			throw new IllegalArgumentException();
 	}
 }
