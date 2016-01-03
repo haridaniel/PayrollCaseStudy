@@ -1,17 +1,15 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.components.statusbar;
-
-import java.awt.Color;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.statusbar;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.globalevents.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.globalevents.DeletedEmployeeEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.statusbar.StatusBarView.StatusBarViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.statusbar.StatusBarView.StatusBarViewModel.MessageType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.statusbar.messageformatter.MessageFormatter;
 
 public class StatusBarController {
-	private final Color INFO_COLOR = Color.BLACK;
-	private final Color CONFIRM_COLOR = Color.decode("#00AA00");//GREEN
-	private final Color ERROR_COLOR = Color.red;
 
 	private StatusBarView statusBarView;
 	private MessageFormatter messageFormatter;
@@ -33,15 +31,11 @@ public class StatusBarController {
 	}
 	
 	private void infoMessage(String message) {
-		message(message, INFO_COLOR);
+		statusBarView.setModel(new StatusBarViewModel(message, MessageType.INFO));
 	}
 
 	private void confirmMessage(String message) {
-		message(message, CONFIRM_COLOR);
-	}
-	
-	private void message(String message, Color iNFO_COLOR2) {
-		statusBarView.setMessage(message, iNFO_COLOR2);
+		statusBarView.setModel(new StatusBarViewModel(message, MessageType.CONFIRM));
 	}
 	
 }

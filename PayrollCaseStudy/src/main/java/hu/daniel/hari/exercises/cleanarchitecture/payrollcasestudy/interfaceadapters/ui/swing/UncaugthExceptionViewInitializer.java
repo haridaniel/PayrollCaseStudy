@@ -6,14 +6,16 @@ import java.awt.Toolkit;
 
 import javax.swing.SwingUtilities;
 
-class ErrorDialogUncaugthExceptionHandler {
-	private ViewFactory viewFactory;
+class UncaugthExceptionViewInitializer {
 
-	public ErrorDialogUncaugthExceptionHandler(ViewFactory viewFactory) {
-		this.viewFactory = viewFactory;
+	private SwingViewLoader swingViewLoader;
+
+	public UncaugthExceptionViewInitializer(SwingViewLoader swingViewLoader) {
+		this.swingViewLoader = swingViewLoader;
+		init();
 	}
 
-	public void init() {
+	private void init() {
 		Toolkit.getDefaultToolkit().getSystemEventQueue().push(new EventQueue() {
 			@Override
 			protected void dispatchEvent(AWTEvent event) {
@@ -24,13 +26,12 @@ class ErrorDialogUncaugthExceptionHandler {
 					throw e;
 				}
 			}
-
 		});
 	}
 
 	private void onThrowableCatched(Throwable e) {
 		SwingUtilities.invokeLater(() -> {
-			viewFactory.errorDialogView(e).setVisible(true);
+			swingViewLoader.loadUncaugthExceptionView(e);
 		});
 	}
 }

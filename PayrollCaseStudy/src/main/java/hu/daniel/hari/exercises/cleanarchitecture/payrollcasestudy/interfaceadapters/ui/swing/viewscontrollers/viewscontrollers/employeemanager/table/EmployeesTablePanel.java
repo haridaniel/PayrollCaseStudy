@@ -1,9 +1,14 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.table;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.employeemanager.table;
+
+import java.awt.GridLayout;
+import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
@@ -11,33 +16,17 @@ import javax.swing.table.TableModel;
 
 import com.google.common.eventbus.EventBus;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableViewModel.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.ListEmployeesUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.employeemanager.table.EmployeesTableView.EmployeesTableViewModel.EmployeeViewItem;
 
-import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
-import javax.swing.JScrollPane;
-
-public class EmployeesTableView extends JPanel {
+public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 	private JTable table;
-	private EmployeesOverviewPanelListener listener;
-	private EventBus eventBus;
+	private EmployeesTableViewListener listener;
 	private EmployeesTableViewModel viewModel;
 	
-	public EmployeesTableView(EventBus eventBus) {
-		this.eventBus = eventBus;
+	public EmployeesTablePanel() {
 		initUI();
 		initListener();
 		initEvents();
-		postEmployeeSelectionChangedEvent();
 	}
 
 	private void initUI() {
@@ -60,22 +49,22 @@ public class EmployeesTableView extends JPanel {
 			}
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				listener.onViewAdded();
+				listener.onLoaded();
 			}
 		});
 	}
 
 	private void initEvents() {
 		table.getSelectionModel().addListSelectionListener(e -> { 
-			postEmployeeSelectionChangedEvent();
+			fireEmployeeSelectionChangedEvent();
 		});
 	}
 
-	private void postEmployeeSelectionChangedEvent() {
-		eventBus.post(new EmployeeSelectionChangedEvent(getSelectedEmployeeId()));
+	private void fireEmployeeSelectionChangedEvent() {
+		listener.onSelectionChanged(getOptionalSelectedEmployeeId());
 	}
-	
-	private Optional<Integer> getSelectedEmployeeId() {
+
+	private Optional<Integer> getOptionalSelectedEmployeeId() {
 		ListSelectionModel selectionModel = table.getSelectionModel();
 		if(selectionModel.isSelectionEmpty())
 			return Optional.empty();
@@ -86,13 +75,16 @@ public class EmployeesTableView extends JPanel {
 	}
 
 
-	public void setListener(EmployeesOverviewPanelListener listener) {
+	@Override
+	public void setListener(EmployeesTableViewListener listener) {
 		this.listener = listener;
 	}
 
+	@Override
 	public void setModel(EmployeesTableViewModel viewModel) {
 		this.viewModel = viewModel;
 		table.setModel(new TableModelBuilder().toTableModel(viewModel));
+		fireEmployeeSelectionChangedEvent();
 	}
 	
 	private static class TableModelBuilder {
@@ -122,10 +114,6 @@ public class EmployeesTableView extends JPanel {
 			return columnNames;
 		}		
 		
-	}
-
-	public static interface EmployeesOverviewPanelListener {
-		void onViewAdded();
 	}
 
 }

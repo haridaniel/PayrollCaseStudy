@@ -1,36 +1,40 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.dialog;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.dialog.uncaugthexception;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.util.SpringUtilities;
-
-import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
-public class ErrorDialogView extends JDialog {
-	private ErrorDialogListener listener;
+public class UncaugthExceptionDialog extends JDialog implements UncaugthExceptionView {
+	private UncaugthExceptionViewListener listener;
 	private JTextPane textPane;
 	
-	public ErrorDialogView() {
+	public UncaugthExceptionDialog() {
 		super();
 		initUI();
 	}
 	
-	public void setListener(ErrorDialogListener listener) {
+	@Override
+	public void setListener(UncaugthExceptionViewListener listener) {
 		this.listener = listener;
+	}
+
+	@Override
+	public void setModel(UncaugthExceptionViewModel model) {
+		textPane.setText(model.stackTraceString);
+		textPane.setCaretPosition(0);
+	}
+
+	@Override
+	public void close() {
+		dispose();
 	}
 
 	private void initUI() {
@@ -72,15 +76,6 @@ public class ErrorDialogView extends JDialog {
 		}
 		
 		
-	}
-	
-	public interface ErrorDialogListener {
-		void onClose();
-	}
-
-	public void setModel(ErrorDialogViewModel model) {
-		textPane.setText(model.stackTraceString);
-		textPane.setCaretPosition(0);
 	}
 	
 	

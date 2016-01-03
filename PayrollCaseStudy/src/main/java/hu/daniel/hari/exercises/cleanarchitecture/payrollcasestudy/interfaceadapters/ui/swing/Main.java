@@ -20,7 +20,7 @@ public class Main {
 
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactory);
 	
-		new SwingUI(useCaseFactory).show();
+		new SwingUI(useCaseFactory);
 	}
 	
 	

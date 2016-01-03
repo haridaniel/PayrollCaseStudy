@@ -1,20 +1,17 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.ViewFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.components.statusbar.StatusBarView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.SwingViewFactory;
 
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class MainFrameView extends JFrame {
+public class MainFrameWindow extends JFrame implements MainFrameView {
 	
 	private JPanel topPanel;
 	private JPanel centerPanel;
@@ -24,19 +21,17 @@ public class MainFrameView extends JFrame {
 	
 	private MainFrameViewListener listener;
 
-	/**
-	 * Create the frame.
-	 */
-	public MainFrameView(ViewFactory viewFactory) {
+	public MainFrameWindow(SwingViewFactory swingViewFactory) {
 		initUI();
-		initViews(viewFactory);
+		initSubViews(swingViewFactory);
 	}
 
-	private void initViews(ViewFactory viewFactory) {
-		centerPanel.add(viewFactory.employeeManagerView());
-		bottomPanel.add(viewFactory.statusBarView());
+	private void initSubViews(SwingViewFactory swingViewFactory) {
+		centerPanel.add(swingViewFactory.employeeManagerPanel());
+		bottomPanel.add(swingViewFactory.statusBarPanel());
 	}
 	
+	@Override
 	public void setListener(MainFrameViewListener listener) {
 		this.listener = listener;
 	}
@@ -78,13 +73,4 @@ public class MainFrameView extends JFrame {
 		bottomPanel.setLayout(new BorderLayout(0, 0));
 	}
 
-	public void doShow() {
-		setVisible(true);
-	}
-	
-	public static interface MainFrameViewListener {
-		void onAddEmployeeAction();
-	}
-	
-	
 }

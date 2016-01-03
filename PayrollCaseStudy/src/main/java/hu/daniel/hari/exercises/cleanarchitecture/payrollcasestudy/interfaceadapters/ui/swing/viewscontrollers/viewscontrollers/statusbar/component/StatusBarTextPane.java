@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.components.statusbar;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.statusbar.component;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 //TODO: CLEAN
-public class StatusBarView extends JTextPane {
+public class StatusBarTextPane extends JTextPane {
 
 	private static final Color BLACK_COLOR = Color.black;
 	private static final Color DEFAULT_FONT_COLOR = Color.WHITE;
@@ -31,7 +31,7 @@ public class StatusBarView extends JTextPane {
 	private int timerstatus = STATUS_STOPPED;
 	private Message waitForLeadingMessage;
 
-	public StatusBarView() {
+	public StatusBarTextPane() {
 		super();
 		init();
 	}

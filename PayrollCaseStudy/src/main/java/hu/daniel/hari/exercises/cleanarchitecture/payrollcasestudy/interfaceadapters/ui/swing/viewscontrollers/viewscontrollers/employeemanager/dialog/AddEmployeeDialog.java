@@ -1,24 +1,21 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.dialog;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.employeemanager.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.util.SpringUtilities;
 
-import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class AddEmployeeDialogView extends JDialog {
+public class AddEmployeeDialog extends JDialog implements AddEmployeeView {
 
 	private final JPanel fieldsPanel = new JPanel();
 	private AddEmployeeDialogListener listener;
@@ -27,7 +24,7 @@ public class AddEmployeeDialogView extends JDialog {
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 	
-	public AddEmployeeDialogView() {
+	public AddEmployeeDialog() {
 		super();
 		initUI();
 		initFields();
@@ -54,6 +51,7 @@ public class AddEmployeeDialogView extends JDialog {
 		fieldsPanel.add(jTextField);
 	}
 
+	@Override
 	public void setListener(AddEmployeeDialogListener listener) {
 		this.listener = listener;
 	}
@@ -98,17 +96,18 @@ public class AddEmployeeDialogView extends JDialog {
 		
 	}
 	
-	public interface AddEmployeeDialogListener {
-		void onAddEmployee();
-		void onCancel();
-	}
-
-	public AddEmployeeDialogViewModel getModel() {
-		AddEmployeeDialogViewModel viewModel = new AddEmployeeDialogViewModel();
+	@Override
+	public AddEmployeeViewModel getModel() {
+		AddEmployeeViewModel viewModel = new AddEmployeeViewModel();
 		viewModel.employeeId = Integer.parseInt(tfEmployeeId.getText());
 		viewModel.name = tfName.getText();
 		viewModel.address = tfAddress.getText();
 		return viewModel;
+	}
+
+	@Override
+	public void close() {
+		dispose();
 	}
 
 }

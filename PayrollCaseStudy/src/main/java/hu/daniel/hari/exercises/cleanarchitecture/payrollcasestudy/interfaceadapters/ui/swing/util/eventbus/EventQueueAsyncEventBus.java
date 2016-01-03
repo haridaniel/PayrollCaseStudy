@@ -1,6 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.util.eventbus;
 
-import java.awt.EventQueue;
 import java.util.concurrent.Executor;
 
 import javax.swing.SwingUtilities;

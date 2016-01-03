@@ -9,20 +9,21 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 
 public class SwingUI {
 
-	private ViewFactory viewFactory;
+	private SwingViewLoader swingViewLoader;
 
 	public SwingUI(UseCaseFactory useCaseFactory) {
-		viewFactory = new ViewFactory(useCaseFactory, createEventBus());
-		new ErrorDialogUncaugthExceptionHandler(viewFactory).init();
+		swingViewLoader = new SwingViewLoader(useCaseFactory, createEventBus());
+		new UncaugthExceptionViewInitializer(swingViewLoader);
+		show();
 	}
 
 	private EventBus createEventBus() {
 		return new EventQueueAsyncEventBus();
 	}
 
-	public void show() {
+	private void show() {
 		SwingUtilities.invokeLater(() -> {
-			viewFactory.mainFrameView().doShow();
+			swingViewLoader.loadMainFrameView();
 		});
 	}
 

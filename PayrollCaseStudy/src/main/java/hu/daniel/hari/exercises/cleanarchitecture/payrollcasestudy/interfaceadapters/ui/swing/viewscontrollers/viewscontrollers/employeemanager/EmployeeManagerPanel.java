@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.employeemanager;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -10,26 +10,27 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.ViewFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.employeemanager.table.EmployeesTableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.SwingViewFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.swing.viewscontrollers.viewscontrollers.employeemanager.table.EmployeesTablePanel;
 
-public class EmployeeManagerView extends JPanel {
+public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView {
 	private JPanel tablePanel;
-	private EmployeesTableView employeesTableView;
-	private EmployeesManagerViewListener listener;
+	private EmployeesTablePanel employeesTablePanel;
+	private EmployeeManagerViewListener listener;
 	private JButton deleteButton;
 
-	public EmployeeManagerView(ViewFactory viewFactory) {
+	public EmployeeManagerPanel(SwingViewFactory swingViewFactory) {
 		initUI();
-		initEmloyeesTableView(viewFactory);
+		initEmloyeesTableView(swingViewFactory);
 	}
 
-	private void initEmloyeesTableView(ViewFactory viewFactory) {
-		this.employeesTableView = viewFactory.employeesTableView();
-		tablePanel.add(employeesTableView);
+	private void initEmloyeesTableView(SwingViewFactory swingViewFactory) {
+		this.employeesTablePanel = swingViewFactory.employeesTablePanel();
+		tablePanel.add(employeesTablePanel);
 	}
 
-	public void setListener(EmployeesManagerViewListener listener) {
+	@Override
+	public void setListener(EmployeeManagerViewListener listener) {
 		this.listener = listener;
 	}
 	
@@ -84,10 +85,12 @@ public class EmployeeManagerView extends JPanel {
 		listener.onDeleteAction();
 	}
 	
+	@Override
 	public void enableButtons() {
 		setButtonsEnabled(true);
 	}
 
+	@Override
 	public void disableButtons() {
 		setButtonsEnabled(false);
 	}
@@ -96,7 +99,4 @@ public class EmployeeManagerView extends JPanel {
 		deleteButton.setEnabled(enabled);
 	}
 
-	public static interface EmployeesManagerViewListener {
-		void onDeleteAction();
-	}
 }
