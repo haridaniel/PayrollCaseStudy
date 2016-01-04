@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.impl.swing;
 
+import javax.swing.JFrame;
+
 import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.impl.swing.viewimpl.AddEmployeeDialog;
@@ -26,6 +28,7 @@ public class SwingViewFactory {
 	private UseCaseFactory useCaseFactory;
 	private EventBus eventBus;
 	private ViewLoader viewLoader;
+	private JFrame mainFrame = null; //Nullable
 
 	public SwingViewFactory(UseCaseFactory useCaseFactory, EventBus eventBus, ViewLoader viewLoader) {
 		this.useCaseFactory = useCaseFactory;
@@ -37,7 +40,12 @@ public class SwingViewFactory {
 		MainFrameWindow mainFrameWindow = new MainFrameWindow(this);
 		MainFrameController controller = new MainFrameController(mainFrameWindow, viewLoader);
 		mainFrameWindow.setListener(controller);
+		setMainFrame(mainFrameWindow);
 		return mainFrameWindow;
+	}
+
+	private void setMainFrame(JFrame mainFrame) {
+		this.mainFrame = mainFrame;
 	}
 
 	public StatusBarPanel statusBarPanel() {
@@ -60,14 +68,14 @@ public class SwingViewFactory {
 	}
 	
 	public AddEmployeeDialog addEmployeeDialog() {
-		AddEmployeeDialog dialog = new AddEmployeeDialog();
+		AddEmployeeDialog dialog = new AddEmployeeDialog(mainFrame);
 		AddEmployeeController controller = new AddEmployeeController(dialog, useCaseFactory, eventBus);
 		dialog.setListener(controller);
 		return dialog;
 	}
 
 	public UncaugthExceptionDialog uncaugthExceptionDialog(Throwable e) {
-		UncaugthExceptionDialog dialog = new UncaugthExceptionDialog();
+		UncaugthExceptionDialog dialog = new UncaugthExceptionDialog(mainFrame);
 		UncaugthExceptionController controller = new UncaugthExceptionController(dialog, e);
 		dialog.setListener(controller);
 		return dialog;

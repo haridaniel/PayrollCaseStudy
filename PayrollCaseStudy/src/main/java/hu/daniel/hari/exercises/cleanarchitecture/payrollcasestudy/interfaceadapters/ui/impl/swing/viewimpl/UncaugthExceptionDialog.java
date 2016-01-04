@@ -7,24 +7,26 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewModel;
 
 public class UncaugthExceptionDialog extends JDialog implements UncaugthExceptionView {
 	private UncaugthExceptionViewListener listener;
 	private JTextPane textPane;
 
-	public UncaugthExceptionDialog() {
-		super();
+	public UncaugthExceptionDialog(JFrame parentFrame) {
+		super(parentFrame);
 		initUI();
+		centerParent();
 	}
-
+	private void centerParent() {
+		setLocationRelativeTo(getParent());
+	}
 	@Override
 	public void setListener(UncaugthExceptionViewListener listener) {
 		this.listener = listener;

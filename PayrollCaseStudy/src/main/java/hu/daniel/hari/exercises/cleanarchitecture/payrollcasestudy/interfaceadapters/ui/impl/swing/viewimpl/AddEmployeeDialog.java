@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,8 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.impl.swing.util.SpringUtilities;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeView.AddEmployeeDialogListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeView.AddEmployeeViewModel;
 
 public class AddEmployeeDialog extends JDialog implements AddEmployeeView {
 
@@ -27,10 +26,15 @@ public class AddEmployeeDialog extends JDialog implements AddEmployeeView {
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 	
-	public AddEmployeeDialog() {
-		super();
+	public AddEmployeeDialog(JFrame parentFrame) {
+		super(parentFrame);
 		initUI();
 		initFields();
+		centerParent();
+	}
+
+	private void centerParent() {
+		setLocationRelativeTo(getParent());
 	}
 	
 	private void initFields() {
@@ -75,10 +79,10 @@ public class AddEmployeeDialog extends JDialog implements AddEmployeeView {
 
 	private void initUI() {
 		setTitle("Add Employee");
-		setLocationRelativeTo(getParent());
 		setModal(true);
 		
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
+		
 		getContentPane().setLayout(new BorderLayout());
 		fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(fieldsPanel, BorderLayout.NORTH);
