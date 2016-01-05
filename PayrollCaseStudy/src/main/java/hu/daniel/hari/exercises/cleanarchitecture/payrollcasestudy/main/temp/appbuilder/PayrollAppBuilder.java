@@ -7,7 +7,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 public class PayrollAppBuilder {
 	
 	public static <T extends UI> T build(Database database, UIFactory<T> uiFactory) {
-		UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database);
+		UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database, null);
 		return uiFactory.createUI(useCaseFactory);
 	}
 	

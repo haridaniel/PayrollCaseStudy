@@ -11,7 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesbound
 
 public abstract class AbstractUseCaseITTest extends ParameterizedMultipleDatabaseITTest {
 
-	protected UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database);
+	protected UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database, null);
 
 	public AbstractUseCaseITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);

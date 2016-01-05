@@ -2,7 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integra
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.find.ListEmployeesUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.usecases.find.ListEmployeesUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeeItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.response.EmployeeItem.PaymentClassificationType;
@@ -17,7 +18,7 @@ public class ListEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTe
 	@Override
 	protected ListEmployeesUseCaseResponse whenExecuteUseCase() {
 		ListEmployeesUseCase employeesOverviewUseCase = useCaseFactory.listEmployeesUseCase();
-		employeesOverviewUseCase.execute(new EmptyRequest());
+		employeesOverviewUseCase.execute(Request.EMPTY_REQUEST);
 		return employeesOverviewUseCase.getResponse();
 	}
 
