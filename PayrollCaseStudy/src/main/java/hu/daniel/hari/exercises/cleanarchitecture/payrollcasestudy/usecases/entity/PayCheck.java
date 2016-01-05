@@ -2,14 +2,20 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.ent
 
 public class PayCheck {
 	
+	private int employeeId;
 	private final int grossAmount;
 	private int deductionsAmount;
 	
-	public PayCheck(int grossAmount, int deductionsAmount) {
+	public PayCheck(int employeeId, int grossAmount, int deductionsAmount) {
+		this.employeeId = employeeId;
 		this.grossAmount = grossAmount;
 		this.deductionsAmount = deductionsAmount;
 	}
 
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	
 	public int getGrossAmount() {
 		return grossAmount;
 	}

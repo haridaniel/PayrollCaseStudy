@@ -33,7 +33,7 @@ public abstract class Employee {
 		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
 		int grossAmount = getPaymentClassification().calculateAmount(payInterval);
 		int deductionsAmount = getAffiliation().calculateDeductionsAmount(payInterval);
-		return new PayCheck(grossAmount, deductionsAmount);
+		return new PayCheck(getId(), grossAmount, deductionsAmount);
 	}
 	
 	public static interface EmployeeFactory {
