@@ -13,7 +13,7 @@ public class ChangeEmployeeNameUseCase extends ChangeEmployeeUseCase<ChangeEmplo
 	}
 
 	@Override
-	protected void change(ChangeEmployeeNameRequest request, Employee employee) {
+	protected void change(Employee employee, ChangeEmployeeNameRequest request) {
 		employee.setName(request.newName);
 	}
 

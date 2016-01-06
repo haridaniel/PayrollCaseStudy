@@ -41,6 +41,7 @@ public class ClassPathScannerProxyClassProvider {
 		return new Reflections(PACKAGE_ROOT_TO_SCAN).getTypesAnnotatedWith(AutoBindedProxy.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Class<Proxy<?>> ensureImplementsProxyInterface(Class<?> class1) {
 		if (!Proxy.class.isAssignableFrom(class1))
 			throw new DoesNotImplementProxyInterfaceException();
@@ -53,11 +54,11 @@ public class ClassPathScannerProxyClassProvider {
 
 	private Class<?> assertNotNull(Class<?> proxyClass) {
 		if (proxyClass == null)
-			throw new NoProxyClassFoundException();
+			throw new NoAnnotatedProxyClassFoundException();
 		return proxyClass;
 	}
 
-	public static class NoProxyClassFoundException extends RuntimeException {}
+	public static class NoAnnotatedProxyClassFoundException extends RuntimeException {}
 	public static class DoesNotImplementProxyInterfaceException extends RuntimeException {}
 
 }

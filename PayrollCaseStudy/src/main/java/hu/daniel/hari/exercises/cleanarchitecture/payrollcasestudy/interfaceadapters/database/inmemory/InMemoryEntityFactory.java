@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.BiWeeklyPaymentScheduleImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.CommissionedPaymentClassificationImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.DirectPaymentMethodImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.EmployeeImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.HoldPaymentMethodImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity.HourlyPaymentClassificationImpl;
@@ -58,6 +59,10 @@ public class InMemoryEntityFactory implements EntityFactory {
 	}
 
 	@Override
+	public PaymentMethod directPaymentMethod(String accountNumber) {
+		return new DirectPaymentMethodImpl(accountNumber);
+	}
+	@Override
 	public MonthlyPaymentSchedule monthlyPaymentSchedule() {
 		return new MonthlyPaymentScheduleImpl();
 	}
@@ -86,7 +91,7 @@ public class InMemoryEntityFactory implements EntityFactory {
 	public NoAffiliation noAffiliation() {
 		return new NoAffiliationImpl();
 	}
-	
+
 	@Override
 	public UnionMemberAffiliation unionMemberAffiliation(int unionMemberId, int weeklyDueAmount) {
 		return new UnionMemberAffiliationImpl(unionMemberId, weeklyDueAmount);
@@ -97,5 +102,5 @@ public class InMemoryEntityFactory implements EntityFactory {
 		return new ServiceChargeImpl(date, amount);
 	}
 
-	
+
 }

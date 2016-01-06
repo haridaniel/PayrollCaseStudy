@@ -4,6 +4,7 @@ public interface PaymentMethod {
 
 	public static interface PaymentMethodFactory {
 		PaymentMethod holdPaymentMethod();
+		PaymentMethod directPaymentMethod(String accountNumber);
 	}
 
 }

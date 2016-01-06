@@ -16,11 +16,7 @@ public class JPATransactionalRunner implements TransactionalRunner {
 			runnable.run();
 			transaction.commit();
 		} catch (RuntimeException e) {
-			if (transaction.isActive()) {
-				transaction.rollback();
-			} else {
-				System.err.println("DEBUG: NOT SUPPOSED TO SEE THIS");
-			}
+			transaction.rollback();
 			throw e;
 		}
 	}

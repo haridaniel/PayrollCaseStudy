@@ -14,10 +14,10 @@ public abstract class ChangeEmployeeUseCase<T extends ChangeEmployeeRequest> ext
 
 	@Override
 	protected final void executeInTransaction(T request) {
-		change(request, employeeGateway.findById(request.employeeId));
+		change(employeeGateway.findById(request.employeeId), request);
 	}
 
-	protected abstract void change(T request, Employee employee);
+	protected abstract void change(Employee employee, T request);
 	
 	public static interface ChangeEmployeeUseCaseFactory {
 		ChangeEmployeeNameUseCase changeEmployeeNameUseCase();

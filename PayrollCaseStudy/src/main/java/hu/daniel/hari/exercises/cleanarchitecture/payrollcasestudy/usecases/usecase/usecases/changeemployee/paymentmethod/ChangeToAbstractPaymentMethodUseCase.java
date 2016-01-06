@@ -1,0 +1,32 @@
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.usecases.changeemployee.paymentmethod;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.PaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase.usecases.changeemployee.ChangeEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.changeemployee.ChangeEmployeeRequest;
+
+public abstract class ChangeToAbstractPaymentMethodUseCase<T extends ChangeEmployeeRequest> extends ChangeEmployeeUseCase<T> {
+
+	public ChangeToAbstractPaymentMethodUseCase(
+			TransactionalRunner transactionalRunner,
+			EmployeeGateway employeeGateway 
+			) {
+		super(transactionalRunner, employeeGateway);
+	}
+
+	@Override
+	protected void change(Employee employee, T request) {
+		employee.setPaymentMethod(getPaymentMethod(request));
+	}
+
+	protected abstract PaymentMethod getPaymentMethod(T request);
+
+	public static interface ChangeToAbstractPaymentMethodUseCaseFactory {
+		 ChangeToDirectPaymentMethodUseCase changeToDirectPaymentMethodUseCase(); 
+		 ChangeToHoldPaymentMethodUseCase changeToHoldPaymentMethodUseCase(); 
+	}
+
+	
+}
