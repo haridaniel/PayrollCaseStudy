@@ -3,14 +3,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.OnceExecutableUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.UseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.SendPayInteractorFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.SendPayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class SendPayUseCase extends OnceExecutableUseCase<SendPayRequest> {
+public class SendPayUseCase implements UseCase<SendPayRequest> {
 
 	private EmployeeGateway employeeGateway;
 	private SendPayInteractorFactory sendPayInteractorFactory;
@@ -26,12 +25,12 @@ public class SendPayUseCase extends OnceExecutableUseCase<SendPayRequest> {
 	}
 	
 	@Override
-	protected void executeOnce(SendPayRequest request) {
+	public void execute(SendPayRequest request) {
 		for (PayCheck payCheck : request.payChecks) {
 			pay(payCheck);
 		}
 	}
-
+	
 	private void pay(PayCheck payCheck) {
 		pay(payCheck.getNetAmount(), getEmployee(payCheck.getEmployeeId()).getPaymentMethod());
 	}
@@ -47,6 +46,7 @@ public class SendPayUseCase extends OnceExecutableUseCase<SendPayRequest> {
 	public static interface SendPayUseCaseFactory {
 		SendPayUseCase sendPayUseCase();
 	}
+
 
 	
 }

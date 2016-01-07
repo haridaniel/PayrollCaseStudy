@@ -13,8 +13,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public class ListEmployeesUseCase extends TransactionalEmployeeGatewayUseCase<EmptyRequest> implements HasResponse<ListEmployeesResponse> {
 
-	private ListEmployeesResponse response;
 	private EmployeeItemConverter employeeItemConverter = new EmployeeItemConverter();
+	private ListEmployeesResponse response;
 	
 	public ListEmployeesUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
 		super(transactionalRunner, employeeGateway);

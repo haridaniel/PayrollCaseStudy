@@ -15,7 +15,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends TransactionalEmployeeGatewayUseCase<R> {
-	private Employee employee;
 	private EmployeeFactory employeeFactory;
 	private PaymentMethodFactory paymentMethodFactory;
 	private AffiliationFactory affiliationFactory;
@@ -35,27 +34,27 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	
 	@Override
 	protected final void executeInTransaction(R request) {
-		employee = employeeFactory.employee();
+		Employee employee = employeeFactory.employee();
 		
-		setFields(request);
-		setDefaultFields();
-		setEmployeeTypeSpecificFields(request);
+		setFields(employee, request);
+		setDefaultFields(employee);
+		setEmployeeTypeSpecificFields(employee, request);
 				
 		employeeGateway.addNew(employee);
 	}
 
-	private void setFields(R request) {
+	private void setFields(Employee employee, R request) {
 		employee.setId(request.employeeId);
 		employee.setName(request.name);
 		employee.setAddress(request.address);
 	}
 
-	private void setDefaultFields() {
+	private void setDefaultFields(Employee employee) {
 		employee.setPaymentMethod(paymentMethodFactory.holdPaymentMethod());
 		employee.setAffiliation(affiliationFactory.noAffiliation());
 	}
 
-	private void setEmployeeTypeSpecificFields(R request) {
+	private void setEmployeeTypeSpecificFields(Employee employee, R request) {
 		employee.setPaymentClassification(getPaymentClassification(request));
 		employee.setPaymentSchedule(getPaymentSchedule());
 	}
