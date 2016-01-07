@@ -1,6 +1,6 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity;
+package hu.daniel.hari.testthis.data.inmemory.entity;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.HoldPaymentMethod;
 
 public class HoldPaymentMethodImpl extends HoldPaymentMethod {
 

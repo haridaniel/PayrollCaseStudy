@@ -1,13 +1,13 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.dao;
+package hu.daniel.hari.testthis.data.jpa.dao;
 
 import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation.unionmember.JPAServiceCharge;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.hourly.JPATimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
+import hu.daniel.hari.testthis.data.jpa.model.affiliation.unionmember.JPAServiceCharge;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.hourly.JPATimeCard;
 
 public class JPAServiceChargeDao {
 	

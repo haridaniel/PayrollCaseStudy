@@ -1,6 +1,6 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.inmemory.entity;
+package hu.daniel.hari.testthis.data.inmemory.entity;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentschedule.WeeklyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.WeeklyPaymentSchedule;
 
 public class WeeklyPaymentScheduleImpl extends WeeklyPaymentSchedule {
 	

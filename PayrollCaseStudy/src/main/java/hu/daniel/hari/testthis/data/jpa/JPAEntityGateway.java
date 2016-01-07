@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa;
+package hu.daniel.hari.testthis.data.jpa;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.dao.JPAEmployeeDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.JPAEmployee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.EmployeeProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.ProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
+import hu.daniel.hari.testthis.data.jpa.dao.JPAEmployeeDao;
+import hu.daniel.hari.testthis.data.jpa.model.JPAEmployee;
+import hu.daniel.hari.testthis.data.jpa.proxy.EmployeeProxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.ProxyFactory;
 
 public class JPAEntityGateway implements EmployeeGateway {
 	@Inject private JPAEmployeeDao jPAEmployeeDao;

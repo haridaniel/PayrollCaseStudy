@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database;
 
 public interface TransactionalRunner {
 	void executeInTransaction(Runnable runnable);

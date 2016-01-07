@@ -1,8 +1,8 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.EmployeeGateway;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.TransactionalRunner;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public abstract class TransactionalUseCase<R extends Request> extends OnceExecutableUseCase<R> {
 	private TransactionalRunner transactionalRunner;

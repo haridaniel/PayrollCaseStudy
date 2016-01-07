@@ -1,9 +1,9 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentmethod;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentmethod;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentmethod.JPAHoldPaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentmethod.JPAPaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.testthis.data.jpa.model.paymentmethod.JPAHoldPaymentMethod;
+import hu.daniel.hari.testthis.data.jpa.model.paymentmethod.JPAPaymentMethod;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.AutoBindedProxy;
 
 @AutoBindedProxy(JPAHoldPaymentMethod.class)
 public class HoldPaymentMethodProxy extends HoldPaymentMethod implements PaymentMethodProxy {

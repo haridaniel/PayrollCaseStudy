@@ -1,7 +1,7 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.Proxy;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.proxy.Proxy;
 
 public interface PaymentClassificationProxy extends Proxy<JPAPaymentClassification> {
 }

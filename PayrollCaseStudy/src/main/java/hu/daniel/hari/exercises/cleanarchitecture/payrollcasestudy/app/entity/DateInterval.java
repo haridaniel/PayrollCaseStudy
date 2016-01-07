@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

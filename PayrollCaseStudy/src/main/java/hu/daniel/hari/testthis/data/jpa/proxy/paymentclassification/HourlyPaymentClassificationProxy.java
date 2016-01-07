@@ -1,16 +1,16 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.dao.JPATimeCardDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.hourly.JPATimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.ProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.testthis.data.jpa.dao.JPATimeCardDao;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.testthis.data.jpa.proxy.ProxyFactory;
+import hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.AutoBindedProxy;
 
 import java.util.Collection;
 import java.util.List;

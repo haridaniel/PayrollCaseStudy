@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation;
+package hu.daniel.hari.testthis.data.jpa.model.affiliation;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation.unionmember.JPAServiceCharge;
+import hu.daniel.hari.testthis.data.jpa.model.affiliation.unionmember.JPAServiceCharge;
 
 @Entity
 public class JPAUnionMemberAffiliation extends JPAAffiliation implements Serializable {

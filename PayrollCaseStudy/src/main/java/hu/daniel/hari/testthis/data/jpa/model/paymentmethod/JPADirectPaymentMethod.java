@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentmethod;
+package hu.daniel.hari.testthis.data.jpa.model.paymentmethod;
 
 import javax.persistence.Entity;
 

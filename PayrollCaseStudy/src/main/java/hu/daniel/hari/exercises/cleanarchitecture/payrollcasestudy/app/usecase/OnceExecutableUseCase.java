@@ -1,6 +1,6 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.usecase;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.requestresponse.request.Request;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 
 public abstract class OnceExecutableUseCase<R extends Request> implements UseCase<R>{
 	boolean executed = false;

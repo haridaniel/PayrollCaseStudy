@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.dao;
+package hu.daniel.hari.testthis.data.jpa.dao;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaQuery;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.JPAEmployee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
+import hu.daniel.hari.testthis.data.jpa.model.JPAEmployee;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 
 public class JPAEmployeeDao {
 

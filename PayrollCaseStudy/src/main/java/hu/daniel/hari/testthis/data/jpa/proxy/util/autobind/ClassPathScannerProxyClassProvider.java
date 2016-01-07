@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind;
+package hu.daniel.hari.testthis.data.jpa.proxy.util.autobind;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +8,8 @@ import javax.inject.Singleton;
 
 import org.reflections.Reflections;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.EmployeeProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.Proxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.EmployeeProxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.Proxy;
 
 @Singleton
 public class ClassPathScannerProxyClassProvider {

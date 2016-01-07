@@ -1,20 +1,20 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.dao.JPASalesReceiptDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.ProxyFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalesReceipt;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalesReceipt;
+import hu.daniel.hari.testthis.data.jpa.dao.JPASalesReceiptDao;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
+import hu.daniel.hari.testthis.data.jpa.proxy.ProxyFactory;
+import hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.AutoBindedProxy;
 
 @AutoBindedProxy(CommissionedJPAPaymentClassification.class)
 public class CommissionedPaymentClassificationProxy extends CommissionedPaymentClassification implements PaymentClassificationProxy {

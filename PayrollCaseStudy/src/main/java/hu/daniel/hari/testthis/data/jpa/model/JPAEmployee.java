@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model;
+package hu.daniel.hari.testthis.data.jpa.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -6,10 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation.JPAAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentmethod.JPAPaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentschedule.JPAPaymentSchedule;
+import hu.daniel.hari.testthis.data.jpa.model.affiliation.JPAAffiliation;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentmethod.JPAPaymentMethod;
+import hu.daniel.hari.testthis.data.jpa.model.paymentschedule.JPAPaymentSchedule;
 
 @Entity
 public class JPAEmployee {

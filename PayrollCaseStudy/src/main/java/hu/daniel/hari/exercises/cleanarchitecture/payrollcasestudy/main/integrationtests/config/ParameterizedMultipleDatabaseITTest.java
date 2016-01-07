@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.StaticIntegrationTestsConfig;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
 @RunWith(Parameterized.class)
 public abstract class ParameterizedMultipleDatabaseITTest {

@@ -1,12 +1,12 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification.hourly;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification.hourly;
 
 import java.time.LocalDate;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.hourly.JPATimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.Proxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.hourly.JPATimeCard;
+import hu.daniel.hari.testthis.data.jpa.proxy.Proxy;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.AutoBindedProxy;
 
 @AutoBindedProxy(JPATimeCard.class)
 public class TimeCardProxy extends TimeCard implements Proxy<JPATimeCard> {

@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database;
 
 import javax.persistence.EntityManager;
 

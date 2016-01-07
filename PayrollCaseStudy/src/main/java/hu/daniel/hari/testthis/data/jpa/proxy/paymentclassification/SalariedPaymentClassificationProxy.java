@@ -1,9 +1,9 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.paymentclassification;
+package hu.daniel.hari.testthis.data.jpa.proxy.paymentclassification;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.AutoBindedProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.AutoBindedProxy;
 
 @AutoBindedProxy(SalariedJPAPaymentClassification.class)
 public class SalariedPaymentClassificationProxy extends SalariedPaymentClassification implements PaymentClassificationProxy {

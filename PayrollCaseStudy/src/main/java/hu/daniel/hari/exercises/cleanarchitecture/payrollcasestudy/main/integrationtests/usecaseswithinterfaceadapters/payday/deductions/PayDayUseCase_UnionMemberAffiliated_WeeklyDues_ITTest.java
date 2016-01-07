@@ -7,8 +7,8 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.PayCheck;
 
 public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDayUseCase_AbstractUnionMemberAffiliated_ITTest {
 	//Dues deducted on every friday

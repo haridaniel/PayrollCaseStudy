@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -12,8 +12,8 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.paymentclassification.StrictIntervalPaymentClassification.InvalidIntervalException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.StrictIntervalPaymentClassification.InvalidIntervalException;
 
 public class CommissionedPaymentClassificationTest {
 	private static final DateInterval A_BIWEEK_INTERVAL = 			DateInterval.of(LocalDate.of(2015, 12, 05), LocalDate.of(2015, 12, 18));

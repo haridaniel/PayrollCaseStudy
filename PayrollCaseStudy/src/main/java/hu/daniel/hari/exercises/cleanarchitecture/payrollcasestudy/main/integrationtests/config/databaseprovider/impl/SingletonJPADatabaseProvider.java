@@ -1,15 +1,15 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.databaseprovider.impl;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.JPAPayrollDatabaseModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database.Database;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
+import hu.daniel.hari.testthis.data.jpa.JPADatabaseModule;
 
 public class SingletonJPADatabaseProvider implements DatabaseProvider {
 
 	private Database database;
 
 	public SingletonJPADatabaseProvider(String persistenceUnitName) {
-		this.database = new JPAPayrollDatabaseModule(persistenceUnitName).getPayrollDatabase();
+		this.database = new JPADatabaseModule(persistenceUnitName).getDatabase();
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentschedule;
+package hu.daniel.hari.testthis.data.jpa.model.paymentschedule;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.JPAEmployee;
+import hu.daniel.hari.testthis.data.jpa.model.JPAEmployee;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

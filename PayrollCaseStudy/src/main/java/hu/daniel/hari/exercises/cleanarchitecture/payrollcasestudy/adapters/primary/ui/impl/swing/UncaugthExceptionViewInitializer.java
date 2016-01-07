@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.impl.swing;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing;
 
 import java.awt.AWTEvent;
 import java.awt.EventQueue;
@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 
 import javax.swing.SwingUtilities;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.ViewLoader;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ViewLoader;
 
 class UncaugthExceptionViewInitializer {
 

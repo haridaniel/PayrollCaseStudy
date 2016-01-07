@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind;
+package hu.daniel.hari.testthis.data.jpa.proxy.util.autobind;
 
 import java.lang.reflect.Constructor;
 
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind.ClassPathScannerProxyClassProvider;
+import hu.daniel.hari.testthis.data.jpa.proxy.util.autobind.ClassPathScannerProxyClassProvider;
 
 @Singleton
 public class AutoBindedProxyFactory {

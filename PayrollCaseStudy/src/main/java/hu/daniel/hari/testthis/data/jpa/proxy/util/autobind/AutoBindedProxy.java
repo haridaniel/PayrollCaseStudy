@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.util.autobind;
+package hu.daniel.hari.testthis.data.jpa.proxy.util.autobind;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

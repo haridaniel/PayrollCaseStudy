@@ -1,8 +1,8 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecasesboundary.database;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database;
 
 import java.util.Collection;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.Employee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 
 public interface EmployeeGateway {
 	

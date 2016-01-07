@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy;
+package hu.daniel.hari.testthis.data.jpa.proxy;
 
 /**
  * @param <T> - binded JPA class

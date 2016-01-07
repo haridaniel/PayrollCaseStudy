@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.commissioned;
+package hu.daniel.hari.testthis.data.jpa.model.paymentclassification.commissioned;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
+import hu.daniel.hari.testthis.data.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
 
 @Entity
 public class JPASalesReceipt {

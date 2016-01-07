@@ -1,7 +1,7 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.affiliation;
+package hu.daniel.hari.testthis.data.jpa.proxy.affiliation;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation.JPAAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.proxy.Proxy;
+import hu.daniel.hari.testthis.data.jpa.model.affiliation.JPAAffiliation;
+import hu.daniel.hari.testthis.data.jpa.proxy.Proxy;
 
 public interface AffiliationProxy extends Proxy<JPAAffiliation>{
 }

@@ -1,10 +1,10 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.uncaugthexception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.uncaugthexception.UncaugthExceptionView.UncaugthExceptionViewModel;
 
 public class UncaugthExceptionController implements UncaugthExceptionViewListener {
 

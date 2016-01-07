@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa;
+package hu.daniel.hari.testthis.data.jpa;
 
 public interface JPAPersistenceUnitNames {
 	public static final String HSQL_DB = "hsql-db";

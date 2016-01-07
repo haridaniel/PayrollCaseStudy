@@ -1,9 +1,9 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation;
 
 import java.time.DayOfWeek;
 import java.util.Collection;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
 public abstract class UnionMemberAffiliation implements Affiliation {
 

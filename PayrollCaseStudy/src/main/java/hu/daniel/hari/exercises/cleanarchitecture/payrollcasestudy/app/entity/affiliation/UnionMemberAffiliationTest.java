@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.DateInterval;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
 public class UnionMemberAffiliationTest {
 	private static final DateInterval INTERVAL_HAS_4_FRIDAYS = DateInterval.of(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 31));

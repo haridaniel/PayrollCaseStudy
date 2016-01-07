@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.interfaceadapters.database.jpa.model.affiliation;
+package hu.daniel.hari.testthis.data.jpa.model.affiliation;
 
 import javax.persistence.Entity;
 

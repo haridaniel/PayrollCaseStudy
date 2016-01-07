@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.usecases.entity.affiliation;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation;
 
 import java.time.LocalDate;
 
