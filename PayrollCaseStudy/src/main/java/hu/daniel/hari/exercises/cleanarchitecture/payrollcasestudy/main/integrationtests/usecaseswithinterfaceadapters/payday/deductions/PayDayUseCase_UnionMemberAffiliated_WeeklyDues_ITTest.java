@@ -25,7 +25,7 @@ public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDa
 	@Test
 	public void testPaySingleSalariedEmployee_WithUnionMemberAffiliation_ShouldWeeklyDues_BeDeducted() {
 		givenASalariedEmployee_WithUnionMembershipAffiliation(weeklyDueAmount);
-		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
+		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
 		thenPayCheckDeductionsAmount_ShouldBeCorrect(payChecks);
 	}
 

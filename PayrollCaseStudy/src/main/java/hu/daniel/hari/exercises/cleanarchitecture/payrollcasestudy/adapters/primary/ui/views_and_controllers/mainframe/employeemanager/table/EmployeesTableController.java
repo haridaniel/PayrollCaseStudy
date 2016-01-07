@@ -16,7 +16,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesResponse;
 
 public class EmployeesTableController implements EmployeesTableViewListener {
 	
@@ -56,7 +56,7 @@ public class EmployeesTableController implements EmployeesTableViewListener {
 
 	private static class ModelConverter {
 		
-		public EmployeesTableViewModel toViewModel(ListEmployeesUseCaseResponse response) {
+		public EmployeesTableViewModel toViewModel(ListEmployeesResponse response) {
 			return new EmployeesTableViewModel(toViewModel(response.employeeItems));
 		}
 		

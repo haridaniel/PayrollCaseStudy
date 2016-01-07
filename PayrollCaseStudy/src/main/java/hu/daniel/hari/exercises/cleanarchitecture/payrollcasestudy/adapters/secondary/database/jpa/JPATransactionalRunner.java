@@ -15,6 +15,7 @@ public class JPATransactionalRunner implements TransactionalRunner {
 		try {
 			runnable.run();
 			transaction.commit();
+			entityManager.clear();
 		} catch (RuntimeException e) {
 			transaction.rollback();
 			throw e;

@@ -2,15 +2,15 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeUseCaseRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class GetEmployeeUseCase extends TransactionalUseCase<GetEmployeeUseCaseRequest> implements HasResponse<GetEmployeeUseCaseResponse> {
+public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetEmployeeRequest> implements HasResponse<GetEmployeeResponse> {
 
-	private GetEmployeeUseCaseResponse response;
+	private GetEmployeeResponse response;
 	private EmployeeItemConverter employeeItemConverter = new EmployeeItemConverter();
 	
 	public GetEmployeeUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
@@ -18,16 +18,16 @@ public class GetEmployeeUseCase extends TransactionalUseCase<GetEmployeeUseCaseR
 	}
 
 	@Override
-	protected void executeInTransaction(GetEmployeeUseCaseRequest request) {
+	protected void executeInTransaction(GetEmployeeRequest request) {
 		response = toResponse(employeeGateway.findById(request.employeeId));
 	}
 
-	private GetEmployeeUseCaseResponse toResponse(Employee employee) {
-		return new GetEmployeeUseCaseResponse(employeeItemConverter.toEmployeeItem(employee));
+	private GetEmployeeResponse toResponse(Employee employee) {
+		return new GetEmployeeResponse(employeeItemConverter.toEmployeeItem(employee));
 	}
 
 	@Override
-	public GetEmployeeUseCaseResponse getResponse() {
+	public GetEmployeeResponse getResponse() {
 		return response;
 	}
 	

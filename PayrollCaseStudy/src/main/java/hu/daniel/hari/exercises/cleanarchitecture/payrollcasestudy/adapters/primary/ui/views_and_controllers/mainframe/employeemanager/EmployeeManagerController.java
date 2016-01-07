@@ -11,7 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.DeleteEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeUseCaseRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
 
 public class EmployeeManagerController implements EmployeeManagerViewListener {
@@ -52,7 +52,7 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 
 	private EmployeeItem getEmployeeItem(int employeeId) {
 		GetEmployeeUseCase getEmployeeUseCase = useCaseFactory.getEmployeeUseCase();
-		getEmployeeUseCase.execute(new GetEmployeeUseCaseRequest(employeeId));
+		getEmployeeUseCase.execute(new GetEmployeeRequest(employeeId));
 		return getEmployeeUseCase.getResponse().employeeItem;
 	}
 

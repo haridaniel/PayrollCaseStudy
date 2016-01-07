@@ -4,11 +4,11 @@ import java.util.List;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 
-public class SendPayUseCaseRequest implements Request {
+public class SendPayRequest implements Request {
 
 	public List<PayCheck> payChecks;
 
-	public SendPayUseCaseRequest(List<PayCheck> payChecks) {
+	public SendPayRequest(List<PayCheck> payChecks) {
 		this.payChecks = payChecks;
 	}
 }

@@ -5,15 +5,15 @@ import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class ListEmployeesUseCase extends TransactionalUseCase<EmptyRequest> implements HasResponse<ListEmployeesUseCaseResponse> {
+public class ListEmployeesUseCase extends TransactionalEmployeeGatewayUseCase<EmptyRequest> implements HasResponse<ListEmployeesResponse> {
 
-	private ListEmployeesUseCaseResponse response;
+	private ListEmployeesResponse response;
 	private EmployeeItemConverter employeeItemConverter = new EmployeeItemConverter();
 	
 	public ListEmployeesUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
@@ -25,8 +25,8 @@ public class ListEmployeesUseCase extends TransactionalUseCase<EmptyRequest> imp
 		response = toResponse(employeeGateway.findAll());
 	}
 
-	private ListEmployeesUseCaseResponse toResponse(Collection<Employee> employees) {
-		ListEmployeesUseCaseResponse response = new ListEmployeesUseCaseResponse();
+	private ListEmployeesResponse toResponse(Collection<Employee> employees) {
+		ListEmployeesResponse response = new ListEmployeesResponse();
 		response.employeeItems = employees.stream()
 			.map(employee -> employeeItemConverter.toEmployeeItem(employee))
 			.collect(Collectors.toList());
@@ -34,7 +34,7 @@ public class ListEmployeesUseCase extends TransactionalUseCase<EmptyRequest> imp
 	}
 
 	@Override
-	public ListEmployeesUseCaseResponse getResponse() {
+	public ListEmployeesResponse getResponse() {
 		return response;
 	}
 	

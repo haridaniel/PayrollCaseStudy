@@ -90,7 +90,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends PayD
 		givenACommissionedEmployee();
 		givenSalesReceipts(theCase.salesReceipts);
 		
-		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(getAPayday());
+		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
 		
 		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmountSum);
 	}

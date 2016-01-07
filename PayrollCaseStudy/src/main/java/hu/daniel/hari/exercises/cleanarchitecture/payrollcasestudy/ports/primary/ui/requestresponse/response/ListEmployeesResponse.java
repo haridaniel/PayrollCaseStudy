@@ -2,6 +2,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 import java.util.List;
 
-public class ListEmployeesUseCaseResponse implements Response {
+public class ListEmployeesResponse implements Response {
 	public List<EmployeeItem> employeeItems;
 }

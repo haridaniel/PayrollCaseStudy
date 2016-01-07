@@ -29,11 +29,6 @@ public class InMemoryDatabase implements Database {
 	}
 
 	@Override
-	public EntityManager getEntityManager() {
-		return Mockito.mock(EntityManager.class);
-	}
-
-	@Override
 	public EntityFactory entityFactory() {
 		return new InMemoryEntityFactory();
 	}

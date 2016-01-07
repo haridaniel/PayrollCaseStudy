@@ -2,11 +2,11 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.paymentmethod.ChangeToDirectPaymentMethodUseCaseRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.paymentmethod.ChangeToDirectPaymentMethodRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class ChangeToDirectPaymentMethodUseCase extends ChangeToAbstractPaymentMethodUseCase<ChangeToDirectPaymentMethodUseCaseRequest> {
+public class ChangeToDirectPaymentMethodUseCase extends ChangeToAbstractPaymentMethodUseCase<ChangeToDirectPaymentMethodRequest> {
 
 	private PaymentMethodFactory paymentMethodFactory;
 
@@ -20,7 +20,7 @@ public class ChangeToDirectPaymentMethodUseCase extends ChangeToAbstractPaymentM
 	}
 
 	@Override
-	protected PaymentMethod getPaymentMethod(ChangeToDirectPaymentMethodUseCaseRequest request) {
+	protected PaymentMethod getPaymentMethod(ChangeToDirectPaymentMethodRequest request) {
 		return paymentMethodFactory.directPaymentMethod(request.accountNumber);
 	}
 

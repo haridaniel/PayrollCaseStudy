@@ -10,11 +10,11 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.PaydayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PaydayRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 
 public class PayDayUseCase_SalariedEmployee_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
@@ -33,7 +33,7 @@ public class PayDayUseCase_SalariedEmployee_ITTest extends PayDayUseCase_Abstrac
 	@Test
 	public void testPaySingleSalariedEmployee_OnPayday_ShouldCreateCorrectPayCheck() throws Exception {
 		givenASalariedEmployee();
-		thenPayCheckGrossAmountSumShouldBeTheSalary(whenPayDayUseCaseExecuted(getAPayday()));
+		thenPayCheckGrossAmountSumShouldBeTheSalary(whenGeneratePayUseCaseExecuted(getAPayday()));
 	}
 
 	private void givenASalariedEmployee() {

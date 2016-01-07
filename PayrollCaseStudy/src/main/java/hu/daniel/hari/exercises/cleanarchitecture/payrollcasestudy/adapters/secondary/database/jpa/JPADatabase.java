@@ -17,8 +17,6 @@ public class JPADatabase implements Database {
 	@Inject private JPAEntityFactory entityFactory;
 	@Inject private JPAEntityGateway jpaEntityGateway;
 	
-	@Inject private EntityManager entityManager;
-
 	@Override
 	public TransactionalRunner transactionalRunner() {
 		return jpaTransactionalRunner;
@@ -34,10 +32,4 @@ public class JPADatabase implements Database {
 		return jpaEntityGateway;
 	}
 
-
-	@Override
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-	
 }

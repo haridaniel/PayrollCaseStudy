@@ -1,16 +1,18 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.sendpay;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.sendpay.interactor.SendPayInteractorFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.SendPayUseCaseRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.OnceExecutableUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.SendPayInteractorFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.SendPayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class SendPayUseCase extends TransactionalUseCase<SendPayUseCaseRequest> {
+public class SendPayUseCase extends OnceExecutableUseCase<SendPayRequest> {
 
+	private EmployeeGateway employeeGateway;
 	private SendPayInteractorFactory sendPayInteractorFactory;
 
 	public SendPayUseCase(
@@ -18,13 +20,13 @@ public class SendPayUseCase extends TransactionalUseCase<SendPayUseCaseRequest> 
 			EmployeeGateway employeeGateway,
 			SendPayInteractorFactory sendPayInteractorFactory
 			) {
-		super(transactionalRunner, employeeGateway);
+		super();
+		this.employeeGateway = employeeGateway;
 		this.sendPayInteractorFactory = sendPayInteractorFactory;
 	}
-
-	//TODO: Transactional has no meaning here
+	
 	@Override
-	protected void executeInTransaction(SendPayUseCaseRequest request) {
+	protected void executeOnce(SendPayRequest request) {
 		for (PayCheck payCheck : request.payChecks) {
 			pay(payCheck);
 		}
@@ -45,5 +47,6 @@ public class SendPayUseCase extends TransactionalUseCase<SendPayUseCaseRequest> 
 	public static interface SendPayUseCaseFactory {
 		SendPayUseCase sendPayUseCase();
 	}
+
 	
 }

@@ -191,7 +191,7 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 			employeeGateway.addNew(testEmployeeWithTimeCard);
 		});
 		
-		database.getEntityManager().clear();
+//		database.getEntityManager().clear();
 
 		Employee employee = employeeGateway.findById(testEmployeeWithTimeCard.getId());
 		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification()).getTimeCardsIn(DateInterval.of(THIS_FRIDAY, THIS_FRIDAY)));

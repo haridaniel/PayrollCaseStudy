@@ -6,24 +6,24 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesUseCaseResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.Response;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentClassificationType;
 
-public class ListEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTest<ListEmployeesUseCaseResponse> {
+public class ListEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTest<ListEmployeesResponse> {
 	public ListEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
 	@Override
-	protected ListEmployeesUseCaseResponse whenExecuteUseCase() {
+	protected ListEmployeesResponse whenExecuteUseCase() {
 		ListEmployeesUseCase employeesOverviewUseCase = useCaseFactory.listEmployeesUseCase();
 		employeesOverviewUseCase.execute(Request.EMPTY_REQUEST);
 		return employeesOverviewUseCase.getResponse();
 	}
 
 	@Override
-	protected EmployeeItem getSingleResultEmployeeItem(ListEmployeesUseCaseResponse response) {
+	protected EmployeeItem getSingleResultEmployeeItem(ListEmployeesResponse response) {
 		return TestUtils.singleResult(response.employeeItems);
 	}
 

@@ -70,7 +70,7 @@ public class PayDayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest extends P
 		givenASalariedEmployee_WithUnionMembershipAffiliation(0);
 		givenServiceCharges(theCase.serviceCharges);
 		
-		Collection<PayCheck> payChecks = whenPayDayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
+		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
 		
 		thenPayCheckDeductionsAmount_ShouldBe(payChecks, theCase.thenPayCheckDeductionsAmount);
 	}

@@ -22,13 +22,13 @@ public abstract class PayDayUseCase_AbstractPaymentClassificationITTest extends 
 	@Test
 	public void testPayEmployee_OnAPayday_ShouldCreatePaycheck() throws Exception {
 		givenAnEmployee();
-		thenPayCheckShouldBeCreated(whenPayDayUseCaseExecuted(getAPayday()));
+		thenPayCheckShouldBeCreated(whenGeneratePayUseCaseExecuted(getAPayday()));
 	}
 
 	@Test
 	public void testPayEmployee_OnNotAPayday_ShouldNotCreatePaycheck() throws Exception {
 		givenAnEmployee();
-		thenNoPayCheckShouldBeCreated(whenPayDayUseCaseExecuted(getNotAPayday()));
+		thenNoPayCheckShouldBeCreated(whenGeneratePayUseCaseExecuted(getNotAPayday()));
 	}
 
 	protected void thenPayCheckGrossAmountShouldBe(Collection<PayCheck> payChecks, int grossAmount) {

@@ -1,9 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request;
 
-public class GetEmployeeUseCaseRequest implements Request {
+public class GetEmployeeRequest implements Request {
 	public int employeeId;
 
-	public GetEmployeeUseCaseRequest(int employeeId) {
+	public GetEmployeeRequest(int employeeId) {
 		this.employeeId = employeeId;
 	}
 }

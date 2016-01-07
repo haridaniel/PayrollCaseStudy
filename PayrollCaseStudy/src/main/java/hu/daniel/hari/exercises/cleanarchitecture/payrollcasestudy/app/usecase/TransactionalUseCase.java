@@ -6,11 +6,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public abstract class TransactionalUseCase<R extends Request> extends OnceExecutableUseCase<R> {
 	private TransactionalRunner transactionalRunner;
-	protected EmployeeGateway employeeGateway;
 
-	public TransactionalUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
+	public TransactionalUseCase(TransactionalRunner transactionalRunner) {
 		this.transactionalRunner = transactionalRunner;
-		this.employeeGateway = employeeGateway;
 	}
 
 	@Override
