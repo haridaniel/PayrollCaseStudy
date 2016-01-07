@@ -12,8 +12,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.ChangeEmployeeNameUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToDirectPaymentMethodUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToHoldPaymentMethodUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.ListEmployeesUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.SendPayInteractorFactory;
@@ -98,8 +98,8 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
 	}
 
 	@Override
-	public ListEmployeesUseCase listEmployeesUseCase() {
-		return new ListEmployeesUseCase(transactionalRunner, employeeGateway);
+	public EmployeeListUseCase employeeListUseCase() {
+		return new EmployeeListUseCase(transactionalRunner, employeeGateway);
 	}
 
 	@Override

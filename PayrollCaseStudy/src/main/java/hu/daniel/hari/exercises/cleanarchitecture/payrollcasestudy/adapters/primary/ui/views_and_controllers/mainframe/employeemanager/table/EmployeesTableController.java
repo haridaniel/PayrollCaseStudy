@@ -11,21 +11,26 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.ListEmployeesUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.ListEmployeesUseCase.ListEmployeesUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase.ListEmployeesUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.ListEmployeesResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeListItem;
 
 public class EmployeesTableController implements EmployeesTableViewListener {
 	
 	private EmployeesTableView view;
 	private ListEmployeesUseCaseFactory useCaseFactory;
-	private ModelConverter modelConverter = new ModelConverter();
+	private Presenter presenter = new Presenter();
 	private EventBus eventBus;
 
-	public EmployeesTableController(EmployeesTableView view, ListEmployeesUseCaseFactory useCaseFactory, EventBus eventBus) {
+	public EmployeesTableController(
+			EmployeesTableView view, 
+			ListEmployeesUseCaseFactory useCaseFactory, 
+			EventBus eventBus
+			) {
 		this.view = view;
 		this.useCaseFactory = useCaseFactory;
 		this.eventBus = eventBus;
@@ -48,30 +53,30 @@ public class EmployeesTableController implements EmployeesTableViewListener {
 	}
 	
 	private void update() {
-		ListEmployeesUseCase useCase = useCaseFactory.listEmployeesUseCase();
+		EmployeeListUseCase useCase = useCaseFactory.employeeListUseCase();
 		useCase.execute(Request.EMPTY_REQUEST);
-		view.setModel(modelConverter.toViewModel(useCase.getResponse()));
+		view.setModel(presenter.toViewModel(useCase.getResponse()));
 	}
 
-
-	private static class ModelConverter {
+	private static class Presenter {
 		
-		public EmployeesTableViewModel toViewModel(ListEmployeesResponse response) {
-			return new EmployeesTableViewModel(toViewModel(response.employeeItems));
+		public EmployeesTableViewModel toViewModel(EmployeeListResponse response) {
+			return new EmployeesTableViewModel(toViewModel(response.employeeListItems));
 		}
 		
-		private List<EmployeeViewItem> toViewModel(List<EmployeeItem> employeeItems) {
+		private List<EmployeeViewItem> toViewModel(List<EmployeeListItem> employeeItems) {
 			return employeeItems.stream()
 				.map(employeeItem -> toViewModel(employeeItem))
 				.collect(Collectors.toList());
 		}
 
-		private EmployeeViewItem toViewModel(EmployeeItem employeeItem) {
+		private EmployeeViewItem toViewModel(EmployeeListItem employeeItem) {
 			EmployeeViewItem employeeViewItem = new EmployeeViewItem();
 			employeeViewItem.id = employeeItem.id;
 			employeeViewItem.name = employeeItem.name;
 			employeeViewItem.address = employeeItem.address;
 			employeeViewItem.paymentClassificationType = employeeItem.paymentClassificationType.name();
+			employeeViewItem.paymentClassificationTypeString = employeeItem.paymentClassificationTypeString;
 			return employeeViewItem;
 		}
 

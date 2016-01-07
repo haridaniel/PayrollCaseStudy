@@ -13,7 +13,7 @@ public class AddEmployeeController implements AddEmployeeDialogListener {
 	private AddEmployeeView view;
 	private AddEmployeeUseCaseFactory useCaseFactory;
 	private EventBus eventBus;
-	private ModelConverter modelConverter = new ModelConverter();
+	private RequestCreator requestCreator = new RequestCreator();
 
 	public AddEmployeeController(AddEmployeeView view, AddEmployeeUseCaseFactory addEmployeeUseCaseFactory, EventBus eventBus) {
 		this.view = view;
@@ -24,7 +24,7 @@ public class AddEmployeeController implements AddEmployeeDialogListener {
 	@Override
 	public void onAddEmployee() {
 		AddEmployeeViewModel model = view.getModel();
-		useCaseFactory.addSalariedEmployeeUseCase().execute(modelConverter.toRequest(model));
+		useCaseFactory.addSalariedEmployeeUseCase().execute(requestCreator.toRequest(model));
 		eventBus.post(new AddedEmployeeEvent(model.employeeId, model.name));
 		close();
 	}
@@ -38,7 +38,7 @@ public class AddEmployeeController implements AddEmployeeDialogListener {
 		view.close();
 	}
 	
-	private static class ModelConverter {
+	private static class RequestCreator {
 		public AddSalariedEmployeeRequest toRequest(AddEmployeeViewModel model) {
 			int monthlySalary = 0; //TODO
 			return new AddSalariedEmployeeRequest(

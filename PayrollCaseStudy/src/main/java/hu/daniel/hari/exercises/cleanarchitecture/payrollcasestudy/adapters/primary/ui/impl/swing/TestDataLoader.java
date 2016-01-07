@@ -21,9 +21,10 @@ public class TestDataLoader {
 	}
 
 	private void insertTestEmployees(UseCaseFactory useCaseFactory) {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(1, "Kovács Pista", "Vác, Damjanich u. 1.", 0));
-		useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(2, "Pandacsöki Boborján", "Budapest XI.", 0));
-		useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(5, "Takarékos Renáta", "Mende, Gyömrői út 2", 0, 0));
+		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(1, "Kovács Pista", "Vác, Damjanich u. 1.", 3000));
+		useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(2, "Pandacsöki Boborján", "Budapest XI.", 21));
+		useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(3, "Telki Zoltán", "Budapest Ovari u.", 25));
+		useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(5, "Takarékos Renáta", "Mende, Gyömrői út 2", 1650, 0.15d));
 
 		//Paymentmethods
 		useCaseFactory.changeToDirectPaymentMethodUseCase().execute(new ChangeToDirectPaymentMethodRequest(1, "16200223-10041865"));

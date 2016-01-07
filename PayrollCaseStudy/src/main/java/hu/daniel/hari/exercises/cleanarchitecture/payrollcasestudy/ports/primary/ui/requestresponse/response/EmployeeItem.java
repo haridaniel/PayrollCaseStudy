@@ -5,7 +5,7 @@ public class EmployeeItem {
 	public String name;
 	public String address;
 
-	public EmployeeItem.PaymentClassificationType paymentClassificationType;
+	public PaymentClassificationType paymentClassificationType;
 	
 	public enum PaymentClassificationType {
 		SALARIED,

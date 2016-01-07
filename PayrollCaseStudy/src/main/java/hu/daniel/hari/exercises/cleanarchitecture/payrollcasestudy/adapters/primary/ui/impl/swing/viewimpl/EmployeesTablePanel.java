@@ -101,7 +101,7 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 					add(employeeItem.id);
 					add(employeeItem.name);
 					add(employeeItem.address);
-					add(employeeItem.paymentClassificationType);
+					add(employeeItem.paymentClassificationTypeString);
 				}});
 			}
 			return data;
@@ -112,7 +112,7 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 				add("Id");
 				add("Name");
 				add("Address");
-				add("Type");
+				add("Waging");
 			}};
 			return columnNames;
 		}		

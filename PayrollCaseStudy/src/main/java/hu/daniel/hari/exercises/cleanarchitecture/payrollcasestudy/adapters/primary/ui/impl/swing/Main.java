@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import java.util.Arrays;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.InMemoryDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPADatabaseModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnitNames;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
@@ -21,9 +22,11 @@ public class Main {
 		
 		
 		//Secondary ports
-		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
+		
+//		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
 //		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB).getDatabase();
-//		Database database = new InMemoryDatabase();
+		Database database = new InMemoryDatabase();
+		
 		BankTransferPortMock bankTransferPort = new BankTransferPortMock();
 		
 		//Application

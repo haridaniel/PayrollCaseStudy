@@ -9,7 +9,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class UncaugthExceptionController implements UncaugthExceptionViewListener {
 
 	private UncaugthExceptionView view;
-	private ModelConverter modelConverter = new ModelConverter();
+	private Presenter presenter = new Presenter();
 
 	public UncaugthExceptionController(UncaugthExceptionView view, Throwable throwable) {
 		this.view = view;
@@ -17,7 +17,7 @@ public class UncaugthExceptionController implements UncaugthExceptionViewListene
 	}
 
 	private void update(Throwable throwable) {
-		view.setModel(modelConverter.toViewModel(throwable));
+		view.setModel(presenter.toViewModel(throwable));
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class UncaugthExceptionController implements UncaugthExceptionViewListene
 		view.close();
 	}
 
-	private static class ModelConverter {
+	private static class Presenter {
 	
 		public UncaugthExceptionViewModel toViewModel(Throwable throwable) {
 			StringWriter stringWriter = new StringWriter();

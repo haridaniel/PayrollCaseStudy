@@ -41,7 +41,7 @@ public class MainFrameWindow extends JFrame implements MainFrameView {
 	private void initUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Payroll - UI");
-		setSize(650, 500);
+		setSize(850, 500);
 		setLocationByPlatform(true);
 		
 		JPanel contentPane = new JPanel();

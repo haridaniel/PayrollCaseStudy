@@ -28,6 +28,7 @@ public interface EmployeesTableView extends
 			public String name;
 			public String address;
 			public String paymentClassificationType;
+			public String paymentClassificationTypeString;
 		}
 		
 	}
