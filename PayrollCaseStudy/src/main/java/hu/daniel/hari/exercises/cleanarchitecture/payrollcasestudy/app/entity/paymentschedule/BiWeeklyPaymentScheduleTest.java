@@ -45,4 +45,12 @@ public class BiWeeklyPaymentScheduleTest {
 		assertThat(dateInterval.to, 	is(NEXT_EVEN_FRIDAY));
 	}
 	
+	@Test
+	public void testGetNextPayday() {
+		assertThat(biWeeklyPaymentSchedule.getSameOrNextPayDate(REFERENCE_EVEN_FRIDAY), is(REFERENCE_EVEN_FRIDAY));
+		assertThat(biWeeklyPaymentSchedule.getSameOrNextPayDate(REFERENCE_EVEN_FRIDAY.plusDays(1)), is(NEXT_EVEN_FRIDAY));
+		assertThat(biWeeklyPaymentSchedule.getSameOrNextPayDate(ODD_FRIDAY), is(NEXT_EVEN_FRIDAY));
+		assertThat(biWeeklyPaymentSchedule.getSameOrNextPayDate(NEXT_EVEN_FRIDAY), is(NEXT_EVEN_FRIDAY));
+	}
+
 }

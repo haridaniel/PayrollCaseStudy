@@ -7,13 +7,13 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotPaydayException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotAPaydayException;
 
 public class PaymentScheduleTest {
 
 	private static final LocalDate ANY_DATE = LocalDate.of(2015, 01, 01);
 
-	@Test(expected=NotPaydayException.class)
+	@Test(expected=NotAPaydayException.class)
 	public void getIntervalOnNonPayDay_ShouldThrow() throws Exception {
 		PaymentSchedule paymentSchedule = mock(PaymentSchedule.class, CALLS_REAL_METHODS);
 		when(paymentSchedule.isPayDate(ANY_DATE)).thenReturn(false);

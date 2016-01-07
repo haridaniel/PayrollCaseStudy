@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotPaydayException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotAPaydayException;
 
 public class WeeklyPaymentScheduleTest {
 	private static final LocalDate PREV_SATURDAY = LocalDate.of(2015, 12, 05);
@@ -37,5 +37,13 @@ public class WeeklyPaymentScheduleTest {
 		assertThat(dateInterval.from, 	is(PREV_SATURDAY));
 		assertThat(dateInterval.to, 	is(THIS_FRIDAY));
 	}
+	
+	@Test
+	public void testGetNextPayday() {
+		assertThat(weeklyPaymentSchedule.getSameOrNextPayDate(PREV_SATURDAY), is(THIS_FRIDAY));
+		assertThat(weeklyPaymentSchedule.getSameOrNextPayDate(THIS_FRIDAY), is(THIS_FRIDAY));
+		assertThat(weeklyPaymentSchedule.getSameOrNextPayDate(THIS_FRIDAY.plusDays(1)), is(NEXT_FRIDAY));
+	}
+
 
 }

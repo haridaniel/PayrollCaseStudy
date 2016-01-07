@@ -27,7 +27,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.BiWeeklyPaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.MonthlyPaymentSchedule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EntityFactory;
 
@@ -63,7 +63,7 @@ public class InMemoryEntityFactory implements EntityFactory {
 		return new DirectPaymentMethodImpl(accountNumber);
 	}
 	@Override
-	public MonthlyPaymentSchedule monthlyPaymentSchedule() {
+	public PaymentSchedule monthlyPaymentSchedule() {
 		return new MonthlyPaymentScheduleImpl();
 	}
 

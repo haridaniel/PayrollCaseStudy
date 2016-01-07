@@ -17,5 +17,5 @@ public class MonthlyPaymentScheduleProxy extends MonthlyPaymentSchedule implemen
 	public JPAMonthlyPaymentSchedule getJPAObject() {
 		return jpaPaymentSchedule;
 	}
-	
+
 }

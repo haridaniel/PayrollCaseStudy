@@ -1,11 +1,11 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.*;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.MonthlyPaymentScheduleImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotPaydayException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.NotAPaydayException;
 
 import java.time.LocalDate;
 
@@ -13,30 +13,43 @@ import org.junit.Test;
 
 public class MonthlyPaymentScheduleTest {
 
-	MonthlyPaymentSchedule monthlyPaymentSchedule = new MonthlyPaymentScheduleImpl();
+	private static final LocalDate FIRST_DAY_OF_A_MONTH = 		LocalDate.of(2015, 11, 01);
+	private static final LocalDate LAST_DAY_OF_A_MONTH = 		LocalDate.of(2015, 11, 30);
+	private static final LocalDate LAST_DAY_OF_NEXT_MONTH = 	LocalDate.of(2015, 12, 31);
+	
+	private PaymentSchedule monthlyPaymentSchedule = mock(MonthlyPaymentSchedule.class, CALLS_REAL_METHODS);
 
 	@Test
 	public void isPaydayOnLastDayOfMonth_ShouldBeTrue() throws Exception {
-		assertThat(monthlyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 31)), is(true));
-		assertThat(monthlyPaymentSchedule.isPayDate(LocalDate.of(2015, 11, 30)), is(true));
-	}
-	@Test
-	public void isPaydayOnNotLastDayOfMonth_ShouldBeFalse() throws Exception {
-		assertThat(monthlyPaymentSchedule.isPayDate(LocalDate.of(2015, 11, 24)), is(false));
-		assertThat(monthlyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 01)), is(false));
-		assertThat(monthlyPaymentSchedule.isPayDate(LocalDate.of(2015, 12, 02)), is(false));
+		assertThat(monthlyPaymentSchedule.isPayDate(LAST_DAY_OF_A_MONTH), is(true));
+		assertThat(monthlyPaymentSchedule.isPayDate(LAST_DAY_OF_NEXT_MONTH), is(true));
 	}
 	
 	@Test
-	public void getIntervalOnPayday() {
-		DateInterval dateInterval = monthlyPaymentSchedule.getPayInterval(LocalDate.of(2015, 12, 31));
-		assertThat(dateInterval.from, 	is(LocalDate.of(2015, 12, 01)));
-		assertThat(dateInterval.to, 	is(LocalDate.of(2015, 12, 31)));
+	public void isPaydayOnNotLastDayOfMonth_ShouldBeFalse() throws Exception {
+		assertThat(monthlyPaymentSchedule.isPayDate(LAST_DAY_OF_A_MONTH.plusDays(1)), is(false));
+		assertThat(monthlyPaymentSchedule.isPayDate(LAST_DAY_OF_A_MONTH.minusDays(1)), is(false));
+		assertThat(monthlyPaymentSchedule.isPayDate(LAST_DAY_OF_A_MONTH.minusDays(5)), is(false));
+	}
+	
+	@Test
+	public void testGetIntervalOnPayday() {
+		DateInterval dateInterval = monthlyPaymentSchedule.getPayInterval(LAST_DAY_OF_A_MONTH);
+		assertThat(dateInterval.from, 	is(FIRST_DAY_OF_A_MONTH));
+		assertThat(dateInterval.to, 	is(LAST_DAY_OF_A_MONTH));
 	}
 
-	@Test(expected=NotPaydayException.class)
+	@Test(expected=NotAPaydayException.class)
 	public void getIntervalOnNonPayday_ShouldThrowException() {
-		monthlyPaymentSchedule.getPayInterval(LocalDate.of(2015, 11, 1));
+		monthlyPaymentSchedule.getPayInterval(LAST_DAY_OF_A_MONTH.plusDays(1));
 	}
+
+	@Test
+	public void testGetNextPayday() {
+		assertThat(monthlyPaymentSchedule.getSameOrNextPayDate(FIRST_DAY_OF_A_MONTH), is(LAST_DAY_OF_A_MONTH));
+		assertThat(monthlyPaymentSchedule.getSameOrNextPayDate(LAST_DAY_OF_A_MONTH), is(LAST_DAY_OF_A_MONTH));
+		assertThat(monthlyPaymentSchedule.getSameOrNextPayDate(LAST_DAY_OF_A_MONTH.plusDays(1)), is(LAST_DAY_OF_NEXT_MONTH));
+	}
+
 	
 }

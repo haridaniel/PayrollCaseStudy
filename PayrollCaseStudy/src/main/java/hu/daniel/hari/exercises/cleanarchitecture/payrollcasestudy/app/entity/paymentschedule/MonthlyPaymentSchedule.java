@@ -13,14 +13,27 @@ public abstract class MonthlyPaymentSchedule extends PaymentSchedule {
 	}
 
 	@Override
-	public DateInterval getPayIntervalForValidatedPaydate(LocalDate payday) {
+	public DateInterval getPayIntervalForValidatedPayDate(LocalDate payday) {
 		return DateInterval.of(
-				payday.with(TemporalAdjusters.firstDayOfMonth()),
-				payday.with(TemporalAdjusters.lastDayOfMonth()));
+				getFirstDayOfMonth(payday),
+				getLastDayOfMonth(payday));
+	}
+
+	@Override
+	public LocalDate getSameOrNextPayDate(LocalDate referenceDate) {
+		return getLastDayOfMonth(referenceDate);
 	}
 
 	private static boolean isLastDayOfMonth(LocalDate date) {
-		return date.with(TemporalAdjusters.lastDayOfMonth()).equals(date);
+		return getLastDayOfMonth(date).equals(date);
+	}
+
+	private static LocalDate getFirstDayOfMonth(LocalDate date) {
+		return date.with(TemporalAdjusters.firstDayOfMonth());
+	}
+
+	private static LocalDate getLastDayOfMonth(LocalDate date) {
+		return date.with(TemporalAdjusters.lastDayOfMonth());
 	}
 
 }

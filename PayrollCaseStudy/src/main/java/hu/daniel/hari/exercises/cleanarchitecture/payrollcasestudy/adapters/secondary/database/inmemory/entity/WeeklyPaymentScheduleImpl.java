@@ -3,5 +3,5 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.WeeklyPaymentSchedule;
 
 public class WeeklyPaymentScheduleImpl extends WeeklyPaymentSchedule {
-	
+
 }

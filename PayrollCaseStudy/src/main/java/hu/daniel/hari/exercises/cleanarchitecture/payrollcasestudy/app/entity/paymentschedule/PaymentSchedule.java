@@ -11,21 +11,23 @@ public abstract class PaymentSchedule {
 	
 	public final DateInterval getPayInterval(LocalDate payDate) {
 		validatePayDate(payDate);
-		return getPayIntervalForValidatedPaydate(payDate);
+		return getPayIntervalForValidatedPayDate(payDate);
 	}
 	
 	private void validatePayDate(LocalDate date) {
 		if (!isPayDate(date))
-			throw new NotPaydayException();
+			throw new NotAPaydayException();
 	}
 
-	protected abstract DateInterval getPayIntervalForValidatedPaydate(LocalDate payDate) throws NotPaydayException;
+	protected abstract DateInterval getPayIntervalForValidatedPayDate(LocalDate payDate) throws NotAPaydayException;
 
-	public static class NotPaydayException extends RuntimeException {
+	public abstract LocalDate getSameOrNextPayDate(LocalDate referenceDate);
+
+	public static class NotAPaydayException extends RuntimeException {
 	}
 
 	public static interface PaymentScheduleFactory {
-		MonthlyPaymentSchedule monthlyPaymentSchedule();
+		PaymentSchedule monthlyPaymentSchedule();
 		WeeklyPaymentSchedule weeklyPaymentSchedule();
 		BiWeeklyPaymentSchedule biWeeklyPaymentSchedule();
 	}
