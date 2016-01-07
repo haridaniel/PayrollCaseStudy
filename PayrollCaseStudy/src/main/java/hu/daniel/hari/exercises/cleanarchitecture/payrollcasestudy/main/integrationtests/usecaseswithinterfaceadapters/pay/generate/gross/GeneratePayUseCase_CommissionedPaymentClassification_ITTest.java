@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -18,7 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
 
-public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_CommissionedPaymentClassification_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate AN_EVEN_FRIDAY = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
 	private static final LocalDate AN_ODD_FRIDAY = AN_EVEN_FRIDAY.plusDays(7);
 
@@ -37,7 +37,7 @@ public class PayDayUseCase_CommissionedPaymentClassification_ITTest extends PayD
 		int thenPayCheckGrossAmountSum;
 	}
 	
-	public PayDayUseCase_CommissionedPaymentClassification_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_CommissionedPaymentClassification_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 	

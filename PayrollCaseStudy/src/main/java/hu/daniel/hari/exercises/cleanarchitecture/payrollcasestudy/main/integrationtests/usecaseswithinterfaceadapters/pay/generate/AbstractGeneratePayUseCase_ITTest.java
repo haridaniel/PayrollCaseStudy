@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -9,9 +9,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
 
-public abstract class AbstractPayDayUseCase_ITTest extends AbstractUseCaseITTest {
+public abstract class AbstractGeneratePayUseCase_ITTest extends AbstractUseCaseITTest {
 
-	public AbstractPayDayUseCase_ITTest(DatabaseProvider databaseProvider) {
+	public AbstractGeneratePayUseCase_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

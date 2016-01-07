@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,12 +10,12 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.AbstractPayDayUseCase_ITTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractGeneratePayUseCase_ITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 
-public abstract class PayDayUseCase_AbstractPaymentClassificationITTest extends AbstractPayDayUseCase_ITTest {
+public abstract class GeneratePayUseCase_AbstractPaymentClassificationITTest extends AbstractGeneratePayUseCase_ITTest {
 
-	public PayDayUseCase_AbstractPaymentClassificationITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_AbstractPaymentClassificationITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

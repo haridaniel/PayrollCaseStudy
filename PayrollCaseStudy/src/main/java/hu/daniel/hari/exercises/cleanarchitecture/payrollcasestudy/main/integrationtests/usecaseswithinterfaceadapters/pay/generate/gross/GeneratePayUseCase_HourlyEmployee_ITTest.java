@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -23,7 +23,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 
-public class PayDayUseCase_HourlyEmployee_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);	//in previous period
@@ -80,7 +80,7 @@ public class PayDayUseCase_HourlyEmployee_ITTest extends PayDayUseCase_AbstractP
 		thenPayCheckGrossAmount = normalWage + overTimeWage;
 	}}
 	
-	public PayDayUseCase_HourlyEmployee_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_HourlyEmployee_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

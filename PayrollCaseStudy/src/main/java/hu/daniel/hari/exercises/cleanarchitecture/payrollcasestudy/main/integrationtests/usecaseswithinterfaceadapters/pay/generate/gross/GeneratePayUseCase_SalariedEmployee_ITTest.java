@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.payday.gross;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -17,7 +17,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 
-public class PayDayUseCase_SalariedEmployee_ITTest extends PayDayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate A_PAYDAY = LAST_DAY_OF_A_MONTH;
@@ -26,7 +26,7 @@ public class PayDayUseCase_SalariedEmployee_ITTest extends PayDayUseCase_Abstrac
 	private final int employeeId = 1;
 	private final int monthlySalary = 1000;
 
-	public PayDayUseCase_SalariedEmployee_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_SalariedEmployee_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
