@@ -60,17 +60,11 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 			}
 		});
 	
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
 		gl_buttonPanel.setHorizontalGroup(
 				gl_buttonPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_buttonPanel.createSequentialGroup()
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1)
 						.addContainerGap())
 				.addGroup(gl_buttonPanel.createSequentialGroup()
 						.addContainerGap()
@@ -82,8 +76,7 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 				.addGroup(gl_buttonPanel.createSequentialGroup()
 						.addComponent(deleteButton)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNewButton_1)
-						.addGap(248))
+						)
 				);
 		buttonPanel.setLayout(gl_buttonPanel);
 	

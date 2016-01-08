@@ -28,6 +28,4 @@ public class JPATransactionalRunner implements TransactionalRunner {
 		return transaction;
 	}
 
-
-
 }

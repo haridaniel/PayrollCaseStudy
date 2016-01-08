@@ -34,7 +34,7 @@ public class AddServiceChargeUseCase extends TransactionalEmployeeGatewayUseCase
 
 
 	private Employee getEmployeeByUnionMemberId(int unionMemberId) {
-		return employeeGateway.findById(employeeGateway.findByUnionMemberId(unionMemberId));
+		return employeeGateway.findById(employeeGateway.findEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	private UnionMemberAffiliation castUnionMemberAffiliation(Affiliation affiliation) {

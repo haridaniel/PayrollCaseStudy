@@ -11,11 +11,6 @@ public class ProxyFactory {
 
 	@Inject private AutoBindedProxyFactory autoBindedProxyFactory;
 	
-	public ProxyFactory() {
-		// TODO Auto-generated constructor stub
-		System.out.println();
-	}
-	
 	public <T> T create(Class<T> proxyClass, Object jpaEntity) {
 		return autoBindedProxyFactory.create(proxyClass, jpaEntity);
 	}

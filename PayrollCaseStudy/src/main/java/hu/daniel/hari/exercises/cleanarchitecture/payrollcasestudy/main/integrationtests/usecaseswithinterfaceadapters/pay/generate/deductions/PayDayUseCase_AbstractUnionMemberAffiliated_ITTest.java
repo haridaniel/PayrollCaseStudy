@@ -11,6 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public abstract class PayDayUseCase_AbstractUnionMemberAffiliated_ITTest extends AbstractGeneratePayUseCase_ITTest {
 
@@ -26,8 +27,8 @@ public abstract class PayDayUseCase_AbstractUnionMemberAffiliated_ITTest extends
 		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
 	}
 
-	protected void thenPayCheckDeductionsAmount_ShouldBe(Collection<PayCheck> payChecks, int payCheckDeductionsAmount) {
-		assertThat(TestUtils.singleResult(payChecks).getDeductionsAmount(), is(payCheckDeductionsAmount));
+	protected void thenPayCheckDeductionsAmount_ShouldBe(Collection<PayCheckResponse> payChecks, int payCheckDeductionsAmount) {
+		assertThat(TestUtils.singleResult(payChecks).deductionsAmount, is(payCheckDeductionsAmount));
 	}
 
 }

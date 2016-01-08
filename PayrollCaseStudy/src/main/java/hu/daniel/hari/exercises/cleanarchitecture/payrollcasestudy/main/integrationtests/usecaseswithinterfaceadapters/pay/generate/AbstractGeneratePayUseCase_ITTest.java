@@ -8,6 +8,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public abstract class AbstractGeneratePayUseCase_ITTest extends AbstractUseCaseITTest {
 
@@ -15,10 +16,10 @@ public abstract class AbstractGeneratePayUseCase_ITTest extends AbstractUseCaseI
 		super(databaseProvider);
 	}
 
-	protected Collection<PayCheck> whenGeneratePayUseCaseExecuted(LocalDate payDate) {
+	protected Collection<PayCheckResponse> whenGeneratePayUseCaseExecuted(LocalDate payDate) {
 		GeneratePayUseCase generatePayUseCase = useCaseFactory.generatePayUseCase();
 		generatePayUseCase.execute(new GeneratePayRequest(payDate));
-		return generatePayUseCase.getResponse().payChecks;
+		return generatePayUseCase.getResponse().payCheckResponses;
 	}
 
 }

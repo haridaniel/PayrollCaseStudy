@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,15 +12,11 @@ import javax.swing.border.EmptyBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.SwingViewFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView.MainFrameViewListener;
 
 public class MainFrameWindow extends JFrame implements MainFrameView {
-	
-	private JPanel topPanel;
-	private JPanel centerPanel;
-	private JPanel bottomPanel;
-	
-	private JButton addEmployeeButton;
+	private JPanel employeeManagerPanelHolder;
+	private JPanel payDayPanelHolder;
+	private JPanel statusBarHolder;
 	
 	private MainFrameViewListener listener;
 
@@ -29,8 +26,9 @@ public class MainFrameWindow extends JFrame implements MainFrameView {
 	}
 
 	private void initSubViews(SwingViewFactory swingViewFactory) {
-		centerPanel.add(swingViewFactory.employeeManagerPanel());
-		bottomPanel.add(swingViewFactory.statusBarPanel());
+		employeeManagerPanelHolder.add(swingViewFactory.employeeManagerPanel());
+		payDayPanelHolder.add(swingViewFactory.payDayPanel());
+		statusBarHolder.add(swingViewFactory.statusBarPanel());
 	}
 	
 	@Override
@@ -48,31 +46,43 @@ public class MainFrameWindow extends JFrame implements MainFrameView {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		topPanel = new JPanel();
+		JPanel topPanel = new JPanel();
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
+		JPanel buttonPanel = new JPanel();
+		topPanel.add(buttonPanel, BorderLayout.NORTH);
 		
-		centerPanel = new JPanel();
-		contentPane.add(centerPanel, BorderLayout.CENTER);
-		centerPanel.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panel = new JPanel();
-		centerPanel.add(panel, BorderLayout.NORTH);
-		
-		addEmployeeButton = new JButton("Add Employee...");
+		JButton addEmployeeButton = new JButton("Add Employee...");
 		addEmployeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listener.onAddEmployeeAction();
 			}
 		});
-		panel.add(addEmployeeButton);
+		buttonPanel.add(addEmployeeButton);
+		
+		
+		JPanel centerPanel = new JPanel();
+		contentPane.add(centerPanel, BorderLayout.CENTER);
+		centerPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		employeeManagerPanelHolder = new JPanel();
+		centerPanel.add(employeeManagerPanelHolder);
+		employeeManagerPanelHolder.setLayout(new BorderLayout(0, 0));
+		
+		payDayPanelHolder = new JPanel();
+		centerPanel.add(payDayPanelHolder);
+		payDayPanelHolder.setLayout(new BorderLayout(0, 0));
 		
 		setContentPane(contentPane);
 		
-		bottomPanel = new JPanel();
+		JPanel bottomPanel = new JPanel();
 		contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		bottomPanel.setLayout(new BorderLayout(0, 0));
+		
+		statusBarHolder = new JPanel();
+		bottomPanel.add(statusBarHolder, BorderLayout.NORTH);
+		statusBarHolder.setLayout(new BorderLayout(0, 0));
 	}
 
 }

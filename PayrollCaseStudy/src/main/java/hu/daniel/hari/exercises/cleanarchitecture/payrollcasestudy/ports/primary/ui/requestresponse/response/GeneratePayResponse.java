@@ -2,13 +2,19 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 import java.util.List;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
-
 public class GeneratePayResponse implements Response {
-	public List<PayCheck> payChecks;
+	public List<PayCheckResponse> payCheckResponses;
 
-	public GeneratePayResponse(List<PayCheck> payChecks) {
-		this.payChecks = payChecks;
+	public GeneratePayResponse(List<PayCheckResponse> payCheckResponses) {
+		this.payCheckResponses = payCheckResponses;
+	}
+	
+	public static class PayCheckResponse {
+		public int employeeId;
+		public String name;
+		public int grossAmount;
+		public int deductionsAmount;
+		public int netAmount;
 	}
 
 }

@@ -22,6 +22,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
@@ -113,7 +114,7 @@ public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase
 		givenAHourlyEmployee();
 		givenTimeCards(theCase.timeCards);
 		
-		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
+		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
 		
 		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmount);
 	}

@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDayUseCase_AbstractUnionMemberAffiliated_ITTest {
 	//Dues deducted on every friday
@@ -25,11 +26,11 @@ public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDa
 	@Test
 	public void testPaySingleSalariedEmployee_WithUnionMemberAffiliation_ShouldWeeklyDues_BeDeducted() {
 		givenASalariedEmployee_WithUnionMembershipAffiliation(weeklyDueAmount);
-		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
+		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
 		thenPayCheckDeductionsAmount_ShouldBeCorrect(payChecks);
 	}
 
-	private void thenPayCheckDeductionsAmount_ShouldBeCorrect(Collection<PayCheck> payChecks) {
+	private void thenPayCheckDeductionsAmount_ShouldBeCorrect(Collection<PayCheckResponse> payChecks) {
 		thenPayCheckDeductionsAmount_ShouldBe(payChecks, weeklyDueAmount * FRIDAYS_COUNT_IN_PAY_INTERVAL);
 	}
 

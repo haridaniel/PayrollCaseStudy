@@ -45,7 +45,7 @@ public class InMemoryEntityGateway implements EmployeeGateway {
 
 	// Wrong performance, but ok now
 	@Override
-	public int findByUnionMemberId(int unionMemberId) {
+	public int findEmployeeIdByUnionMemberId(int unionMemberId) {
 		return employeesById.values().stream()
 				.filter(employee -> (employee.getAffiliation() instanceof UnionMemberAffiliation))
 				.filter(employee -> ((UnionMemberAffiliation) employee.getAffiliation()).getUnionMemberId() == unionMemberId)

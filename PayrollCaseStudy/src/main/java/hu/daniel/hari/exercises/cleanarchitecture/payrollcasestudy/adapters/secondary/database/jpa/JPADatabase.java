@@ -15,7 +15,7 @@ public class JPADatabase implements Database {
 
 	@Inject private JPATransactionalRunner jpaTransactionalRunner;
 	@Inject private JPAEntityFactory entityFactory;
-	@Inject private JPAEntityGateway jpaEntityGateway;
+	@Inject private JPAEmployeeGateway jpaEntityGateway;
 	
 	@Override
 	public TransactionalRunner transactionalRunner() {

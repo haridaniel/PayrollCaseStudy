@@ -13,7 +13,7 @@ public interface EmployeeGateway {
 	/**
 	 * @throws NoSuchEmployeeException
 	 */
-	int findByUnionMemberId(int unionMemberId);
+	int findEmployeeIdByUnionMemberId(int unionMemberId);
 	
 	Collection<Employee> findAll();
 	

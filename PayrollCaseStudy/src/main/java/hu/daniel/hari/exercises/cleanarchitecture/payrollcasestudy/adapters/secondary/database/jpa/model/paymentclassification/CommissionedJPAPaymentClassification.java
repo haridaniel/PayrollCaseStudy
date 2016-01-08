@@ -16,7 +16,7 @@ public class CommissionedJPAPaymentClassification extends JPAPaymentClassificati
 	private int biWeeklyBaseSalary;
 	private double commissionRate;
 
-	@OneToMany(mappedBy="commissionedJPAPaymentClassification", orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToMany(mappedBy = "commissionedJPAPaymentClassification", orphanRemoval = true, cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private Set<JPASalesReceipt> jpaSalesReceipts = new HashSet<>();
 

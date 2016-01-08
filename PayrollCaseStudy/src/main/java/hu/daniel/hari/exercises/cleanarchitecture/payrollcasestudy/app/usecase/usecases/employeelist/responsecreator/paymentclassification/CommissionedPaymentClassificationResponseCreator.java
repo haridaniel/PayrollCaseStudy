@@ -17,7 +17,7 @@ public class CommissionedPaymentClassificationResponseCreator extends PaymentCla
 
 	@Override
 	public String getFormattedType() {
-		return String.format("%d / 2wk + %.0f%% comm.", 
+		return String.format("%d / 2wk + %.0f%% sales", 
 				paymentClassification.getBiWeeklyBaseSalary(), 
 				paymentClassification.getCommissionRate() * 100
 				);

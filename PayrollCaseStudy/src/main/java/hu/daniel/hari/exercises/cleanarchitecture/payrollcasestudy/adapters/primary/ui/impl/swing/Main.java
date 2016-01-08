@@ -35,14 +35,7 @@ public class Main {
 		//Primary ports
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactory);
 
-		testPay(useCaseFactory);
-		
 		new SwingUI(useCaseFactory);
-	}
-
-	private void testPay(UseCaseFactory useCaseFactory) {
-		PayCheck payCheck = new PayCheck(1, 1001, 0);
-		useCaseFactory.sendPayUseCase().execute(new SendPayRequest(Arrays.asList(payCheck)));
 	}
 	
 }

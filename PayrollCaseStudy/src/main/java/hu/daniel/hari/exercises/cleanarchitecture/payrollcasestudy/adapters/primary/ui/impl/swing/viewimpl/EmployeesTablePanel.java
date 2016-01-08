@@ -52,7 +52,7 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 			}
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
-				listener.onLoaded();
+				listener.onInitialized();
 			}
 		});
 	}
@@ -101,7 +101,8 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 					add(employeeItem.id);
 					add(employeeItem.name);
 					add(employeeItem.address);
-					add(employeeItem.paymentClassificationTypeString);
+					add(employeeItem.waging);
+					add(employeeItem.nextPayDay);
 				}});
 			}
 			return data;
@@ -113,6 +114,7 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 				add("Name");
 				add("Address");
 				add("Waging");
+				add("Following pay-day");
 			}};
 			return columnNames;
 		}		

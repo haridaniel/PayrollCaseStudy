@@ -1,8 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeListItem;
 
 public class EmployeeListResponse implements Response {
 	public List<EmployeeListItem> employeeListItems;
@@ -13,6 +12,7 @@ public class EmployeeListResponse implements Response {
 
 	public static class EmployeeListItem extends EmployeeItem {
 		public String paymentClassificationTypeString;
+		public LocalDate nextPayDay;
 	}
 	
 }

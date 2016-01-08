@@ -16,6 +16,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
@@ -40,7 +41,7 @@ public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCa
 		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
 	}
 
-	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayCheck> payChecks) {
+	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayCheckResponse> payChecks) {
 		thenPayCheckGrossAmountShouldBe(payChecks, monthlySalary);
 	}
 

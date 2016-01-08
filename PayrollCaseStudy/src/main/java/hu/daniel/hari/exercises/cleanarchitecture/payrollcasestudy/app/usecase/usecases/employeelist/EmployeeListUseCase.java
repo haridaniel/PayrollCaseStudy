@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist;
 
+import java.time.LocalDate;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.EmployeeListResponseCreator;
@@ -10,7 +12,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<EmptyRequest> implements HasResponse<EmployeeListResponse> {
 
-	private EmployeeListResponseCreator employeeListResponseCreator = new EmployeeListResponseCreator();
 	private EmployeeListResponse response;
 	
 	public EmployeeListUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
@@ -19,7 +20,11 @@ public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<Emp
 
 	@Override
 	protected void executeInTransaction(EmptyRequest request) {
-		response = employeeListResponseCreator.toResponse(employeeGateway.findAll());
+		response = employeeListResponseCreator().toResponse(employeeGateway.findAll());
+	}
+
+	private EmployeeListResponseCreator employeeListResponseCreator() {
+		return new EmployeeListResponseCreator(LocalDate.now());
 	}
 
 	@Override

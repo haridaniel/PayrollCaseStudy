@@ -19,15 +19,15 @@ public class JPAEmployee {
     public String name;
 	public String address;
 	
-	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private JPAPaymentClassification jpaPaymentClassification;
 	
-	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private JPAPaymentSchedule jpaPaymentSchedule;
 	
-	@OneToOne(orphanRemoval=true, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
 	private JPAPaymentMethod jpaPaymentMethod;
 

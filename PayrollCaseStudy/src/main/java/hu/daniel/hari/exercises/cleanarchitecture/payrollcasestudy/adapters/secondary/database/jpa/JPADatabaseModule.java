@@ -21,7 +21,7 @@ public class JPADatabaseModule {
 
 	private Injector createInjector(String persistenceUnitName) {
 		return Guice.createInjector(Stage.DEVELOPMENT,
-				new GuiceModule2(),
+				new GuiceModule(),
 				new JpaPersistModule(persistenceUnitName)
 				);
 	}
@@ -34,7 +34,7 @@ public class JPADatabaseModule {
 		return jpaDatabase;
 	}
 
-	private class GuiceModule2 extends AbstractModule {
+	private class GuiceModule extends AbstractModule {
 		
 		@Override
 		protected void configure() {

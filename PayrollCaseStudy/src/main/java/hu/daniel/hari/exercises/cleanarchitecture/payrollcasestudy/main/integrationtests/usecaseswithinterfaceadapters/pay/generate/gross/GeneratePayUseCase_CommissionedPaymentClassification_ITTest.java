@@ -17,6 +17,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public class GeneratePayUseCase_CommissionedPaymentClassification_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
 	private static final LocalDate AN_EVEN_FRIDAY = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
@@ -90,7 +91,7 @@ public class GeneratePayUseCase_CommissionedPaymentClassification_ITTest extends
 		givenACommissionedEmployee();
 		givenSalesReceipts(theCase.salesReceipts);
 		
-		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
+		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
 		
 		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmountSum);
 	}

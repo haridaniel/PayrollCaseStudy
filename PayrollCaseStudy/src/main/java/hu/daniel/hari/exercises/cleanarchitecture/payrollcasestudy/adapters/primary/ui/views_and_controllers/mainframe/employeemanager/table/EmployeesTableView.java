@@ -12,7 +12,7 @@ public interface EmployeesTableView extends
 {
 
 	public static interface EmployeesTableViewListener {
-		void onLoaded();
+		void onInitialized();
 		void onSelectionChanged(Optional<Integer> employeeId);
 	}
 	
@@ -28,7 +28,8 @@ public interface EmployeesTableView extends
 			public String name;
 			public String address;
 			public String paymentClassificationType;
-			public String paymentClassificationTypeString;
+			public String waging;
+			public String nextPayDay;
 		}
 		
 	}

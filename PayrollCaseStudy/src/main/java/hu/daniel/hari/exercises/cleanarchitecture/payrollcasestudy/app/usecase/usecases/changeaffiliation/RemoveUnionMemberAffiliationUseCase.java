@@ -3,8 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddServiceChargeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
@@ -28,7 +26,7 @@ public class RemoveUnionMemberAffiliationUseCase extends TransactionalEmployeeGa
 	}
 
 	private Employee getEmployeeByUnionMemberId(int unionMemberId) {
-		return employeeGateway.findById(employeeGateway.findByUnionMemberId(unionMemberId));
+		return employeeGateway.findById(employeeGateway.findEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
 	public static interface RemoveUnionMemberAffiliationUseCaseFactory {

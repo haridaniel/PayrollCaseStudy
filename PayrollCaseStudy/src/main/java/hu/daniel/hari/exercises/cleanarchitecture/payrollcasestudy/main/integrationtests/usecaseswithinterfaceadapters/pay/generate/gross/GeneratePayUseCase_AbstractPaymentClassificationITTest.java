@@ -12,6 +12,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractGeneratePayUseCase_ITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public abstract class GeneratePayUseCase_AbstractPaymentClassificationITTest extends AbstractGeneratePayUseCase_ITTest {
 
@@ -31,15 +32,15 @@ public abstract class GeneratePayUseCase_AbstractPaymentClassificationITTest ext
 		thenNoPayCheckShouldBeCreated(whenGeneratePayUseCaseExecuted(getNotAPayday()));
 	}
 
-	protected void thenPayCheckGrossAmountShouldBe(Collection<PayCheck> payChecks, int grossAmount) {
-		assertThat(TestUtils.singleResult(payChecks).getGrossAmount(), is(grossAmount));
+	protected void thenPayCheckGrossAmountShouldBe(Collection<PayCheckResponse> payChecks, int grossAmount) {
+		assertThat(TestUtils.singleResult(payChecks).grossAmount, is(grossAmount));
 	}
 
-	private void thenNoPayCheckShouldBeCreated(Collection<PayCheck> payChecks) {
+	private void thenNoPayCheckShouldBeCreated(Collection<PayCheckResponse> payChecks) {
 		assertThat(payChecks.isEmpty(), is(true));
 	}
 
-	private void thenPayCheckShouldBeCreated(Collection<PayCheck> payChecks) {
+	private void thenPayCheckShouldBeCreated(Collection<PayCheckResponse> payChecks) {
 		assertThat(payChecks.isEmpty(), is(false));
 	}
 

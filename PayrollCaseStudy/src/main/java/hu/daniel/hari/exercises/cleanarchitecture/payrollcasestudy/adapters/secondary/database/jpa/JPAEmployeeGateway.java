@@ -14,12 +14,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 
-public class JPAEntityGateway implements EmployeeGateway {
+public class JPAEmployeeGateway implements EmployeeGateway {
+	
 	@Inject private JPAEmployeeDao jPAEmployeeDao;
 	@Inject private ProxyFactory proxyFactory;
 
 	@Inject
-	public JPAEntityGateway(JPAEmployeeDao jPAEmployeeDao) {
+	public JPAEmployeeGateway(JPAEmployeeDao jPAEmployeeDao) {
 		this.jPAEmployeeDao = jPAEmployeeDao;
 	}
 
@@ -30,14 +31,7 @@ public class JPAEntityGateway implements EmployeeGateway {
 
 	@Override
 	public Employee findById(int employeeId) {
-		JPAEmployee jpaEmployee = jPAEmployeeDao.find(employeeId);
-		assertNotNull(jpaEmployee);
-		return proxy(jpaEmployee);
-	}
-
-	private void assertNotNull(JPAEmployee jpaEmployee) {
-		if(jpaEmployee == null)
-			throw new NoSuchEmployeeException();
+		return proxy(assertNotNull(jPAEmployeeDao.find(employeeId)));
 	}
 
 	@Override
@@ -55,6 +49,12 @@ public class JPAEntityGateway implements EmployeeGateway {
 		jPAEmployeeDao.deleteAll();
 	}
 
+	private JPAEmployee assertNotNull(JPAEmployee jpaEmployee) {
+		if(jpaEmployee == null)
+			throw new NoSuchEmployeeException();
+		return jpaEmployee;
+	}
+
 	private Collection<Employee> proxyAll(List<JPAEmployee> findAll) {
 		return findAll
 				.stream()
@@ -67,7 +67,7 @@ public class JPAEntityGateway implements EmployeeGateway {
 	}
 
 	@Override
-	public int findByUnionMemberId(int unionMemberId) {
+	public int findEmployeeIdByUnionMemberId(int unionMemberId) {
 		try {
 			return jPAEmployeeDao.getEmployeeIdByUnionMemberId(unionMemberId);
 		} catch (NoResultException e) {

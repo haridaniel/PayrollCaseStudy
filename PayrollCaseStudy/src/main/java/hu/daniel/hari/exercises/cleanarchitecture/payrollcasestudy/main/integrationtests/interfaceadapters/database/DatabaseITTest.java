@@ -208,12 +208,12 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 			employeeGateway.addNew(employee);
 		});
 		
-		assertThat(employeeGateway.findByUnionMemberId(7000), is(employee.getId()));
+		assertThat(employeeGateway.findEmployeeIdByUnionMemberId(7000), is(employee.getId()));
 	}
 	
 	@Test(expected = NoSuchEmployeeException.class)
 	public void testGetEmployeeIdByUnionMemberId_WithWrongId_ShouldThrow() throws Exception {
-		employeeGateway.findByUnionMemberId(7999);
+		employeeGateway.findEmployeeIdByUnionMemberId(7999);
 	}
 
 	private Employee employee() {

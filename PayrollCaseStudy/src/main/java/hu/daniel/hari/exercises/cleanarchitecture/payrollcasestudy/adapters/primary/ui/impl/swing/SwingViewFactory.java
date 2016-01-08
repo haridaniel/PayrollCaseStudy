@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing;
 
+import java.awt.Component;
+
 import javax.swing.JFrame;
 
 import com.google.common.eventbus.EventBus;
@@ -8,6 +10,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.EmployeeManagerPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.EmployeesTablePanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.MainFrameWindow;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.PayCheckListPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.PayDayPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.StatusBarPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.UncaugthExceptionDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.StatusBarTextPane;
@@ -18,6 +22,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.PayDayController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.messageformatter.StatusBarMessageFormatter;
@@ -56,10 +61,19 @@ public class SwingViewFactory {
 
 	public EmployeeManagerPanel employeeManagerPanel() {
 		EmployeeManagerPanel view = new EmployeeManagerPanel(this);
-		EmployeeManagerController controller = new EmployeeManagerController(view, useCaseFactory, eventBus);
+		EmployeeManagerController controller = new EmployeeManagerController(view, useCaseFactory, useCaseFactory, eventBus);
 		view.setListener(controller);
 		return view;
 	}
+	
+	public PayDayPanel payDayPanel() {
+		PayCheckListPanel payCheckListPanel = new PayCheckListPanel();
+		PayDayPanel payDayPanel = new PayDayPanel(payCheckListPanel);
+		PayDayController controller = new PayDayController(payDayPanel, useCaseFactory, useCaseFactory);
+		payDayPanel.setListener(controller);
+		return payDayPanel;
+	}
+
 	public EmployeesTablePanel employeesTablePanel() {
 		EmployeesTablePanel view = new EmployeesTablePanel();
 		EmployeesTableController controller = new EmployeesTableController(view, useCaseFactory, eventBus);
@@ -80,7 +94,6 @@ public class SwingViewFactory {
 		dialog.setListener(controller);
 		return dialog;
 	}
-
 	
 	
 }

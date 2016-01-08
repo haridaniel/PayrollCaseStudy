@@ -14,6 +14,7 @@ import org.junit.Test;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddServiceChargeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
 public class PayDayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest extends PayDayUseCase_AbstractUnionMemberAffiliated_ITTest {
 	private static final LocalDate FIRST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 01);
@@ -70,7 +71,7 @@ public class PayDayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest extends P
 		givenASalariedEmployee_WithUnionMembershipAffiliation(0);
 		givenServiceCharges(theCase.serviceCharges);
 		
-		Collection<PayCheck> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
+		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
 		
 		thenPayCheckDeductionsAmount_ShouldBe(payChecks, theCase.thenPayCheckDeductionsAmount);
 	}

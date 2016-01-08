@@ -9,14 +9,17 @@ public abstract class PaymentSchedule {
 	
 	public abstract boolean isPayDate(LocalDate date);
 	
+	/**
+	 * @throws NotAPaydayException
+	 */
 	public final DateInterval getPayInterval(LocalDate payDate) {
-		validatePayDate(payDate);
-		return getPayIntervalForValidatedPayDate(payDate);
+		return getPayIntervalForValidatedPayDate(validatePayDate(payDate));
 	}
 	
-	private void validatePayDate(LocalDate date) {
+	private LocalDate validatePayDate(LocalDate date) {
 		if (!isPayDate(date))
 			throw new NotAPaydayException();
+		return date;
 	}
 
 	protected abstract DateInterval getPayIntervalForValidatedPayDate(LocalDate payDate) throws NotAPaydayException;
@@ -31,6 +34,5 @@ public abstract class PaymentSchedule {
 		WeeklyPaymentSchedule weeklyPaymentSchedule();
 		BiWeeklyPaymentSchedule biWeeklyPaymentSchedule();
 	}
-
 	
 }

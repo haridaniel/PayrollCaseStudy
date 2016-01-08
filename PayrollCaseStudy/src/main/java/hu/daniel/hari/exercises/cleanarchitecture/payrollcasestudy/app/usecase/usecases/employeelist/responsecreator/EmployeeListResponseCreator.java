@@ -1,5 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -11,10 +12,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeListItem;
 
 public class EmployeeListResponseCreator {
-	
 	//TODO: depend
 	private PaymentClassificationResponseCreatorFactory paymentClassificationResponseCreatorFactory = new PaymentClassificationResponseCreatorFactory();
 	
+	private LocalDate currentDate;
+	
+	public EmployeeListResponseCreator(LocalDate currentDate) {
+		this.currentDate = currentDate;
+	}
+
 	public EmployeeListResponse toResponse(Collection<Employee> employees) {
 		return new EmployeeListResponse(
 				employees.stream()
@@ -34,6 +40,7 @@ public class EmployeeListResponseCreator {
 		employeeListItem.address = employee.getAddress();
 		employeeListItem.paymentClassificationType = paymentClassificationResponseCreator.getType();
 		employeeListItem.paymentClassificationTypeString = paymentClassificationResponseCreator.getFormattedType();
+		employeeListItem.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
 		return employeeListItem;
 	}
 	
