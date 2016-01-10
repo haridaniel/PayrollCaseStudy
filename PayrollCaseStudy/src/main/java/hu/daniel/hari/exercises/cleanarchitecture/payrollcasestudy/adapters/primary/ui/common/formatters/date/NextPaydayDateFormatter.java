@@ -1,10 +1,11 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.formatters.date;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class NextPaydayDateFormatter {
 	
+	private static final String TODAY = "Today";
 	private LocalDate currentDate;
 
 	public NextPaydayDateFormatter(LocalDate currentDate) {
@@ -18,7 +19,7 @@ public class NextPaydayDateFormatter {
 	}
 
 	private String today() {
-		return "Today";
+		return TODAY;
 	}
 
 	private String toDateFormat(LocalDate date) {
