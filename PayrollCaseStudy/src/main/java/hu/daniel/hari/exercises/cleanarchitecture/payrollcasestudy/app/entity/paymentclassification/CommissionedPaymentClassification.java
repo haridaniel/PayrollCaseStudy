@@ -15,6 +15,11 @@ public abstract class CommissionedPaymentClassification extends StrictIntervalPa
 	public abstract Collection<SalesReceipt> getSalesReceiptsIn(DateInterval dateInterval);
 
 	@Override
+	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
 	protected int calculateAmountOnValidatedInterval(DateInterval dateInterval) {
 		return getBiWeeklyBaseSalary() + calculateCommissionAmount(dateInterval);
 	}

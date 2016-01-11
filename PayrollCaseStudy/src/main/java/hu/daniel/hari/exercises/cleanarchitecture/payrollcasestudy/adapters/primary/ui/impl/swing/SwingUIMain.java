@@ -12,13 +12,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.SendPayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
-public class Main {
+public class SwingUIMain {
 	
 	public static void main(String[] args) {
-		new Main();
+		new SwingUIMain();
 	}
 
-	public Main() {
+	public SwingUIMain() {
 		
 		
 		//Secondary ports

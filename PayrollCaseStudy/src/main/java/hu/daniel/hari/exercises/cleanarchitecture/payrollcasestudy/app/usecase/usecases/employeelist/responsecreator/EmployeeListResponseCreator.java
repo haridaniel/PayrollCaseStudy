@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.paymentclassification.PaymentClassificationResponseCreatorFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.visitortest.PayClassFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentClassificationType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeListItem;
@@ -14,7 +15,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 public class EmployeeListResponseCreator {
 	//TODO: depend
 	private PaymentClassificationResponseCreatorFactory paymentClassificationResponseCreatorFactory = new PaymentClassificationResponseCreatorFactory();
-	
+	private PayClassFormatter payClassFormatter = new PayClassFormatter();
 	private LocalDate currentDate;
 	
 	public EmployeeListResponseCreator(LocalDate currentDate) {
@@ -39,7 +40,10 @@ public class EmployeeListResponseCreator {
 		employeeListItem.name = employee.getName();
 		employeeListItem.address = employee.getAddress();
 		employeeListItem.paymentClassificationType = paymentClassificationResponseCreator.getType();
-		employeeListItem.paymentClassificationTypeString = paymentClassificationResponseCreator.getFormattedType();
+//		employeeListItem.paymentClassificationTypeString = paymentClassificationResponseCreator.getFormattedType();
+		
+		employeeListItem.paymentClassificationTypeString = employee.getPaymentClassification().accept(payClassFormatter);
+		
 		employeeListItem.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
 		return employeeListItem;
 	}

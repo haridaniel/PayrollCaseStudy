@@ -10,6 +10,11 @@ public abstract class SalariedPaymentClassification extends StrictIntervalPaymen
 	public abstract void setMonthlySalary(int monthlySalary);
 
 	@Override
+	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
 	protected int calculateAmountOnValidatedInterval(DateInterval dateInterval) {
 		return getMonthlySalary();
 	}

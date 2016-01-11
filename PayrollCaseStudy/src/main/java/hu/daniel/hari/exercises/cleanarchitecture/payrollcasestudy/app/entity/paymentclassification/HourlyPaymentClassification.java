@@ -17,6 +17,11 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
 
 	@Override
+	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
 	public int calculateAmount(DateInterval payInterval) {
 		return getTimeCardsIn(payInterval).stream()
 				.mapToInt(timeCard -> calculateAmount(timeCard))
