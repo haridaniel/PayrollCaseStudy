@@ -10,15 +10,19 @@ import org.reflections.Reflections;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.Proxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.util.autobind.AutoBindedProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.util.autobind.ClassPathScannerProxyClassProvider.DoesNotImplementProxyInterfaceException;
-
-public class ClassPathScannerClassBindingsProvider<T, S> implements ClassBindingsProvider<T, S> {
-	private static final Class<BindSource> ANNOTATION_CLASS = BindSource.class;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.autofactory.PayClassFormatter;
+/**
+ * slow
+ */
+public class AnnotationClassBindingsConfig<T, S> implements ClassBindingsConfig<T, S> {
+	private static final Class<Bind> ANNOTATION_CLASS = Bind.class;
 
 	private String scanRootPackage;
 	private Class<T> targetSuperClass;
 	private Map<Class<? extends S>, Class<? extends T>> targetClassesBySourceClasses = new HashMap<>();
 	
-	private ClassPathScannerClassBindingsProvider(Class<T> targetSuperClass, String scanRootPackage) {
+	private AnnotationClassBindingsConfig(Class<T> targetSuperClass, String scanRootPackage) {
 		this.targetSuperClass = targetSuperClass;
 		this.scanRootPackage = scanRootPackage;
 		scan();
@@ -34,7 +38,7 @@ public class ClassPathScannerClassBindingsProvider<T, S> implements ClassBinding
 	
 	private void scanIt() throws NoSuchMethodException, SecurityException {
 		for (Class<? extends T> targetClass : findTargetClasses()) {
-			BindSource annotation = targetClass.getAnnotation(ANNOTATION_CLASS);
+			Bind annotation = targetClass.getAnnotation(ANNOTATION_CLASS);
 			if(annotation != null) {
 				register((Class<? extends S>) annotation.value(), targetClass);
 			}
@@ -54,8 +58,15 @@ public class ClassPathScannerClassBindingsProvider<T, S> implements ClassBinding
 		return targetClassesBySourceClasses;
 	}
 
-	public static <T, S> ClassBindingsProvider<T, S> of(Class<T> targetSuperClass, Class<S> sourceSuperClass, String scanRootPackage) {
-		return new ClassPathScannerClassBindingsProvider<>(targetSuperClass, scanRootPackage);
+	public static <T, S> ClassBindingsConfig<T, S> of(Class<T> targetSuperClass, Class<S> sourceSuperClass, String scanRootPackage) {
+		return new AnnotationClassBindingsConfig<>(targetSuperClass, scanRootPackage);
+	}
+	
+	/**
+	 * scans targetSuperClass's package. 
+	 */
+	public static <T, S> ClassBindingsConfig<T, S> of(Class<T> targetSuperClass, Class<S> sourceSuperClass) {
+		return of(targetSuperClass, sourceSuperClass, targetSuperClass.getPackage().getName());
 	}
 	
 }

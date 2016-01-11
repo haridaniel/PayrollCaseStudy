@@ -6,7 +6,7 @@ import java.util.Map;
  * @param <T> - target
  * @param <S> - source
  */
-public interface ClassBindingsProvider<T, S> {
+public interface ClassBindingsConfig<T, S> {
 
 	Map<Class<? extends S>, Class<? extends T>> getClassBindings();
 

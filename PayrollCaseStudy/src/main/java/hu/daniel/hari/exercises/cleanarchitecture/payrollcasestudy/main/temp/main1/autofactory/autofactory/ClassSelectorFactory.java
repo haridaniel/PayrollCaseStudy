@@ -4,7 +4,7 @@ import java.util.Map;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
 
-public interface AutoFactory<T, S> {
+public interface ClassSelectorFactory<T, S> {
 	
 	<CS extends S> T create(Class<CS> selectorClass);
 	

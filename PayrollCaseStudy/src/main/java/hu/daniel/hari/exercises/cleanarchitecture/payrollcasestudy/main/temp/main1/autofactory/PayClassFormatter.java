@@ -3,6 +3,5 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.ma
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
 
 public interface PayClassFormatter<T extends PaymentClassification> {
-//	public String format(PaymentClassification paymentClassification);
 	public String format(T paymentClassification);
 }

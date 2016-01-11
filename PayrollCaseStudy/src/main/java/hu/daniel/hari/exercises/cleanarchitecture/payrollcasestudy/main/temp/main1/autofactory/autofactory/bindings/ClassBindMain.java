@@ -11,8 +11,8 @@ public class ClassBindMain {
 		
 		
 		 
-		ClassBindingsProvider<PayClassFormatter, PaymentClassification> classBindingsProvider = 
-				ClassPathScannerClassBindingsProvider.of(PayClassFormatter.class, PaymentClassification.class, Constants.APP_ROOT_PACKAGE);
+		ClassBindingsConfig<PayClassFormatter, PaymentClassification> classBindingsProvider = 
+				AnnotationClassBindingsConfig.of(PayClassFormatter.class, PaymentClassification.class, Constants.APP_ROOT_PACKAGE);
 		
 		System.out.println(classBindingsProvider.getClassBindings());
 		

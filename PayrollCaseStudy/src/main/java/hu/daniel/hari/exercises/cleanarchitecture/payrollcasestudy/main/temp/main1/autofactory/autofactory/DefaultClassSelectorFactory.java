@@ -4,13 +4,13 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.autofactory.autofactory.bindings.ClassBindingsProvider;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.autofactory.autofactory.bindings.ClassBindingsConfig;
 
-public abstract class DefaultAutoFactory<T, S> implements AutoFactory<T, S> {
+public abstract class DefaultClassSelectorFactory<T, S> implements ClassSelectorFactory<T, S> {
 	
 	private Map<Class<? extends S>, Class<? extends T>> targetClassesBySourceClasses;
 	
-	public DefaultAutoFactory(ClassBindingsProvider<T, S> classBindingsProvider) {
+	public DefaultClassSelectorFactory(ClassBindingsConfig<T, S> classBindingsProvider) {
 		targetClassesBySourceClasses = classBindingsProvider.getClassBindings();
 	}
 	
@@ -18,7 +18,6 @@ public abstract class DefaultAutoFactory<T, S> implements AutoFactory<T, S> {
 	public <CS extends S> T create(Class<CS> selectorClass) {
 		return newInstance(getTargetClass(selectorClass)); 
 	}
-
 
 	private <CS extends S> Class<? extends T> getTargetClass(Class<CS> selectorClass) {
 		for (Class<? extends S> paymentClassificationClass : targetClassesBySourceClasses.keySet()) {

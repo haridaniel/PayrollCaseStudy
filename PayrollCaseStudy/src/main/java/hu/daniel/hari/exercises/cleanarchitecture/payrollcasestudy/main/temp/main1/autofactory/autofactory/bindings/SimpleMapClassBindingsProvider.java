@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.ma
 
 import java.util.Map;
 
-public class SimpleMapClassBindingsProvider<T, S> implements ClassBindingsProvider<T, S> {
+public class SimpleMapClassBindingsProvider<T, S> implements ClassBindingsConfig<T, S> {
 
 	Map<Class<? extends S>, Class<? extends T>> targetClassesBySourceClasses;
 	
