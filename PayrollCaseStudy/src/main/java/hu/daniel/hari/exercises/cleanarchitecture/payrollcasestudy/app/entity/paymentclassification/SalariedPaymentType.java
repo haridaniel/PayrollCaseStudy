@@ -4,13 +4,13 @@ import java.time.temporal.TemporalAdjusters;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
-public abstract class SalariedPaymentClassification extends StrictIntervalPaymentClassification {
+public abstract class SalariedPaymentType extends StrictIntervalPaymentType {
 
 	public abstract int getMonthlySalary();
 	public abstract void setMonthlySalary(int monthlySalary);
 
 	@Override
-	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+	public <T> T accept(PaymentTypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

@@ -13,15 +13,15 @@ import java.util.Collections;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.StrictIntervalPaymentClassification.InvalidIntervalException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.StrictIntervalPaymentType.InvalidIntervalException;
 
-public class CommissionedPaymentClassificationTest {
+public class CommissionedPaymentTypeTest {
 	private static final DateInterval A_BIWEEK_INTERVAL = 			DateInterval.of(LocalDate.of(2015, 12, 05), LocalDate.of(2015, 12, 18));
 	private static final DateInterval ANOTHER_BIWEEK_INTERVAL = 	DateInterval.of(LocalDate.of(2015, 12, 12), LocalDate.of(2015, 12, 25));
 	private static final DateInterval LESS_THAN_A_BIWEEK_INTERVAL = DateInterval.of(LocalDate.of(2015, 12, 05), LocalDate.of(2015, 12, 17));
 	private static final DateInterval MORE_THAN_A_BIWEEK_INTERVAL =	DateInterval.of(LocalDate.of(2015, 12, 04), LocalDate.of(2015, 12, 18));
 
-	private static class GivenBase extends CommissionedPaymentClassification {
+	private static class GivenBase extends CommissionedPaymentType {
 		@Override
 		public int getBiWeeklyBaseSalary() {
 			return 0;

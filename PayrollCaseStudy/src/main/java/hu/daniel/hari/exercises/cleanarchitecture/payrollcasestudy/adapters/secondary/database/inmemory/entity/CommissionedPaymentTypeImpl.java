@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalesReceipt;
 
-public class CommissionedPaymentClassificationImpl extends CommissionedPaymentClassification {
+public class CommissionedPaymentTypeImpl extends CommissionedPaymentType {
 
 	private int biWeeklyBaseSalary;
 	private double commissionRate;
@@ -18,7 +18,7 @@ public class CommissionedPaymentClassificationImpl extends CommissionedPaymentCl
 	private Map<LocalDate, SalesReceipt> salesReceiptsByDate = new HashMap<>();
 
 	
-	public CommissionedPaymentClassificationImpl(int biWeeklyBaseSalary, double commissionRate) {
+	public CommissionedPaymentTypeImpl(int biWeeklyBaseSalary, double commissionRate) {
 		this.biWeeklyBaseSalary = biWeeklyBaseSalary;
 		this.commissionRate = commissionRate;
 	}

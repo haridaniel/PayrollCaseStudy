@@ -18,7 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate A_PAYDAY = LAST_DAY_OF_A_MONTH;

@@ -3,25 +3,25 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.ma
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.HourlyPaymentClassificationImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.SalariedPaymentClassificationImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.HourlyPaymentTypeImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.SalariedPaymentTypeImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 
 public class VisitorTestMain {
 	
 	public static void main(String[] args) {
 		
 		
-		List<PaymentClassification> paymentClassifications = new ArrayList<>();
+		List<PaymentType> paymentTypes = new ArrayList<>();
 		
-		paymentClassifications.add(new HourlyPaymentClassificationImpl(11));
-		paymentClassifications.add(new SalariedPaymentClassificationImpl(1002));
+		paymentTypes.add(new HourlyPaymentTypeImpl(11));
+		paymentTypes.add(new SalariedPaymentTypeImpl(1002));
 
 		
 		PayClassFormatter payClassFormatter = new PayClassFormatter();
 		
-		for (PaymentClassification paymentClassification : paymentClassifications) {
-			String formattedPayClass = paymentClassification.accept(payClassFormatter);
+		for (PaymentType paymentType : paymentTypes) {
+			String formattedPayClass = paymentType.accept(payClassFormatter);
 			System.out.println(formattedPayClass);
 		}
 		

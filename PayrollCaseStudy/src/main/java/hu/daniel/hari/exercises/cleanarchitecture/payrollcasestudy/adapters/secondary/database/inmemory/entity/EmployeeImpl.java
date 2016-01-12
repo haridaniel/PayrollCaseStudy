@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 
@@ -11,19 +11,19 @@ public class EmployeeImpl extends Employee {
 	private String name;
 	private String address;
 
-	private PaymentClassification paymentClassification;
+	private PaymentType paymentType;
 	private PaymentSchedule paymentSchedule;
 	private PaymentMethod paymentMethod;
 	private Affiliation affiliation;
 	
 	@Override
-	public PaymentClassification getPaymentClassification() {
-		return paymentClassification;
+	public PaymentType getPaymentType() {
+		return paymentType;
 	}
 
 	@Override
-	public void setPaymentClassification(PaymentClassification paymentClassification) {
-		this.paymentClassification = paymentClassification;
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	@Override

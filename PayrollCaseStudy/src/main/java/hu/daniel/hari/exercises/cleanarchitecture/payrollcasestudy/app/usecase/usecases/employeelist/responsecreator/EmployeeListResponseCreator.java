@@ -5,16 +5,16 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.paymentclassification.PaymentClassificationResponseCreatorFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.paymentclassification.PaymentTypeResponseCreatorFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.visitortest.PayClassFormatter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentClassificationType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentTypeEnum;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeListItem;
 
 public class EmployeeListResponseCreator {
 	//TODO: depend
-	private PaymentClassificationResponseCreatorFactory paymentClassificationResponseCreatorFactory = new PaymentClassificationResponseCreatorFactory();
+	private PaymentTypeResponseCreatorFactory paymentTypeResponseCreatorFactory = new PaymentTypeResponseCreatorFactory();
 	private PayClassFormatter payClassFormatter = new PayClassFormatter();
 	private LocalDate currentDate;
 	
@@ -31,30 +31,30 @@ public class EmployeeListResponseCreator {
 	}
 
 	private EmployeeListItem toEmployeeListItem(Employee employee) {
-		return toEmployeeListItem(employee, paymentClassificationResponseCreatorFactory.create(employee.getPaymentClassification()));
+		return toEmployeeListItem(employee, paymentTypeResponseCreatorFactory.create(employee.getPaymentType()));
 	}
 
-	private EmployeeListItem toEmployeeListItem(Employee employee, PaymentClassificationResponseCreator<PaymentClassification> paymentClassificationResponseCreator) {
+	private EmployeeListItem toEmployeeListItem(Employee employee, PaymentTypeResponseCreator<PaymentType> paymentTypeResponseCreator) {
 		EmployeeListItem employeeListItem = new EmployeeListItem();
 		employeeListItem.id = employee.getId();
 		employeeListItem.name = employee.getName();
 		employeeListItem.address = employee.getAddress();
-		employeeListItem.paymentClassificationType = paymentClassificationResponseCreator.getType();
-//		employeeListItem.paymentClassificationTypeString = paymentClassificationResponseCreator.getFormattedType();
+		employeeListItem.paymentTypeEnum = paymentTypeResponseCreator.getType();
+//		employeeListItem.paymentTypeTypeString = paymentTypeResponseCreator.getFormattedType();
 		
-		employeeListItem.paymentClassificationTypeString = employee.getPaymentClassification().accept(payClassFormatter);
+		employeeListItem.paymentTypeString = employee.getPaymentType().accept(payClassFormatter);
 		
 		employeeListItem.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
 		return employeeListItem;
 	}
 	
-	public static abstract class PaymentClassificationResponseCreator<T extends PaymentClassification> {
-		protected T paymentClassification;
+	public static abstract class PaymentTypeResponseCreator<T extends PaymentType> {
+		protected T paymentType;
 		
-		public PaymentClassificationResponseCreator(T paymentClassification) {
-			this.paymentClassification = paymentClassification;
+		public PaymentTypeResponseCreator(T paymentType) {
+			this.paymentType = paymentType;
 		}
-		public abstract PaymentClassificationType getType();
+		public abstract PaymentTypeEnum getType();
 		public abstract String getFormattedType();
 	}
 

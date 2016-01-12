@@ -3,7 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity;
 import java.time.LocalDate;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 
@@ -13,7 +13,7 @@ public abstract class Employee {
 	public abstract String getName();
 	public abstract String getAddress();
 	public abstract PaymentSchedule getPaymentSchedule();
-	public abstract PaymentClassification getPaymentClassification();
+	public abstract PaymentType getPaymentType();
 	public abstract PaymentMethod getPaymentMethod();
 	public abstract Affiliation getAffiliation();
 
@@ -21,7 +21,7 @@ public abstract class Employee {
 	public abstract void setName(String name);
 	public abstract void setAddress(String address);
 	public abstract void setPaymentSchedule(PaymentSchedule paymentSchedule);
-	public abstract void setPaymentClassification(PaymentClassification paymentClassification);
+	public abstract void setPaymentType(PaymentType paymentType);
 	public abstract void setPaymentMethod(PaymentMethod paymentMethod);
 	public abstract void setAffiliation(Affiliation affiliation);
 
@@ -31,7 +31,7 @@ public abstract class Employee {
 
 	public PayCheck createPayCheck(LocalDate payDate) {
 		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
-		int grossAmount = getPaymentClassification().calculateAmount(payInterval);
+		int grossAmount = getPaymentType().calculateAmount(payInterval);
 		int deductionsAmount = getAffiliation().calculateDeductionsAmount(payInterval);
 		return new PayCheck(getId(), grossAmount, deductionsAmount);
 	}

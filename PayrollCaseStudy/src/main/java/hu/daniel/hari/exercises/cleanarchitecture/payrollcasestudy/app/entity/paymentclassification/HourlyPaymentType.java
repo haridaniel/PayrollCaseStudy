@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
-public abstract class HourlyPaymentClassification extends PaymentClassification {
+public abstract class HourlyPaymentType extends PaymentType {
 	// Business rule constants 
 	// (can be refactored to configurable later whenever business requests it) 
 	public static final int DAILY_NORMAL_HOURS = 8;
@@ -17,7 +17,7 @@ public abstract class HourlyPaymentClassification extends PaymentClassification 
 	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
 
 	@Override
-	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+	public <T> T accept(PaymentTypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

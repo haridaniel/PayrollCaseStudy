@@ -11,17 +11,17 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 
 @Entity
-public class CommissionedJPAPaymentClassification extends JPAPaymentClassification {
+public class CommissionedJPAPaymentType extends JPAPaymentType {
 
 	private int biWeeklyBaseSalary;
 	private double commissionRate;
 
-	@OneToMany(mappedBy = "commissionedJPAPaymentClassification", orphanRemoval = true, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "commissionedJPAPaymentType", orphanRemoval = true, cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private Set<JPASalesReceipt> jpaSalesReceipts = new HashSet<>();
 
-	public CommissionedJPAPaymentClassification() {}
-	public CommissionedJPAPaymentClassification(int biWeeklyBaseSalary, double commissionRate) {
+	public CommissionedJPAPaymentType() {}
+	public CommissionedJPAPaymentType(int biWeeklyBaseSalary, double commissionRate) {
 		this.biWeeklyBaseSalary = biWeeklyBaseSalary;
 		this.commissionRate = commissionRate;
 	}

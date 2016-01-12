@@ -11,7 +11,7 @@ public class EmployeeListResponse implements Response {
 	}
 
 	public static class EmployeeListItem extends EmployeeItem {
-		public String paymentClassificationTypeString;
+		public String paymentTypeString;
 		public LocalDate nextPayDay;
 	}
 	

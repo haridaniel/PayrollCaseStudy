@@ -7,7 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.affiliation.JPAAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentmethod.JPAPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentschedule.JPAPaymentSchedule;
 
@@ -21,7 +21,7 @@ public class JPAEmployee {
 	
 	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
-	private JPAPaymentClassification jpaPaymentClassification;
+	private JPAPaymentType jpaPaymentType;
 	
 	@OneToOne(orphanRemoval=true, cascade= {CascadeType.ALL})
 	@PrimaryKeyJoinColumn
@@ -37,8 +37,8 @@ public class JPAEmployee {
 	
 	public JPAEmployee() {}
 	
-	public JPAPaymentClassification getJpaPaymentClassification() {
-		return jpaPaymentClassification;
+	public JPAPaymentType getJpaPaymentType() {
+		return jpaPaymentType;
 	}
 
 	public JPAPaymentMethod getJpaPaymentMethod() {
@@ -53,8 +53,8 @@ public class JPAEmployee {
 		return jpaAffiliation;
 	}
 
-	public void setJpaPaymentClassification(JPAPaymentClassification jpaPaymentClassification) {
-		this.jpaPaymentClassification = jpaPaymentClassification;
+	public void setJpaPaymentType(JPAPaymentType jpaPaymentType) {
+		this.jpaPaymentType = jpaPaymentType;
 	}
 
 	public void setJpaPaymentMethod(JPAPaymentMethod jpaPaymentMethod) {

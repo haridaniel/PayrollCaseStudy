@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.p
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
-public abstract class StrictIntervalPaymentClassification extends PaymentClassification {
+public abstract class StrictIntervalPaymentType extends PaymentType {
 	
 	@Override
 	public final int calculateAmount(DateInterval dateInterval) {

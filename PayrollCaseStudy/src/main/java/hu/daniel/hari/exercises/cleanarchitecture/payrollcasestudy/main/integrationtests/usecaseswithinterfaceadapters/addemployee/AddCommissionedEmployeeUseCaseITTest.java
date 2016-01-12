@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.MonthlyPaymentScheduleImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.BiWeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.MonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
@@ -38,8 +38,8 @@ public class AddCommissionedEmployeeUseCaseITTest extends AbstractAddEmployeeUse
 	}
 
 	@Override
-	protected Class<? extends PaymentClassification> getPaymentClassificationClass() {
-		return CommissionedPaymentClassification.class; 
+	protected Class<? extends PaymentType> getPaymentTypeClass() {
+		return CommissionedPaymentType.class; 
 	}
 
 	@Override
@@ -49,8 +49,8 @@ public class AddCommissionedEmployeeUseCaseITTest extends AbstractAddEmployeeUse
 
 	@Override
 	protected void doAssertEmployeeTypeSpecificFields(Employee employee) {
-		assertThat(((CommissionedPaymentClassification) employee.getPaymentClassification()).getBiWeeklyBaseSalary(), is(biWeeklyBaseSalary));
-		assertThat(((CommissionedPaymentClassification) employee.getPaymentClassification()).getCommissionRate(), is(commissionRate));
+		assertThat(((CommissionedPaymentType) employee.getPaymentType()).getBiWeeklyBaseSalary(), is(biWeeklyBaseSalary));
+		assertThat(((CommissionedPaymentType) employee.getPaymentType()).getCommissionRate(), is(commissionRate));
 	}
 
 }

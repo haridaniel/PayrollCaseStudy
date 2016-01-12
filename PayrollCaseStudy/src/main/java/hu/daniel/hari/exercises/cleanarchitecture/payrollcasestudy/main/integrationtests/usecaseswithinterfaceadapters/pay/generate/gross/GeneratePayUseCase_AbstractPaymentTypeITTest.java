@@ -14,9 +14,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public abstract class GeneratePayUseCase_AbstractPaymentClassificationITTest extends AbstractGeneratePayUseCase_ITTest {
+public abstract class GeneratePayUseCase_AbstractPaymentTypeITTest extends AbstractGeneratePayUseCase_ITTest {
 
-	public GeneratePayUseCase_AbstractPaymentClassificationITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_AbstractPaymentTypeITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

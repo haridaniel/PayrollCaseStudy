@@ -13,7 +13,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.Response;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentClassificationType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentTypeEnum;
 
 public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> extends AbstractUseCaseITTest {
 
@@ -24,7 +24,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 
 	abstract class Case {
 		abstract void givenAnEmployee();
-		PaymentClassificationType paymentClassificationType;
+		PaymentTypeEnum paymentTypeEnum;
 	}
 	
 	public AbstractFindEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
@@ -39,7 +39,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, name, address, 0));
 			}
 			{
-				paymentClassificationType = PaymentClassificationType.SALARIED;
+				paymentTypeEnum = PaymentTypeEnum.SALARIED;
 			}
 		});
 	}
@@ -52,7 +52,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, name, address, 0));
 			}
 			{
-				paymentClassificationType = PaymentClassificationType.HOURLY;
+				paymentTypeEnum = PaymentTypeEnum.HOURLY;
 			}
 		});
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, name, address, 0, 0));
 			}
 			{
-				paymentClassificationType = PaymentClassificationType.COMMISSIONED;
+				paymentTypeEnum = PaymentTypeEnum.COMMISSIONED;
 			}
 		});
 	}
@@ -83,7 +83,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		assertThat(employeeItem.id, is(employeeId));
 		assertThat(employeeItem.name, is(name));
 		assertThat(employeeItem.address, is(address));
-		assertThat(employeeItem.paymentClassificationType, is(theCase.paymentClassificationType));
+		assertThat(employeeItem.paymentTypeEnum, is(theCase.paymentTypeEnum));
 	}
 
 	protected abstract T whenExecuteUseCase();

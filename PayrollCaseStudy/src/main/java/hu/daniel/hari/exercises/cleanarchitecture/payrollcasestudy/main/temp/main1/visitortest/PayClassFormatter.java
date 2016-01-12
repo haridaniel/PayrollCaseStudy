@@ -1,31 +1,31 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.main1.visitortest;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification.PaymentClassificationVisitor;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType.PaymentTypeVisitor;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 
-public class PayClassFormatter implements PaymentClassificationVisitor<String> {
+public class PayClassFormatter implements PaymentTypeVisitor<String> {
 
 	@Override
-	public String visit(CommissionedPaymentClassification paymentClassification) {
+	public String visit(CommissionedPaymentType paymentType) {
 		return String.format("%d / 2wk + %.0f%% sales", 
-				paymentClassification.getBiWeeklyBaseSalary(), 
-				paymentClassification.getCommissionRate() * 100
+				paymentType.getBiWeeklyBaseSalary(), 
+				paymentType.getCommissionRate() * 100
 				);
 	}
 
 	@Override
-	public String visit(SalariedPaymentClassification paymentClassification) {
+	public String visit(SalariedPaymentType paymentType) {
 		return String.format("%d / month", 
-				paymentClassification.getMonthlySalary()
+				paymentType.getMonthlySalary()
 				);	
 	}
 
 	@Override
-	public String visit(HourlyPaymentClassification paymentClassification) {
+	public String visit(HourlyPaymentType paymentType) {
 		return String.format("%d / hour", 
-				paymentClassification.getHourlyWage()
+				paymentType.getHourlyWage()
 				);
 	}
 

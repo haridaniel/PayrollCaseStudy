@@ -77,8 +77,8 @@ public class EmployeesTableController implements EmployeesTableViewListener {
 			employeeViewItem.id = employeeItem.id;
 			employeeViewItem.name = employeeItem.name;
 			employeeViewItem.address = employeeItem.address;
-			employeeViewItem.paymentClassificationType = employeeItem.paymentClassificationType.name();
-			employeeViewItem.waging = employeeItem.paymentClassificationTypeString;
+			employeeViewItem.paymentTypeEnum = employeeItem.paymentTypeEnum.name();
+			employeeViewItem.waging = employeeItem.paymentTypeString;
 			employeeViewItem.nextPayDay = nextPaydayDateFormatter.format(employeeItem.nextPayDay);
 			return employeeViewItem;
 		}

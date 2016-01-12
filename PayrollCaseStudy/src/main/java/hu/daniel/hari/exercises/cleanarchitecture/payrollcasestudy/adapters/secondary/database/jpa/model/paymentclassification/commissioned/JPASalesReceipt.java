@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.CommissionedJPAPaymentType;
 
 @Entity
 public class JPASalesReceipt {
@@ -34,7 +34,7 @@ public class JPASalesReceipt {
 
 	@ManyToOne  	
 	@JoinColumn(name="employeeId", referencedColumnName="employeeId", insertable = false, updatable = false)
-	public CommissionedJPAPaymentClassification commissionedJPAPaymentClassification;
+	public CommissionedJPAPaymentType commissionedJPAPaymentType;
 
 	public JPASalesReceipt() {}
 	public JPASalesReceipt(LocalDate date, int amount) {
@@ -42,9 +42,9 @@ public class JPASalesReceipt {
 		this.amount = amount;
 	}
 
-	public void connect(CommissionedJPAPaymentClassification commissionedJPAPaymentClassification) {
-		this.commissionedJPAPaymentClassification = commissionedJPAPaymentClassification;
-		this.id.employeeId = commissionedJPAPaymentClassification.employeeId;
+	public void connect(CommissionedJPAPaymentType commissionedJPAPaymentType) {
+		this.commissionedJPAPaymentType = commissionedJPAPaymentType;
+		this.id.employeeId = commissionedJPAPaymentType.employeeId;
 	}
 	
 }

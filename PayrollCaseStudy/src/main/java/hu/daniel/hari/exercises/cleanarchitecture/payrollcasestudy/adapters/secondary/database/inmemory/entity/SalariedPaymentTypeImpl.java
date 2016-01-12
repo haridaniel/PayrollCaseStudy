@@ -1,12 +1,12 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 
-public class SalariedPaymentClassificationImpl extends SalariedPaymentClassification {
+public class SalariedPaymentTypeImpl extends SalariedPaymentType {
 
 	private int monthlySalary;
 
-	public SalariedPaymentClassificationImpl(int monthlySalary) {
+	public SalariedPaymentTypeImpl(int monthlySalary) {
 		this.monthlySalary = monthlySalary;
 	}
 

@@ -3,12 +3,12 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import javax.persistence.Entity;
 
 @Entity
-public class SalariedJPAPaymentClassification extends JPAPaymentClassification {
+public class SalariedJPAPaymentType extends JPAPaymentType {
 	
 	private int monthlySalary;
 
-	public SalariedJPAPaymentClassification() {}
-	public SalariedJPAPaymentClassification(int monthlySalary) {
+	public SalariedJPAPaymentType() {}
+	public SalariedJPAPaymentType(int monthlySalary) {
 		this.monthlySalary = monthlySalary;
 	}
 

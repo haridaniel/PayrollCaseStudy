@@ -1,8 +1,8 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard.TimeCardFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
@@ -27,13 +27,13 @@ public class AddTimeCardUseCase extends TransactionalEmployeeGatewayUseCase<AddT
 	protected void executeInTransaction(AddTimeCardRequest request) {
 		Employee employee = employeeGateway.findById(request.employeeId);
 		
-		castHourlyPaymentClassification(employee.getPaymentClassification())
+		castHourlyPaymentType(employee.getPaymentType())
 			.addTimeCard(createTimeCard(request));
 	}
 
-	private HourlyPaymentClassification castHourlyPaymentClassification(PaymentClassification paymentClassification) {
-		if(paymentClassification instanceof HourlyPaymentClassification) {
-			return (HourlyPaymentClassification) paymentClassification;
+	private HourlyPaymentType castHourlyPaymentType(PaymentType paymentType) {
+		if(paymentType instanceof HourlyPaymentType) {
+			return (HourlyPaymentType) paymentType;
 		} else {
 			throw new TriedToAddTimeCardToNonHourlyEmployeeException();
 		}

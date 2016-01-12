@@ -7,17 +7,17 @@ import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.affiliation.JPAAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentmethod.JPAPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentschedule.JPAPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.affiliation.AffiliationProxy;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentclassification.PaymentClassificationProxy;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentclassification.PaymentTypeProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentmethod.PaymentMethodProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentschedule.PaymentScheduleProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.util.autobind.AutoBindedProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 
@@ -29,7 +29,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 
 	private JPAEmployee jpaEmployee;
 	
-	private PaymentClassificationProxy paymentClassificationProxy;
+	private PaymentTypeProxy paymentTypeProxy;
 	private PaymentMethodProxy paymentMethodProxy;
 	private PaymentScheduleProxy paymentScheduleProxy;
 	private AffiliationProxy affiliationProxy;
@@ -82,10 +82,10 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	}
 	
 	@Override
-	public PaymentClassification getPaymentClassification() {
-		if(paymentClassificationProxy == null)
-			paymentClassificationProxy = proxyFactory.create(PaymentClassificationProxy.class, jpaEmployee.getJpaPaymentClassification());
-		return (PaymentClassification) paymentClassificationProxy;
+	public PaymentType getPaymentType() {
+		if(paymentTypeProxy == null)
+			paymentTypeProxy = proxyFactory.create(PaymentTypeProxy.class, jpaEmployee.getJpaPaymentType());
+		return (PaymentType) paymentTypeProxy;
 	}
 	
 	@Override
@@ -109,9 +109,9 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	}
 
 	@Override
-	public void setPaymentClassification(PaymentClassification paymentClassification) {
-		this.paymentClassificationProxy = (PaymentClassificationProxy) paymentClassification;
-		oneToOneRelationsUpdater.update(paymentClassificationProxy.getJPAObject());
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentTypeProxy = (PaymentTypeProxy) paymentType;
+		oneToOneRelationsUpdater.update(paymentTypeProxy.getJPAObject());
 	}
 
 
@@ -147,9 +147,9 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 			newValue.connect(jpaEmployee);
 		}
 
-		public void update(JPAPaymentClassification newValue) {
-			removeOldIfChanged(jpaEmployee.getJpaPaymentClassification(), newValue, () -> jpaEmployee.setJpaPaymentClassification(null));
-			jpaEmployee.setJpaPaymentClassification(newValue);
+		public void update(JPAPaymentType newValue) {
+			removeOldIfChanged(jpaEmployee.getJpaPaymentType(), newValue, () -> jpaEmployee.setJpaPaymentType(null));
+			jpaEmployee.setJpaPaymentType(newValue);
 			newValue.connect(jpaEmployee);
 		}
 		

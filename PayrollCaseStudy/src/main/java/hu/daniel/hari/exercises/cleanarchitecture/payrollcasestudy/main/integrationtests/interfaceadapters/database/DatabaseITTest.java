@@ -15,9 +15,9 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.ParameterizedMultipleDatabaseITTest;
@@ -72,23 +72,23 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 		Employee testEmployee2 = employee2();
 		
 		transactionalRunner.executeInTransaction(() -> {
-			testEmployee.setPaymentClassification(entityFactory.salariedPaymentClassification(5566));
+			testEmployee.setPaymentType(entityFactory.salariedPaymentType(5566));
 			employeeGateway.addNew(testEmployee);
 			
-			testEmployee2.setPaymentClassification(entityFactory.hourlyPaymentClassification(13));
+			testEmployee2.setPaymentType(entityFactory.hourlyPaymentType(13));
 			employeeGateway.addNew(testEmployee2);
 		});
 		
 		{
 			Employee employee = employeeGateway.findById(testEmployee.getId());
-			PaymentClassification paymentClassification = employee.getPaymentClassification();
-			assertEquals(((SalariedPaymentClassification) paymentClassification).getMonthlySalary(), 5566);
+			PaymentType paymentType = employee.getPaymentType();
+			assertEquals(((SalariedPaymentType) paymentType).getMonthlySalary(), 5566);
 		}
 
 		{
 			Employee employee = employeeGateway.findById(testEmployee2.getId());
-			PaymentClassification paymentClassification = employee.getPaymentClassification();
-			assertEquals(((HourlyPaymentClassification) paymentClassification).getHourlyWage(), 13);
+			PaymentType paymentType = employee.getPaymentType();
+			assertEquals(((HourlyPaymentType) paymentType).getHourlyWage(), 13);
 		}
 
 	}
@@ -98,19 +98,19 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 		// GIVEN
 		Employee testEmployee = employee();
 		transactionalRunner.executeInTransaction(() -> {
-			testEmployee.setPaymentClassification(entityFactory.salariedPaymentClassification(5566));
+			testEmployee.setPaymentType(entityFactory.salariedPaymentType(5566));
 			employeeGateway.addNew(testEmployee);
 		});
 
 		// WHEN
 		{
 			Employee employee = employeeGateway.findById(testEmployee.getId());
-			((SalariedPaymentClassification) employee.getPaymentClassification()).setMonthlySalary(4000);
+			((SalariedPaymentType) employee.getPaymentType()).setMonthlySalary(4000);
 		}
 
 		// THEN
 		Employee employee = employeeGateway.findById(testEmployee.getId());
-		assertEquals(4000, ((SalariedPaymentClassification) employee.getPaymentClassification()).getMonthlySalary());
+		assertEquals(4000, ((SalariedPaymentType) employee.getPaymentType()).getMonthlySalary());
 	}
 
 	@Test
@@ -118,19 +118,19 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 		// GIVEN
 		Employee testEmployee = employee();
 		transactionalRunner.executeInTransaction(() -> {
-			testEmployee.setPaymentClassification(entityFactory.hourlyPaymentClassification(60));
+			testEmployee.setPaymentType(entityFactory.hourlyPaymentType(60));
 			employeeGateway.addNew(testEmployee);
 		});
 
 		// WHEN
 		{
 			Employee employee = employeeGateway.findById(testEmployee.getId());
-			((HourlyPaymentClassification) employee.getPaymentClassification()).setHourlyWage(40);
+			((HourlyPaymentType) employee.getPaymentType()).setHourlyWage(40);
 		}
 
 		// THEN
 		Employee employee = employeeGateway.findById(testEmployee.getId());
-		assertEquals(40, ((HourlyPaymentClassification) employee.getPaymentClassification()).getHourlyWage());
+		assertEquals(40, ((HourlyPaymentType) employee.getPaymentType()).getHourlyWage());
 	}
 
 	@Test(expected = NoSuchEmployeeException.class)
@@ -194,7 +194,7 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 //		database.getEntityManager().clear();
 
 		Employee employee = employeeGateway.findById(testEmployeeWithTimeCard.getId());
-		TimeCard timeCard = singleResult(((HourlyPaymentClassification) employee.getPaymentClassification()).getTimeCardsIn(DateInterval.of(THIS_FRIDAY, THIS_FRIDAY)));
+		TimeCard timeCard = singleResult(((HourlyPaymentType) employee.getPaymentType()).getTimeCardsIn(DateInterval.of(THIS_FRIDAY, THIS_FRIDAY)));
 		assertThat(timeCard, notNullValue());
 		assertThat(timeCard.getWorkingHourQty(), is(8));
 	}
@@ -234,9 +234,9 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 	private Employee employeeWithOneTimeCard() {
 		Employee testEmployee = employee();
 		testEmployee.setPaymentSchedule(entityFactory.weeklyPaymentSchedule());
-		HourlyPaymentClassification hourlyPaymentClassification = entityFactory.hourlyPaymentClassification(0);
-		testEmployee.setPaymentClassification(hourlyPaymentClassification);
-		hourlyPaymentClassification.addTimeCard(entityFactory.timeCard(THIS_FRIDAY, 8));
+		HourlyPaymentType hourlyPaymentType = entityFactory.hourlyPaymentType(0);
+		testEmployee.setPaymentType(hourlyPaymentType);
+		hourlyPaymentType.addTimeCard(entityFactory.timeCard(THIS_FRIDAY, 8));
 		return testEmployee;
 	}
 	

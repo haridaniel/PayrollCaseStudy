@@ -5,9 +5,9 @@ public class EmployeeItem {
 	public String name;
 	public String address;
 
-	public PaymentClassificationType paymentClassificationType;
+	public PaymentTypeEnum paymentTypeEnum;
 	
-	public enum PaymentClassificationType {
+	public enum PaymentTypeEnum {
 		SALARIED,
 		HOURLY,
 		COMMISSIONED

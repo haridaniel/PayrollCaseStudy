@@ -11,16 +11,16 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.hourly.JPATimeCard;
 
 @Entity
-public class HourlyJPAPaymentClassification extends JPAPaymentClassification {
+public class HourlyJPAPaymentType extends JPAPaymentType {
 
 	private int hourlyWage;
 
-	@OneToMany(mappedBy = "hourlyJPAPaymentClassification", orphanRemoval = true, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "hourlyJPAPaymentType", orphanRemoval = true, cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private Set<JPATimeCard> jpaTimeCards = new HashSet<>();
 	
-	public HourlyJPAPaymentClassification() {}
-	public HourlyJPAPaymentClassification(int hourlyWage) {
+	public HourlyJPAPaymentType() {}
+	public HourlyJPAPaymentType(int hourlyWage) {
 		this.hourlyWage = hourlyWage;
 	}
 

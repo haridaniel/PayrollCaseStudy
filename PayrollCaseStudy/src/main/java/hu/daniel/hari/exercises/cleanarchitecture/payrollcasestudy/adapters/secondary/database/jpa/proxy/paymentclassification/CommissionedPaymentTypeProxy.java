@@ -6,42 +6,42 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.dao.JPASalesReceiptDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.CommissionedJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.CommissionedJPAPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentclassification.commissioned.SalesReceiptProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.util.autobind.AutoBindedProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalesReceipt;
 
-@AutoBindedProxy(CommissionedJPAPaymentClassification.class)
-public class CommissionedPaymentClassificationProxy extends CommissionedPaymentClassification implements PaymentClassificationProxy {
+@AutoBindedProxy(CommissionedJPAPaymentType.class)
+public class CommissionedPaymentTypeProxy extends CommissionedPaymentType implements PaymentTypeProxy {
 
-	private CommissionedJPAPaymentClassification commissionedJPAPaymentClassification;
+	private CommissionedJPAPaymentType commissionedJPAPaymentType;
 
 	@Inject private JPASalesReceiptDao salesReceiptDao;
 	@Inject private ProxyFactory proxyFactory;
 	
 	@Inject
-	public CommissionedPaymentClassificationProxy(CommissionedJPAPaymentClassification commissionedJPAPaymentClassification) {
-		this.commissionedJPAPaymentClassification = commissionedJPAPaymentClassification;
+	public CommissionedPaymentTypeProxy(CommissionedJPAPaymentType commissionedJPAPaymentType) {
+		this.commissionedJPAPaymentType = commissionedJPAPaymentType;
 	}
 
 	@Override
 	public int getBiWeeklyBaseSalary() {
-		return commissionedJPAPaymentClassification.getBiWeeklyBaseSalary();
+		return commissionedJPAPaymentType.getBiWeeklyBaseSalary();
 	}
 
 	@Override
 	public double getCommissionRate() {
-		return commissionedJPAPaymentClassification.getCommissionRate();
+		return commissionedJPAPaymentType.getCommissionRate();
 	}
 
 	@Override
 	public void addSalesReceipt(SalesReceipt salesReceipt) {
-		commissionedJPAPaymentClassification.addJPASalesReceipt(((SalesReceiptProxy) salesReceipt).getJPAObject());
+		commissionedJPAPaymentType.addJPASalesReceipt(((SalesReceiptProxy) salesReceipt).getJPAObject());
 	}
 
 	@Override
@@ -61,8 +61,8 @@ public class CommissionedPaymentClassificationProxy extends CommissionedPaymentC
 	}
 
 	@Override
-	public JPAPaymentClassification getJPAObject() {
-		return commissionedJPAPaymentClassification;
+	public JPAPaymentType getJPAObject() {
+		return commissionedJPAPaymentType;
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
-public abstract class CommissionedPaymentClassification extends StrictIntervalPaymentClassification {
+public abstract class CommissionedPaymentType extends StrictIntervalPaymentType {
 	private static final int TWO_WEEK_DAYS = 14;
 
 	public abstract int getBiWeeklyBaseSalary();
@@ -15,7 +15,7 @@ public abstract class CommissionedPaymentClassification extends StrictIntervalPa
 	public abstract Collection<SalesReceipt> getSalesReceiptsIn(DateInterval dateInterval);
 
 	@Override
-	public <T> T accept(PaymentClassificationVisitor<T> visitor) {
+	public <T> T accept(PaymentTypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

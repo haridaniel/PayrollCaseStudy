@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.HourlyJPAPaymentType;
 
 @Entity
 public class JPATimeCard {
@@ -34,7 +34,7 @@ public class JPATimeCard {
 	
 	@ManyToOne  	
 	@JoinColumn(name="employeeId", referencedColumnName="employeeId", insertable = false, updatable = false)
-	public HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
+	public HourlyJPAPaymentType hourlyJPAPaymentType;
 
 	public JPATimeCard() {}
 	public JPATimeCard(LocalDate date, int workingHoursQty) {
@@ -42,9 +42,9 @@ public class JPATimeCard {
 		this.workingHourQty = workingHoursQty;
 	}
 	
-	public void connect(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
-		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
-		this.id.employeeId = hourlyJPAPaymentClassification.employeeId;
+	public void connect(HourlyJPAPaymentType hourlyJPAPaymentType) {
+		this.hourlyJPAPaymentType = hourlyJPAPaymentType;
+		this.id.employeeId = hourlyJPAPaymentType.employeeId;
 	}
 	
 }

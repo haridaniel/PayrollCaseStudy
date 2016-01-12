@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 
-public class HourlyPaymentClassificationImpl extends HourlyPaymentClassification {
+public class HourlyPaymentTypeImpl extends HourlyPaymentType {
 
 	private int hourlyWage;
 
 	private Map<LocalDate, TimeCard> timeCardsByDate = new HashMap<>();
 
-	public HourlyPaymentClassificationImpl(int hourlyWage) {
+	public HourlyPaymentTypeImpl(int hourlyWage) {
 		this.hourlyWage = hourlyWage;
 	}
 

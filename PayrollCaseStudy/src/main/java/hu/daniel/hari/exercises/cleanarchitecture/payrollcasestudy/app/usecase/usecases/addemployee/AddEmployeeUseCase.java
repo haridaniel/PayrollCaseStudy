@@ -3,7 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee.EmployeeFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
@@ -55,11 +55,11 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 
 	private void setEmployeeTypeSpecificFields(Employee employee, R request) {
-		employee.setPaymentClassification(getPaymentClassification(request));
+		employee.setPaymentType(getPaymentType(request));
 		employee.setPaymentSchedule(getPaymentSchedule());
 	}
 
-	protected abstract PaymentClassification getPaymentClassification(R request);
+	protected abstract PaymentType getPaymentType(R request);
 	protected abstract PaymentSchedule getPaymentSchedule();
 
 	public static interface AddEmployeeUseCaseFactory {

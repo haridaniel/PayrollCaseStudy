@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
@@ -47,7 +47,7 @@ public class AddSalesReceiptUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void thenSalesReceiptShouldBeAdded(Employee employee) {
-		SalesReceipt salesReceipt = TestUtils.singleResult(((CommissionedPaymentClassification) employee.getPaymentClassification())
+		SalesReceipt salesReceipt = TestUtils.singleResult(((CommissionedPaymentType) employee.getPaymentType())
 				.getSalesReceiptsIn(DateInterval.ofSingleDate(salesReceiptDate)));
 		assertThat(salesReceipt.getAmount(), is(salesReceiptAmount));
 	}

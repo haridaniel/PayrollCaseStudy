@@ -6,8 +6,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.WeeklyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
@@ -29,8 +29,8 @@ public class AddHourlyEmployeeUseCaseITTest extends AbstractAddEmployeeUseCaseIT
 	}
 
 	@Override
-	protected Class<? extends PaymentClassification> getPaymentClassificationClass() {
-		return HourlyPaymentClassification.class; 
+	protected Class<? extends PaymentType> getPaymentTypeClass() {
+		return HourlyPaymentType.class; 
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class AddHourlyEmployeeUseCaseITTest extends AbstractAddEmployeeUseCaseIT
 
 	@Override
 	protected void doAssertEmployeeTypeSpecificFields(Employee employee) {
-		assertThat(((HourlyPaymentClassification) employee.getPaymentClassification()).getHourlyWage(), is(hourlyWage));
+		assertThat(((HourlyPaymentType) employee.getPaymentType()).getHourlyWage(), is(hourlyWage));
 	}
 
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
@@ -42,7 +42,7 @@ public class AddTimeCardUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void thenTimeCardShouldBeAdded(Employee employee) {
-		TimeCard timeCard = TestUtils.singleResult(((HourlyPaymentClassification) employee.getPaymentClassification())
+		TimeCard timeCard = TestUtils.singleResult(((HourlyPaymentType) employee.getPaymentType())
 				.getTimeCardsIn(DateInterval.of(timeCardDate, timeCardDate)));
 		assertEquals(workingHoursQty, timeCard.getWorkingHourQty());
 	}

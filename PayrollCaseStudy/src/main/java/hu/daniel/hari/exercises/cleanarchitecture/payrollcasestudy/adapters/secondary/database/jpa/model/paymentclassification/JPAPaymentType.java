@@ -14,7 +14,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(length=255)
-public abstract class JPAPaymentClassification {
+public abstract class JPAPaymentType {
 	
 	@Id
 	public Integer employeeId;

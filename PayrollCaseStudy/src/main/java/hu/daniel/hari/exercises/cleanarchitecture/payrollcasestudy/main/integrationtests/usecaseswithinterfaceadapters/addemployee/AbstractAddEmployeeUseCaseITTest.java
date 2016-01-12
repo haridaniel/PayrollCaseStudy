@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.NoAffiliation;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.HoldPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.MonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
@@ -44,7 +44,7 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 	private void then(Employee employee) {
 		assertEmployeeDefaultFields(employee);
 		assertEmployeeFields(employee, name, address);
-		assertEmployeeTypeSpecificFields(employee, getPaymentClassificationClass(), getPaymentScheduleClass());
+		assertEmployeeTypeSpecificFields(employee, getPaymentTypeClass(), getPaymentScheduleClass());
 		doAssertEmployeeTypeSpecificFields(employee);
 	}
 
@@ -59,12 +59,12 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 		assertEquals(employee.getAddress(), address);
 	}
 	
-	private void assertEmployeeTypeSpecificFields(Employee employee, Class<? extends PaymentClassification> paymentClassification, Class<? extends PaymentSchedule> paymentSchedule) {
-		assertThat(employee.getPaymentClassification(), instanceOf(paymentClassification));
+	private void assertEmployeeTypeSpecificFields(Employee employee, Class<? extends PaymentType> paymentType, Class<? extends PaymentSchedule> paymentSchedule) {
+		assertThat(employee.getPaymentType(), instanceOf(paymentType));
 		assertThat(employee.getPaymentSchedule(), instanceOf(paymentSchedule));
 	}
 
-	protected abstract Class<? extends PaymentClassification> getPaymentClassificationClass();
+	protected abstract Class<? extends PaymentType> getPaymentTypeClass();
 	
 	protected abstract Class<? extends PaymentSchedule> getPaymentScheduleClass();
 	

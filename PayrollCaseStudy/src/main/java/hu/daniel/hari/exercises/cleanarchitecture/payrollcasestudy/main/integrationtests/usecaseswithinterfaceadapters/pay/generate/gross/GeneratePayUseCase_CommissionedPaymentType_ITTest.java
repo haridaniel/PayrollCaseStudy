@@ -19,7 +19,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public class GeneratePayUseCase_CommissionedPaymentClassification_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_CommissionedPaymentType_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
 	private static final LocalDate AN_EVEN_FRIDAY = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
 	private static final LocalDate AN_ODD_FRIDAY = AN_EVEN_FRIDAY.plusDays(7);
 
@@ -38,7 +38,7 @@ public class GeneratePayUseCase_CommissionedPaymentClassification_ITTest extends
 		int thenPayCheckGrossAmountSum;
 	}
 	
-	public GeneratePayUseCase_CommissionedPaymentClassification_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_CommissionedPaymentType_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 	

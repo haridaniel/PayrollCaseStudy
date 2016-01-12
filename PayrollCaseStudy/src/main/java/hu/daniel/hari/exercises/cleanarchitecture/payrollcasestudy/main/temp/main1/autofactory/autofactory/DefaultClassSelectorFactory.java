@@ -20,10 +20,10 @@ public abstract class DefaultClassSelectorFactory<T, S> implements ClassSelector
 	}
 
 	private <CS extends S> Class<? extends T> getTargetClass(Class<CS> selectorClass) {
-		for (Class<? extends S> paymentClassificationClass : targetClassesBySourceClasses.keySet()) {
-			boolean assignableFrom = paymentClassificationClass.isAssignableFrom(selectorClass);
+		for (Class<? extends S> paymentTypeClass : targetClassesBySourceClasses.keySet()) {
+			boolean assignableFrom = paymentTypeClass.isAssignableFrom(selectorClass);
 			if(assignableFrom)
-				return targetClassesBySourceClasses.get(paymentClassificationClass);
+				return targetClassesBySourceClasses.get(paymentTypeClass);
 		}
 		throw new RuntimeException("not found");
 	}

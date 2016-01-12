@@ -24,7 +24,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentClassificationITTest {
+public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
 	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);	//in previous period

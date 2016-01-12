@@ -1,15 +1,15 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentclassification;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.dao.JPATimeCardDao;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.HourlyJPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentClassification;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.SalariedJPAPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.HourlyJPAPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.JPAPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.SalariedJPAPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.hourly.JPATimeCard;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.ProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.paymentclassification.hourly.TimeCardProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.util.autobind.AutoBindedProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentClassification;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
 
 import java.util.Collection;
@@ -21,32 +21,32 @@ import javax.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 
-@AutoBindedProxy(HourlyJPAPaymentClassification.class)
-public class HourlyPaymentClassificationProxy extends HourlyPaymentClassification implements PaymentClassificationProxy {
+@AutoBindedProxy(HourlyJPAPaymentType.class)
+public class HourlyPaymentTypeProxy extends HourlyPaymentType implements PaymentTypeProxy {
 
-	private HourlyJPAPaymentClassification hourlyJPAPaymentClassification;
+	private HourlyJPAPaymentType hourlyJPAPaymentType;
 	
 	@Inject	private JPATimeCardDao timeCardDao;
 	@Inject private ProxyFactory proxyFactory;
 
 	@Inject
-	public HourlyPaymentClassificationProxy(HourlyJPAPaymentClassification hourlyJPAPaymentClassification) {
-		this.hourlyJPAPaymentClassification = hourlyJPAPaymentClassification;
+	public HourlyPaymentTypeProxy(HourlyJPAPaymentType hourlyJPAPaymentType) {
+		this.hourlyJPAPaymentType = hourlyJPAPaymentType;
 	}
 	
 	@Override
 	public int getHourlyWage() {
-		return hourlyJPAPaymentClassification.getHourlyWage();
+		return hourlyJPAPaymentType.getHourlyWage();
 	}
 	
 	@Override
 	public void setHourlyWage(int hourlyWage) {
-		hourlyJPAPaymentClassification.setHourlyWage(hourlyWage);
+		hourlyJPAPaymentType.setHourlyWage(hourlyWage);
 	}
 	
 	@Override
 	public void addTimeCard(TimeCard timeCard) {
-		hourlyJPAPaymentClassification.addJPATimeCard(((TimeCardProxy) timeCard).getJPAObject());
+		hourlyJPAPaymentType.addJPATimeCard(((TimeCardProxy) timeCard).getJPAObject());
 	}
 
 	@Override
@@ -66,8 +66,8 @@ public class HourlyPaymentClassificationProxy extends HourlyPaymentClassificatio
 	}
 
 	@Override
-	public JPAPaymentClassification getJPAObject() {
-		return hourlyJPAPaymentClassification;
+	public JPAPaymentType getJPAObject() {
+		return hourlyJPAPaymentType;
 	}
 	
 }
