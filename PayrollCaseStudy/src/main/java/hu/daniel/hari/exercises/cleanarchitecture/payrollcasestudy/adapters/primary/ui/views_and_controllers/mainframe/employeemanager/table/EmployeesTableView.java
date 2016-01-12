@@ -27,7 +27,6 @@ public interface EmployeesTableView extends
 			public int id;
 			public String name;
 			public String address;
-			public String paymentTypeEnum;
 			public String waging;
 			public String nextPayDay;
 		}

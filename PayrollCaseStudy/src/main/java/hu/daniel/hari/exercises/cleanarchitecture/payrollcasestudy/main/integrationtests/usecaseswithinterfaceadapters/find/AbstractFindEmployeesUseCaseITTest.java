@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.find;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -10,10 +10,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.Response;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeItem.PaymentTypeEnum;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.CommissionedPaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.HourlyPaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.SalariedPaymentTypeResponse;
 
 public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> extends AbstractUseCaseITTest {
 
@@ -24,7 +26,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 
 	abstract class Case {
 		abstract void givenAnEmployee();
-		PaymentTypeEnum paymentTypeEnum;
+		Class<? extends PaymentTypeResponse> paymentTypeResponseClass;
 	}
 	
 	public AbstractFindEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
@@ -39,7 +41,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, name, address, 0));
 			}
 			{
-				paymentTypeEnum = PaymentTypeEnum.SALARIED;
+				paymentTypeResponseClass = SalariedPaymentTypeResponse.class;
 			}
 		});
 	}
@@ -52,7 +54,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, name, address, 0));
 			}
 			{
-				paymentTypeEnum = PaymentTypeEnum.HOURLY;
+				paymentTypeResponseClass = HourlyPaymentTypeResponse.class;
 			}
 		});
 	}
@@ -65,7 +67,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 				useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, name, address, 0, 0));
 			}
 			{
-				paymentTypeEnum = PaymentTypeEnum.COMMISSIONED;
+				paymentTypeResponseClass = CommissionedPaymentTypeResponse.class;
 			}
 		});
 	}
@@ -83,7 +85,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		assertThat(employeeItem.id, is(employeeId));
 		assertThat(employeeItem.name, is(name));
 		assertThat(employeeItem.address, is(address));
-		assertThat(employeeItem.paymentTypeEnum, is(theCase.paymentTypeEnum));
+		assertThat(employeeItem.paymentTypeResponse, instanceOf(theCase.paymentTypeResponseClass));
 	}
 
 	protected abstract T whenExecuteUseCase();
