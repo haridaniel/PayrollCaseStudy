@@ -4,7 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse.EmployeeForGetEmployeeResponse;
 
 public class GetEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTest<GetEmployeeResponse> {
 	public GetEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
@@ -19,8 +19,8 @@ public class GetEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTes
 	}
 
 	@Override
-	protected EmployeeItem getSingleResultEmployeeItem(GetEmployeeResponse response) {
-		return response.employeeItem;
+	protected EmployeeForGetEmployeeResponse getSingleResultEmployeeItem(GetEmployeeResponse response) {
+		return response.employeeForGetEmployeeResponse;
 	}
 
 

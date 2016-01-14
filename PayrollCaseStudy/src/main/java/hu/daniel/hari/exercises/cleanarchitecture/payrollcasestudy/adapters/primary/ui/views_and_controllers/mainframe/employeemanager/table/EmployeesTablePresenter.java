@@ -8,8 +8,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.WagingFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeListResponse.EmployeeListItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
 
 class EmployeesTablePresenter {
@@ -22,16 +22,16 @@ class EmployeesTablePresenter {
 	}
 
 	public EmployeesTableViewModel toViewModel(EmployeeListResponse response) {
-		return new EmployeesTableViewModel(toViewModel(response.employeeListItems));
+		return new EmployeesTableViewModel(toViewModel(response.employees));
 	}
 
-	private List<EmployeeViewItem> toViewModel(List<EmployeeListItem> employeeItems) {
+	private List<EmployeeViewItem> toViewModel(List<EmployeeForEmployeeListResponse> employeeItems) {
 		return employeeItems.stream()
 				.map(employeeItem -> toViewModel(employeeItem))
 				.collect(Collectors.toList());
 	}
 
-	private EmployeeViewItem toViewModel(EmployeeListItem employeeItem) {
+	private EmployeeViewItem toViewModel(EmployeeForEmployeeListResponse employeeItem) {
 		EmployeeViewItem employeeViewItem = new EmployeeViewItem();
 		employeeViewItem.id = employeeItem.id;
 		employeeViewItem.name = employeeItem.name;

@@ -3,16 +3,15 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.EmployeeListResponseCreator.PaymentTypeResponseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse.EmployeeForGetEmployeeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetEmployeeRequest> implements HasResponse<GetEmployeeResponse> {
 
-	private EmployeeItemResponseCreator employeeItemResponseCreator = new EmployeeItemResponseCreator();
+	private GetEmployeeResponseCreator getEmployeeResponseCreator = new GetEmployeeResponseCreator();
 	private GetEmployeeResponse response;
 	
 	public GetEmployeeUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
@@ -21,11 +20,7 @@ public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetE
 
 	@Override
 	protected void executeInTransaction(GetEmployeeRequest request) {
-		response = toResponse(employeeGateway.findById(request.employeeId));
-	}
-
-	private GetEmployeeResponse toResponse(Employee employee) {
-		return new GetEmployeeResponse(employeeItemResponseCreator.toEmployeeItem(employee));
+		response = getEmployeeResponseCreator.toResponse(employeeGateway.findById(request.employeeId));
 	}
 
 	@Override
@@ -37,16 +32,17 @@ public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetE
 		GetEmployeeUseCase getEmployeeUseCase();
 	}
 	
-	private static class EmployeeItemResponseCreator {
-		private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
+	private static class GetEmployeeResponseCreator {
+		public GetEmployeeResponse toResponse(Employee employee) {
+			return new GetEmployeeResponse(to(employee));
+		}
 
-		public EmployeeItem toEmployeeItem(Employee employee) {
-			EmployeeItem employeeItem = new EmployeeItem();
-			employeeItem.id = employee.getId();
-			employeeItem.name = employee.getName();
-			employeeItem.address = employee.getAddress();
-			employeeItem.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
-			return employeeItem;
+		private EmployeeForGetEmployeeResponse to(Employee employee) {
+			EmployeeForGetEmployeeResponse response = new EmployeeForGetEmployeeResponse();
+			response.id = employee.getId();
+			response.name = employee.getName();
+			response.address = employee.getAddress();
+			return response;
 		}
 		
 	}

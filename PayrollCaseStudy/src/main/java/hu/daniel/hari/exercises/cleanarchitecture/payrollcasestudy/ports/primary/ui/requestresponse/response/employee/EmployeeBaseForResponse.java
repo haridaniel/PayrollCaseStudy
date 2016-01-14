@@ -2,10 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
 
-public class EmployeeItem {
+public abstract class EmployeeBaseForResponse {
 	public int id;
 	public String name;
 	public String address;
-	public PaymentTypeResponse paymentTypeResponse;
-	
 }

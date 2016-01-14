@@ -10,8 +10,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType.PaymentTypeVisitor;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeListResponse.EmployeeListItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.CommissionedPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.HourlyPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
@@ -28,19 +28,19 @@ public class EmployeeListResponseCreator {
 	public EmployeeListResponse toResponse(Collection<Employee> employees) {
 		return new EmployeeListResponse(
 				employees.stream()
-				.map(employee -> toEmployeeListItem(employee))
+				.map(employee -> toResponse(employee))
 				.collect(Collectors.toList())
 				);
 	}
 
-	private EmployeeListItem toEmployeeListItem(Employee employee) {
-		EmployeeListItem employeeListItem = new EmployeeListItem();
-		employeeListItem.id = employee.getId();
-		employeeListItem.name = employee.getName();
-		employeeListItem.address = employee.getAddress();
-		employeeListItem.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
-		employeeListItem.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
-		return employeeListItem;
+	private EmployeeForEmployeeListResponse toResponse(Employee employee) {
+		EmployeeForEmployeeListResponse response = new EmployeeForEmployeeListResponse();
+		response.id = employee.getId();
+		response.name = employee.getName();
+		response.address = employee.getAddress();
+		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
+		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
+		return response;
 	}
 	
 	

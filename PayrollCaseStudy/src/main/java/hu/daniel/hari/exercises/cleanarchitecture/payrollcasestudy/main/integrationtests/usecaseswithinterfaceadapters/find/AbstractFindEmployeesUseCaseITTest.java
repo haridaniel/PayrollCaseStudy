@@ -11,7 +11,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.Response;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeBaseForResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeBaseForResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.CommissionedPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.HourlyPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
@@ -26,7 +27,6 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 
 	abstract class Case {
 		abstract void givenAnEmployee();
-		Class<? extends PaymentTypeResponse> paymentTypeResponseClass;
 	}
 	
 	public AbstractFindEmployeesUseCaseITTest(DatabaseProvider databaseProvider) {
@@ -40,9 +40,6 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 			void givenAnEmployee() {
 				useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, name, address, 0));
 			}
-			{
-				paymentTypeResponseClass = SalariedPaymentTypeResponse.class;
-			}
 		});
 	}
 
@@ -53,9 +50,6 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 			void givenAnEmployee() {
 				useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, name, address, 0));
 			}
-			{
-				paymentTypeResponseClass = HourlyPaymentTypeResponse.class;
-			}
 		});
 	}
 
@@ -65,9 +59,6 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 			@Override
 			void givenAnEmployee() {
 				useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, name, address, 0, 0));
-			}
-			{
-				paymentTypeResponseClass = CommissionedPaymentTypeResponse.class;
 			}
 		});
 	}
@@ -81,15 +72,14 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		assertEmployeeItem(getSingleResultEmployeeItem(response), theCase);
 	}
 
-	private void assertEmployeeItem(EmployeeItem employeeItem, Case theCase) {
-		assertThat(employeeItem.id, is(employeeId));
-		assertThat(employeeItem.name, is(name));
-		assertThat(employeeItem.address, is(address));
-		assertThat(employeeItem.paymentTypeResponse, instanceOf(theCase.paymentTypeResponseClass));
+	private void assertEmployeeItem(EmployeeBaseForResponse employeeForGetEmployeeResponse, Case theCase) {
+		assertThat(employeeForGetEmployeeResponse.id, is(employeeId));
+		assertThat(employeeForGetEmployeeResponse.name, is(name));
+		assertThat(employeeForGetEmployeeResponse.address, is(address));
 	}
 
 	protected abstract T whenExecuteUseCase();
 
-	protected abstract EmployeeItem getSingleResultEmployeeItem(T response);
+	protected abstract EmployeeBaseForResponse getSingleResultEmployeeItem(T response);
 
 }
