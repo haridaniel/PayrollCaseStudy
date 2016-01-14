@@ -13,12 +13,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public abstract class PayDayUseCase_AbstractUnionMemberAffiliated_ITTest extends AbstractGeneratePayUseCase_ITTest {
+public abstract class GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest extends AbstractGeneratePayUseCase_ITTest {
 
 	private final int employeeId = 1;
 	protected int unionMemberId = 7000;
 
-	public PayDayUseCase_AbstractUnionMemberAffiliated_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

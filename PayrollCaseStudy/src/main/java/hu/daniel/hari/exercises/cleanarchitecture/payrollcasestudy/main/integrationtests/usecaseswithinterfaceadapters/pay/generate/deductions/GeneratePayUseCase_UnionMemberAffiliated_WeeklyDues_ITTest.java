@@ -11,7 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDayUseCase_AbstractUnionMemberAffiliated_ITTest {
+public class GeneratePayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest {
 	//Dues deducted on every friday
 	private static final LocalDate LAST_DAY_OF_A_MONTH_THAT_HAS_4_FRIDAYS = LocalDate.of(2015, 12, 31);
 	private static final LocalDate A_SALARIED_EMPLOYEE_PAYDAY = LAST_DAY_OF_A_MONTH_THAT_HAS_4_FRIDAYS;
@@ -19,7 +19,7 @@ public class PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest extends PayDa
 
 	int weeklyDueAmount = 110;
 
-	public PayDayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest(DatabaseProvider databaseProvider) {
+	public GeneratePayUseCase_UnionMemberAffiliated_WeeklyDues_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
