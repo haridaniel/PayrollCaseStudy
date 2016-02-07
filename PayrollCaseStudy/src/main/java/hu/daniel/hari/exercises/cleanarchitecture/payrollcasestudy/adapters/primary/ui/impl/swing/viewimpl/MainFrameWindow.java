@@ -14,28 +14,19 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView;
 
 public class MainFrameWindow extends JFrame implements MainFrameView {
-	private JPanel employeeManagerPanelHolder;
-	private JPanel payDayPanelHolder;
+	private JPanel mainPanelHolder;
 	private JPanel statusBarHolder;
 	
-	private MainFrameViewListener listener;
-
 	public MainFrameWindow(SwingViewFactory swingViewFactory) {
 		initUI();
 		initSubViews(swingViewFactory);
 	}
 
 	private void initSubViews(SwingViewFactory swingViewFactory) {
-		employeeManagerPanelHolder.add(swingViewFactory.employeeManagerPanel());
-		payDayPanelHolder.add(swingViewFactory.payDayPanel());
+		mainPanelHolder.add(swingViewFactory.mainPanel());
 		statusBarHolder.add(swingViewFactory.statusBarPanel());
 	}
 	
-	@Override
-	public void setListener(MainFrameViewListener listener) {
-		this.listener = listener;
-	}
-
 	private void initUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Payroll - UI");
@@ -50,31 +41,14 @@ public class MainFrameWindow extends JFrame implements MainFrameView {
 		contentPane.add(topPanel, BorderLayout.NORTH);
 		topPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel buttonPanel = new JPanel();
-		topPanel.add(buttonPanel, BorderLayout.NORTH);
-		
-		JButton addEmployeeButton = new JButton("Add Employee...");
-		addEmployeeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listener.onAddEmployeeAction();
-			}
-		});
-		buttonPanel.add(addEmployeeButton);
-		
-		
 		JPanel centerPanel = new JPanel();
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		employeeManagerPanelHolder = new JPanel();
-		centerPanel.add(employeeManagerPanelHolder);
-		employeeManagerPanelHolder.setLayout(new BorderLayout(0, 0));
-		
-		payDayPanelHolder = new JPanel();
-		centerPanel.add(payDayPanelHolder);
-		payDayPanelHolder.setLayout(new BorderLayout(0, 0));
-		
 		setContentPane(contentPane);
+		
+		mainPanelHolder = new JPanel();
+		centerPanel.add(mainPanelHolder);
+		mainPanelHolder.setLayout(new BorderLayout(0, 0));
 		
 		JPanel bottomPanel = new JPanel();
 		contentPane.add(bottomPanel, BorderLayout.SOUTH);
