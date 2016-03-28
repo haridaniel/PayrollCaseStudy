@@ -5,11 +5,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class MainFrameController {
 
 	private MainFrameView mainFrameView;
-	private ViewLoader viewLoader;
 
-	public MainFrameController(MainFrameView mainFrameView, ViewLoader viewLoader) {
+	public MainFrameController(MainFrameView mainFrameView) {
 		this.mainFrameView = mainFrameView;
-		this.viewLoader = viewLoader;
 	}
 
 	

@@ -12,11 +12,10 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class StatusBarController {
 
 	private StatusBarView statusBarView;
-	private StatusBarMessageFormatter messageFormatter;
+	private StatusBarMessageFormatter messageFormatter = new StatusBarMessageFormatter();
 
-	public StatusBarController(StatusBarView statusBarView, EventBus eventBus, StatusBarMessageFormatter statusBarMessageFormatter) {
+	public StatusBarController(StatusBarView statusBarView, EventBus eventBus) {
 		this.statusBarView = statusBarView;
-		this.messageFormatter = statusBarMessageFormatter;
 		eventBus.register(this);
 	}
 	
