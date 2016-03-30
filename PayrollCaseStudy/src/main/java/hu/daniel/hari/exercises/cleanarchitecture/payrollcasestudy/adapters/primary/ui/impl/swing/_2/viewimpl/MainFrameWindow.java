@@ -2,16 +2,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._1.SwingViewFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._1.viewimpl.MainPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.MainPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.StatusBarPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView;
 
 public class MainFrameWindow extends JFrame implements MainFrameView {
@@ -23,13 +20,13 @@ public class MainFrameWindow extends JFrame implements MainFrameView {
 			StatusBarPanel statusBarPanel
 			) {
 		initUI();
-//		mainPanelHolder.add(mainPanel);
+		mainPanelHolder.add(mainPanel);
 		statusBarHolder.add(statusBarPanel);
 	}
 
 	private void initUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Payroll - UI");
+		setTitle("Payroll - UI2");
 		setSize(850, 500);
 		setLocationByPlatform(true);
 		
