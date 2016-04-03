@@ -34,7 +34,7 @@ public class AddCommissionedEmployeeUseCaseITTest extends AbstractAddEmployeeUse
 
 	@Override
 	protected void executeUseCase() {
-		useCaseFactory.addCommissionedEmployeeUseCase().execute(addCommissionedEmployeeRequest);
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(addCommissionedEmployeeRequest);
 	}
 
 	@Override

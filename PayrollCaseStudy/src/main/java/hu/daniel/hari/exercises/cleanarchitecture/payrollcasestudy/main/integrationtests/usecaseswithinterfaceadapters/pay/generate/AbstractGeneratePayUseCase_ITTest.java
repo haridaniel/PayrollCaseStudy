@@ -17,7 +17,7 @@ public abstract class AbstractGeneratePayUseCase_ITTest extends AbstractUseCaseI
 	}
 
 	protected Collection<PayCheckResponse> whenGeneratePayUseCaseExecuted(LocalDate payDate) {
-		GeneratePayUseCase generatePayUseCase = useCaseFactory.generatePayUseCase();
+		GeneratePayUseCase generatePayUseCase = useCaseFactories.generatePayUseCase();
 		generatePayUseCase.execute(new GeneratePayRequest(payDate));
 		return generatePayUseCase.getResponse().payCheckResponses;
 	}

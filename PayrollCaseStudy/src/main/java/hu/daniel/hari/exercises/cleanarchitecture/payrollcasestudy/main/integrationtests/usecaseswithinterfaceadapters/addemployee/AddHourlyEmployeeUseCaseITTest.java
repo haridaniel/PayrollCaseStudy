@@ -25,7 +25,7 @@ public class AddHourlyEmployeeUseCaseITTest extends AbstractAddEmployeeUseCaseIT
 
 	@Override
 	protected void executeUseCase() {
-		useCaseFactory.addHourlyEmployeeUseCase().execute(addHourlyEmployeeRequest);
+		useCaseFactories.addHourlyEmployeeUseCase().execute(addHourlyEmployeeRequest);
 	}
 
 	@Override

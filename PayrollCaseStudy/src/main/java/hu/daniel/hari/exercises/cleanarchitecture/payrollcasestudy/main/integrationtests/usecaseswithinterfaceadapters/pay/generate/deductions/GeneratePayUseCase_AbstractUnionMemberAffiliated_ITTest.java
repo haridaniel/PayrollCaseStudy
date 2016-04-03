@@ -23,8 +23,8 @@ public abstract class GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest ex
 	}
 
 	protected void givenASalariedEmployee_WithUnionMembershipAffiliation(int weeklyDueAmount) {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
-		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
 	}
 
 	protected void thenPayCheckDeductionsAmount_ShouldBe(Collection<PayCheckResponse> payChecks, int payCheckDeductionsAmount) {

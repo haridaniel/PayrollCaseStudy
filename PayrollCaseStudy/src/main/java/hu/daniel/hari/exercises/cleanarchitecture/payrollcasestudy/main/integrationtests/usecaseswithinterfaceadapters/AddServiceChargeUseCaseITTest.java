@@ -47,12 +47,12 @@ public class AddServiceChargeUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAUnionMemberAffiliatedEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
-		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
 	}
 
 	private void whenAddingServiceCharge() {
-		useCaseFactory.addServiceChargeUseCase().execute(new AddServiceChargeRequest(unionMemberId, serviceChargeDate, serviceChargeAmount));
+		useCaseFactories.addServiceChargeUseCase().execute(new AddServiceChargeRequest(unionMemberId, serviceChargeDate, serviceChargeAmount));
 	}
 
 	private void thenServiceChargeShouldBeAdded(Employee employee) {

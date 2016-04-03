@@ -43,8 +43,8 @@ public class SendPayUseCase_DirectMethod_ITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAnEmployeeWithDirectPaymentMethod() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
-		useCaseFactory.changeToDirectPaymentMethodUseCase().execute(new ChangeToDirectPaymentMethodRequest(employeeId, accountNumber));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.changeToDirectPaymentMethodUseCase().execute(new ChangeToDirectPaymentMethodRequest(employeeId, accountNumber));
 	}
 
 	private PayCheck givenPayCheckWithNetAmount(int netAmount) {

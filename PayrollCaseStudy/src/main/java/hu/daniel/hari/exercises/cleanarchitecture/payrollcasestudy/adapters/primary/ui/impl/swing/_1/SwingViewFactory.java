@@ -20,28 +20,29 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainPanelView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.AddEmployeeController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.PayDayController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.messageformatter.StatusBarMessageFormatter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 
 public class SwingViewFactory {
 
-	private UseCaseFactory useCaseFactory;
+	private UseCaseFactories useCaseFactories;
 	private EventBus eventBus;
 	private ViewLoader viewLoader;
 	private JFrame mainFrame = null; //Nullable
 
-	public SwingViewFactory(UseCaseFactory useCaseFactory, EventBus eventBus, ViewLoader viewLoader) {
-		this.useCaseFactory = useCaseFactory;
+	public SwingViewFactory(UseCaseFactories useCaseFactories, EventBus eventBus, ViewLoader viewLoader) {
+		this.useCaseFactories = useCaseFactories;
 		this.eventBus = eventBus;
 		this.viewLoader = viewLoader;
 	}
 
 	public MainFrameWindow mainFrameWindow() {
 		MainFrameWindow mainFrameWindow = new MainFrameWindow(this);
-		MainFrameController controller = new MainFrameController(mainFrameWindow);
+		MainFrameController controller = new MainFrameController();
+		controller.setView(mainFrameWindow);
 		setMainFrame(mainFrameWindow);
 		return mainFrameWindow;
 	}
@@ -59,13 +60,15 @@ public class SwingViewFactory {
 
 	public StatusBarPanel statusBarPanel() {
 		StatusBarPanel statusBarPanel = new StatusBarPanel();
-		StatusBarController controller = new StatusBarController(statusBarPanel, eventBus);
+		StatusBarController controller = new StatusBarController(eventBus);
+		controller.setView(statusBarPanel);
 		return statusBarPanel;
 	}
 
 	public EmployeeManagerPanel employeeManagerPanel() {
 		EmployeeManagerPanel view = new EmployeeManagerPanel(this);
-		EmployeeManagerController controller = new EmployeeManagerController(view, useCaseFactory, useCaseFactory, eventBus);
+		EmployeeManagerController controller = new EmployeeManagerController(useCaseFactories, useCaseFactories, eventBus);
+		controller.setView(view);
 		view.setListener(controller);
 		return view;
 	}
@@ -73,21 +76,23 @@ public class SwingViewFactory {
 	public PayDayPanel payDayPanel() {
 		PayCheckListPanel payCheckListPanel = new PayCheckListPanel();
 		PayDayPanel payDayPanel = new PayDayPanel(payCheckListPanel);
-		PayDayController controller = new PayDayController(payDayPanel, useCaseFactory, useCaseFactory);
+		PayDayController controller = new PayDayController(useCaseFactories, useCaseFactories);
+		controller.setView(payDayPanel);
 		payDayPanel.setListener(controller);
 		return payDayPanel;
 	}
 
 	public EmployeesTablePanel employeesTablePanel() {
 		EmployeesTablePanel view = new EmployeesTablePanel();
-		EmployeesTableController controller = new EmployeesTableController(view, useCaseFactory, eventBus);
+		EmployeeListController controller = new EmployeeListController(useCaseFactories, eventBus);
+		controller.setView(view);
 		view.setListener(controller);
 		return view;
 	}
 	
 	public AddEmployeeDialog addEmployeeDialog() {
 		AddEmployeeDialog dialog = new AddEmployeeDialog(mainFrame);
-		AddEmployeeController controller = new AddEmployeeController(dialog, useCaseFactory, eventBus);
+		AddEmployeeController controller = new AddEmployeeController(dialog, useCaseFactories, eventBus);
 		dialog.setListener(controller);
 		return dialog;
 	}

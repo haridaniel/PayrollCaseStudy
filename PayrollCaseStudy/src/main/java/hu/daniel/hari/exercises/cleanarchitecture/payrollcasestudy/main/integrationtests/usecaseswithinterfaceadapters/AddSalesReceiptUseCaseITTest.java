@@ -39,11 +39,11 @@ public class AddSalesReceiptUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenACommissionedEmployee() {
-		useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", 0, 0));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", 0, 0));
 	}
 
 	private void whenAddingSalesReceipt() {
-		useCaseFactory.addSalesReceiptUseCaseFactory().execute(new AddSalesReceiptRequest(employeeId, salesReceiptDate, salesReceiptAmount));
+		useCaseFactories.addSalesReceiptUseCaseFactory().execute(new AddSalesReceiptRequest(employeeId, salesReceiptDate, salesReceiptAmount));
 	}
 
 	private void thenSalesReceiptShouldBeAdded(Employee employee) {

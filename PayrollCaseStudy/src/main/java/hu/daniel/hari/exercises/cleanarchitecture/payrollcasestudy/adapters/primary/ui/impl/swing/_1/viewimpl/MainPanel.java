@@ -34,7 +34,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 	}
 
 	private void initState() {
-		dateField.setValue(LocalDate.of(2016, 02, 12));
+		dateField.setValue(LocalDate.of(2016, 04, 8));
 	}
 
 	private void initSubViews(SwingViewFactory swingViewFactory) {

@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.payday;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.mainpanel.payday;
 
 import java.awt.GridLayout;
 import java.util.List;
@@ -29,6 +29,7 @@ public class PayCheckListPanel extends JPanel implements PayCheckListView {
 		table = new JTable();
 		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
+		
 	}
 
 	@Override

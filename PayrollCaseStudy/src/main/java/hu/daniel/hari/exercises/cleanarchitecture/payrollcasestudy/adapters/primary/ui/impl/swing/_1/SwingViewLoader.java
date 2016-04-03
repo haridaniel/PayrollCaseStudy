@@ -3,14 +3,14 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ViewLoader;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 
 public class SwingViewLoader implements ViewLoader {
 	
 	private SwingViewFactory swingViewFactory;
 
-	public SwingViewLoader(UseCaseFactory useCaseFactory, EventBus eventBus) {
-		this.swingViewFactory = new SwingViewFactory(useCaseFactory, eventBus, this);
+	public SwingViewLoader(UseCaseFactories useCaseFactories, EventBus eventBus) {
+		this.swingViewFactory = new SwingViewFactory(useCaseFactories, eventBus, this);
 	}
 	
 	@Override

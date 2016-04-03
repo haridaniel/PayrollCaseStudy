@@ -31,11 +31,11 @@ public class AddUnionMemberAffiliationUseCaseITTest extends AbstractUseCaseITTes
 	}
 
 	private void givenAnEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
 	}
 
 	private void whenAddingUnionMemberAffiliation() {
-		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
+		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
 	}
 
 	private void thenShouldBeUnionAffiliated(Employee employee) {

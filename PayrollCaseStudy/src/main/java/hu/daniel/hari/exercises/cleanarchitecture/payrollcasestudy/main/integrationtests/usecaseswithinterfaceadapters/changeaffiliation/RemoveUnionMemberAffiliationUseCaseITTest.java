@@ -48,12 +48,12 @@ public class RemoveUnionMemberAffiliationUseCaseITTest extends AbstractUseCaseIT
 	}
 
 	private void givenAUnionMemberAffiliatedEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
-		useCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
 	}
 
 	private void whenRemovingUnionAffiliation() {
-		useCaseFactory.removeUnionMemberAffiliationUseCase().execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
+		useCaseFactories.removeUnionMemberAffiliationUseCase().execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
 	}
 
 	private void thenItShouldHaveNoAffiliation(Employee employee) {

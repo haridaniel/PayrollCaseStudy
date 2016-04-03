@@ -8,6 +8,7 @@ public interface EmployeeManagerView extends HasListener<EmployeeManagerView.Emp
 
 	public static interface EmployeeManagerViewListener {
 		void onDeleteAction();
+		void onAddAction();
 	}
 
 

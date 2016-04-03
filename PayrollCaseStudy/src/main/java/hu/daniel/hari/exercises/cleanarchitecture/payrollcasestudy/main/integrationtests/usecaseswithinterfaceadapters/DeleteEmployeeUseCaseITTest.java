@@ -38,11 +38,11 @@ public class DeleteEmployeeUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAnEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
 	}
 
 	private void whenDeletingIt() {
-		useCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeId));
+		useCaseFactories.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeId));
 	}
 
 	private void thenShouldNotBeFound() {

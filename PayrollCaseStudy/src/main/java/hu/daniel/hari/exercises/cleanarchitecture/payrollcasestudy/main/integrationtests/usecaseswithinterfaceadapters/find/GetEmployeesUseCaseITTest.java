@@ -13,7 +13,7 @@ public class GetEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTes
 
 	@Override
 	protected GetEmployeeResponse whenExecuteUseCase() {
-		GetEmployeeUseCase useCase = useCaseFactory.getEmployeeUseCase();
+		GetEmployeeUseCase useCase = useCaseFactories.getEmployeeUseCase();
 		useCase.execute(new GetEmployeeRequest(employeeId));
 		return useCase.getResponse();
 	}

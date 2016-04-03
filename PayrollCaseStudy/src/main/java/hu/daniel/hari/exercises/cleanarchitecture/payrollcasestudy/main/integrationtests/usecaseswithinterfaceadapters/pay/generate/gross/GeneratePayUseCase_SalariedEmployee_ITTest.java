@@ -38,7 +38,7 @@ public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCa
 	}
 
 	private void givenASalariedEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
 	}
 
 	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayCheckResponse> payChecks) {

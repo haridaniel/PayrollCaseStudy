@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.ui.mainframe;
 
+import javax.inject.Inject;
+
 import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.StatusBarPanel;
@@ -9,9 +11,13 @@ public class StatusBarUI {
 
 	public final StatusBarPanel statusBarPanel;
 
-	public StatusBarUI(EventBus eventBus) {
-		statusBarPanel = new StatusBarPanel();
-		new StatusBarController(statusBarPanel, eventBus);
+	@Inject
+	public StatusBarUI(
+			StatusBarController controller,
+			StatusBarPanel statusBarPanel
+			) {
+		this.statusBarPanel = statusBarPanel;
+		controller.setView(statusBarPanel);
 	}
 	
 }

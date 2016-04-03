@@ -5,14 +5,14 @@ import javax.swing.SwingUtilities;
 import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.util.eventbus.EventQueueAsyncEventBus;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 
 public class SwingUI {
 
 	private SwingViewLoader swingViewLoader;
 
-	public SwingUI(UseCaseFactory useCaseFactory) {
-		swingViewLoader = new SwingViewLoader(useCaseFactory, createEventBus());
+	public SwingUI(UseCaseFactories useCaseFactories) {
+		swingViewLoader = new SwingViewLoader(useCaseFactories, createEventBus());
 		new UncaugthExceptionViewInitializer(swingViewLoader);
 		show();
 	}

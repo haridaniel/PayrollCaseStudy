@@ -97,12 +97,12 @@ public class GeneratePayUseCase_CommissionedPaymentType_ITTest extends GenerateP
 	}
 	
 	private void givenACommissionedEmployee() {
-		useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", biWeeklyBaseSalary, commissionRate));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", biWeeklyBaseSalary, commissionRate));
 	}
 
 	private void givenSalesReceipts(List<AddSalesReceiptRequest> salesReceipts) {
 		for (AddSalesReceiptRequest addSalesReceiptRequest : salesReceipts) {
-			useCaseFactory.addSalesReceiptUseCaseFactory().execute(addSalesReceiptRequest);
+			useCaseFactories.addSalesReceiptUseCaseFactory().execute(addSalesReceiptRequest);
 		}
 	}
 

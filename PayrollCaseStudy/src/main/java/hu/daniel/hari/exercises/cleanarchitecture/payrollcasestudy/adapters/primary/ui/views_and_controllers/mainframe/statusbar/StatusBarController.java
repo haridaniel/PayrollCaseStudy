@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar;
 
+import javax.inject.Inject;
+
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
@@ -14,9 +16,13 @@ public class StatusBarController {
 	private StatusBarView statusBarView;
 	private StatusBarMessageFormatter messageFormatter = new StatusBarMessageFormatter();
 
-	public StatusBarController(StatusBarView statusBarView, EventBus eventBus) {
-		this.statusBarView = statusBarView;
+	@Inject
+	public StatusBarController(EventBus eventBus) {
 		eventBus.register(this);
+	}
+	
+	public void setView(StatusBarView statusBarView) {
+		this.statusBarView = statusBarView;
 	}
 	
 	@Subscribe

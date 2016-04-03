@@ -7,9 +7,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnitNames;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.port.BankTransferPortMock;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.UseCaseFactoryImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.UseCaseFactoriesImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.dev.TestDataLoader;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.SendPayRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
@@ -31,12 +31,12 @@ public class SwingUIMain {
 		BankTransferPortMock bankTransferPort = new BankTransferPortMock();
 		
 		//Application
-		UseCaseFactory useCaseFactory = new UseCaseFactoryImpl(database, bankTransferPort);
+		UseCaseFactories useCaseFactories = new UseCaseFactoriesImpl(database, bankTransferPort);
 		
 		//Primary ports
-		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactory);
+		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 
-		new SwingUI(useCaseFactory);
+		new SwingUI(useCaseFactories);
 	}
 	
 }

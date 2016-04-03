@@ -38,7 +38,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		givenThenWhen(new Case() {
 			@Override
 			void givenAnEmployee() {
-				useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, name, address, 0));
+				useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, name, address, 0));
 			}
 		});
 	}
@@ -48,7 +48,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		givenThenWhen(new Case() {
 			@Override
 			void givenAnEmployee() {
-				useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, name, address, 0));
+				useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, name, address, 0));
 			}
 		});
 	}
@@ -58,7 +58,7 @@ public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> ext
 		givenThenWhen(new Case() {
 			@Override
 			void givenAnEmployee() {
-				useCaseFactory.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, name, address, 0, 0));
+				useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, name, address, 0, 0));
 			}
 		});
 	}

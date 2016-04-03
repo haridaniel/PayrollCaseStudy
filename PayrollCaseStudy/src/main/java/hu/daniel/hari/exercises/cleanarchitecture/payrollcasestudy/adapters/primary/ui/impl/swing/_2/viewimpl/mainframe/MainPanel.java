@@ -1,33 +1,24 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._1.SwingViewFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.mainpanel.EmployeeManagerPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing._2.viewimpl.mainframe.mainpanel.PayDayPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.component.DateField;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainPanelView;
-import java.awt.FlowLayout;
 
-import javax.swing.JLabel;
-import java.awt.Dimension;
-
-public class MainPanel extends JPanel implements MainPanelView {
+public class MainPanel extends JPanel {
 	private JPanel employeeManagerPanelHolder;
 	private JPanel payDayPanelHolder;
 	private DateField dateField;
 	
-	private MainPanelViewListener listener;
-
 	public MainPanel(EmployeeManagerPanel employeeManagerPanel, PayDayPanel payDayPanel) {
 		initUI();
 		employeeManagerPanelHolder.add(employeeManagerPanel);
@@ -36,12 +27,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 	}
 
 	private void initState() {
-		dateField.setValue(LocalDate.of(2016, 02, 12));
-	}
-
-	@Override
-	public void setListener(MainPanelViewListener listener) {
-		this.listener = listener;
+		dateField.setValue(LocalDate.of(2016, 04, 8));
 	}
 
 	private void initUI() {
@@ -59,15 +45,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		topPanel.add(buttonPanel, BorderLayout.NORTH);
 		
-		JButton addEmployeeButton = new JButton("Add Employee...");
-		addEmployeeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listener.onAddEmployeeAction();
-			}
-		});
 		setLayout(new BorderLayout(0, 0));
-		buttonPanel.add(addEmployeeButton);
-		
 		
 		JPanel centerPanel = new JPanel();
 		contentPane.add(centerPanel, BorderLayout.CENTER);
@@ -95,7 +73,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 		panel_1.add(dateField);
 		
 		payDayPanelHolder = new JPanel();
-		panel.add(payDayPanelHolder, BorderLayout.SOUTH);
+		panel.add(payDayPanelHolder, BorderLayout.CENTER);
 		payDayPanelHolder.setLayout(new BorderLayout(0, 0));
 		
 		add(contentPane);

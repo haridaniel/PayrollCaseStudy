@@ -30,7 +30,7 @@ public class AddSalariedEmployeeUseCaseITTest extends AbstractAddEmployeeUseCase
 
 	@Override
 	protected void executeUseCase() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(addSalariedEmployeeRequest);
+		useCaseFactories.addSalariedEmployeeUseCase().execute(addSalariedEmployeeRequest);
 	}
 
 	@Override

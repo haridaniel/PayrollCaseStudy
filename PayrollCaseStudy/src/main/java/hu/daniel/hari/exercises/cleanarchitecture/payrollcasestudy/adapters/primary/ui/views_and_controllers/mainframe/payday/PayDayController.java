@@ -4,6 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.EmployeeCountChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.PayDayView.PayDayViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.paychecklist.PayCheckListView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.paychecklist.PayCheckListView.PayCheckListViewModel;
@@ -17,7 +23,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 
 public class PayDayController implements PayDayViewListener {
 
-	private PayDayView payDayView;
+	private PayDayView view;
 	private PayCheckListView payCheckListView;
 	private GeneratePayUseCaseFactory generatePayUseCaseFactory;
 	private SendPayUseCaseFactory sendPayUseCaseFactory;
@@ -25,18 +31,22 @@ public class PayDayController implements PayDayViewListener {
 
 	private LocalDate payDate;
 
+	@Inject
 	public PayDayController(
-			PayDayView payDayView,
 			GeneratePayUseCaseFactory generatePayUseCaseFactory,
 			SendPayUseCaseFactory sendPayUseCaseFactory
 			) {
-		this.payDayView = payDayView;
-		payCheckListView = payDayView.getPayCheckListView();
 		this.generatePayUseCaseFactory = generatePayUseCaseFactory;
 		this.sendPayUseCaseFactory = sendPayUseCaseFactory;
-		payDate = LocalDate.now();
+//		payDate = LocalDate.now();
+		payDate = LocalDate.of(2016, 4, 8);
 	}
 
+	public void setView(PayDayView view) {
+		this.view = view;
+		payCheckListView = view.getPayCheckListView();
+	}
+	
 	@Override
 	public void onSendPayAction() {
 		// TODO Auto-generated method stub

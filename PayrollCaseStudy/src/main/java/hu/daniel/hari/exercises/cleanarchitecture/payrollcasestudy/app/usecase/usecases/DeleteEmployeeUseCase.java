@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.DeleteEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
@@ -16,7 +17,7 @@ public class DeleteEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<D
 		employeeGateway.deleteById(request.employeeId);
 	}
 
-	public static interface DeleteEmployeeUseCaseFactory {
+	public static interface DeleteEmployeeUseCaseFactory extends UseCaseFactory {
 		DeleteEmployeeUseCase deleteEmployeeUseCase();
 	}
 

@@ -44,11 +44,11 @@ public class ChangeEmployeeNameUseCaseITTest extends AbstractUseCaseITTest {
 
 
 	private void givenAnEmployee() {
-		useCaseFactory.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, oldName , "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, oldName , "", 0));
 	}
 
 	private void whenChangingItsName() {
-		useCaseFactory.changeEmployeeNameUseCase().execute(new ChangeEmployeeNameRequest(employeeId, newName));
+		useCaseFactories.changeEmployeeNameUseCase().execute(new ChangeEmployeeNameRequest(employeeId, newName));
 	}
 
 	private void thenNameShouldBeChanged(Employee employee) {

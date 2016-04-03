@@ -16,15 +16,15 @@ import javax.swing.table.TableModel;
 
 import com.google.common.eventbus.EventBus;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableView.EmployeesTableViewModel.EmployeeViewItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 
-public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
+public class EmployeesTablePanel extends JPanel implements EmployeeListView {
 	private JTable table;
-	private EmployeesTableViewListener listener;
-	private EmployeesTableViewModel viewModel;
+	private EmployeeListViewListener listener;
+	private EmployeeListViewModel viewModel;
 	
 	public EmployeesTablePanel() {
 		initUI();
@@ -79,19 +79,19 @@ public class EmployeesTablePanel extends JPanel implements EmployeesTableView {
 
 
 	@Override
-	public void setListener(EmployeesTableViewListener listener) {
+	public void setListener(EmployeeListViewListener listener) {
 		this.listener = listener;
 	}
 
 	@Override
-	public void setModel(EmployeesTableViewModel viewModel) {
+	public void setModel(EmployeeListViewModel viewModel) {
 		this.viewModel = viewModel;
 		table.setModel(new TableModelBuilder().toTableModel(viewModel));
 		fireEmployeeSelectionChangedEvent();
 	}
 	
 	private static class TableModelBuilder {
-		public TableModel toTableModel(EmployeesTableViewModel viewModel) {
+		public TableModel toTableModel(EmployeeListViewModel viewModel) {
 			return new DefaultTableModel(dataVector(viewModel.employeeViewItems), columnNames());
 		}
 		private Vector<Vector<Object>> dataVector(List<EmployeeViewItem> employeeViewItems) {

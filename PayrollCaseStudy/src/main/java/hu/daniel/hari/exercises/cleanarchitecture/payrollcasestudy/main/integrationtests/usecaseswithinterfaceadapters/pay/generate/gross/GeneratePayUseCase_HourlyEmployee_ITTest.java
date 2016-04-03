@@ -120,12 +120,12 @@ public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase
 	}
 
 	private void givenAHourlyEmployee() {
-		useCaseFactory.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", hourlyWage));
+		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", hourlyWage));
 	}
 
 	private void givenTimeCards(List<AddTimeCardRequest> addTimeCardRequests) {
 		for (AddTimeCardRequest addTimeCardRequest : addTimeCardRequests) {
-			useCaseFactory.addTimeCardUseCase().execute(addTimeCardRequest);
+			useCaseFactories.addTimeCardUseCase().execute(addTimeCardRequest);
 		}
 	}
 

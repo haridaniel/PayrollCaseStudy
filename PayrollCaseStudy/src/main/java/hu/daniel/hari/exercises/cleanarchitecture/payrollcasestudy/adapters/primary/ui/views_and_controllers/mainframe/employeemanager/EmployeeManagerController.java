@@ -2,12 +2,15 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import java.util.Optional;
 
+import javax.inject.Inject;
+
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ViewLoader;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeesTableSelectionChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListSelectionChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.DeleteEmployeeUseCase.DeleteEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
@@ -23,25 +26,32 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	private EventBus eventBus;
 	
 	private Optional<Integer> currentSelectedEmployeeId;
+	private ViewLoader viewLoader;
+	private EmployeeManagerControllerListener controllerListener;
 
+	@Inject
 	public EmployeeManagerController(
-			EmployeeManagerView view, 
 			DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory, 
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory, 
-			EventBus eventBus) {
-		this.view = view;
+			EventBus eventBus
+			) {
 		this.deleteEmployeeUseCaseFactory = deleteEmployeeUseCaseFactory;
 		this.getEmployeeUseCaseFactory = getEmployeeUseCaseFactory;
 		this.eventBus = eventBus;
 		eventBus.register(this);
+		viewLoader = null;
 	}
 
 	@Subscribe
-	public void onEmployeeSelectionChanged(EmployeesTableSelectionChangedEvent e) {
+	public void onEmployeeSelectionChanged(EmployeeListSelectionChangedEvent e) {
 		currentSelectedEmployeeId = e.employeeId;
 		updateView();
 	}
-
+	
+	public void setView(EmployeeManagerView view) {
+		this.view = view;
+	}
+	
 	private void updateView() {
 		updateButtonsEnabled();
 	}
@@ -61,6 +71,20 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 		GetEmployeeUseCase getEmployeeUseCase = getEmployeeUseCaseFactory.getEmployeeUseCase();
 		getEmployeeUseCase.execute(new GetEmployeeRequest(employeeId));
 		return getEmployeeUseCase.getResponse().employeeForGetEmployeeResponse;
+	}
+
+	@Override
+	public void onAddAction() {
+		controllerListener.openAddEmployeeDialog();
+//		viewLoader.loadAddEmployeeDialogView();
+	}
+	
+	public void setControllerListener(EmployeeManagerControllerListener controllerListener) {
+		this.controllerListener = controllerListener;
+	}
+	
+	public static interface EmployeeManagerControllerListener {
+		void openAddEmployeeDialog();
 	}
 
 }

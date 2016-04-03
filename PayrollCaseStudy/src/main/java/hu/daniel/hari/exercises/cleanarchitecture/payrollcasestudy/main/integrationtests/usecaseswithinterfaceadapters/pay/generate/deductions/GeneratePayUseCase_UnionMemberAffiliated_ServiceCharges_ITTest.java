@@ -78,7 +78,7 @@ public class GeneratePayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest exte
 
 	private void givenServiceCharges(List<AddServiceChargeRequest> serviceCharges) {
 		for (AddServiceChargeRequest addServiceChargeRequest : serviceCharges) {
-			useCaseFactory.addServiceChargeUseCase().execute(addServiceChargeRequest);
+			useCaseFactories.addServiceChargeUseCase().execute(addServiceChargeRequest);
 		}
 	}
 	
