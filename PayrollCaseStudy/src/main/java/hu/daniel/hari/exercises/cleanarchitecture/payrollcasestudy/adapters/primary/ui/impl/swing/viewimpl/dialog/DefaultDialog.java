@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.dialog;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -6,8 +6,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.CloseableViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.ClosableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
 /**
  * Not close by itself, just send message to listener  
@@ -17,7 +17,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
  */
 public class DefaultDialog<T extends CloseableViewListener> extends JDialog implements ClosableView<T> {
 
-	private CloseableViewListener closeableViewListener;
+	private T listener;
 
 	public DefaultDialog(
 			JFrame parentFrame
@@ -27,16 +27,20 @@ public class DefaultDialog<T extends CloseableViewListener> extends JDialog impl
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				closeableViewListener.onCloseRequested();
+				listener.onCloseRequested();
 			}
 		});
 	}
 
 	@Override
 	public void setListener(T listener) {
-		this.closeableViewListener = listener;
+		this.listener = listener;
 	}
-
+	
+	protected T getListener() {
+		return listener;
+	}
+	
 	@Override
 	public void close() {
 		dispose();

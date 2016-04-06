@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.dialog.addemployee;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -13,15 +13,14 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.util.SpringUtilities;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.dialog.DefaultDialog;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.addemployee.AddEmployeeView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.util.SpringUtilities;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
 
 public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> implements AddEmployeeView {
 
 	private final JPanel fieldsPanel = new JPanel();
-	private AddEmployeeViewListener listener;
 	
 	private JTextField tfEmployeeId = new JTextField();
 	private JTextField tfName = new JTextField();
@@ -60,11 +59,6 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 		                                6, 6);       //xPad, yPad
 	}
 
-	@Override
-	public void setListener(AddEmployeeViewListener listener) {
-		super.setListener(listener);
-		this.listener = listener;
-	}
 
 	@Override
 	public AddEmployeeViewModel getModel() {
@@ -93,7 +87,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 				JButton okButton = new JButton("SAVE");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						listener.onAddEmployee();
+						getListener().onAddEmployee();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -104,7 +98,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						listener.onCancel();
+						getListener().onCancel();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
