@@ -9,9 +9,8 @@ import javax.swing.border.EmptyBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.MainPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.StatusBarPanel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameView;
 
-public class MainFrameWindow extends JFrame implements MainFrameView {
+public class MainFrameWindow extends JFrame {
 	private JPanel mainPanelHolder;
 	private JPanel statusBarHolder;
 	

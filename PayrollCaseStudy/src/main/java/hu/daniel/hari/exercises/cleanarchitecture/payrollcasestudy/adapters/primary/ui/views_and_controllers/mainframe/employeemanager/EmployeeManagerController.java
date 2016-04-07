@@ -3,12 +3,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ViewLoader;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddEmployeeDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListSelectionChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.DeleteEmployeeUseCase.DeleteEmployeeUseCaseFactory;
@@ -26,20 +27,20 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	private EventBus eventBus;
 	
 	private Optional<Integer> currentSelectedEmployeeId;
-	private ViewLoader viewLoader;
-	private EmployeeManagerControllerListener controllerListener;
+	private Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider;
 
 	@Inject
 	public EmployeeManagerController(
 			DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory, 
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory, 
-			EventBus eventBus
+			EventBus eventBus,
+			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider
 			) {
 		this.deleteEmployeeUseCaseFactory = deleteEmployeeUseCaseFactory;
 		this.getEmployeeUseCaseFactory = getEmployeeUseCaseFactory;
 		this.eventBus = eventBus;
+		this.addEmployeeDialogUIProvider = addEmployeeDialogUIProvider;
 		eventBus.register(this);
-		viewLoader = null;
 	}
 
 	@Subscribe
@@ -75,16 +76,7 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 
 	@Override
 	public void onAddAction() {
-		controllerListener.openAddEmployeeDialog();
-//		viewLoader.loadAddEmployeeDialogView();
+		addEmployeeDialogUIProvider.get().show();
 	}
 	
-	public void setControllerListener(EmployeeManagerControllerListener controllerListener) {
-		this.controllerListener = controllerListener;
-	}
-	
-	public static interface EmployeeManagerControllerListener {
-		void openAddEmployeeDialog();
-	}
-
 }
