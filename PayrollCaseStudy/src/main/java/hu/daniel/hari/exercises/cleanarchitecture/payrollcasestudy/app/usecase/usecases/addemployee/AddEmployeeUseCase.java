@@ -1,16 +1,19 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee.EmployeeFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddServiceChargeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.IdAlreadyExistsValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.AddEmployeeValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -33,7 +36,9 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 	
 	@Override
-	protected final void executeInTransaction(R request) {
+	protected final void executeInTransaction(R request) throws AddEmployeeValidationException {
+		new Validator().validate(request);
+		
 		Employee employee = employeeFactory.employee();
 		
 		setFields(employee, request);
@@ -42,6 +47,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 				
 		employeeGateway.addNew(employee);
 	}
+
 
 	private void setFields(Employee employee, R request) {
 		employee.setId(request.employeeId);
@@ -66,6 +72,30 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		AddSalariedEmployeeUseCase addSalariedEmployeeUseCase();
 		AddHourlyEmployeeUseCase addHourlyEmployeeUseCase();
 		AddCommissionedEmployeeUseCase addCommissionedEmployeeUseCase();
+	}
+	
+	private class Validator {
+		List<AddEmployeeValidationError> addEmployeeValidationErrors = new ArrayList<>();
+		
+		private void validate(R request) {
+			checkIdExists(request);
+			checkNameExists(request);
+			if(!addEmployeeValidationErrors.isEmpty())
+				throw new AddEmployeeValidationException(addEmployeeValidationErrors);
+		}
+
+		private void checkIdExists(R request) {
+			if(employeeGateway.isExists(request.employeeId)) {
+				Employee employee = employeeGateway.findById(request.employeeId);
+				addEmployeeValidationErrors.add(new IdAlreadyExistsValidationError(employee.getName()));
+			}
+		}
+		
+		private void checkNameExists(R request) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 }

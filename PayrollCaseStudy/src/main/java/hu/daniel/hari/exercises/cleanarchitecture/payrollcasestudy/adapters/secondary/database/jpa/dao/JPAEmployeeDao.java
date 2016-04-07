@@ -26,7 +26,11 @@ public class JPAEmployeeDao {
 	public JPAEmployee find(int employeeId) {
 		return em.find(JPAEmployee.class, employeeId);
 	}
-
+	
+	public boolean isExists(int employeeId) {
+		return find(employeeId) != null;
+	}
+	
 	public List<JPAEmployee> findAll() {
 		CriteriaQuery<JPAEmployee> criteria = em.getCriteriaBuilder().createQuery(JPAEmployee.class);
 		return em.createQuery(

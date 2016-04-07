@@ -6,10 +6,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Em
 
 public interface EmployeeGateway {
 	
+	boolean isExists(int employeeId);
+	
 	/**
 	 * @throws NoSuchEmployeeException
 	 */
 	Employee findById(int employeeId);
+	
 	/**
 	 * @throws NoSuchEmployeeException
 	 */

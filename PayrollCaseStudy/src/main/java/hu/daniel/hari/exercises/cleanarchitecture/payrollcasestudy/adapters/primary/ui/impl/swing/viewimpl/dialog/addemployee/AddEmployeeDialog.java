@@ -1,9 +1,11 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
+import com.google.common.base.Joiner;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.util.SpringUtilities;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
@@ -21,11 +25,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> implements AddEmployeeView {
 
 	private final JPanel fieldsPanel = new JPanel();
+	private JLabel errorMessageLabel;
 	
 	private JTextField tfEmployeeId = new JTextField();
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
-	
+
 	public AddEmployeeDialog(JFrame parentFrame) {
 		super(parentFrame);
 		initUI();
@@ -76,9 +81,19 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 		setSize(450, 300);
 		
 		getContentPane().setLayout(new BorderLayout());
-		fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(fieldsPanel, BorderLayout.NORTH);
-		fieldsPanel.setLayout(new SpringLayout());
+		{
+			JPanel panel = new JPanel();
+			getContentPane().add(panel, BorderLayout.NORTH);
+			panel.setLayout(new BorderLayout(0, 0));
+			{
+				errorMessageLabel = new JLabel("New label\\n<br/>new");
+				errorMessageLabel.setForeground(Color.RED);
+				panel.add(errorMessageLabel, BorderLayout.SOUTH);
+			}
+			fieldsPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			panel.add(fieldsPanel, BorderLayout.CENTER);
+			fieldsPanel.setLayout(new SpringLayout());
+		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -106,7 +121,15 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 			}
 		}
 		
-		
+	}
+
+	@Override
+	public void setModel(AddEmployeeValidationErrorsModel viewModel) {
+		errorMessageLabel.setText(toListInHtml(viewModel.useCaseValidationErrorMessages));
+	}
+
+	private String toListInHtml(List<String> strings) {
+		return "<html>" + Joiner.on("<br/>").join(strings) + "</html>";
 	}
 
 }

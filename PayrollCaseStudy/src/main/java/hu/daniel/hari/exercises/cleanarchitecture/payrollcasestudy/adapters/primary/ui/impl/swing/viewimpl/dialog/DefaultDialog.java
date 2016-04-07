@@ -10,7 +10,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
 /**
- * Not close by itself, just send message to listener  
+ * Don't closes by itself, just sends message to listener  
  * @author Dani
  *
  * @param <T>
@@ -18,7 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class DefaultDialog<T extends CloseableViewListener> extends JDialog implements ClosableView<T> {
 
 	private T listener;
-
+	
 	public DefaultDialog(
 			JFrame parentFrame
 			) {

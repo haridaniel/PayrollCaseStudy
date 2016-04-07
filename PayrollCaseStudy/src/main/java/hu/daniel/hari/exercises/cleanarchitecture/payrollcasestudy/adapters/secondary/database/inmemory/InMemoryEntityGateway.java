@@ -21,6 +21,11 @@ public class InMemoryEntityGateway implements EmployeeGateway {
 	}
 
 	@Override
+	public boolean isExists(int employeeId) {
+		return employeesById.containsKey(employeeId);
+	}
+
+	@Override
 	public Employee findById(int employeeId) {
 		Employee employee = employeesById.get(employeeId);
 		assertNotNull(employee);

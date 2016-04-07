@@ -30,6 +30,11 @@ public class JPAEmployeeGateway implements EmployeeGateway {
 	}
 
 	@Override
+	public boolean isExists(int employeeId) {
+		return jPAEmployeeDao.isExists(employeeId);
+	}
+
+	@Override
 	public Employee findById(int employeeId) {
 		return proxy(assertNotNull(jPAEmployeeDao.find(employeeId)));
 	}
