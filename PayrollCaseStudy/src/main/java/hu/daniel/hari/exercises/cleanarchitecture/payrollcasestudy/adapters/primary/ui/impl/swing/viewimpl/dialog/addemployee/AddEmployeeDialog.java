@@ -86,7 +86,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 			getContentPane().add(panel, BorderLayout.NORTH);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
-				errorMessageLabel = new JLabel("New label\\n<br/>new");
+				errorMessageLabel = new JLabel("");
 				errorMessageLabel.setForeground(Color.RED);
 				panel.add(errorMessageLabel, BorderLayout.SOUTH);
 			}
@@ -125,10 +125,10 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 
 	@Override
 	public void setModel(AddEmployeeValidationErrorsModel viewModel) {
-		errorMessageLabel.setText(toListInHtml(viewModel.useCaseValidationErrorMessages));
+		errorMessageLabel.setText(toListAsHtml(viewModel.useCaseValidationErrorMessages));
 	}
 
-	private String toListInHtml(List<String> strings) {
+	private String toListAsHtml(List<String> strings) {
 		return "<html>" + Joiner.on("<br/>").join(strings) + "</html>";
 	}
 
