@@ -28,7 +28,6 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 	
 	public EmployeeListPanel() {
 		initUI();
-		initListener();
 		initEvents();
 	}
 
@@ -40,21 +39,6 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 		table = new JTable();
 		table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
-	}
-
-	private void initListener() {
-		addAncestorListener(new AncestorListener() {
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				listener.onInitialized();
-			}
-		});
 	}
 
 	private void initEvents() {

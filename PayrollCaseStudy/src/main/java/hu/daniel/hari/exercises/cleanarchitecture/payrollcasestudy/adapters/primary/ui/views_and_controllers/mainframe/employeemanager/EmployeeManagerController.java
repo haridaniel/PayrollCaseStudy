@@ -78,5 +78,5 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	public void onAddAction() {
 		addEmployeeDialogUIProvider.get().show();
 	}
-	
+
 }

@@ -18,11 +18,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.SalariedPaymentTypeResponse;
 
 public class EmployeeListResponseCreator {
-	private LocalDate currentDate;
+
+	private LocalDate baseDate;
 	private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
 	
-	public EmployeeListResponseCreator(LocalDate currentDate) {
-		this.currentDate = currentDate;
+	public EmployeeListResponseCreator(LocalDate baseDate) {
+		this.baseDate = baseDate;
 	}
 
 	public EmployeeListResponse toResponse(Collection<Employee> employees) {
@@ -39,7 +40,7 @@ public class EmployeeListResponseCreator {
 		response.name = employee.getName();
 		response.address = employee.getAddress();
 		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
-		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(currentDate);
+		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(baseDate);
 		return response;
 	}
 	

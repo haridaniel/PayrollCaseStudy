@@ -14,14 +14,16 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 
 class EmployeeListPresenter {
 
+	private EmployeeListResponse response;
+	private NextPaydayDateFormatter nextPaydayDateFormatter;
 	private WagingFormatter wagingFormatter = new WagingFormatter();
-	private NextPaydayDateFormatter nextPaydayDateFormatter = new NextPaydayDateFormatter(currentDate());
 
-	private LocalDate currentDate() {
-		return LocalDate.now();
+	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
+		this.response = response;
+		nextPaydayDateFormatter = new NextPaydayDateFormatter(currentDate);
 	}
 
-	public EmployeeListViewModel toViewModel(EmployeeListResponse response) {
+	public EmployeeListViewModel toViewModel() {
 		return new EmployeeListViewModel(toViewModel(response.employees));
 	}
 

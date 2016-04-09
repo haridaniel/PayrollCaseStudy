@@ -12,7 +12,6 @@ public interface EmployeeListView extends
 {
 
 	public static interface EmployeeListViewListener {
-		void onInitialized();
 		void onSelectionChanged(Optional<Integer> employeeId);
 	}
 	

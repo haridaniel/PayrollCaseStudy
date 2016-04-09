@@ -16,7 +16,7 @@ public class MainFrameUI {
 			MainPanelUI mainPanelUI,
 			StatusBarUI statusBarUI 
 			) {
-		view = new MainFrameWindow(mainPanelUI.mainPanel, statusBarUI.statusBarPanel);
+		view = new MainFrameWindow(mainPanelUI.view, statusBarUI.statusBarPanel);
 	}
 	
 	public void show() {

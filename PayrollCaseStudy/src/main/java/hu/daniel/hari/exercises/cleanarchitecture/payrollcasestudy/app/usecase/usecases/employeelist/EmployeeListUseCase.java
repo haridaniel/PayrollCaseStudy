@@ -1,16 +1,14 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist;
 
-import java.time.LocalDate;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.responsecreator.EmployeeListResponseCreator;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request.EmptyRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.EmployeeListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<EmptyRequest> implements HasResponse<EmployeeListResponse> {
+public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<EmployeeListRequest> implements HasResponse<EmployeeListResponse> {
 
 	private EmployeeListResponse response;
 	
@@ -19,12 +17,8 @@ public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<Emp
 	}
 
 	@Override
-	protected void executeInTransaction(EmptyRequest request) {
-		response = employeeListResponseCreator().toResponse(employeeGateway.findAll());
-	}
-
-	private EmployeeListResponseCreator employeeListResponseCreator() {
-		return new EmployeeListResponseCreator(LocalDate.now());
+	protected void executeInTransaction(EmployeeListRequest request) {
+		response = new EmployeeListResponseCreator(request.currentDate).toResponse(employeeGateway.findAll());
 	}
 
 	@Override

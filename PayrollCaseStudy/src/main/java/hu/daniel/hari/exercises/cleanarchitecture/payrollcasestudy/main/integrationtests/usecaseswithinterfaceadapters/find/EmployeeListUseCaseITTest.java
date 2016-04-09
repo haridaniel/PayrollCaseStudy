@@ -1,9 +1,11 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.find;
 
+import java.time.LocalDate;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.EmployeeListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 
@@ -15,7 +17,7 @@ public class EmployeeListUseCaseITTest extends AbstractFindEmployeesUseCaseITTes
 	@Override
 	protected EmployeeListResponse whenExecuteUseCase() {
 		EmployeeListUseCase employeesOverviewUseCase = useCaseFactories.employeeListUseCase();
-		employeesOverviewUseCase.execute(Request.EMPTY_REQUEST);
+		employeesOverviewUseCase.execute(new EmployeeListRequest(LocalDate.now()));
 		return employeesOverviewUseCase.getResponse();
 	}
 
