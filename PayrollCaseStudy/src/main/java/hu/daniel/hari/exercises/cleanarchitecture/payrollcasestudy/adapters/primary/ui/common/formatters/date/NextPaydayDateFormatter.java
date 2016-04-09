@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class NextPaydayDateFormatter {
 	
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
 	private static final String TODAY = "Today";
 	private LocalDate currentDate;
 
@@ -23,7 +24,7 @@ public class NextPaydayDateFormatter {
 	}
 
 	private String toDateFormat(LocalDate date) {
-		return DateTimeFormatter.ofPattern("yyyy-MM-dd").format(date);
+		return DateTimeFormatter.ofPattern(DATE_FORMAT).format(date);
 	}
 	
 }

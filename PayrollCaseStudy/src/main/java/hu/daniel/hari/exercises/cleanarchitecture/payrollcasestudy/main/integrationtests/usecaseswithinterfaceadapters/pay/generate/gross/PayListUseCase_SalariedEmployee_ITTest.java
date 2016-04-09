@@ -10,15 +10,15 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PayListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
+public class PayListUseCase_SalariedEmployee_ITTest extends PayListUseCase_AbstractPaymentTypeITTest {
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	
 	private static final LocalDate A_PAYDAY = LAST_DAY_OF_A_MONTH;
@@ -27,7 +27,7 @@ public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCa
 	private final int employeeId = 1;
 	private final int monthlySalary = 1000;
 
-	public GeneratePayUseCase_SalariedEmployee_ITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_SalariedEmployee_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
@@ -41,7 +41,7 @@ public class GeneratePayUseCase_SalariedEmployee_ITTest extends GeneratePayUseCa
 		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
 	}
 
-	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayCheckResponse> payChecks) {
+	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayListResponseItem> payChecks) {
 		thenPayCheckGrossAmountShouldBe(payChecks, monthlySalary);
 	}
 

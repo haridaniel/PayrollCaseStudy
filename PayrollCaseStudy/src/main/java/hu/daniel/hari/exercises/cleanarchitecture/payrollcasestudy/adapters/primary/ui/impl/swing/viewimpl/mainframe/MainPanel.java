@@ -17,7 +17,7 @@ import javax.swing.border.SoftBevelBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.dev.DateField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.EmployeeManagerPanel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.PayDayPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.PayPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainPanelView;
 
 public class MainPanel extends JPanel implements MainPanelView {
@@ -27,10 +27,10 @@ public class MainPanel extends JPanel implements MainPanelView {
 	private MainPanelViewListener listener;
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
-	public MainPanel(EmployeeManagerPanel employeeManagerPanel, PayDayPanel payDayPanel) {
+	public MainPanel(EmployeeManagerPanel employeeManagerPanel, PayPanel payPanel) {
 		initUI();
 		employeeManagerPanelHolder.add(employeeManagerPanel);
-		payDayPanelHolder.add(payDayPanel);
+		payDayPanelHolder.add(payPanel);
 	}
 
 	private void initUI() {
@@ -74,8 +74,15 @@ public class MainPanel extends JPanel implements MainPanelView {
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
+		JPanel panel_2 = new JPanel();
+		centerPanel.add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblEmployees = new JLabel("Employees");
+		panel_2.add(lblEmployees, BorderLayout.NORTH);
+		
 		employeeManagerPanelHolder = new JPanel();
-		centerPanel.add(employeeManagerPanelHolder);
+		panel_2.add(employeeManagerPanelHolder);
 		employeeManagerPanelHolder.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();

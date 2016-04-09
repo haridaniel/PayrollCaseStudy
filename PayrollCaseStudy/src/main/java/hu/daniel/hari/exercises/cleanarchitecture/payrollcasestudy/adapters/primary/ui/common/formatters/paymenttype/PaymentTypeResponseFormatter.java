@@ -5,7 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.SalariedPaymentTypeResponse;
 
-public class WagingFormatter implements PaymentTypeResponseVisitor<String> {
+public class PaymentTypeResponseFormatter implements PaymentTypeResponseVisitor<String> {
 
 	@Override
 	public String visit(HourlyPaymentTypeResponse paymentType) {
@@ -28,6 +28,5 @@ public class WagingFormatter implements PaymentTypeResponseVisitor<String> {
 				paymentType.commissionRate * 100
 				);
 	}
-
 
 }

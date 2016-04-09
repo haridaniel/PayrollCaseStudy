@@ -9,6 +9,13 @@ public class AddEmployeeValidationException extends RuntimeException {
 	}
 	
 	public interface AddEmployeeValidationError {
+		
+		public abstract <T> T accept(AddEmployeeValidationErrorVisitor<T> visitor);
+		
+		public interface AddEmployeeValidationErrorVisitor<T> {
+			T visit(IdAlreadyExistsValidationError idAlreadyExistsValidationError);
+			T visit(NameAlreadyExistsValidationError nameAlreadyExistsValidationError);
+		}
 	}
 	
 	public static class IdAlreadyExistsValidationError implements AddEmployeeValidationError {
@@ -16,12 +23,20 @@ public class AddEmployeeValidationException extends RuntimeException {
 		public IdAlreadyExistsValidationError(String nameOfExistingUser) {
 			this.nameOfExistingUser = nameOfExistingUser;
 		}
+		@Override
+		public <T> T accept(AddEmployeeValidationErrorVisitor<T> visitor) {
+			return visitor.visit(this);
+		}
 	}
 
 	public static class NameAlreadyExistsValidationError implements AddEmployeeValidationError {
 		public int idOfExistingUser;
 		public NameAlreadyExistsValidationError(int idOfExistingUser) {
 			this.idOfExistingUser = idOfExistingUser;
+		}
+		@Override
+		public <T> T accept(AddEmployeeValidationErrorVisitor<T> visitor) {
+			return visitor.visit(this);
 		}
 	}
 

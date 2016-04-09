@@ -14,9 +14,9 @@ import org.junit.Test;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddServiceChargeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public class GeneratePayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest extends GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest {
+public class PayListUseCase_UnionMemberAffiliated_ServiceCharges_ITTest extends PayListUseCase_AbstractUnionMemberAffiliated_ITTest {
 	private static final LocalDate FIRST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 01);
 	private static final LocalDate LAST_DAY_OF_A_MONTH = LocalDate.of(2015, 12, 31);
 	private static final LocalDate A_SALARIED_EMPLOYEE_PAYDAY = LAST_DAY_OF_A_MONTH;
@@ -71,7 +71,7 @@ public class GeneratePayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest exte
 		givenASalariedEmployee_WithUnionMembershipAffiliation(0);
 		givenServiceCharges(theCase.serviceCharges);
 		
-		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
+		Collection<PayListResponseItem> payChecks = whenGeneratePayUseCaseExecuted(A_SALARIED_EMPLOYEE_PAYDAY);
 		
 		thenPayCheckDeductionsAmount_ShouldBe(payChecks, theCase.thenPayCheckDeductionsAmount);
 	}
@@ -82,7 +82,7 @@ public class GeneratePayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest exte
 		}
 	}
 	
-	public GeneratePayUseCase_UnionMemberAffiliated_ServiceCharges_ITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_UnionMemberAffiliated_ServiceCharges_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 

@@ -30,10 +30,12 @@ public abstract class Employee {
 	}
 
 	public PayCheck createPayCheck(LocalDate payDate) {
+		
 		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
 		int grossAmount = getPaymentType().calculateAmount(payInterval);
 		int deductionsAmount = getAffiliation().calculateDeductionsAmount(payInterval);
-		return new PayCheck(getId(), grossAmount, deductionsAmount);
+		int netAmount = grossAmount - deductionsAmount;
+		return new PayCheck(payDate, getId(), grossAmount, deductionsAmount, netAmount);
 	}
 	
 	public static interface EmployeeFactory {

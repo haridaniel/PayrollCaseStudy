@@ -14,7 +14,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToHoldPaymentMethodUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.SendPayInteractorFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
@@ -93,8 +93,8 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	}
 
 	@Override
-	public GeneratePayUseCase generatePayUseCase() {
-		return new GeneratePayUseCase(transactionalRunner, employeeGateway);
+	public PayListUseCase payListUseCase() {
+		return new PayListUseCase(transactionalRunner, employeeGateway);
 	}
 
 	@Override

@@ -2,10 +2,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 import java.time.LocalDate;
 
-public class GeneratePayRequest implements Request {
+public class PayListRequest implements Request {
 	public LocalDate payDate;
 
-	public GeneratePayRequest(LocalDate payDate) {
+	public PayListRequest(LocalDate payDate) {
 		this.payDate = payDate;
 	}
 }

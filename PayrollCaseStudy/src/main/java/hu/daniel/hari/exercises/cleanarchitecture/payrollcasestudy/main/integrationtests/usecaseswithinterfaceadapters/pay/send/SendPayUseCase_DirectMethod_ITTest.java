@@ -48,7 +48,7 @@ public class SendPayUseCase_DirectMethod_ITTest extends AbstractUseCaseITTest {
 	}
 
 	private PayCheck givenPayCheckWithNetAmount(int netAmount) {
-		return new PayCheck(employeeId, netAmount, 0);
+		return new PayCheck(null, employeeId, netAmount, 0, netAmount);
 	}
 
 	private void whenSendPaymentUseCase(PayCheck payCheck) {

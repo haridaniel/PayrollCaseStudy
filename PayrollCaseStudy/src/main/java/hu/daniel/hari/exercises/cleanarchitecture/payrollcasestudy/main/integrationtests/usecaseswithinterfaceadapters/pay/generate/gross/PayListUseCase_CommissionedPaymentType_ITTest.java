@@ -17,9 +17,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrat
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddCommissionedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public class GeneratePayUseCase_CommissionedPaymentType_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
+public class PayListUseCase_CommissionedPaymentType_ITTest extends PayListUseCase_AbstractPaymentTypeITTest {
 	private static final LocalDate AN_EVEN_FRIDAY = Constants.BIWEEKLY_PAYMENT_SCHEDULE_REFERENCE_FRIDAY;
 	private static final LocalDate AN_ODD_FRIDAY = AN_EVEN_FRIDAY.plusDays(7);
 
@@ -38,7 +38,7 @@ public class GeneratePayUseCase_CommissionedPaymentType_ITTest extends GenerateP
 		int thenPayCheckGrossAmountSum;
 	}
 	
-	public GeneratePayUseCase_CommissionedPaymentType_ITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_CommissionedPaymentType_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 	
@@ -91,7 +91,7 @@ public class GeneratePayUseCase_CommissionedPaymentType_ITTest extends GenerateP
 		givenACommissionedEmployee();
 		givenSalesReceipts(theCase.salesReceipts);
 		
-		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
+		Collection<PayListResponseItem> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
 		
 		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmountSum);
 	}

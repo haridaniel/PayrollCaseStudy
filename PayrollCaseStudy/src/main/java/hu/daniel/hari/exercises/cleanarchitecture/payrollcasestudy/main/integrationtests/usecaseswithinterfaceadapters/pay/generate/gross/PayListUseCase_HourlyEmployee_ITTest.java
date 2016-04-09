@@ -14,17 +14,17 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddTimeCardRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GeneratePayRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PayListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase_AbstractPaymentTypeITTest {
+public class PayListUseCase_HourlyEmployee_ITTest extends PayListUseCase_AbstractPaymentTypeITTest {
 	private static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
 	
 	private static final LocalDate LAST_FRIDAY = LocalDate.of(2015, 11, 27);	//in previous period
@@ -81,7 +81,7 @@ public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase
 		thenPayCheckGrossAmount = normalWage + overTimeWage;
 	}}
 	
-	public GeneratePayUseCase_HourlyEmployee_ITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_HourlyEmployee_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
@@ -114,7 +114,7 @@ public class GeneratePayUseCase_HourlyEmployee_ITTest extends GeneratePayUseCase
 		givenAHourlyEmployee();
 		givenTimeCards(theCase.timeCards);
 		
-		Collection<PayCheckResponse> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
+		Collection<PayListResponseItem> payChecks = whenGeneratePayUseCaseExecuted(getAPayday());
 		
 		thenPayCheckGrossAmountShouldBe(payChecks, theCase.thenPayCheckGrossAmount);
 	}

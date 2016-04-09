@@ -11,7 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToAbstractPaymentMethodUseCase.ChangeToAbstractPaymentMethodUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase.ListEmployeesUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.generate.GeneratePayUseCase.GeneratePayUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase.PayListUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase.SendPayUseCaseFactory;
 
 public interface UseCaseFactories extends 
@@ -24,7 +24,7 @@ public interface UseCaseFactories extends
 		AddServiceChargeUseCaseFactory,
 		AddTimeCardUseCaseFactory,
 		DeleteEmployeeUseCaseFactory,
-		GeneratePayUseCaseFactory,
+		PayListUseCaseFactory,
 		SendPayUseCaseFactory,
 		ListEmployeesUseCaseFactory,
 		GetEmployeeUseCaseFactory

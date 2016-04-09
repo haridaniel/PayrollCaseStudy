@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractGeneratePayUseCase_ITTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractPayListUseCase_ITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public abstract class GeneratePayUseCase_AbstractPaymentTypeITTest extends AbstractGeneratePayUseCase_ITTest {
+public abstract class PayListUseCase_AbstractPaymentTypeITTest extends AbstractPayListUseCase_ITTest {
 
-	public GeneratePayUseCase_AbstractPaymentTypeITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_AbstractPaymentTypeITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
@@ -32,15 +32,15 @@ public abstract class GeneratePayUseCase_AbstractPaymentTypeITTest extends Abstr
 		thenNoPayCheckShouldBeCreated(whenGeneratePayUseCaseExecuted(getNotAPayday()));
 	}
 
-	protected void thenPayCheckGrossAmountShouldBe(Collection<PayCheckResponse> payChecks, int grossAmount) {
+	protected void thenPayCheckGrossAmountShouldBe(Collection<PayListResponseItem> payChecks, int grossAmount) {
 		assertThat(TestUtils.singleResult(payChecks).grossAmount, is(grossAmount));
 	}
 
-	private void thenNoPayCheckShouldBeCreated(Collection<PayCheckResponse> payChecks) {
+	private void thenNoPayCheckShouldBeCreated(Collection<PayListResponseItem> payChecks) {
 		assertThat(payChecks.isEmpty(), is(true));
 	}
 
-	private void thenPayCheckShouldBeCreated(Collection<PayCheckResponse> payChecks) {
+	private void thenPayCheckShouldBeCreated(Collection<PayListResponseItem> payChecks) {
 		assertThat(payChecks.isEmpty(), is(false));
 	}
 

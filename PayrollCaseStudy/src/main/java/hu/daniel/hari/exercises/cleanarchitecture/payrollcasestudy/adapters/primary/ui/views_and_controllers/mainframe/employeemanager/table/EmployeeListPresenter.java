@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date.NextPaydayDateFormatter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.WagingFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
 
 class EmployeeListPresenter {
 
 	private EmployeeListResponse response;
 	private NextPaydayDateFormatter nextPaydayDateFormatter;
-	private WagingFormatter wagingFormatter = new WagingFormatter();
+	private PaymentTypeResponseFormatter paymentTypeResponseFormatter = new PaymentTypeResponseFormatter();
 
 	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
 		this.response = response;
@@ -38,7 +37,7 @@ class EmployeeListPresenter {
 		employeeViewItem.id = employeeItem.id;
 		employeeViewItem.name = employeeItem.name;
 		employeeViewItem.address = employeeItem.address;
-		employeeViewItem.waging = employeeItem.paymentTypeResponse.accept(wagingFormatter);
+		employeeViewItem.waging = employeeItem.paymentTypeResponse.accept(paymentTypeResponseFormatter);
 		employeeViewItem.nextPayDay = nextPaydayDateFormatter.format(employeeItem.nextPayDay);
 		return employeeViewItem;
 	}

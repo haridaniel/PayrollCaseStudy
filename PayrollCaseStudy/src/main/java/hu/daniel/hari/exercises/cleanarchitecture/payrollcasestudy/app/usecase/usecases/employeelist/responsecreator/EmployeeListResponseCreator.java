@@ -5,22 +5,14 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.CommissionedPaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType.PaymentTypeVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.CommissionedPaymentTypeResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.HourlyPaymentTypeResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.SalariedPaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeVisitorResponseFactory;
 
 public class EmployeeListResponseCreator {
 
 	private LocalDate baseDate;
-	private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
+	private PaymentTypeVisitorResponseFactory paymentTypeVisitorResponseFactory = new PaymentTypeVisitorResponseFactory();
 	
 	public EmployeeListResponseCreator(LocalDate baseDate) {
 		this.baseDate = baseDate;
@@ -39,29 +31,9 @@ public class EmployeeListResponseCreator {
 		response.id = employee.getId();
 		response.name = employee.getName();
 		response.address = employee.getAddress();
-		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
+		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeVisitorResponseFactory);
 		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(baseDate);
 		return response;
-	}
-	
-	
-	public static class PaymentTypeResponseFactory implements PaymentTypeVisitor<PaymentTypeResponse>{
-
-		@Override
-		public PaymentTypeResponse visit(CommissionedPaymentType commissionedPaymentType) {
-			return new CommissionedPaymentTypeResponse(commissionedPaymentType.getBiWeeklyBaseSalary(), commissionedPaymentType.getCommissionRate());
-		}
-
-		@Override
-		public PaymentTypeResponse visit(SalariedPaymentType salariedPaymentType) {
-			return new SalariedPaymentTypeResponse(salariedPaymentType.getMonthlySalary());
-		}
-
-		@Override
-		public PaymentTypeResponse visit(HourlyPaymentType hourlyPaymentType) {
-			return new HourlyPaymentTypeResponse(hourlyPaymentType.getHourlyWage());
-		}
-
 	}
 	
 }

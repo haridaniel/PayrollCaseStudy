@@ -25,7 +25,8 @@ public class MainPanelController implements MainPanelViewListener {
 	}
 
 	private LocalDate getDefaultDate() {
-		return LocalDate.now();
+//		return LocalDate.now();
+		return LocalDate.of(2016, 4, 15);
 	}
 	
 	public ObservableValue<LocalDate> getObservableCurrentDate() {

@@ -7,18 +7,18 @@ import java.util.Collection;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractGeneratePayUseCase_ITTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.pay.generate.AbstractPayListUseCase_ITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.util.TestUtils;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
 
-public abstract class GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest extends AbstractGeneratePayUseCase_ITTest {
+public abstract class PayListUseCase_AbstractUnionMemberAffiliated_ITTest extends AbstractPayListUseCase_ITTest {
 
 	private final int employeeId = 1;
 	protected int unionMemberId = 7000;
 
-	public GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest(DatabaseProvider databaseProvider) {
+	public PayListUseCase_AbstractUnionMemberAffiliated_ITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 
@@ -27,7 +27,7 @@ public abstract class GeneratePayUseCase_AbstractUnionMemberAffiliated_ITTest ex
 		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
 	}
 
-	protected void thenPayCheckDeductionsAmount_ShouldBe(Collection<PayCheckResponse> payChecks, int payCheckDeductionsAmount) {
+	protected void thenPayCheckDeductionsAmount_ShouldBe(Collection<PayListResponseItem> payChecks, int payCheckDeductionsAmount) {
 		assertThat(TestUtils.singleResult(payChecks).deductionsAmount, is(payCheckDeductionsAmount));
 	}
 
