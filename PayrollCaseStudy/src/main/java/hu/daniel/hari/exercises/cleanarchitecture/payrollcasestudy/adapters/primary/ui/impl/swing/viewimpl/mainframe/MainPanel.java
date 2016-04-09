@@ -11,7 +11,9 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.dev.DateField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.EmployeeManagerPanel;
@@ -68,6 +70,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel centerPanel = new JPanel();
+		centerPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -78,6 +81,9 @@ public class MainPanel extends JPanel implements MainPanelView {
 		JPanel panel = new JPanel();
 		centerPanel.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Today's payments");
+		panel.add(lblNewLabel_1, BorderLayout.NORTH);
 		
 		payDayPanelHolder = new JPanel();
 		panel.add(payDayPanelHolder, BorderLayout.CENTER);
@@ -92,7 +98,6 @@ public class MainPanel extends JPanel implements MainPanelView {
 	}
 
 	private void onCurrentDateChanged() {
-		System.out.println("onCurrentDateChanged"+currentDateField.getDate());
 		listener.onChangedCurrentDate();
 	}
 

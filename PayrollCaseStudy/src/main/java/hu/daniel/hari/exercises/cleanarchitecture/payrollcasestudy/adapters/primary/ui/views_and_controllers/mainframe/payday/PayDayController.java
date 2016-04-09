@@ -10,6 +10,8 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.EmployeeCountChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.PayDayView.PayDayViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.paychecklist.PayCheckListView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.payday.paychecklist.PayCheckListView.PayCheckListViewModel;
@@ -21,15 +23,14 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GeneratePayResponse.PayCheckResponse;
 
-public class PayDayController implements PayDayViewListener {
+public class PayDayController implements PayDayViewListener, ChangeListener<LocalDate> {
 
 	private PayDayView view;
 	private PayCheckListView payCheckListView;
 	private GeneratePayUseCaseFactory generatePayUseCaseFactory;
 	private SendPayUseCaseFactory sendPayUseCaseFactory;
 	private Presenter presenter = new Presenter();
-
-	private LocalDate payDate;
+	private ObservableValue<LocalDate> observableCurrentDate;
 
 	@Inject
 	public PayDayController(
@@ -38,8 +39,6 @@ public class PayDayController implements PayDayViewListener {
 			) {
 		this.generatePayUseCaseFactory = generatePayUseCaseFactory;
 		this.sendPayUseCaseFactory = sendPayUseCaseFactory;
-//		payDate = LocalDate.now();
-		payDate = LocalDate.of(2016, 4, 8);
 	}
 
 	public void setView(PayDayView view) {
@@ -47,13 +46,13 @@ public class PayDayController implements PayDayViewListener {
 		payCheckListView = view.getPayCheckListView();
 	}
 	
-	@Override
-	public void onSendPayAction() {
-		// TODO Auto-generated method stub
+	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {
+		this.observableCurrentDate = observableCurrentDate;
+		observableCurrentDate.addChangeListener(this);
 	}
 
 	@Override
-	public void onInitialized() {
+	public void onChanged(LocalDate currentDate) {
 		updateCheckList();
 	}
 
@@ -63,22 +62,27 @@ public class PayDayController implements PayDayViewListener {
 
 	private GeneratePayResponse generatePay() {
 		GeneratePayUseCase useCase = generatePayUseCaseFactory.generatePayUseCase();
-		useCase.execute(new GeneratePayRequest(payDate));
+		useCase.execute(new GeneratePayRequest(observableCurrentDate.get()));
 		return useCase.getResponse();
 	}
 
-	private static class Presenter {
+	@Override
+	public void onSendPayAction() {
+		// TODO Auto-generated method stub
+	}
 
+	private static class Presenter {
+	
 		public PayCheckListViewModel toViewModel(GeneratePayResponse generatePayResponse) {
 			return new PayCheckListViewModel(toViewModel(generatePayResponse.payCheckResponses));
 		}
-
+	
 		private List<PayCheckViewModel> toViewModel(List<PayCheckResponse> payChecks) {
 			return payChecks.stream()
 					.map(payCheck -> toViewModel(payCheck))
 					.collect(Collectors.toList());
 		}
-
+	
 		private PayCheckViewModel toViewModel(PayCheckResponse payCheckResponse) {
 			PayCheckViewModel payCheckViewModel = new PayCheckViewModel();
 			payCheckViewModel.id = payCheckResponse.employeeId;
@@ -88,7 +92,7 @@ public class PayDayController implements PayDayViewListener {
 			payCheckViewModel.netAmount = payCheckResponse.netAmount;
 			return payCheckViewModel;
 		}
-
+	
 	}
 
 }

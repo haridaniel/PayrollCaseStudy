@@ -28,7 +28,6 @@ public class PayDayPanel extends JPanel implements PayDayView {
 	public PayDayPanel() {
 		initUI();
 		initPayCheckListPanel();
-		initListeners();
 	}
 	
 	@Override
@@ -62,21 +61,6 @@ public class PayDayPanel extends JPanel implements PayDayView {
 	private void initPayCheckListPanel() {
 		payCheckListPanel = new PayCheckListPanel();
 		tableHolder.add(payCheckListPanel);
-	}
-
-	private void initListeners() {
-		addAncestorListener(new AncestorListener() {
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-			}
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-			}
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				listener.onInitialized();
-			}
-		});
 	}
 
 	@Override

@@ -8,9 +8,7 @@ public interface PayDayView extends HasListener<PayDayView.PayDayViewListener> {
 	PayCheckListView getPayCheckListView();
 
 	public static interface PayDayViewListener {
-
 		void onSendPayAction();
-		void onInitialized();
 	}
 
 
