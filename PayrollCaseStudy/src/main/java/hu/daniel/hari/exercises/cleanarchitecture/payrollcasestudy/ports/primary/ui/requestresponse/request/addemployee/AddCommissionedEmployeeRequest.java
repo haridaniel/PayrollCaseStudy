@@ -4,7 +4,7 @@ public class AddCommissionedEmployeeRequest extends AddEmployeeRequest {
 	public int biWeeklyBaseSalary;
 	public double commissionRate;
 
-	public AddCommissionedEmployeeRequest(int employeeId, String name, String address,
+	public AddCommissionedEmployeeRequest(Integer employeeId, String name, String address,
 			int biWeeklyBaseSalary, double commissionRate) {
 		super(employeeId, name, address);
 		this.biWeeklyBaseSalary = biWeeklyBaseSalary;

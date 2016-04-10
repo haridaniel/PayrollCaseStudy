@@ -18,7 +18,7 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 	}
 
 	public class AddEmployeeViewModel {
-		public int employeeId;
+		public Integer employeeId;
 		public String name;
 		public String address;
 	}

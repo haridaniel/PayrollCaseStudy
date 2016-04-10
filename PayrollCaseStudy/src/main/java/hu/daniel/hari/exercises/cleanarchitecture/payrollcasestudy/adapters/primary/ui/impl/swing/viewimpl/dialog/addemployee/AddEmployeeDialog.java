@@ -5,9 +5,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,7 +29,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 	private final JPanel fieldsPanel = new JPanel();
 	private JLabel errorMessageLabel;
 	
-	private JTextField tfEmployeeId = new JTextField();
+	private JFormattedTextField tfEmployeeId = new JFormattedTextField(NumberFormat.getIntegerInstance());
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 
@@ -68,7 +70,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 	@Override
 	public AddEmployeeViewModel getModel() {
 		AddEmployeeViewModel viewModel = new AddEmployeeViewModel();
-		viewModel.employeeId = Integer.parseInt(tfEmployeeId.getText());
+		viewModel.employeeId = tfEmployeeId.getValue() == null? null : Integer.parseInt(tfEmployeeId.getValue().toString());
 		viewModel.name = tfName.getText();
 		viewModel.address = tfAddress.getText();
 		return viewModel;

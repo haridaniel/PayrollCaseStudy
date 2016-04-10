@@ -13,6 +13,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.T
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.IdAlreadyExistsValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.RequiredFieldValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.AddEmployeeValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
@@ -78,10 +79,22 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		List<AddEmployeeValidationError> addEmployeeValidationErrors = new ArrayList<>();
 		
 		private void validate(R request) {
+			checkRequiredFields(request);
+			throwIfThereAreErrors();
+			
 			checkIdExists(request);
 			checkNameExists(request);
+			throwIfThereAreErrors();
+		}
+
+		private void throwIfThereAreErrors() {
 			if(!addEmployeeValidationErrors.isEmpty())
 				throw new AddEmployeeValidationException(addEmployeeValidationErrors);
+		}
+
+		private void checkRequiredFields(R request) {
+			if(request.employeeId == null)
+				addEmployeeValidationErrors.add(new RequiredFieldValidationError("id"));
 		}
 
 		private void checkIdExists(R request) {
