@@ -6,8 +6,15 @@ import java.util.Set;
 public class ObservableValueImpl<T> implements ObservableValue<T>{
 
 	private T value;
-	
 	private Set<ChangeListener<T>> changeListeners = new HashSet<>();
+
+	public ObservableValueImpl(T initialValue) {
+		this.value = initialValue;
+	}
+	
+	public ObservableValueImpl() {
+		this(null);
+	}
 	
 	public void set(T value) {
 		this.value = value;

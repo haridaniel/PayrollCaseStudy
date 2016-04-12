@@ -27,6 +27,7 @@ public class EmployeeManagerPanelUI {
 		view = new EmployeeManagerPanel(employeeListPanelUI.view);
 		view.setListener(controller);
 		controller.setView(view);
+		controller.setObservableSelectedEployeeId(employeeListPanelUI.getObservableSelectedEployeeId());
 		
 	}
 
