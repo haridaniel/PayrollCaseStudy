@@ -2,6 +2,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity;
 
 import java.time.LocalDate;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 public class PayCheck {
 
 	private LocalDate date;
@@ -36,6 +39,12 @@ public class PayCheck {
 	
 	public int getNetAmount() {
 		return netAmount;
+	}
+
+	@Override
+	public String toString() {
+		return "PayCheck [date=" + date + ", employeeId=" + employeeId + ", grossAmount=" + grossAmount
+				+ ", deductionsAmount=" + deductionsAmount + ", netAmount=" + netAmount + "]";
 	}
 	
 	

@@ -15,7 +15,7 @@ public abstract class PaymentTypeResponse {
 		T visit(CommissionedPaymentTypeResponse commissionedPaymentTypeResponse);
 	}
 	
-	public static class PaymentTypeVisitorResponseFactory implements PaymentTypeVisitor<PaymentTypeResponse>{
+	public static class PaymentTypeResponseFactory implements PaymentTypeVisitor<PaymentTypeResponse>{
 
 		@Override
 		public PaymentTypeResponse visit(CommissionedPaymentType commissionedPaymentType) {

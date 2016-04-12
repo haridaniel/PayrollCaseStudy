@@ -12,8 +12,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.T
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PayListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.PayListResponse.PayListResponseItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentMethodTypeResponse.PaymentMethodVisitorTypeResponseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeVisitorResponseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentMethodTypeResponse.PaymentMethodTypeResponseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -30,18 +30,14 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 
 	@Override
 	protected void executeInTransaction(PayListRequest request) {
-		List<PayCheck> payChecks = createPayChecks(request.payDate);
-		response = new PayListResponseCreator().toResponse(payChecks);
+		response = new PayListResponseCreator().toResponse(createPayChecks(request.payDate));
 	}
 
 	private List<PayCheck> createPayChecks(LocalDate payDate) {
-		List<PayCheck> payChecks = new ArrayList<>();
-		for (Employee employee : employeeGateway.findAll()) {
-			if(employee.isPayDate(payDate)) {
-				payChecks.add(employee.createPayCheck(payDate));
-			}
-		}
-		return payChecks;
+		return employeeGateway.findAll().stream()
+			.filter(e -> e.isPayDate(payDate))
+			.map(e -> e.createPayCheck(payDate))
+			.collect(Collectors.toList());
 	}
 
 	@Override
@@ -50,8 +46,8 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 	}
 
 	private class PayListResponseCreator {
-		private PaymentTypeVisitorResponseFactory paymentTypeVisitorResponseFactory = new PaymentTypeVisitorResponseFactory();
-		private PaymentMethodVisitorTypeResponseFactory paymentMethodVisitorTypeResponseFactory = new PaymentMethodVisitorTypeResponseFactory();
+		private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
+		private PaymentMethodTypeResponseFactory paymentMethodTypeResponseFactory = new PaymentMethodTypeResponseFactory();
 
 		public PayListResponse toResponse(List<PayCheck> payChecks) {
 			return new PayListResponse(payChecks.stream()
@@ -69,8 +65,8 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 			payListResponseItem.deductionsAmount = payCheck.getDeductionsAmount();
 			payListResponseItem.netAmount = payCheck.getNetAmount();
 			payListResponseItem.name = employee.getName();
-			payListResponseItem.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeVisitorResponseFactory);
-			payListResponseItem.paymentMethodTypeResponse = employee.getPaymentMethod().accept(paymentMethodVisitorTypeResponseFactory);
+			payListResponseItem.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
+			payListResponseItem.paymentMethodTypeResponse = employee.getPaymentMethod().accept(paymentMethodTypeResponseFactory);
 			return payListResponseItem;
 		}
 

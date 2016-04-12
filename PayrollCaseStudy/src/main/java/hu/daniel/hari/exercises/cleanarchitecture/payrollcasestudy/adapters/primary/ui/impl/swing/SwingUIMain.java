@@ -5,9 +5,9 @@ import com.google.inject.Injector;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.MainFrameUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.InMemoryDatabase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.port.BankTransferPortMock;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.UseCaseFactoriesImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.moneytransfer.BankTransferPortMock;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.dev.TestDataLoader;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactoriesImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
@@ -34,12 +34,8 @@ public class SwingUIMain {
 		//Primary ports
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 
-		//TODO: Guice exception swallow debug workaround
-		try {
-			start(useCaseFactories);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//TODO: Guice exception swallows 
+		start(useCaseFactories);
 	}
 
 	private void start(UseCaseFactories useCaseFactories) {

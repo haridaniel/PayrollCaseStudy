@@ -8,8 +8,8 @@ public class PaymentMethodTypeResponseFormatter {
 		switch (paymentTypeResponse) {
 		case DIRECT:
 			return "Direct";
-		case HOLD:
-			return "Hold";
+		case PAYMASTER:
+			return "Paymaster hold";
 		default:
 			throw new RuntimeException("not implemented");
 		}

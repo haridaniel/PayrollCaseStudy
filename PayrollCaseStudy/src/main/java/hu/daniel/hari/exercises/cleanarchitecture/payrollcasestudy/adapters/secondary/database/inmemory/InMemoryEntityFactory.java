@@ -6,7 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.CommissionedPaymentTypeImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.DirectPaymentMethodImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.EmployeeImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.HoldPaymentMethodImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.PaymasterPaymentMethodImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.HourlyPaymentTypeImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.MonthlyPaymentScheduleImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.entity.NoAffiliationImpl;
@@ -54,8 +54,8 @@ public class InMemoryEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public PaymentMethod holdPaymentMethod() {
-		return new HoldPaymentMethodImpl();
+	public PaymentMethod paymasterPaymentMethod() {
+		return new PaymasterPaymentMethodImpl();
 	}
 
 	@Override

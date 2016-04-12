@@ -2,16 +2,15 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.ChangeEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class ChangeToHoldPaymentMethodUseCase extends ChangeToAbstractPaymentMethodUseCase<ChangeEmployeeRequest> {
+public class ChangeToPaymasterPaymentMethodUseCase extends ChangeToAbstractPaymentMethodUseCase<ChangeEmployeeRequest> {
 
 	private PaymentMethodFactory paymentMethodFactory;
 
-	public ChangeToHoldPaymentMethodUseCase(
+	public ChangeToPaymasterPaymentMethodUseCase(
 			TransactionalRunner transactionalRunner,
 			EmployeeGateway employeeGateway,
 			PaymentMethodFactory paymentMethodFactory
@@ -22,7 +21,7 @@ public class ChangeToHoldPaymentMethodUseCase extends ChangeToAbstractPaymentMet
 
 	@Override
 	protected PaymentMethod getPaymentMethod(ChangeEmployeeRequest request) {
-		return paymentMethodFactory.holdPaymentMethod();
+		return paymentMethodFactory.paymasterPaymentMethod();
 	}
 
 

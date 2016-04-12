@@ -220,7 +220,7 @@ public class DatabaseITTest extends ParameterizedMultipleDatabaseITTest {
 		Employee employee = entityFactory.employee();
 		employee.setId(1);
 		employee.setName("Bob");
-		employee.setPaymentMethod(entityFactory.holdPaymentMethod());
+		employee.setPaymentMethod(entityFactory.paymasterPaymentMethod());
 		return employee;
 	}
 

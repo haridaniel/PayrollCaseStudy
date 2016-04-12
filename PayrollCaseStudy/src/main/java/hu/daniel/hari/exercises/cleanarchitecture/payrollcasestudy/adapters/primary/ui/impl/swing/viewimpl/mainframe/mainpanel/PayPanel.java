@@ -38,15 +38,15 @@ public class PayPanel extends JPanel implements PayView {
 		JPanel buttonPanel = new JPanel();
 		add(buttonPanel, BorderLayout.SOUTH);
 	
-		JButton sendPayButton = new JButton("Send Payments...");
-		sendPayButton.addActionListener(new ActionListener() {
+		JButton fulfillPayButton = new JButton("Fulfill Payments...");
+		fulfillPayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listener.onSendPayAction();
+				listener.onFulfillPayAction();
 			}
 		});
 
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		buttonPanel.add(sendPayButton);
+		buttonPanel.add(fulfillPayButton);
 		
 	}
 

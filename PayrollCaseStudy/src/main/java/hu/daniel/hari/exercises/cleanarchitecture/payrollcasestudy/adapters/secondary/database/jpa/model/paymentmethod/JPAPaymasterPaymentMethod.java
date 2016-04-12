@@ -3,5 +3,5 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import javax.persistence.Entity;
 
 @Entity
-public class JPAHoldPaymentMethod extends JPAPaymentMethod {
+public class JPAPaymasterPaymentMethod extends JPAPaymentMethod {
 }

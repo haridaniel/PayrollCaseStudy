@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeVisitorResponseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseFactory;
 
 public class EmployeeListResponseCreator {
 
 	private LocalDate baseDate;
-	private PaymentTypeVisitorResponseFactory paymentTypeVisitorResponseFactory = new PaymentTypeVisitorResponseFactory();
+	private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
 	
 	public EmployeeListResponseCreator(LocalDate baseDate) {
 		this.baseDate = baseDate;
@@ -31,7 +31,7 @@ public class EmployeeListResponseCreator {
 		response.id = employee.getId();
 		response.name = employee.getName();
 		response.address = employee.getAddress();
-		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeVisitorResponseFactory);
+		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
 		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(baseDate);
 		return response;
 	}

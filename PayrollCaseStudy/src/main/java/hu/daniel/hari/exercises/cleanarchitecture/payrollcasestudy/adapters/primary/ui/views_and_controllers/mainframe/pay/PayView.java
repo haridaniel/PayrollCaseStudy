@@ -5,7 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public interface PayView extends HasListener<PayView.PayViewListener> {
 
 	public static interface PayViewListener {
-		void onSendPayAction();
+		void onFulfillPayAction();
 	}
 
 

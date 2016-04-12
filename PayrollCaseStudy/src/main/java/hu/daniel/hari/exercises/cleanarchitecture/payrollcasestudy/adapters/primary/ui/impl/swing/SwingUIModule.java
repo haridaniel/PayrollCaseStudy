@@ -14,8 +14,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase.ListEmployeesUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase.PaymentFulfillUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase.PayListUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase.SendPayUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 
 public class SwingUIModule extends AbstractModule {
@@ -43,7 +43,7 @@ public class SwingUIModule extends AbstractModule {
 		bind(DeleteEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
 		bind(GetEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
 		bind(ListEmployeesUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(SendPayUseCaseFactory.class).toInstance(useCaseFactories);
+		bind(PaymentFulfillUseCaseFactory.class).toInstance(useCaseFactories);
 		bind(PayListUseCaseFactory.class).toInstance(useCaseFactories);
 		bind(AddEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
 	}

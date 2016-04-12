@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddSalesReceiptUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddServiceChargeUseCase;
@@ -11,12 +11,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeaffiliation.RemoveUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.ChangeEmployeeNameUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToDirectPaymentMethodUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToHoldPaymentMethodUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToPaymasterPaymentMethodUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactoryImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.interactor.SendPayInteractorFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
@@ -30,7 +31,7 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	private TransactionalRunner transactionalRunner;
 	private EntityFactory entityFactory;
 
-	private SendPayInteractorFactory sendPayInteractorFactory;
+	private PaymentFulfillerFactory paymentFulfillerFactory;
 
 	public UseCaseFactoriesImpl(
 			Database database, 
@@ -39,7 +40,8 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 		this.transactionalRunner = database.transactionalRunner();
 		this.employeeGateway = database.employeeGateway();
 		this.entityFactory = database.entityFactory();
-		sendPayInteractorFactory = new SendPayInteractorFactory(bankTransferPort);
+		
+		paymentFulfillerFactory = new PaymentFulfillerFactoryImpl(bankTransferPort, transactionalRunner);
 	}
 
 	@Override
@@ -108,8 +110,8 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	}
 
 	@Override
-	public SendPayUseCase sendPayUseCase() {
-		return new SendPayUseCase(transactionalRunner, employeeGateway, sendPayInteractorFactory);
+	public PaymentFulfillUseCase paymentFulfillUseCase() {
+		return new PaymentFulfillUseCase(employeeGateway, paymentFulfillerFactory);
 	}
 
 	@Override
@@ -118,8 +120,8 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	}
 
 	@Override
-	public ChangeToHoldPaymentMethodUseCase changeToHoldPaymentMethodUseCase() {
-		return new ChangeToHoldPaymentMethodUseCase(transactionalRunner, employeeGateway, entityFactory);
+	public ChangeToPaymasterPaymentMethodUseCase changeToPaymasterPaymentMethodUseCase() {
+		return new ChangeToPaymasterPaymentMethodUseCase(transactionalRunner, employeeGateway, entityFactory);
 	}
 
 }

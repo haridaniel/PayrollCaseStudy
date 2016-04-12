@@ -19,7 +19,7 @@ public class AutoFactoryMain {
 		paymentTypes.add(new HourlyPaymentTypeImpl(10));
 		paymentTypes.add(new SalariedPaymentTypeImpl(1000));
 		
-		Stopwatch stopwatch = new Stopwatch().start();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		PayClassFormatterFactory payClassFormatterFactory = new PayClassFormatterFactory();
 		System.out.println(stopwatch.toString());
 		

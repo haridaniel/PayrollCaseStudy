@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>hu.daniel.hari.exercises.cleanarchitecture</groupId>
@@ -20,7 +21,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
-<!-- 			<scope>test</scope> -->
+			<!-- <scope>test</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -29,6 +30,11 @@
 		</dependency>
 
 		<!-- LOG -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -60,12 +66,12 @@
 			<artifactId>reflections</artifactId>
 			<version>0.9.9-RC2</version>
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.javassist</groupId> -->
-<!-- 			<artifactId>javassist</artifactId> -->
-<!-- 			<version>3.18.2-GA</version> -->
-<!-- 		</dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.javassist</groupId> -->
+		<!-- <artifactId>javassist</artifactId> -->
+		<!-- <version>3.18.2-GA</version> -->
+		<!-- </dependency> -->
 
 		<!-- ORM -->
 		<dependency>
@@ -95,13 +101,13 @@
 		</dependency>
 
 		<!-- Guava. using: -->
-		<!-- 	Eventbus -->
+		<!-- Eventbus -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>10.0.1</version>
+			<version>18.0</version>
 		</dependency>
-		
+
 
 	</dependencies>
 

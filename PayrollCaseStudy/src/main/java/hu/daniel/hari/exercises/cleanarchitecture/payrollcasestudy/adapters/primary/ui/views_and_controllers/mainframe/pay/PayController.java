@@ -6,19 +6,20 @@ import javax.inject.Inject;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.pay.PayView.PayViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.send.SendPayUseCase.SendPayUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase.PaymentFulfillUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PaymentFulfillRequest;
 
 public class PayController implements PayViewListener {
 
 	private PayView view;
-	private SendPayUseCaseFactory sendPayUseCaseFactory;
+	private PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
 
 	@Inject
 	public PayController(
-			SendPayUseCaseFactory sendPayUseCaseFactory
+			PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory
 			) {
-		this.sendPayUseCaseFactory = sendPayUseCaseFactory;
+		this.paymentFulfillUseCaseFactory = paymentFulfillUseCaseFactory;
 	}
 
 	public void setView(PayView view) {
@@ -30,8 +31,8 @@ public class PayController implements PayViewListener {
 	}
 
 	@Override
-	public void onSendPayAction() {
-		// TODO Auto-generated method stub
+	public void onFulfillPayAction() {
+		paymentFulfillUseCaseFactory.paymentFulfillUseCase().execute(new PaymentFulfillRequest(observableCurrentDate.get()));
 	}
 
 }

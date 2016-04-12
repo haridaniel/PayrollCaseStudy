@@ -12,7 +12,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Em
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.NoAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.SalariedPaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.HoldPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymasterPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.MonthlyPaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
@@ -49,7 +49,7 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 	}
 
 	private void assertEmployeeDefaultFields(Employee employee) {
-		assertThat(employee.getPaymentMethod(), instanceOf(HoldPaymentMethod.class));
+		assertThat(employee.getPaymentMethod(), instanceOf(PaymasterPaymentMethod.class));
 		assertThat(employee.getAffiliation(), instanceOf(NoAffiliation.class));
 	}
 

@@ -57,7 +57,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 
 	private void setDefaultFields(Employee employee) {
-		employee.setPaymentMethod(paymentMethodFactory.holdPaymentMethod());
+		employee.setPaymentMethod(paymentMethodFactory.paymasterPaymentMethod());
 		employee.setAffiliation(affiliationFactory.noAffiliation());
 	}
 

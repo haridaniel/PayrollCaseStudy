@@ -25,7 +25,7 @@ public abstract class ChangeToAbstractPaymentMethodUseCase<T extends ChangeEmplo
 
 	public static interface ChangeToAbstractPaymentMethodUseCaseFactory {
 		 ChangeToDirectPaymentMethodUseCase changeToDirectPaymentMethodUseCase(); 
-		 ChangeToHoldPaymentMethodUseCase changeToHoldPaymentMethodUseCase(); 
+		 ChangeToPaymasterPaymentMethodUseCase changeToPaymasterPaymentMethodUseCase(); 
 	}
 
 	
