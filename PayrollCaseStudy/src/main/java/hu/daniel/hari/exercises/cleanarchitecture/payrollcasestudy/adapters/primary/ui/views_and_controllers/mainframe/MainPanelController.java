@@ -9,7 +9,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class MainPanelController implements MainPanelViewListener {
 	private MainPanelView view;
-
 	private ObservableValueImpl<LocalDate> observableCurrentDate = new ObservableValueImpl<>();
 
 	@Inject
@@ -26,6 +25,7 @@ public class MainPanelController implements MainPanelViewListener {
 
 	private LocalDate getDefaultDate() {
 //		return LocalDate.now();
+//		return LocalDate.of(2016, 4, 14);
 		return LocalDate.of(2016, 4, 15);
 	}
 	

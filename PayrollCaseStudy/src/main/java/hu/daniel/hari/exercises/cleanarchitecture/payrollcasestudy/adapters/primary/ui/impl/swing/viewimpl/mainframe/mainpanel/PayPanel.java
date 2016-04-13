@@ -14,6 +14,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class PayPanel extends JPanel implements PayView {
 	private JPanel tableHolder;
 	private PayViewListener listener;
+	private JButton btFulfillPayment;
 
 	public PayPanel(
 			PayListPanel payListPanel			
@@ -38,16 +39,21 @@ public class PayPanel extends JPanel implements PayView {
 		JPanel buttonPanel = new JPanel();
 		add(buttonPanel, BorderLayout.SOUTH);
 	
-		JButton fulfillPayButton = new JButton("Fulfill Payments...");
-		fulfillPayButton.addActionListener(new ActionListener() {
+		btFulfillPayment = new JButton("Fulfill Payments...");
+		btFulfillPayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listener.onFulfillPayAction();
 			}
 		});
 
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		buttonPanel.add(fulfillPayButton);
+		buttonPanel.add(btFulfillPayment);
 		
+	}
+
+	@Override
+	public void setModel(PayViewModel viewModel) {
+		btFulfillPayment.setEnabled(viewModel.isFulfillButtonEnabled);
 	}
 
 }

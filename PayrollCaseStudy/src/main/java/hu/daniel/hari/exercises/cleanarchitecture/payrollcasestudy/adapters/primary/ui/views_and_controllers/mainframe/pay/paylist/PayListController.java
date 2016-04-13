@@ -10,6 +10,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValueImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.pay.paylist.PayListView.PayListViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.pay.paylist.PayListView.PayListViewModel.PayListViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase.PaymentFulfillUseCaseFactory;
@@ -25,6 +26,7 @@ public class PayListController implements ChangeListener<LocalDate> {
 	private PayListUseCaseFactory payListUseCaseFactory;
 	private PayListPresenter payListPresenter = new PayListPresenter();
 	private ObservableValue<LocalDate> observableCurrentDate;
+	private ObservableValueImpl<PayListState> observablePayListState = new ObservableValueImpl<PayListState>(new PayListState(0, true));
 
 	@Inject
 	public PayListController(
@@ -42,20 +44,28 @@ public class PayListController implements ChangeListener<LocalDate> {
 		this.observableCurrentDate = observableCurrentDate;
 		observableCurrentDate.addChangeListener(this);
 	}
+	
+	public ObservableValue<PayListState> getObservablePayListState() {
+		return observablePayListState;
+	}
 
 	@Override
 	public void onChanged(LocalDate currentDate) {
-		updateCheckList();
-	}
-
-	private void updateCheckList() {
-		view.setModel(payListPresenter.toViewModel(getPayListResponse()));
+		updateList(getPayListResponse());
 	}
 
 	private PayListResponse getPayListResponse() {
 		PayListUseCase useCase = payListUseCaseFactory.payListUseCase();
 		useCase.execute(new PayListRequest(observableCurrentDate.get()));
 		return useCase.getResponse();
+	}
+
+	private void updateList(PayListResponse payListResponse) {
+		view.setModel(payListPresenter.toViewModel(payListResponse));
+		observablePayListState.set(new PayListState(
+				payListResponse.payListResponseItems.size(),
+				payListResponse.payListResponseItems.isEmpty()
+				));
 	}
 
 	private static class PayListPresenter {

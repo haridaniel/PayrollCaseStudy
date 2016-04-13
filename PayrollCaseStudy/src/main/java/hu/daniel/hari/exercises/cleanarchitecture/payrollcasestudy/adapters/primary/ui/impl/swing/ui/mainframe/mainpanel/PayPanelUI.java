@@ -25,6 +25,7 @@ public class PayPanelUI {
 		view = new PayPanel(payListPanelUI.view);
 		view.setListener(controller);
 		controller.setView(view);
+		payListPanelUI.getObservablePayListState().addChangeListener(controller);
 	}
 
 	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {

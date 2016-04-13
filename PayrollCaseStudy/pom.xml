@@ -108,6 +108,13 @@
 			<version>18.0</version>
 		</dependency>
 
+		<!-- OTHERS -->
+		
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
+		</dependency>
 
 	</dependencies>
 

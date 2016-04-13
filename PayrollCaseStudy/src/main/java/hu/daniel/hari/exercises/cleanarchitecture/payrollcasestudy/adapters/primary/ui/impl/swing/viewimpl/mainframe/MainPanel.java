@@ -116,7 +116,6 @@ public class MainPanel extends JPanel implements MainPanelView {
 	@Override
 	public void setModel(MainPanelViewModel viewModel) {
 		currentDateField.setDate(viewModel.currentDate);
-		listener.onChangedCurrentDate();
 	}
 
 	@Override
