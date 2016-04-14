@@ -4,6 +4,8 @@ public class AddCommissionedEmployeeRequest extends AddEmployeeRequest {
 	public int biWeeklyBaseSalary;
 	public double commissionRate;
 
+	public AddCommissionedEmployeeRequest() {
+	}
 	public AddCommissionedEmployeeRequest(Integer employeeId, String name, String address,
 			int biWeeklyBaseSalary, double commissionRate) {
 		super(employeeId, name, address);

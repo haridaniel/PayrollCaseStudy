@@ -3,6 +3,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 public class AddSalariedEmployeeRequest extends AddEmployeeRequest {
 	public int monthlySalary;
 
+	public AddSalariedEmployeeRequest() {
+	}
 	public AddSalariedEmployeeRequest(Integer employeeId, String name, String address, int monthlySalary) {
 		super(employeeId, name, address);
 		this.monthlySalary = monthlySalary;

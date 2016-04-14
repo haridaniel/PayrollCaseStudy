@@ -7,6 +7,8 @@ public class AddEmployeeRequest implements Request {
 	public String name;
 	public String address;
 
+	public AddEmployeeRequest() {
+	}
 	public AddEmployeeRequest(Integer employeeId, String name, String address) {
 		this.employeeId = employeeId;
 		this.name = name;
