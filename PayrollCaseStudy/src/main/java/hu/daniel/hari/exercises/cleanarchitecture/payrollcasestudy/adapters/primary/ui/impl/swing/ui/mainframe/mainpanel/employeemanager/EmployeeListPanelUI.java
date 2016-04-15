@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.employeemanager.EmployeeListPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.ObservableSelectedEployeeId;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.ObservableSelectedEployeeItem;
 
 public class EmployeeListPanelUI {
 
@@ -29,7 +29,7 @@ public class EmployeeListPanelUI {
 		controller.setObservableCurrentDate(observableCurrentDate);
 	}
 
-	public ObservableSelectedEployeeId getObservableSelectedEployeeId() {
+	public ObservableSelectedEployeeItem getObservableSelectedEployeeId() {
 		return controller.getObservableSelectedEployeeId();
 	}
 	

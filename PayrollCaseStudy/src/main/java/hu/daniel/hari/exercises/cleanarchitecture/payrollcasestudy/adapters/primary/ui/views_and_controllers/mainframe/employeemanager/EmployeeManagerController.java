@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -8,23 +10,23 @@ import com.google.common.eventbus.EventBus;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddEmployeeDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.ObservableSelectedEployeeId;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem.PaymentType.PaymentTypeVisitor;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.ObservableSelectedEployeeItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.DeleteEmployeeUseCase.DeleteEmployeeUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.DeleteEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.GetEmployeeResponse.EmployeeForGetEmployeeResponse;
 
 public class EmployeeManagerController implements EmployeeManagerViewListener {
 
 	private EmployeeManagerView view;
 	private DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory;
-	private GetEmployeeUseCaseFactory getEmployeeUseCaseFactory;
 	private EventBus eventBus;
 	
 	private Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider;
-	private ObservableSelectedEployeeId observableSelectedEployeeId;
+	private ObservableSelectedEployeeItem observableSelectedEployeeItem;
 
 	@Inject
 	public EmployeeManagerController(
@@ -34,7 +36,6 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider
 			) {
 		this.deleteEmployeeUseCaseFactory = deleteEmployeeUseCaseFactory;
-		this.getEmployeeUseCaseFactory = getEmployeeUseCaseFactory;
 		this.eventBus = eventBus;
 		this.addEmployeeDialogUIProvider = addEmployeeDialogUIProvider;
 	}
@@ -43,9 +44,9 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 		this.view = view;
 	}
 	
-	public void setObservableSelectedEployeeId(ObservableSelectedEployeeId observableSelectedEployeeId) {
-		this.observableSelectedEployeeId = observableSelectedEployeeId;
-		observableSelectedEployeeId.addChangeListener(newValue -> {
+	public void setObservableSelectedEployeeId(ObservableSelectedEployeeItem observableSelectedEployeeItem) {
+		this.observableSelectedEployeeItem = observableSelectedEployeeItem;
+		observableSelectedEployeeItem.addChangeListener(newValue -> {
 			onSelectedEmployeeIdChanged();
 		});
 	}
@@ -55,29 +56,51 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	}
 
 	private void updateView() {
-		updateSelectionBasedButtonsEnabled();
-	}
-
-	private void updateSelectionBasedButtonsEnabled() {
-		view.setButtonsEnabled(observableSelectedEployeeId.get().isPresent());
+		view.setModel(new EmployeeManagerViewPresenter().present(observableSelectedEployeeItem.get()));
 	}
 
 	@Override
-	public void onDeleteAction() {
-		EmployeeForGetEmployeeResponse employeeItemToBeDeleted = getEmployeeItem(observableSelectedEployeeId.get().get());
-		deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(observableSelectedEployeeId.get().get()));
-		eventBus.post(new DeletedEmployeeEvent(employeeItemToBeDeleted.id, employeeItemToBeDeleted.name));
-	}
-
-	private EmployeeForGetEmployeeResponse getEmployeeItem(int employeeId) {
-		GetEmployeeUseCase getEmployeeUseCase = getEmployeeUseCaseFactory.getEmployeeUseCase();
-		getEmployeeUseCase.execute(new GetEmployeeRequest(employeeId));
-		return getEmployeeUseCase.getResponse().employeeForGetEmployeeResponse;
+	public void onDeleteEmployeeAction() {
+		EmployeeViewItem employeeViewItem = observableSelectedEployeeItem.get().get();
+		deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeViewItem.id));
+		eventBus.post(new DeletedEmployeeEvent(employeeViewItem.id, employeeViewItem.name));
 	}
 
 	@Override
-	public void onAddAction() {
+	public void onAddEmployeeAction() {
 		addEmployeeDialogUIProvider.get().show();
+	}
+
+	private static class EmployeeManagerViewPresenter {
+		public EmployeeManagerViewModel present(Optional<EmployeeViewItem> selectedEmployeeViewItem) {
+			return new EmployeeManagerViewModel(presentButtonsEnabledStates(selectedEmployeeViewItem));
+		}
+	
+		private ButtonEnabledStates presentButtonsEnabledStates(Optional<EmployeeViewItem> selectedEmployeeViewItem) {
+			ButtonEnabledStates buttonsEnabledStates = new ButtonEnabledStates();
+			buttonsEnabledStates.deleteEmployee = selectedEmployeeViewItem.isPresent();
+			selectedEmployeeViewItem.ifPresent((employeeItem) -> {
+				presentButtonsEnabledStatesForSelectedEmployee(buttonsEnabledStates, employeeItem);
+			});
+			return buttonsEnabledStates;
+		}
+
+		private void presentButtonsEnabledStatesForSelectedEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeViewItem employeeItem) {
+			employeeItem.paymentType.accept(new PaymentTypeVisitor() {
+				@Override
+				public void visitCommissioned() {
+					buttonsEnabledStates.addSalesReceipt = true;
+				}
+				@Override
+				public void visitHourly() {
+					buttonsEnabledStates.addTimeCard = true;
+				}
+				@Override
+				public void visitSalaried() {
+				}
+			});
+		}
+		
 	}
 
 

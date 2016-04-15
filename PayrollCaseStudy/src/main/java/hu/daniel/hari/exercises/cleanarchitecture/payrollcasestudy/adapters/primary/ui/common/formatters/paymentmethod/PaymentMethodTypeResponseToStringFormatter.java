@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentMethodTypeResponse;
 
-public class PaymentMethodTypeResponseFormatter {
+public class PaymentMethodTypeResponseToStringFormatter {
 
 	public String format(PaymentMethodTypeResponse paymentTypeResponse) {
 		switch (paymentTypeResponse) {

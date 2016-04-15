@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymentmethod.PaymentMethodTypeResponseFormatter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymentmethod.PaymentMethodTypeResponseToStringFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValueImpl;
@@ -69,8 +69,8 @@ public class PayListController implements ChangeListener<LocalDate> {
 	}
 
 	private static class PayListPresenter {
-		private PaymentTypeResponseFormatter paymentTypeResponseFormatter = new PaymentTypeResponseFormatter();
-		private PaymentMethodTypeResponseFormatter paymentMethodTypeResponseFormatter = new PaymentMethodTypeResponseFormatter();
+		private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
+		private PaymentMethodTypeResponseToStringFormatter paymentMethodTypeResponseToStringFormatter = new PaymentMethodTypeResponseToStringFormatter();
 
 		public PayListViewModel toViewModel(PayListResponse payListResponse) {
 			return new PayListViewModel(toViewModel(payListResponse.payListResponseItems));
@@ -85,12 +85,12 @@ public class PayListController implements ChangeListener<LocalDate> {
 		private PayListViewItem toViewModel(PayListResponseItem payListResponseItem) {
 			PayListViewItem payListViewItem = new PayListViewItem();
 			payListViewItem.id = payListResponseItem.employeeId;
-			payListViewItem.waging = payListResponseItem.paymentTypeResponse.accept(paymentTypeResponseFormatter);
+			payListViewItem.waging = payListResponseItem.paymentTypeResponse.accept(paymentTypeResponseToStringFormatter);
 			payListViewItem.name = payListResponseItem.name;
 			payListViewItem.grossAmount = payListResponseItem.grossAmount;
 			payListViewItem.deductionsAmount = payListResponseItem.deductionsAmount;
 			payListViewItem.netAmount = payListResponseItem.netAmount;
-			payListViewItem.paymentMethod = paymentMethodTypeResponseFormatter.format(payListResponseItem.paymentMethodTypeResponse);
+			payListViewItem.paymentMethod = paymentMethodTypeResponseToStringFormatter.format(payListResponseItem.paymentMethodTypeResponse);
 			return payListViewItem;
 		}
 	

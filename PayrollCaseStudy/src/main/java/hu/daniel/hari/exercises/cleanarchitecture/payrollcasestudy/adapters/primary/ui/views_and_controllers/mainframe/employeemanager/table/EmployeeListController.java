@@ -13,6 +13,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValueImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase.ListEmployeesUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.EmployeeListRequest;
@@ -23,7 +24,7 @@ public class EmployeeListController implements EmployeeListViewListener, ChangeL
 	private EmployeeListView view;
 	private ListEmployeesUseCaseFactory useCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
-	private ObservableSelectedEployeeIdImpl observableSelectedEployeeId = new ObservableSelectedEployeeIdImpl();
+	private ObservableSelectedEployeeViewItemImpl observableSelectedEployeeViewItem = new ObservableSelectedEployeeViewItemImpl();
 
 	@Inject
 	public EmployeeListController(
@@ -43,8 +44,8 @@ public class EmployeeListController implements EmployeeListViewListener, ChangeL
 		observableCurrentDate.addChangeListener(this);
 	}
 
-	public ObservableSelectedEployeeId getObservableSelectedEployeeId() {
-		return observableSelectedEployeeId;
+	public ObservableSelectedEployeeItem getObservableSelectedEployeeId() {
+		return observableSelectedEployeeViewItem;
 	}
 
 	@Subscribe
@@ -58,8 +59,8 @@ public class EmployeeListController implements EmployeeListViewListener, ChangeL
 	}
 
 	@Override
-	public void onSelectionChanged(Optional<Integer> employeeId) {
-		observableSelectedEployeeId.set(employeeId);
+	public void onSelectionChanged(Optional<EmployeeViewItem> employee) {
+		observableSelectedEployeeViewItem.set(employee);
 	}
 	
 	private void update() {
@@ -72,8 +73,8 @@ public class EmployeeListController implements EmployeeListViewListener, ChangeL
 		return useCase.getResponse();
 	}
 
-	private static class ObservableSelectedEployeeIdImpl extends ObservableValueImpl<Optional<Integer>> implements ObservableSelectedEployeeId {
-		public ObservableSelectedEployeeIdImpl() {
+	private static class ObservableSelectedEployeeViewItemImpl extends ObservableValueImpl<Optional<EmployeeViewItem>> implements ObservableSelectedEployeeItem {
+		public ObservableSelectedEployeeViewItemImpl() {
 			super(Optional.empty());
 		}
 	}

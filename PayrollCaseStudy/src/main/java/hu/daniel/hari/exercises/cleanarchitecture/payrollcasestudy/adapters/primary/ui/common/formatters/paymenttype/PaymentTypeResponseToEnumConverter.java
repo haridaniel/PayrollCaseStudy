@@ -1,32 +1,26 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.CommissionedPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.HourlyPaymentTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.SalariedPaymentTypeResponse;
 
-public class PaymentTypeResponseFormatter implements PaymentTypeResponseVisitor<String> {
+public class PaymentTypeResponseToEnumConverter implements PaymentTypeResponseVisitor<PaymentType> {
 
 	@Override
-	public String visit(HourlyPaymentTypeResponse paymentType) {
-		return String.format("%d / hour", 
-				paymentType.hourlyWage
-				);
+	public PaymentType visit(SalariedPaymentTypeResponse salariedPaymentTypeResponse) {
+		return PaymentType.SALARIED;
 	}
 
 	@Override
-	public String visit(SalariedPaymentTypeResponse paymentType) {
-		return String.format("%d / month", 
-				paymentType.monthlySalary
-				);	
+	public PaymentType visit(HourlyPaymentTypeResponse hourlyPaymentTypeResponse) {
+		return PaymentType.HOURLY;
 	}
 
 	@Override
-	public String visit(CommissionedPaymentTypeResponse paymentType) {
-		return String.format("%d / 2wk + %.0f%% sales", 
-				paymentType.biWeeklyBaseSalary, 
-				paymentType.commissionRate * 100
-				);
+	public PaymentType visit(CommissionedPaymentTypeResponse commissionedPaymentTypeResponse) {
+		return PaymentType.COMMISSIONED;
 	}
 
 }
