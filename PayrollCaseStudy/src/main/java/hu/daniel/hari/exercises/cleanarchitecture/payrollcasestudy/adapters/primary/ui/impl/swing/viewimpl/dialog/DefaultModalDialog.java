@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
@@ -15,14 +16,18 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
  *
  * @param <T>
  */
-public class DefaultDialog<T extends CloseableViewListener> extends JDialog implements ClosableView<T> {
+public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog implements ClosableView<T> {
 
 	private T listener;
 	
-	public DefaultDialog(
-			JFrame parentFrame
+	public DefaultModalDialog(
+			JFrame parentFrame, String title
 			) {
 		super(parentFrame);
+		setTitle(title);
+		setModal(true);
+		setSize(450, 300);
+		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -44,6 +49,19 @@ public class DefaultDialog<T extends CloseableViewListener> extends JDialog impl
 	@Override
 	public void close() {
 		dispose();
+	}
+
+	protected void centerParent() {
+		setLocationRelativeTo(getParent());
+	}
+	
+	protected void setFocusField(JComponent field) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				field.requestFocusInWindow();
+			}
+		});
 	}
 
 }

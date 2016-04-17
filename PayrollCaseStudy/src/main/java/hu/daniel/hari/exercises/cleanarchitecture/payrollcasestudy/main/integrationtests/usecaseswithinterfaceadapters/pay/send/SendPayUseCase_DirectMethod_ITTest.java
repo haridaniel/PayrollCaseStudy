@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -43,7 +44,7 @@ public class SendPayUseCase_DirectMethod_ITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAnEmployeeWithDirectPaymentMethod() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), "", "", monthlySalary));
 		useCaseFactories.changeToDirectPaymentMethodUseCase().execute(new ChangeToDirectPaymentMethodRequest(employeeId, accountNumber));
 	}
 

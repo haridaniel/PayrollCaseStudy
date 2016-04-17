@@ -42,6 +42,20 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 		listener.onAddEmployeeAction();
 	}
 
+	private void onAddTimeCardAction() {
+		listener.onAddTimeCardAction();
+	}
+
+	private void onAddSalesReceiptAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void onAddServiceChargeAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void initUI() {
 
 		setLayout(new BorderLayout(0, 0));
@@ -92,16 +106,32 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
 		btAddTimeCard = new JButton("Add time card..");
+		btAddTimeCard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				onAddTimeCardAction();
+			}
+		});
 		panel.add(btAddTimeCard);
 
 		btAddSalesReceipt = new JButton("Add sales receipt..");
+		btAddSalesReceipt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				onAddSalesReceiptAction();
+			}
+		});
 		panel.add(btAddSalesReceipt);
 
 		btAddServiceCharge = new JButton("Add Service charge..");
+		btAddServiceCharge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				onAddServiceChargeAction();
+			}
+
+		});
 		panel.add(btAddServiceCharge);
 
 	}
-
+	
 	@Override
 	public void setModel(EmployeeManagerViewModel viewModel) {
 		setButtonsEnabled(viewModel.buttonsEnabledStates);

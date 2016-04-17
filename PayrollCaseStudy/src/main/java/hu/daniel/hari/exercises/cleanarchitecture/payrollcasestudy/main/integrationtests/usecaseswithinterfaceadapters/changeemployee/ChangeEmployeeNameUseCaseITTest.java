@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -44,7 +45,7 @@ public class ChangeEmployeeNameUseCaseITTest extends AbstractUseCaseITTest {
 
 
 	private void givenAnEmployee() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, oldName , "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), oldName , "", 0));
 	}
 
 	private void whenChangingItsName() {

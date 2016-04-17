@@ -18,13 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.DateField;
+
 public class FieldTestsDevMain extends JFrame {
 
 	private JPanel contentPane;
 	private DateField dateField;
 	private JFormattedTextField formattedTextField;
 
-	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private String dateFormat = "yyyy-MM-dd";
 	private JLabel lblFormattedtextfield;
 
 	public static void main(String[] args) {

@@ -10,6 +10,7 @@ public interface EmployeeManagerView extends HasListener<EmployeeManagerView.Emp
 	public static interface EmployeeManagerViewListener {
 		void onDeleteEmployeeAction();
 		void onAddEmployeeAction();
+		void onAddTimeCardAction();
 	}
 	
 	public static class EmployeeManagerViewModel {

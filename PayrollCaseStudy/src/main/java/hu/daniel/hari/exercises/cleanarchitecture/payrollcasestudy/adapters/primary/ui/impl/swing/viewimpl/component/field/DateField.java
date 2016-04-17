@@ -1,6 +1,6 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.dev;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -8,8 +8,8 @@ import javax.swing.JFormattedTextField;
 
 public class DateField extends JFormattedTextField {
 
-	public DateField(DateFormat dateFormat) {
-		super(dateFormat);
+	public DateField(String dateFormat) {
+		super(new SimpleDateFormat(dateFormat));
 	}
 	
 	public LocalDate getDate() {
@@ -20,13 +20,19 @@ public class DateField extends JFormattedTextField {
 	public void setDate(LocalDate date) {
 		setValue(date == null? null : java.sql.Date.valueOf(date));
 	}
-
+	
+	/**
+	 * @deprecated use getDate()
+	 */
 	@Deprecated
 	@Override
 	public Object getValue() {
 		return super.getValue();
 	}
 	
+	/**
+	 * @deprecated use setDate()
+	 */
 	@Deprecated
 	@Override
 	public void setValue(Object value) {

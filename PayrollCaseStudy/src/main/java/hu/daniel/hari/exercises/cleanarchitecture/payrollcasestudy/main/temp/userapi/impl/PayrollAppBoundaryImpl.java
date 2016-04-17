@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.userapi.impl;
 
+import java.util.Optional;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.DeleteEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddSalariedEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.ChangeEmployeeNameUseCase;
@@ -20,7 +22,7 @@ public class PayrollAppBoundaryImpl implements PayrollAppBoundary {
 	@Override
 	public void addSalariedEmployeeTransaction(int employeeId, String name, String address, int monthlySalary) {
 		new AddSalariedEmployeeUseCase(null, null, null, null, null, null, null)
-				.execute(new AddSalariedEmployeeRequest(employeeId, name, address, monthlySalary));
+				.execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), name, address, monthlySalary));
 
 	}
 

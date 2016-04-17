@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import java.util.Optional;
+
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
@@ -25,14 +27,14 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 		super(databaseProvider);
 	}
 
-	final int employeeId = 1;
+	final Optional<Integer> employeeId = Optional.of(1);
 	final String name = "Bob";
 	final String address = "Liverside road";
 	
 	@Test
 	public void testAddEmployeeUseCase() {
 		when();
-		then(database.employeeGateway().findById(employeeId));
+		then(database.employeeGateway().findById(employeeId.get()));
 	}
 
 	private void when() {

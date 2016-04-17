@@ -12,22 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.error.ErrorDialogView;
 
-public class ErrorDialog extends DefaultDialog<CloseableViewListener> implements ErrorDialogView {
+public class ErrorDialog extends DefaultModalDialog<CloseableViewListener> implements ErrorDialogView {
 
 	private JTextPane textPane;
 	
 	public ErrorDialog(JFrame parentFrame) {
-		super(parentFrame);
+		super(parentFrame, "Error");
 		initUI();
 		centerParent();
-	}
-	
-	private void centerParent() {
-		setLocationRelativeTo(getParent());
 	}
 	
 	private void initUI() {

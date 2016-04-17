@@ -20,8 +20,7 @@ public class EmployeeManagerPanelUI {
 	@Inject
 	public EmployeeManagerPanelUI(
 			EmployeeManagerController controller,
-			EmployeeListPanelUI employeeListPanelUI,
-			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider
+			EmployeeListPanelUI employeeListPanelUI
 			) {
 		this.employeeListPanelUI = employeeListPanelUI;
 		view = new EmployeeManagerPanel(employeeListPanelUI.view);

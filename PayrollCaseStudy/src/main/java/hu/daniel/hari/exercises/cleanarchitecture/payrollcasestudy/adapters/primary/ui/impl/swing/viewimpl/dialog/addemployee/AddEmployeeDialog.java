@@ -22,20 +22,25 @@ import javax.swing.JTextField;
 
 import com.google.common.base.Joiner;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.FieldsPanel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.EmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.HourlyEmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.SalariedEmployeeFieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.ValidationErrorMessagesLabel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 
-public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> implements AddEmployeeView {
+public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListener> implements AddEmployeeView {
 
 	private final FieldsPanel fieldsPanel = new FieldsPanel();
-	private JLabel errorMessageLabel;
+	private ValidationErrorMessagesLabel errorMessageLabel;
 	
-	private JFormattedTextField tfEmployeeId = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	private IntegerField ifEmployeeId = new IntegerField();
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 	private JComboBox<EmployeeType> cbEmployeeType = new JComboBox<>();
@@ -57,7 +62,7 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 		this(null);
 	}
 	public AddEmployeeDialog(JFrame parentFrame) {
-		super(parentFrame);
+		super(parentFrame, "Add Employee");
 		initUI();
 		initCommonFields();
 		populateCbEmployeeType();
@@ -90,13 +95,8 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 		cbEmployeeType.setModel(new DefaultComboBoxModel<>(EmployeeType.values()));
 	}
 
-	private void centerParent() {
-		//Not working... fuck swing
-		setLocationRelativeTo(getParent());
-	}
-	
 	private void initCommonFields() {
-		fieldsPanel.addField("Id", tfEmployeeId);
+		fieldsPanel.addField("Id", ifEmployeeId);
 		fieldsPanel.addField("Name", tfName);
 		fieldsPanel.addField("Address", tfAddress);
 		fieldsPanel.addField("Type", cbEmployeeType);
@@ -108,22 +108,13 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 		return fillBase(currentEmployeeFieldsPanel.getModel());
 	}
 	private EmployeeViewModel fillBase(EmployeeViewModel viewModel) {
-		viewModel.employeeId = getIntegerOrNull(tfEmployeeId);
+		viewModel.employeeId = ifEmployeeId.getInteger();
 		viewModel.name = tfName.getText();
 		viewModel.address = tfAddress.getText();
 		return viewModel;
 	}
 
-	private Integer getIntegerOrNull(JFormattedTextField textField) {
-		return textField.getValue() == null? null : Integer.parseInt(textField.getValue().toString());
-	}
-
 	private void initUI() {
-		setTitle("Add Employee");
-		setModal(true);
-		
-		setSize(450, 300);
-		
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel panel = new JPanel();
@@ -142,47 +133,30 @@ public class AddEmployeeDialog extends DefaultDialog<AddEmployeeViewListener> im
 			typeSpecificFieldsPanel.add(hourlyEmployeeFieldsPanel);
 			
 			{
-				errorMessageLabel = new JLabel("");
-				errorMessageLabel.setForeground(Color.RED);
+				errorMessageLabel = new ValidationErrorMessagesLabel();
 				panel.add(errorMessageLabel, BorderLayout.SOUTH);
 			}
 		}
 		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("SAVE");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						getListener().onAddEmployee();
-					}
-				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						getListener().onCancel();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
+			OkCancelButtonBar okCancelButtonBar = new OkCancelButtonBar(new OkCancelButtonBarListener() {
+				@Override
+				public void onOk() {
+					getListener().onAddEmployee();
+				}
+				
+				@Override
+				public void onCancel() {
+					getListener().onCancel();
+				}
+			}, "ADD", "CANCEL");
+			getContentPane().add(okCancelButtonBar, BorderLayout.SOUTH);
 		}
 		
 	}
 
 	@Override
-	public void setModel(AddEmployeeValidationErrorsModel viewModel) {
-		errorMessageLabel.setText(toListAsHtml(viewModel.useCaseValidationErrorMessages));
-	}
-
-	private String toListAsHtml(List<String> strings) {
-		return "<html>" + Joiner.on("<br/>").join(strings) + "</html>";
+	public void setModel(ValidationErrorMessagesModel viewModel) {
+		errorMessageLabel.setMessages(viewModel.validationErrorMessages);
 	}
 
 }

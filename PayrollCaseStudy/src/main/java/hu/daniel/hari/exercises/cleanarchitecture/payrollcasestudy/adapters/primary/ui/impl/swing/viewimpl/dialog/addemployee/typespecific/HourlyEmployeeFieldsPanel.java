@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.FieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.HourlyEmployeeViewModel;
 
 public class HourlyEmployeeFieldsPanel extends FieldsPanel implements EmployeeFieldsPanel<HourlyEmployeeViewModel>{

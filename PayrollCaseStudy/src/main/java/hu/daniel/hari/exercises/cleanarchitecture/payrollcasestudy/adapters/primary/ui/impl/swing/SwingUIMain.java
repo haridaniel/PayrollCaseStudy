@@ -4,7 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.MainFrameUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.InMemoryDatabase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPADatabaseModule;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnitNames;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.moneytransfer.BankTransferPortMock;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.dev.TestDataLoader;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactoriesImpl;
@@ -22,9 +23,9 @@ public class SwingUIMain {
 		
 		//Secondary ports
 		
-//		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
+		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
 //		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB).getDatabase();
-		Database database = new InMemoryDatabase();
+//		Database database = new InMemoryDatabase();
 		
 		BankTransferPortMock bankTransferPort = new BankTransferPortMock();
 		
@@ -34,8 +35,13 @@ public class SwingUIMain {
 		//Primary ports
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 
-		//TODO: Guice exception swallows 
-		start(useCaseFactories);
+		//TODO: Guice exception swallows
+		try {
+			start(useCaseFactories);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	private void start(UseCaseFactories useCaseFactories) {

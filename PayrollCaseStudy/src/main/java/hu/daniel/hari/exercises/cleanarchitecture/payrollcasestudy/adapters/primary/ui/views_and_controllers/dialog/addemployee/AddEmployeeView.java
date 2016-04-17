@@ -1,15 +1,16 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee;
 
-import java.util.List;
+import java.util.Optional;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelProducer;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
 public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmployeeViewListener>,
 	ModelProducer<AddEmployeeView.EmployeeViewModel>,
-	ModelConsumer<AddEmployeeView.AddEmployeeValidationErrorsModel>
+	ModelConsumer<ValidationErrorMessagesModel>
 {
 	
 	public interface AddEmployeeViewListener extends CloseableViewListener {
@@ -18,7 +19,7 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 	}
 
 	public abstract class EmployeeViewModel {
-		public Integer employeeId;
+		public Optional<Integer> employeeId;
 		public String name;
 		public String address;
 
@@ -43,14 +44,6 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 		@Override
 		public void accept(EmployeeViewModelVisitor visitor) {
 			visitor.visit(this);
-		}
-	}
-	
-	public class AddEmployeeValidationErrorsModel {
-		public List<String> useCaseValidationErrorMessages;
-
-		public AddEmployeeValidationErrorsModel(List<String> useCaseValidationErrorMessages) {
-			this.useCaseValidationErrorMessages = useCaseValidationErrorMessages;
 		}
 	}
 

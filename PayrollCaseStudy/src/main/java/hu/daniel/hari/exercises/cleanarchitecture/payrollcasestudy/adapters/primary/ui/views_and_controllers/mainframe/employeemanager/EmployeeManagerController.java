@@ -9,6 +9,9 @@ import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddEmployeeDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddTimeCardDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddTimeCardDialogUI.AddTimeCardDialogUIFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addtimecard.AddTimeCardDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
@@ -26,6 +29,7 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	private EventBus eventBus;
 	
 	private Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider;
+	private AddTimeCardDialogUIFactory addTimeCardDialogUIFactory;
 	private ObservableSelectedEployeeItem observableSelectedEployeeItem;
 
 	@Inject
@@ -33,11 +37,13 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 			DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory, 
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory, 
 			EventBus eventBus,
-			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider
+			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider,
+			AddTimeCardDialogUIFactory addTimeCardDialogUIFactory
 			) {
 		this.deleteEmployeeUseCaseFactory = deleteEmployeeUseCaseFactory;
 		this.eventBus = eventBus;
 		this.addEmployeeDialogUIProvider = addEmployeeDialogUIProvider;
+		this.addTimeCardDialogUIFactory = addTimeCardDialogUIFactory;
 	}
 
 	public void setView(EmployeeManagerView view) {
@@ -69,6 +75,11 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	@Override
 	public void onAddEmployeeAction() {
 		addEmployeeDialogUIProvider.get().show();
+	}
+	
+	@Override
+	public void onAddTimeCardAction() {
+		addTimeCardDialogUIFactory.create(observableSelectedEployeeItem.get().get().id).show();
 	}
 
 	private static class EmployeeManagerViewPresenter {

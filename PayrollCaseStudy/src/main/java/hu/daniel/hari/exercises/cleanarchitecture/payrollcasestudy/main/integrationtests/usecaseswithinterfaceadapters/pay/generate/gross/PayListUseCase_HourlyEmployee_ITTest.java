@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.hamcrest.CoreMatchers;
@@ -120,7 +121,7 @@ public class PayListUseCase_HourlyEmployee_ITTest extends PayListUseCase_Abstrac
 	}
 
 	private void givenAHourlyEmployee() {
-		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", hourlyWage));
+		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(Optional.of(employeeId), "", "", hourlyWage));
 	}
 
 	private void givenTimeCards(List<AddTimeCardRequest> addTimeCardRequests) {

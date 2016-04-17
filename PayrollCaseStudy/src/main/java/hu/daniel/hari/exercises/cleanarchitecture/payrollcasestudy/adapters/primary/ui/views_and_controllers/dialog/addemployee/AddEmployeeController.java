@@ -7,10 +7,13 @@ import javax.inject.Inject;
 
 import com.google.common.eventbus.EventBus;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.error.validation.AddEmployeeValidationErrorFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.error.validation.usecase.AddEmployeeUseCaseValidationErrorFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.error.validation.viewmodel.FieldValidatorErrorFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedEmployeeEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DefaultClosableViewController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeValidationErrorsModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.EmployeeViewModelVisitor;
@@ -20,8 +23,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.AddEmployeeValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException.AddEmployeeValidationError;
 
 public class AddEmployeeController extends DefaultClosableViewController<AddEmployeeView> implements AddEmployeeViewListener {
 
@@ -42,12 +45,16 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 
 	@Override
 	public void onAddEmployee() {
+		EmployeeViewModel model = getView().getModel();
 		try {
-			getView().getModel().accept(new UseCaseExecutor());
-			eventBus.post(new AddedEmployeeEvent(getView().getModel().employeeId, getView().getModel().name));
+			new AddEmployeeFieldsValidator(model);
+			model.accept(new UseCaseExecutor());
+			eventBus.post(new AddedEmployeeEvent(model.employeeId.get(), model.name));
 			close();
-		} catch (AddEmployeeValidationException e) {
-			new ErrorHandler(e.addEmployeeValidationErrors);
+		} catch (FieldValidatorException e) {
+			new FieldValidatorErrorHandler(e.fieldValidatorErrors);
+		} catch (AddEmployeeUseCaseValidationException e) {
+			new UseCaseValidationErrorHandler(e.addEmployeeValidationErrors);
 		}
 	}
 
@@ -102,17 +109,39 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 		}
 	}
 
-	private class ErrorHandler {
-		private AddEmployeeValidationErrorFormatter addEmployeeValidationErrorFormatter = new AddEmployeeValidationErrorFormatter();
+	private class FieldValidatorErrorHandler {
+		private FieldValidatorErrorFormatter errorFormatter = new FieldValidatorErrorFormatter();
 		
-		public ErrorHandler(List<AddEmployeeValidationError> addEmployeeValidationErrors) {
-			getView().setModel(new AddEmployeeValidationErrorsModel(format(addEmployeeValidationErrors)));
+		public FieldValidatorErrorHandler(List<FieldValidatorError> fieldValidatorErrors) {
+			getView().setModel(new ValidationErrorMessagesModel(format(fieldValidatorErrors)));
+		}
+
+		private List<String> format(List<FieldValidatorError> fieldValidatorErrors) {
+			return fieldValidatorErrors.stream()
+					.map(e -> format(e))
+					.collect(Collectors.toList());
+		}
+
+		private String format(FieldValidatorError e) {
+			return errorFormatter.format(e);
+		}
+	}
+	
+	private class UseCaseValidationErrorHandler {
+		private AddEmployeeUseCaseValidationErrorFormatter errorFormatter = new AddEmployeeUseCaseValidationErrorFormatter();
+		
+		public UseCaseValidationErrorHandler(List<AddEmployeeValidationError> addEmployeeValidationErrors) {
+			getView().setModel(new ValidationErrorMessagesModel(format(addEmployeeValidationErrors)));
 		}
 
 		private List<String> format(List<AddEmployeeValidationError> addEmployeeValidationErrors) {
 			return addEmployeeValidationErrors.stream()
-				.map(e -> e.accept(addEmployeeValidationErrorFormatter))
+				.map(e -> format(e))
 				.collect(Collectors.toList());
+		}
+
+		private String format(AddEmployeeValidationError e) {
+			return e.accept(errorFormatter);
 		}
 		
 	}

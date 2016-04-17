@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integra
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class AddTimeCardUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAHourlyEmployee() {
-		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", 0));
+		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(Optional.of(employeeId), "", "", 0));
 	}
 
 	private void whenAddingTimeCard() {

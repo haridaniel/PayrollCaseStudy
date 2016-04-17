@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class AddSalesReceiptUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenACommissionedEmployee() {
-		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", 0, 0));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(Optional.of(employeeId), "", "", 0, 0));
 	}
 
 	private void whenAddingSalesReceipt() {

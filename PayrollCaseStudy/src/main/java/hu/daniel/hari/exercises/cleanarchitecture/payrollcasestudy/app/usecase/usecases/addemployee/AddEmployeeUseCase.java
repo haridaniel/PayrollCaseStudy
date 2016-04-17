@@ -11,10 +11,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.IdAlreadyExistsValidationError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.RequiredFieldValidationError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeValidationException.AddEmployeeValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException.AddEmployeeValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException.IdAlreadyExistsValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -37,7 +36,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 	
 	@Override
-	protected final void executeInTransaction(R request) throws AddEmployeeValidationException {
+	protected final void executeInTransaction(R request) throws AddEmployeeUseCaseValidationException {
 		new Validator().validate(request);
 		
 		Employee employee = employeeFactory.employee();
@@ -51,7 +50,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 
 
 	private void setFields(Employee employee, R request) {
-		employee.setId(request.employeeId);
+		employee.setId(request.employeeId.get());
 		employee.setName(request.name);
 		employee.setAddress(request.address);
 	}
@@ -79,9 +78,6 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		List<AddEmployeeValidationError> addEmployeeValidationErrors = new ArrayList<>();
 		
 		private void validate(R request) {
-			checkRequiredFields(request);
-			throwIfThereAreErrors();
-			
 			checkIdExists(request);
 			checkNameExists(request);
 			throwIfThereAreErrors();
@@ -89,24 +85,18 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 
 		private void throwIfThereAreErrors() {
 			if(!addEmployeeValidationErrors.isEmpty())
-				throw new AddEmployeeValidationException(addEmployeeValidationErrors);
-		}
-
-		private void checkRequiredFields(R request) {
-			if(request.employeeId == null)
-				addEmployeeValidationErrors.add(new RequiredFieldValidationError("id"));
+				throw new AddEmployeeUseCaseValidationException(addEmployeeValidationErrors);
 		}
 
 		private void checkIdExists(R request) {
-			if(employeeGateway.isExists(request.employeeId)) {
-				Employee employee = employeeGateway.findById(request.employeeId);
+			if(employeeGateway.isExists(request.employeeId.get())) {
+				Employee employee = employeeGateway.findById(request.employeeId.get());
 				addEmployeeValidationErrors.add(new IdAlreadyExistsValidationError(employee.getName()));
 			}
 		}
 		
 		private void checkNameExists(R request) {
 			// TODO Auto-generated method stub
-			
 		}
 		
 	}

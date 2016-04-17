@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class PayListUseCase_SalariedEmployee_ITTest extends PayListUseCase_Abstr
 	}
 
 	private void givenASalariedEmployee() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", monthlySalary));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), "", "", monthlySalary));
 	}
 
 	private void thenPayCheckGrossAmountSumShouldBeTheSalary(Collection<PayListResponseItem> payChecks) {

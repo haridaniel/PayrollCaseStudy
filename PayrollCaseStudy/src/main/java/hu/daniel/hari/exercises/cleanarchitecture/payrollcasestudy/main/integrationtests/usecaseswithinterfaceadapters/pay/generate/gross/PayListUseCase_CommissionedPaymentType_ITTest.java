@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -97,7 +98,7 @@ public class PayListUseCase_CommissionedPaymentType_ITTest extends PayListUseCas
 	}
 	
 	private void givenACommissionedEmployee() {
-		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", biWeeklyBaseSalary, commissionRate));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(Optional.of(employeeId), "", "", biWeeklyBaseSalary, commissionRate));
 	}
 
 	private void givenSalesReceipts(List<AddSalesReceiptRequest> salesReceipts) {
