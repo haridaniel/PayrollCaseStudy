@@ -11,18 +11,19 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.error.validation.viewmodel.FieldValidatorErrorFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DefaultClosableViewController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.EmployeeViewModelVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.HourlyEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.SalariedEmployeeViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.HourlyRequestCreator;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.SalariedRequestCreator;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddHourlyEmployeeFieldsValidator;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddSalariedEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddSalariedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException.AddEmployeeValidationError;
 
@@ -45,70 +46,68 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 
 	@Override
 	public void onAddEmployee() {
-		EmployeeViewModel model = getView().getModel();
-		try {
-			new AddEmployeeFieldsValidator(model);
-			model.accept(new UseCaseExecutor());
-			eventBus.post(new AddedEmployeeEvent(model.employeeId.get(), model.name));
-			close();
-		} catch (FieldValidatorException e) {
-			new FieldValidatorErrorHandler(e.fieldValidatorErrors);
-		} catch (AddEmployeeUseCaseValidationException e) {
-			new UseCaseValidationErrorHandler(e.addEmployeeValidationErrors);
-		}
+		getView().getModel().accept(new OnAddEmployeeHandlerExecutor());
 	}
 
 	@Override
 	public void onCancel() {
 		close();
 	}
-	
-	private class UseCaseExecutor implements EmployeeViewModelVisitor {
+
+	private class OnAddEmployeeHandlerExecutor implements EmployeeViewModelVisitor {
 		@Override
 		public void visit(SalariedEmployeeViewModel salariedEmployeeViewModel) {
-			useCaseFactory.addSalariedEmployeeUseCase().execute(new SalariedRequestCreator().toRequest(salariedEmployeeViewModel));
+			new OnAddSalariedEmployeeHandler().onAddEmployee(salariedEmployeeViewModel);
 		}
 
 		@Override
 		public void visit(HourlyEmployeeViewModel hourlyEmployeeViewModel) {
-			useCaseFactory.addHourlyEmployeeUseCase().execute(new HourlyRequestCreator().toRequest(hourlyEmployeeViewModel));
+			new OnAddHourlyEmployeeHandler().onAddEmployee(hourlyEmployeeViewModel);
 		}
-		
 	}
 	
-	private static abstract class RequestCreator<I extends EmployeeViewModel, O extends AddEmployeeRequest> {
-		public O toRequest(I model) {
-			return fill(model, toSpecificRequest(model));
+	private abstract class OnAddEmployeeHandler<T extends EmployeeViewModel> {
+
+		public void onAddEmployee(T model) {
+			try {
+				validateFields(model);
+				executeUseCase(model);
+				eventBus.post(new AddedEmployeeEvent(model.employeeId.get(), model.name));
+				close();
+			} catch (FieldValidatorException e) {
+				new FieldValidatorErrorHandler(e.fieldValidatorErrors);
+			} catch (AddEmployeeUseCaseValidationException e) {
+				new UseCaseValidationErrorHandler(e.addEmployeeValidationErrors);
+			}
 		}
 
-		private O fill(I model, O request) {
-			request.employeeId = model.employeeId.get();
-			request.name = model.name;
-			request.address = model.address;
-			return request;
-		}
+		protected abstract void validateFields(T model);
+		protected abstract void executeUseCase(T model);
 		
-		protected abstract O toSpecificRequest(I model);
 	}
-	
-	private static class SalariedRequestCreator extends RequestCreator<SalariedEmployeeViewModel, AddSalariedEmployeeRequest> {
+	private class OnAddSalariedEmployeeHandler extends OnAddEmployeeHandler<SalariedEmployeeViewModel> {
 		@Override
-		protected AddSalariedEmployeeRequest toSpecificRequest(SalariedEmployeeViewModel model) {
-			AddSalariedEmployeeRequest addSalariedEmployeeRequest = new AddSalariedEmployeeRequest();
-			addSalariedEmployeeRequest.monthlySalary = model.monthlySalary;
-			return addSalariedEmployeeRequest;
+		protected void validateFields(SalariedEmployeeViewModel model) {
+			new AddSalariedEmployeeFieldsValidator(model);
+		}
+		@Override
+		protected void executeUseCase(SalariedEmployeeViewModel model) {
+			useCaseFactory.addSalariedEmployeeUseCase().execute(new SalariedRequestCreator().toRequest(model));
 		}
 	}
 	
-	private static class HourlyRequestCreator extends RequestCreator<HourlyEmployeeViewModel, AddHourlyEmployeeRequest> {
+	private class OnAddHourlyEmployeeHandler extends OnAddEmployeeHandler<HourlyEmployeeViewModel> {
 		@Override
-		protected AddHourlyEmployeeRequest toSpecificRequest(HourlyEmployeeViewModel model) {
-			AddHourlyEmployeeRequest addHourlyEmployeeRequest = new AddHourlyEmployeeRequest();
-			addHourlyEmployeeRequest.hourlyWage = model.hourlyWage;
-			return addHourlyEmployeeRequest;
+		protected void validateFields(HourlyEmployeeViewModel model) {
+			new AddHourlyEmployeeFieldsValidator(model);
 		}
-	}
 
+		@Override
+		protected void executeUseCase(HourlyEmployeeViewModel model) {
+			useCaseFactory.addHourlyEmployeeUseCase().execute(new HourlyRequestCreator().toRequest(model));
+		}
+	}
+	
 	private class FieldValidatorErrorHandler {
 		private FieldValidatorErrorFormatter errorFormatter = new FieldValidatorErrorFormatter();
 		
