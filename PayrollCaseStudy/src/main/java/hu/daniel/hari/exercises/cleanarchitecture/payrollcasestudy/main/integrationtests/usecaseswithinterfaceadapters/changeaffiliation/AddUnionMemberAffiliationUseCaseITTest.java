@@ -33,7 +33,7 @@ public class AddUnionMemberAffiliationUseCaseITTest extends AbstractUseCaseITTes
 	}
 
 	private void givenAnEmployee() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), "", "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
 	}
 
 	private void whenAddingUnionMemberAffiliation() {

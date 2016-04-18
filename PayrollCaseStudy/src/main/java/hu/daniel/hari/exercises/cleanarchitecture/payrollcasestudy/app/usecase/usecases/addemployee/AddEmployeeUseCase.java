@@ -50,7 +50,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 
 
 	private void setFields(Employee employee, R request) {
-		employee.setId(request.employeeId.get());
+		employee.setId(request.employeeId);
 		employee.setName(request.name);
 		employee.setAddress(request.address);
 	}
@@ -89,8 +89,8 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		}
 
 		private void checkIdExists(R request) {
-			if(employeeGateway.isExists(request.employeeId.get())) {
-				Employee employee = employeeGateway.findById(request.employeeId.get());
+			if(employeeGateway.isExists(request.employeeId)) {
+				Employee employee = employeeGateway.findById(request.employeeId);
 				addEmployeeValidationErrors.add(new IdAlreadyExistsValidationError(employee.getName()));
 			}
 		}

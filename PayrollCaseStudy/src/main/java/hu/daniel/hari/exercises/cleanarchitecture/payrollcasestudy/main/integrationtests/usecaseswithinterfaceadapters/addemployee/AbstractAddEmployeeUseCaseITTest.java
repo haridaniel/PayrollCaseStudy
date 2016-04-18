@@ -27,14 +27,14 @@ public abstract class AbstractAddEmployeeUseCaseITTest extends AbstractUseCaseIT
 		super(databaseProvider);
 	}
 
-	final Optional<Integer> employeeId = Optional.of(1);
+	final Integer employeeId = 1;
 	final String name = "Bob";
 	final String address = "Liverside road";
 	
 	@Test
 	public void testAddEmployeeUseCase() {
 		when();
-		then(database.employeeGateway().findById(employeeId.get()));
+		then(database.employeeGateway().findById(employeeId));
 	}
 
 	private void when() {

@@ -40,7 +40,7 @@ public class AddSalesReceiptUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenACommissionedEmployee() {
-		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(Optional.of(employeeId), "", "", 0, 0));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", 0, 0));
 	}
 
 	private void whenAddingSalesReceipt() {

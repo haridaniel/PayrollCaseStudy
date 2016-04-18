@@ -35,7 +35,7 @@ public class AddTimeCardUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAHourlyEmployee() {
-		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(Optional.of(employeeId), "", "", 0));
+		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", 0));
 	}
 
 	private void whenAddingTimeCard() {

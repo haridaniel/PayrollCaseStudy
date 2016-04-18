@@ -29,7 +29,7 @@ public class Main1FosAzEgész {
 		
 		AddSalariedEmployeeUseCase addSalariedEmployeeUseCase = useCaseFactory.create(AddSalariedEmployeeUseCase.class);
 
-		addSalariedEmployeeUseCase.execute(new AddSalariedEmployeeRequest(Optional.of(20), "name", "address", 5222));
+		addSalariedEmployeeUseCase.execute(new AddSalariedEmployeeRequest(20, "name", "address", 5222));
 		
 		System.out.println();
 	

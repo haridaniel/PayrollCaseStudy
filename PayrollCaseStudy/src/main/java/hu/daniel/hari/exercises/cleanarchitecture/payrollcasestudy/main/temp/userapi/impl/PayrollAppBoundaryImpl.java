@@ -22,7 +22,7 @@ public class PayrollAppBoundaryImpl implements PayrollAppBoundary {
 	@Override
 	public void addSalariedEmployeeTransaction(int employeeId, String name, String address, int monthlySalary) {
 		new AddSalariedEmployeeUseCase(null, null, null, null, null, null, null)
-				.execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), name, address, monthlySalary));
+				.execute(new AddSalariedEmployeeRequest(employeeId, name, address, monthlySalary));
 
 	}
 

@@ -82,7 +82,7 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 		}
 
 		private O fill(I model, O request) {
-			request.employeeId = model.employeeId;
+			request.employeeId = model.employeeId.get();
 			request.name = model.name;
 			request.address = model.address;
 			return request;

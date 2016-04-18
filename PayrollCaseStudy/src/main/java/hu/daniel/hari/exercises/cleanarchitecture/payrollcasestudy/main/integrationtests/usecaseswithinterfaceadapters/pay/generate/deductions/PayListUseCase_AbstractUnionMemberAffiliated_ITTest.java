@@ -24,7 +24,7 @@ public abstract class PayListUseCase_AbstractUnionMemberAffiliated_ITTest extend
 	}
 
 	protected void givenASalariedEmployee_WithUnionMembershipAffiliation(int weeklyDueAmount) {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), "", "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
 		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, weeklyDueAmount));
 	}
 

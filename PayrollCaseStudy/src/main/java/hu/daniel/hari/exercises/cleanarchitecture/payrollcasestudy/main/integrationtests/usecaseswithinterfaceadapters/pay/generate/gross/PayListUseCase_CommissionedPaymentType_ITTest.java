@@ -98,7 +98,7 @@ public class PayListUseCase_CommissionedPaymentType_ITTest extends PayListUseCas
 	}
 	
 	private void givenACommissionedEmployee() {
-		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(Optional.of(employeeId), "", "", biWeeklyBaseSalary, commissionRate));
+		useCaseFactories.addCommissionedEmployeeUseCase().execute(new AddCommissionedEmployeeRequest(employeeId, "", "", biWeeklyBaseSalary, commissionRate));
 	}
 
 	private void givenSalesReceipts(List<AddSalesReceiptRequest> salesReceipts) {

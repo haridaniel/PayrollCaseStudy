@@ -48,7 +48,7 @@ public class AddServiceChargeUseCaseITTest extends AbstractUseCaseITTest {
 	}
 
 	private void givenAUnionMemberAffiliatedEmployee() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), "", "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, "", "", 0));
 		useCaseFactories.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(employeeId, unionMemberId, 0));
 	}
 

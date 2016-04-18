@@ -45,7 +45,7 @@ public class ChangeEmployeeNameUseCaseITTest extends AbstractUseCaseITTest {
 
 
 	private void givenAnEmployee() {
-		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(Optional.of(employeeId), oldName , "", 0));
+		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(employeeId, oldName , "", 0));
 	}
 
 	private void whenChangingItsName() {

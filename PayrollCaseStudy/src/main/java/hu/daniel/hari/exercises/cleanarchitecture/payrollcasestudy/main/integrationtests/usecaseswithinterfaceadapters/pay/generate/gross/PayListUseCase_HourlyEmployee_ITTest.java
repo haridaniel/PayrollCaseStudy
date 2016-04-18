@@ -121,7 +121,7 @@ public class PayListUseCase_HourlyEmployee_ITTest extends PayListUseCase_Abstrac
 	}
 
 	private void givenAHourlyEmployee() {
-		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(Optional.of(employeeId), "", "", hourlyWage));
+		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", hourlyWage));
 	}
 
 	private void givenTimeCards(List<AddTimeCardRequest> addTimeCardRequests) {
