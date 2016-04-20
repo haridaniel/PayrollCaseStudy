@@ -15,12 +15,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DefaultClosableViewController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.CommissionedEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.EmployeeViewModelVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.HourlyEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.SalariedEmployeeViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.CommissionedRequestCreator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.HourlyRequestCreator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.SalariedRequestCreator;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddCommissionedEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddHourlyEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddSalariedEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
@@ -64,6 +67,11 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 		public void visit(HourlyEmployeeViewModel hourlyEmployeeViewModel) {
 			new OnAddHourlyEmployeeHandler().onAddEmployee(hourlyEmployeeViewModel);
 		}
+
+		@Override
+		public void visit(CommissionedEmployeeViewModel commissionedEmployeeViewModel) {
+			new OnAddCommissionedEmployeeHandler().onAddEmployee(commissionedEmployeeViewModel);
+		}
 	}
 	
 	private abstract class OnAddEmployeeHandler<T extends EmployeeViewModel> {
@@ -105,6 +113,18 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 		@Override
 		protected void executeUseCase(HourlyEmployeeViewModel model) {
 			useCaseFactory.addHourlyEmployeeUseCase().execute(new HourlyRequestCreator().toRequest(model));
+		}
+	}
+	
+	private class OnAddCommissionedEmployeeHandler extends OnAddEmployeeHandler<CommissionedEmployeeViewModel> {
+		@Override
+		protected void validateFields(CommissionedEmployeeViewModel model) {
+			new AddCommissionedEmployeeFieldsValidator(model);
+		}
+
+		@Override
+		protected void executeUseCase(CommissionedEmployeeViewModel model) {
+			useCaseFactory.addCommissionedEmployeeUseCase().execute(new CommissionedRequestCreator().toRequest(model));
 		}
 	}
 	

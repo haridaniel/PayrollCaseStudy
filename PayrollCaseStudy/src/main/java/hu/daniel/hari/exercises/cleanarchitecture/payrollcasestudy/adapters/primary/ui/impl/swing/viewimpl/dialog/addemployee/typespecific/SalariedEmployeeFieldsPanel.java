@@ -1,32 +1,25 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific;
 
-import java.text.NumberFormat;
-
-import javax.swing.JFormattedTextField;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.SalariedEmployeeViewModel;
 
-public class SalariedEmployeeFieldsPanel extends FieldsPanel implements EmployeeFieldsPanel<SalariedEmployeeViewModel>{
-	public JFormattedTextField tfMonthlySalary = new JFormattedTextField(NumberFormat.getIntegerInstance());
+public class SalariedEmployeeFieldsPanel extends EmployeeFieldsPanel<SalariedEmployeeViewModel>{
+	public IntegerField monthlySalaryField = new IntegerField();
 	
 	public SalariedEmployeeFieldsPanel() {
 		initFields();
 	}
 
 	private void initFields() {
-		addField("Salary", tfMonthlySalary);
+		addField("Salary", monthlySalaryField);
 		makeCompactGrid(); 
 	}
 
 	@Override
 	public SalariedEmployeeViewModel getModel() {
 		SalariedEmployeeViewModel salariedEmployeeViewModel = new SalariedEmployeeViewModel();
-		salariedEmployeeViewModel.monthlySalary = getIntegerOrNull(tfMonthlySalary);
+		salariedEmployeeViewModel.monthlySalary = monthlySalaryField.getInteger().orElse(null);
 		return salariedEmployeeViewModel;
 	}
-	
-	private Integer getIntegerOrNull(JFormattedTextField textField) {
-		return textField.getValue() == null? null : Integer.parseInt(textField.getValue().toString());
-	}
+
 }

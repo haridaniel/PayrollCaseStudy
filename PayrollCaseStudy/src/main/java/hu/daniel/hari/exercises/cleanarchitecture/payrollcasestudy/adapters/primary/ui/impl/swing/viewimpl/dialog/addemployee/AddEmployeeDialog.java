@@ -1,39 +1,31 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.google.common.base.Joiner;
-
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.ValidationErrorMessagesLabel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.CommissionedEmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.EmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.HourlyEmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.SalariedEmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.ValidationErrorMessagesLabel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 
 public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListener> implements AddEmployeeView {
 
@@ -47,14 +39,17 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	
 	private SalariedEmployeeFieldsPanel salariedEmployeeFieldsPanel = new SalariedEmployeeFieldsPanel();
 	private HourlyEmployeeFieldsPanel hourlyEmployeeFieldsPanel = new HourlyEmployeeFieldsPanel();
+	private CommissionedEmployeeFieldsPanel commissionedEmployeeFieldsPanel = new CommissionedEmployeeFieldsPanel();
 	
 	private enum EmployeeType {
 		SALARIED,
-		HOURLY
+		HOURLY,
+		COMMISSIONED
 	}
 	private final Map<EmployeeType, EmployeeFieldsPanel<?>> employeeFieldsPanelByEmployeeType = new HashMap<EmployeeType, EmployeeFieldsPanel<?>>() {{
 		put(EmployeeType.SALARIED, salariedEmployeeFieldsPanel);
 		put(EmployeeType.HOURLY, hourlyEmployeeFieldsPanel);
+		put(EmployeeType.COMMISSIONED, commissionedEmployeeFieldsPanel);
 	}};
 	private EmployeeFieldsPanel<? extends EmployeeViewModel> currentEmployeeFieldsPanel;
 
@@ -87,8 +82,10 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	}
 	
 	private void updateTypeSpecificPanelsVisibility() {
-		salariedEmployeeFieldsPanel.setVisible(salariedEmployeeFieldsPanel == currentEmployeeFieldsPanel);
-		hourlyEmployeeFieldsPanel.setVisible(hourlyEmployeeFieldsPanel == currentEmployeeFieldsPanel);
+		employeeFieldsPanelByEmployeeType.values().stream()
+			.forEach((it) -> 
+				it.setVisible(it == currentEmployeeFieldsPanel)
+			);
 	}
 	
 	private void populateCbEmployeeType() {
@@ -129,9 +126,8 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 			JPanel typeSpecificFieldsPanel = new JPanel();
 			panel_1.add(typeSpecificFieldsPanel, BorderLayout.SOUTH);
 			typeSpecificFieldsPanel.setLayout(new BoxLayout(typeSpecificFieldsPanel, BoxLayout.Y_AXIS));
-			typeSpecificFieldsPanel.add(salariedEmployeeFieldsPanel);
-			typeSpecificFieldsPanel.add(hourlyEmployeeFieldsPanel);
-			
+			employeeFieldsPanelByEmployeeType.values().stream()
+				.forEach((it) -> typeSpecificFieldsPanel.add(it));
 			{
 				errorMessageLabel = new ValidationErrorMessagesLabel();
 				panel.add(errorMessageLabel, BorderLayout.SOUTH);

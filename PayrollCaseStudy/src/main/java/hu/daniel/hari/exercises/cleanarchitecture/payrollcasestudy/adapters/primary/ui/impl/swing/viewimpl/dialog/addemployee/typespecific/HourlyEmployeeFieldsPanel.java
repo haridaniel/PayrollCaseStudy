@@ -1,33 +1,25 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific;
 
-import java.text.NumberFormat;
-
-import javax.swing.JFormattedTextField;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.HourlyEmployeeViewModel;
 
-public class HourlyEmployeeFieldsPanel extends FieldsPanel implements EmployeeFieldsPanel<HourlyEmployeeViewModel>{
-	public JFormattedTextField tfHourlyWage = new JFormattedTextField(NumberFormat.getIntegerInstance());
+public class HourlyEmployeeFieldsPanel extends EmployeeFieldsPanel<HourlyEmployeeViewModel>{
+	public IntegerField hourlyWageField = new IntegerField();
 	
 	public HourlyEmployeeFieldsPanel() {
 		initFields();
 	}
 
 	private void initFields() {
-		addField("Hourly wage", tfHourlyWage);
+		addField("Hourly wage", hourlyWageField);
 		makeCompactGrid(); 
 	}
 
 	@Override
 	public HourlyEmployeeViewModel getModel() {
 		HourlyEmployeeViewModel hourlyEmployeeViewModel = new HourlyEmployeeViewModel();
-		hourlyEmployeeViewModel.hourlyWage = getIntegerOrNull(tfHourlyWage);
+		hourlyEmployeeViewModel.hourlyWage = hourlyWageField.getInteger().orElse(null);
 		return hourlyEmployeeViewModel;
 	}
 
-	private Integer getIntegerOrNull(JFormattedTextField textField) {
-		return textField.getValue() == null? null : Integer.parseInt(textField.getValue().toString());
-	}
-	
 }

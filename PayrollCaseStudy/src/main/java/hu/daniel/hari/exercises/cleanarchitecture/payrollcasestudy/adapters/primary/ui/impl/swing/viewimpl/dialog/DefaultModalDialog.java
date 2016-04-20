@@ -26,7 +26,7 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 		super(parentFrame);
 		setTitle(title);
 		setModal(true);
-		setSize(450, 300);
+		setSize(450, 360);
 		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {

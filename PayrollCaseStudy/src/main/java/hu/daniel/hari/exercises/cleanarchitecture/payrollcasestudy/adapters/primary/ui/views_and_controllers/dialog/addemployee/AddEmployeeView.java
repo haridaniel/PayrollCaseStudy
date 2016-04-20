@@ -28,6 +28,7 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 		public interface EmployeeViewModelVisitor {
 			void visit(SalariedEmployeeViewModel salariedEmployeeViewModel);
 			void visit(HourlyEmployeeViewModel hourlyEmployeeViewModel);
+			void visit(CommissionedEmployeeViewModel commissionedEmployeeViewModel);
 		}
 	}
 	
@@ -47,4 +48,13 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 		}
 	}
 
+	public class CommissionedEmployeeViewModel extends EmployeeViewModel {
+		public Integer biWeeklyBaseSalary;
+		public Integer commissionRatePercentage;
+		@Override
+		public void accept(EmployeeViewModelVisitor visitor) {
+			visitor.visit(this);
+		}
+	}
+	
 }
