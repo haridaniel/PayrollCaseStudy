@@ -12,7 +12,6 @@ public class HourlyEmployeeFieldsPanel extends EmployeeFieldsPanel<HourlyEmploye
 
 	private void initFields() {
 		addField("Hourly wage", hourlyWageField);
-		makeCompactGrid(); 
 	}
 
 	@Override

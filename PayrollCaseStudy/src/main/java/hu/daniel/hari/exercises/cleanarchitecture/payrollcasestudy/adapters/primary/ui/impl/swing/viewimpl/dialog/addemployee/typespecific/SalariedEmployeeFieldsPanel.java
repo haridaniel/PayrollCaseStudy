@@ -12,7 +12,6 @@ public class SalariedEmployeeFieldsPanel extends EmployeeFieldsPanel<SalariedEmp
 
 	private void initFields() {
 		addField("Salary", monthlySalaryField);
-		makeCompactGrid(); 
 	}
 
 	@Override

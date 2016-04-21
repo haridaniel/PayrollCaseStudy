@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -31,27 +32,33 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 
 	private final FieldsPanel fieldsPanel = new FieldsPanel();
 	private ValidationErrorMessagesLabel errorMessageLabel;
-	
 	private IntegerField ifEmployeeId = new IntegerField();
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 	private JComboBox<EmployeeType> cbEmployeeType = new JComboBox<>();
-	
+	private JComboBox<PaymentMethod> cbPaymentMethod = new JComboBox<>();
+
 	private SalariedEmployeeFieldsPanel salariedEmployeeFieldsPanel = new SalariedEmployeeFieldsPanel();
 	private HourlyEmployeeFieldsPanel hourlyEmployeeFieldsPanel = new HourlyEmployeeFieldsPanel();
 	private CommissionedEmployeeFieldsPanel commissionedEmployeeFieldsPanel = new CommissionedEmployeeFieldsPanel();
+	private EmployeeFieldsPanel<? extends EmployeeViewModel> currentEmployeeFieldsPanel;
 	
 	private enum EmployeeType {
 		SALARIED,
 		HOURLY,
 		COMMISSIONED
 	}
+	private enum PaymentMethod {
+		PAYMASTER,
+		DIRECT_DEPOSIT
+	}
 	private final Map<EmployeeType, EmployeeFieldsPanel<?>> employeeFieldsPanelByEmployeeType = new HashMap<EmployeeType, EmployeeFieldsPanel<?>>() {{
 		put(EmployeeType.SALARIED, salariedEmployeeFieldsPanel);
 		put(EmployeeType.HOURLY, hourlyEmployeeFieldsPanel);
 		put(EmployeeType.COMMISSIONED, commissionedEmployeeFieldsPanel);
 	}};
-	private EmployeeFieldsPanel<? extends EmployeeViewModel> currentEmployeeFieldsPanel;
+	private final Map<EmployeeType, FieldsPanel> paymentMethodFieldsPanelByPaymentMethod = new HashMap<EmployeeType, FieldsPanel>() {{
+	}};
 
 	public AddEmployeeDialog() {
 		this(null);
@@ -60,7 +67,7 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 		super(parentFrame, "Add Employee");
 		initUI();
 		initCommonFields();
-		populateCbEmployeeType();
+		populateComboBoxes();
 		centerParent();
 		initListeners();
 		initDefaults();
@@ -68,6 +75,7 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	
 	private void initDefaults() {
 		cbEmployeeType.setSelectedIndex(0);
+		cbPaymentMethod.setSelectedIndex(0);
 	}
 	
 	private void initListeners() {
@@ -77,7 +85,6 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 				currentEmployeeFieldsPanel = employeeFieldsPanelByEmployeeType.get((EmployeeType) cbEmployeeType.getSelectedItem());
 				updateTypeSpecificPanelsVisibility();
 			}
-
 		});
 	}
 	
@@ -88,8 +95,9 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 			);
 	}
 	
-	private void populateCbEmployeeType() {
+	private void populateComboBoxes() {
 		cbEmployeeType.setModel(new DefaultComboBoxModel<>(EmployeeType.values()));
+		cbPaymentMethod.setModel(new DefaultComboBoxModel<>(PaymentMethod.values()));
 	}
 
 	private void initCommonFields() {
@@ -97,7 +105,6 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 		fieldsPanel.addField("Name", tfName);
 		fieldsPanel.addField("Address", tfAddress);
 		fieldsPanel.addField("Type", cbEmployeeType);
-		fieldsPanel.makeCompactGrid(); 
 	}
 
 	@Override
@@ -112,25 +119,47 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	}
 
 	private void initUI() {
+		setSize(450, 450);
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel panel = new JPanel();
+			
 			getContentPane().add(panel, BorderLayout.NORTH);
-			panel.setLayout(new BorderLayout(0, 0));
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			
 			JPanel panel_1 = new JPanel();
-			panel.add(panel_1, BorderLayout.NORTH);
+			panel.add(panel_1);
 			
 			panel_1.setLayout(new BorderLayout(0, 0));
 			panel_1.add(fieldsPanel, BorderLayout.NORTH);
 			
-			JPanel typeSpecificFieldsPanel = new JPanel();
-			panel_1.add(typeSpecificFieldsPanel, BorderLayout.SOUTH);
-			typeSpecificFieldsPanel.setLayout(new BoxLayout(typeSpecificFieldsPanel, BoxLayout.Y_AXIS));
-			employeeFieldsPanelByEmployeeType.values().stream()
-				.forEach((it) -> typeSpecificFieldsPanel.add(it));
+			{
+				JPanel typeSpecificFieldsPanels = new JPanel();
+				panel_1.add(typeSpecificFieldsPanels, BorderLayout.SOUTH);
+				typeSpecificFieldsPanels.setLayout(new BoxLayout(typeSpecificFieldsPanels, BoxLayout.Y_AXIS));
+				employeeFieldsPanelByEmployeeType.values().stream()
+					.forEach((it) -> typeSpecificFieldsPanels.add(it));
+			}
+			{
+				JPanel panel_2 = new JPanel();
+				panel.add(panel_2);
+				panel_2.setLayout(new BorderLayout(0, 0));
+				
+				FieldsPanel fieldsPanel_1 = new FieldsPanel();
+				panel_2.add(fieldsPanel_1, BorderLayout.NORTH);
+				fieldsPanel_1.addField("Payment Method", cbPaymentMethod);
+				{
+					JPanel paymentMethodFieldsPanels = new JPanel();
+					panel_2.add(paymentMethodFieldsPanels, BorderLayout.SOUTH);
+					paymentMethodFieldsPanels.setLayout(new BoxLayout(paymentMethodFieldsPanels, BoxLayout.Y_AXIS));
+					paymentMethodFieldsPanelByPaymentMethod.values().stream()
+						.forEach((it) -> paymentMethodFieldsPanels.add(it));
+				}
+			}
 			{
 				errorMessageLabel = new ValidationErrorMessagesLabel();
-				panel.add(errorMessageLabel, BorderLayout.SOUTH);
+				errorMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panel.add(errorMessageLabel);
 			}
 		}
 		{
@@ -154,5 +183,4 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	public void setModel(ValidationErrorMessagesModel viewModel) {
 		errorMessageLabel.setMessages(viewModel.validationErrorMessages);
 	}
-
 }

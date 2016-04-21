@@ -1,7 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee;
 
-import java.util.Optional;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.Request;
 
 public class AddEmployeeRequest implements Request {

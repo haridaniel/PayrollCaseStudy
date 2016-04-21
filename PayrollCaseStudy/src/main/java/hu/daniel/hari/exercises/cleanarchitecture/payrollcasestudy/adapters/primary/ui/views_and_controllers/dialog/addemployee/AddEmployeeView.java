@@ -22,9 +22,20 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 		public Optional<Integer> employeeId;
 		public String name;
 		public String address;
-
+		public PaymentMethod paymentMethod;
+		
+		public static class PaymentMethod {
+		}
+		public static class PaymasterPaymentMethod extends PaymentMethod {
+		}
+		public static class DirectPaymentMethod extends PaymentMethod {
+			public String accountNumber;
+			public DirectPaymentMethod(String accountNumber) {
+				this.accountNumber = accountNumber;
+			}
+		}
+		
 		public abstract void accept(EmployeeViewModelVisitor visitor);
-
 		public interface EmployeeViewModelVisitor {
 			void visit(SalariedEmployeeViewModel salariedEmployeeViewModel);
 			void visit(HourlyEmployeeViewModel hourlyEmployeeViewModel);

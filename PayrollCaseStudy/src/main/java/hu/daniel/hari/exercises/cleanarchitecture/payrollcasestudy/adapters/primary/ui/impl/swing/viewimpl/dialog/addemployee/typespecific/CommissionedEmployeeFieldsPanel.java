@@ -14,7 +14,6 @@ public class CommissionedEmployeeFieldsPanel extends EmployeeFieldsPanel<Commiss
 	private void initFields() {
 		addField("Bi-weekly salary", biWeeklyBaseSalaryField);
 		addField("Commission rate %", commissionRatePercentageField);
-		makeCompactGrid(); 
 	}
 
 	@Override

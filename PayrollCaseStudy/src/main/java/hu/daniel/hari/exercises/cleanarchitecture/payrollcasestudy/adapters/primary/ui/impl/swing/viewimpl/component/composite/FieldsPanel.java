@@ -22,9 +22,10 @@ public class FieldsPanel extends JPanel {
 		add(jLabel);
 		add(component);
 		fieldCount++;
+		makeCompactGrid();	
 	}
-	
-	public void makeCompactGrid() {
+
+	private void makeCompactGrid() {
 		SpringUtilities.makeCompactGrid(this,
 		                                fieldCount , 2, //rows, cols
 		                                6, 6,        //initX, initY

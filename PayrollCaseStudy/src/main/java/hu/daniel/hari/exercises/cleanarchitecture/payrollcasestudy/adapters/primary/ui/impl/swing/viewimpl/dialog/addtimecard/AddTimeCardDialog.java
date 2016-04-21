@@ -42,7 +42,6 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 		fieldsPanel.addField("Employee", employeeNameField);
 		fieldsPanel.addField("Date", dateField);
 		fieldsPanel.addField("Working hours", hoursField);
-		fieldsPanel.makeCompactGrid(); 
 	}
 	
 	private void initUI() {
