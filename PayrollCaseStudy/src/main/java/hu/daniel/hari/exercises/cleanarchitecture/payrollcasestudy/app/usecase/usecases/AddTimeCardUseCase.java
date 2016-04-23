@@ -1,5 +1,8 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases;
 
+import java.time.LocalDate;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.PaymentType;
@@ -26,9 +29,15 @@ public class AddTimeCardUseCase extends TransactionalEmployeeGatewayUseCase<AddT
 	@Override
 	protected void executeInTransaction(AddTimeCardRequest request) {
 		Employee employee = employeeGateway.findById(request.employeeId);
+		HourlyPaymentType hourlyPaymentType = castHourlyPaymentType(employee.getPaymentType());
 		
-		castHourlyPaymentType(employee.getPaymentType())
-			.addTimeCard(createTimeCard(request));
+		if(!request.forceOverwrite && isTimeCardAlreadyExists(hourlyPaymentType, request.date))
+			throw new TimeCardAlreadyExistsException();
+		hourlyPaymentType.addTimeCard(createTimeCard(request));
+	}
+
+	private boolean isTimeCardAlreadyExists(HourlyPaymentType hourlyPaymentType, LocalDate date) {
+		return !hourlyPaymentType.getTimeCardsIn(DateInterval.ofSingleDate(date)).isEmpty();
 	}
 
 	private HourlyPaymentType castHourlyPaymentType(PaymentType paymentType) {
@@ -44,6 +53,9 @@ public class AddTimeCardUseCase extends TransactionalEmployeeGatewayUseCase<AddT
 	}
 	
 	public static class TriedToAddTimeCardToNonHourlyEmployeeException extends RuntimeException {
+	}
+
+	public static class TimeCardAlreadyExistsException extends RuntimeException {
 	}
 
 	public static interface AddTimeCardUseCaseFactory {

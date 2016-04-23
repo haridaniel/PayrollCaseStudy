@@ -9,5 +9,9 @@ public class ConfirmMessageFormatter {
 	public String fulfillPayments(int employeeCount) {
 		return String.format("Fullfill payments for the %s employee?", employeeCount);
 	}
+
+	public String timeCardAlreadyExists() {
+		return String.format("Timecard already exists for such date. Overwrite?");
+	}
 	
 }
