@@ -3,23 +3,18 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.AbstractFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError.Type;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.paymentmethod.PaymentMethodFieldsValidatorFactorz;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.paymentmethod.PaymentMethodFieldsValidatorFactory;
 
-public abstract class AddEmployeeFieldsValidator<T extends EmployeeViewModel> extends AbstractFieldsValidator {
-	private T model;
+public abstract class AddEmployeeFieldsValidator<T extends EmployeeViewModel> extends AbstractFieldsValidator<T> {
 	
-	public AddEmployeeFieldsValidator(T model) {
-		this.model = model;
-		validate();
+	@Override
+	protected void addErrors(T model) {
+		addBaseErrors(model);
+		addPaymentMethodErrors(model);
+		addSubTypeErrors(model);
 	}
 
-	private void validate() {
-		collectBaseErrors();
-		collectPaymentMethodErrors();
-		collectSubTypeErrors(model);
-	}
-
-	private void collectBaseErrors() {
+	private void addBaseErrors(T model) {
 		if(!model.employeeId.isPresent()) {
 			addFieldValidatorError("id", Type.REQUIRED);
 		}
@@ -27,10 +22,10 @@ public abstract class AddEmployeeFieldsValidator<T extends EmployeeViewModel> ex
 			addFieldValidatorError("name", Type.EMPTY_STRING);
 	}
 	
-	private void collectPaymentMethodErrors() {
-		addFieldValidatorErrors(model.paymentMethod.accept(new PaymentMethodFieldsValidatorFactorz()));
+	private void addPaymentMethodErrors(T model) {
+		addFieldValidatorErrors(model.paymentMethod.accept(new PaymentMethodFieldsValidatorFactory()));
 	}
 
-	protected abstract void collectSubTypeErrors(T model);
+	protected abstract void addSubTypeErrors(T model);
 	
 }

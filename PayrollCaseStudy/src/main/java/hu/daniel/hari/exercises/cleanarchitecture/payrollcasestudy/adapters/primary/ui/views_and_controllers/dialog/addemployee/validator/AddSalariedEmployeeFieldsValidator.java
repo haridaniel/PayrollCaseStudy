@@ -5,12 +5,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class AddSalariedEmployeeFieldsValidator extends AddEmployeeFieldsValidator<SalariedEmployeeViewModel> {
 
-	public AddSalariedEmployeeFieldsValidator(SalariedEmployeeViewModel model) {
-		super(model);
-	}
-
 	@Override
-	protected void collectSubTypeErrors(SalariedEmployeeViewModel model) {
+	protected void addSubTypeErrors(SalariedEmployeeViewModel model) {
 		if(model.monthlySalary == null)
 			addFieldValidatorError("monthlySalary", Type.REQUIRED);
 	}

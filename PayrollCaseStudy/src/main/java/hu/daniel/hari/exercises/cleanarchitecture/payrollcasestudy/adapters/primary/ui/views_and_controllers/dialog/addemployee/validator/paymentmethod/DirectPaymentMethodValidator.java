@@ -4,10 +4,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError.Type;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.DirectPaymentMethod;
 
-public class DirectPaymentMethodValidator extends AbstractFieldsValidator {
+public class DirectPaymentMethodValidator extends AbstractFieldsValidator<DirectPaymentMethod> {
 
-	public DirectPaymentMethodValidator(DirectPaymentMethod paymentMethod) {
-		if(paymentMethod.accountNumber.isEmpty()) {
+	@Override
+	protected void addErrors(DirectPaymentMethod model) {
+		if(model.accountNumber.isEmpty()) {
 			addFieldValidatorError("accountNumber", Type.EMPTY_STRING);
 		}
 	}

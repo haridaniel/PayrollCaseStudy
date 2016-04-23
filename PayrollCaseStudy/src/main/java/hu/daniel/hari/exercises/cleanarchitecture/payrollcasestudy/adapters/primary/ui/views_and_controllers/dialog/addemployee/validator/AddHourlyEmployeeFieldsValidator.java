@@ -5,12 +5,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class AddHourlyEmployeeFieldsValidator extends AddEmployeeFieldsValidator<HourlyEmployeeViewModel> {
 
-	public AddHourlyEmployeeFieldsValidator(HourlyEmployeeViewModel model) {
-		super(model);
-	}
-
 	@Override
-	protected void collectSubTypeErrors(HourlyEmployeeViewModel model) {
+	protected void addSubTypeErrors(HourlyEmployeeViewModel model) {
 		if(model.hourlyWage == null)
 			addFieldValidatorError("hourlyWage", Type.REQUIRED);
 	}

@@ -5,12 +5,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class AddCommissionedEmployeeFieldsValidator extends AddEmployeeFieldsValidator<CommissionedEmployeeViewModel> {
 
-	public AddCommissionedEmployeeFieldsValidator(CommissionedEmployeeViewModel model) {
-		super(model);
-	}
-
 	@Override
-	protected void collectSubTypeErrors(CommissionedEmployeeViewModel model) {
+	protected void addSubTypeErrors(CommissionedEmployeeViewModel model) {
 		if(model.biWeeklyBaseSalary == null)
 			addFieldValidatorError("biWeeklyBaseSalary", Type.REQUIRED);
 		if(model.commissionRatePercentage == null)

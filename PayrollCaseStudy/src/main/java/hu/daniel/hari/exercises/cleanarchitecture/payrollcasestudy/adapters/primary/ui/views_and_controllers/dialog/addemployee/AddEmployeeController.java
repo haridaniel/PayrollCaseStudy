@@ -137,7 +137,7 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 	private class OnAddSalariedEmployeeHandler extends OnAddEmployeeHandler<SalariedEmployeeViewModel> {
 		@Override
 		protected List<FieldValidatorError> getValidationErrors(SalariedEmployeeViewModel model) {
-			return new AddSalariedEmployeeFieldsValidator(model).getErrors();
+			return new AddSalariedEmployeeFieldsValidator().getErrors(model);
 		}
 		@Override
 		protected void executeAddEmployeeUseCase(SalariedEmployeeViewModel model) {
@@ -148,7 +148,7 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 	private class OnAddHourlyEmployeeHandler extends OnAddEmployeeHandler<HourlyEmployeeViewModel> {
 		@Override
 		protected List<FieldValidatorError> getValidationErrors(HourlyEmployeeViewModel model) {
-			return new AddHourlyEmployeeFieldsValidator(model).getErrors();
+			return new AddHourlyEmployeeFieldsValidator().getErrors(model);
 		}
 
 		@Override
@@ -160,7 +160,7 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 	private class OnAddCommissionedEmployeeHandler extends OnAddEmployeeHandler<CommissionedEmployeeViewModel> {
 		@Override
 		protected List<FieldValidatorError> getValidationErrors(CommissionedEmployeeViewModel model) {
-			return new AddCommissionedEmployeeFieldsValidator(model).getErrors();
+			return new AddCommissionedEmployeeFieldsValidator().getErrors(model);
 		}
 
 		@Override
