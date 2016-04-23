@@ -9,8 +9,9 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedTimeCardEvent;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidationErrorPresenter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException.FieldValidatorError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DefaultClosableViewController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewInputModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewListener;
@@ -89,18 +90,14 @@ public class AddTimeCardController extends DefaultClosableViewController<AddTime
 			eventBus.post(new AddedTimeCardEvent(getEmployeeName(), model.date));
 			close();
 		} catch (FieldValidatorException e) {
-			
+			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
 		}
 	}
 
-	private void validate(AddTimeCardViewOutputModel model) {
-		throwIfThereAreErrors(getValidationErrors(model));
-	}
-	private List<FieldValidatorError> getValidationErrors(AddTimeCardViewOutputModel model) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+	private void validate(AddTimeCardViewOutputModel model) {
+		throwIfThereAreErrors(new AddTimeCardFieldsValidator().getErrors(model));
+	}
 	private void throwIfThereAreErrors(List<FieldValidatorError> fieldValidatorErrors) {
 		if(!fieldValidatorErrors.isEmpty())
 			throw new FieldValidatorException(fieldValidatorErrors);

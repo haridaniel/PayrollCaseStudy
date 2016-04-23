@@ -1,7 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.AbstractFieldsValidator;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.FieldValidatorException.FieldValidatorError.Type;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.AbstractFieldsValidator;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException.FieldValidatorError.Type;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.paymentmethod.PaymentMethodFieldsValidatorFactory;
 
@@ -15,9 +15,8 @@ public abstract class AddEmployeeFieldsValidator<T extends EmployeeViewModel> ex
 	}
 
 	private void addBaseErrors(T model) {
-		if(!model.employeeId.isPresent()) {
+		if(!model.employeeId.isPresent())
 			addFieldValidatorError("id", Type.REQUIRED);
-		}
 		if(model.name.isEmpty())
 			addFieldValidatorError("name", Type.EMPTY_STRING);
 	}

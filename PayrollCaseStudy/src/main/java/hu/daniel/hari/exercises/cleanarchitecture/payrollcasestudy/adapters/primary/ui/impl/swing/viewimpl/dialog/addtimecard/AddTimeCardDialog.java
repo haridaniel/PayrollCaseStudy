@@ -11,9 +11,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.ValidationErrorMessagesLabel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.DateField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewListener;
 
@@ -25,7 +27,7 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 	private DateField dateField = new DateField(UIConstants.DATE_FORMAT);
 	private IntegerField hoursField = new IntegerField();
 	
-	private JLabel errorMessageLabel;
+	private ValidationErrorMessagesLabel validationErrorMessagesLabel;
 	
 	public AddTimeCardDialog() {
 		this(null);
@@ -57,9 +59,8 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 			panel_1.add(fieldsPanel, BorderLayout.NORTH);
 			
 			{
-				errorMessageLabel = new JLabel("");
-				errorMessageLabel.setForeground(Color.RED);
-				panel.add(errorMessageLabel, BorderLayout.SOUTH);
+				validationErrorMessagesLabel = new ValidationErrorMessagesLabel();
+				panel.add(validationErrorMessagesLabel, BorderLayout.SOUTH);
 			}
 		}
 		{
@@ -89,6 +90,10 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 		outputModel.date = dateField.getDate();
 		outputModel.workingHourQty = hoursField.getInteger();
 		return outputModel;
+	}
+	@Override
+	public void setValidationErrorMessagesModel(ValidationErrorMessagesModel errorMessagesModel) {
+		validationErrorMessagesLabel.setMessages(errorMessagesModel.validationErrorMessages);
 	}
 
 }
