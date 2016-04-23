@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIConstants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIImplConstants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
@@ -41,7 +41,7 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 	}
 	
 	private String buildTitle(String title) {
-		return UIConstants.APP_TITLE + (title == null? "" : " - " + title);
+		return UIImplConstants.APP_TITLE + (title == null? "" : " - " + title);
 	}
 
 	@Override

@@ -3,28 +3,29 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class NextPaydayDateFormatter {
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.UIConstants;
+
+public class SmartDateFormatter {
 	
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
 	private static final String TODAY = "Today";
+	private String dateFormat = UIConstants.DATE_FORMAT;
 	private LocalDate currentDate;
 
-	public NextPaydayDateFormatter(LocalDate currentDate) {
+	public SmartDateFormatter() {
+		this(LocalDate.now());
+	}
+	public SmartDateFormatter(LocalDate currentDate) {
 		this.currentDate = currentDate;
 	}
 
 	public String format(LocalDate date) {
 		if(date.isEqual(currentDate))
-			return today();
+			return TODAY;
 		return toDateFormat(date);
 	}
 
-	private String today() {
-		return TODAY;
-	}
-
 	private String toDateFormat(LocalDate date) {
-		return DateTimeFormatter.ofPattern(DATE_FORMAT).format(date);
+		return DateTimeFormatter.ofPattern(dateFormat).format(date);
 	}
 	
 }

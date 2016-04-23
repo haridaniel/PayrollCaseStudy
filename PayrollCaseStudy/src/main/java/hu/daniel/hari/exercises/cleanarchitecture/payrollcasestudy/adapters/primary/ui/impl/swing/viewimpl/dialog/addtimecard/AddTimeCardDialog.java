@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIConstants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIImplConstants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.FieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
@@ -24,7 +24,7 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 	private final FieldsPanel fieldsPanel = new FieldsPanel();
 
 	private JLabel employeeNameField = new JLabel();
-	private DateField dateField = new DateField(UIConstants.DATE_FORMAT);
+	private DateField dateField = new DateField(UIImplConstants.DATE_FORMAT);
 	private IntegerField hoursField = new IntegerField();
 	
 	private ValidationErrorMessagesLabel validationErrorMessagesLabel;

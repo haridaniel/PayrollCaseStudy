@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date.NextPaydayDateFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date.SmartDateFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToEnumConverter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel;
@@ -15,13 +15,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 class EmployeeListPresenter {
 
 	private EmployeeListResponse response;
-	private NextPaydayDateFormatter nextPaydayDateFormatter;
+	private SmartDateFormatter smartDateFormatter;
 	private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
 	private PaymentTypeResponseToEnumConverter paymentTypeResponseToEnumConverter = new PaymentTypeResponseToEnumConverter();
 
 	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
 		this.response = response;
-		nextPaydayDateFormatter = new NextPaydayDateFormatter(currentDate);
+		smartDateFormatter = new SmartDateFormatter(currentDate);
 	}
 
 	public EmployeeListViewModel toViewModel() {
@@ -40,7 +40,7 @@ class EmployeeListPresenter {
 		employeeViewItem.name = employeeItem.name;
 		employeeViewItem.address = employeeItem.address;
 		employeeViewItem.waging = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToStringFormatter);
-		employeeViewItem.nextPayDay = nextPaydayDateFormatter.format(employeeItem.nextPayDay);
+		employeeViewItem.nextPayDay = smartDateFormatter.format(employeeItem.nextPayDay);
 		employeeViewItem.paymentType = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToEnumConverter);
 		return employeeViewItem;
 	}
