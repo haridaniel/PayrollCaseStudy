@@ -20,6 +20,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.ValidationErrorMessagesLabel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.field.IntegerField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.paymentmethod.DirectPaymentMethodFieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.paymentmethod.PaymasterPaymentMethodFieldsPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.paymentmethod.PaymentMethodFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.CommissionedEmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.EmployeeFieldsPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.typespecific.HourlyEmployeeFieldsPanel;
@@ -27,6 +30,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.PaymentMethod;
 
 public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListener> implements AddEmployeeView {
 
@@ -36,28 +40,28 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	private JTextField tfName = new JTextField();
 	private JTextField tfAddress = new JTextField();
 	private JComboBox<EmployeeType> cbEmployeeType = new JComboBox<>();
-	private JComboBox<PaymentMethod> cbPaymentMethod = new JComboBox<>();
+	private JComboBox<PaymentMethodEnum> cbPaymentMethod = new JComboBox<>();
 
-	private SalariedEmployeeFieldsPanel salariedEmployeeFieldsPanel = new SalariedEmployeeFieldsPanel();
-	private HourlyEmployeeFieldsPanel hourlyEmployeeFieldsPanel = new HourlyEmployeeFieldsPanel();
-	private CommissionedEmployeeFieldsPanel commissionedEmployeeFieldsPanel = new CommissionedEmployeeFieldsPanel();
 	private EmployeeFieldsPanel<? extends EmployeeViewModel> currentEmployeeFieldsPanel;
+	private PaymentMethodFieldsPanel<? extends PaymentMethod> currentPaymentMethodFieldsPanel;
 	
 	private enum EmployeeType {
 		SALARIED,
 		HOURLY,
 		COMMISSIONED
 	}
-	private enum PaymentMethod {
+	private enum PaymentMethodEnum {
 		PAYMASTER,
 		DIRECT_DEPOSIT
 	}
 	private final Map<EmployeeType, EmployeeFieldsPanel<?>> employeeFieldsPanelByEmployeeType = new HashMap<EmployeeType, EmployeeFieldsPanel<?>>() {{
-		put(EmployeeType.SALARIED, salariedEmployeeFieldsPanel);
-		put(EmployeeType.HOURLY, hourlyEmployeeFieldsPanel);
-		put(EmployeeType.COMMISSIONED, commissionedEmployeeFieldsPanel);
+		put(EmployeeType.SALARIED, new SalariedEmployeeFieldsPanel());
+		put(EmployeeType.HOURLY, new HourlyEmployeeFieldsPanel());
+		put(EmployeeType.COMMISSIONED, new CommissionedEmployeeFieldsPanel());
 	}};
-	private final Map<EmployeeType, FieldsPanel> paymentMethodFieldsPanelByPaymentMethod = new HashMap<EmployeeType, FieldsPanel>() {{
+	private final Map<PaymentMethodEnum, PaymentMethodFieldsPanel<?>> paymentMethodFieldsPanelByPaymentMethod = new HashMap<PaymentMethodEnum, PaymentMethodFieldsPanel<?>>() {{
+		put(PaymentMethodEnum.PAYMASTER, new PaymasterPaymentMethodFieldsPanel());
+		put(PaymentMethodEnum.DIRECT_DEPOSIT, new DirectPaymentMethodFieldsPanel());
 	}};
 
 	public AddEmployeeDialog() {
@@ -86,6 +90,14 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 				updateTypeSpecificPanelsVisibility();
 			}
 		});
+		cbPaymentMethod.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentPaymentMethodFieldsPanel = paymentMethodFieldsPanelByPaymentMethod.get((PaymentMethodEnum) cbPaymentMethod.getSelectedItem());
+				updatePaymentMethodPanelsVisibility();
+			}
+
+		});
 	}
 	
 	private void updateTypeSpecificPanelsVisibility() {
@@ -95,9 +107,16 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 			);
 	}
 	
+	private void updatePaymentMethodPanelsVisibility() {
+		paymentMethodFieldsPanelByPaymentMethod.values().stream()
+			.forEach((it) -> 
+				it.setVisible(it == currentPaymentMethodFieldsPanel)
+			);
+	}
+	
 	private void populateComboBoxes() {
 		cbEmployeeType.setModel(new DefaultComboBoxModel<>(EmployeeType.values()));
-		cbPaymentMethod.setModel(new DefaultComboBoxModel<>(PaymentMethod.values()));
+		cbPaymentMethod.setModel(new DefaultComboBoxModel<>(PaymentMethodEnum.values()));
 	}
 
 	private void initCommonFields() {
@@ -109,12 +128,13 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 
 	@Override
 	public EmployeeViewModel getModel() {
-		return fillBase(currentEmployeeFieldsPanel.getModel());
+		return fillBaseModel(currentEmployeeFieldsPanel.getModel());
 	}
-	private EmployeeViewModel fillBase(EmployeeViewModel viewModel) {
+	private EmployeeViewModel fillBaseModel(EmployeeViewModel viewModel) {
 		viewModel.employeeId = ifEmployeeId.getInteger();
 		viewModel.name = tfName.getText();
 		viewModel.address = tfAddress.getText();
+		viewModel.paymentMethod = currentPaymentMethodFieldsPanel.getModel();
 		return viewModel;
 	}
 

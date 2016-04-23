@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents;
 
-public class AddedEmployeeEvent implements EmployeeCountChangedEvent {
+public class AddedEmployeeEvent implements EmployeeChangedEvent {
 	public int employeeId;
 	public String name;
 

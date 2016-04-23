@@ -6,8 +6,12 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymentmethod.PaymentMethodTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToStringFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.EmployeeChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValueImpl;
@@ -31,9 +35,11 @@ public class PayListController implements ChangeListener<LocalDate> {
 	@Inject
 	public PayListController(
 			PayListUseCaseFactory payListUseCaseFactory,
-			PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory
+			PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory,
+			EventBus eventBus
 			) {
 		this.payListUseCaseFactory = payListUseCaseFactory;
+		eventBus.register(this);
 	}
 
 	public void setView(PayListView view) {
@@ -49,9 +55,18 @@ public class PayListController implements ChangeListener<LocalDate> {
 		return observablePayListState;
 	}
 
+	@Subscribe
+	public void onEmployeeChanged(EmployeeChangedEvent e) {
+		update();
+	}
+
 	@Override
 	public void onChanged(LocalDate currentDate) {
-		updateList(getPayListResponse());
+		update();
+	}
+
+	private void update() {
+		update(getPayListResponse());
 	}
 
 	private PayListResponse getPayListResponse() {
@@ -60,7 +75,7 @@ public class PayListController implements ChangeListener<LocalDate> {
 		return useCase.getResponse();
 	}
 
-	private void updateList(PayListResponse payListResponse) {
+	private void update(PayListResponse payListResponse) {
 		view.setModel(payListPresenter.toViewModel(payListResponse));
 		observablePayListState.set(new PayListState(
 				payListResponse.payListResponseItems.size(),

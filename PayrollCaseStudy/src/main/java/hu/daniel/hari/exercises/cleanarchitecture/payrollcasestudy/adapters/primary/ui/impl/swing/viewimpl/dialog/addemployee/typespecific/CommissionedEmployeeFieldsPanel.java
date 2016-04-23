@@ -6,11 +6,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class CommissionedEmployeeFieldsPanel extends EmployeeFieldsPanel<CommissionedEmployeeViewModel>{
 	public IntegerField biWeeklyBaseSalaryField = new IntegerField();
 	public IntegerField commissionRatePercentageField = new IntegerField();
-	
+
 	public CommissionedEmployeeFieldsPanel() {
 		initFields();
 	}
-
+	
 	private void initFields() {
 		addField("Bi-weekly salary", biWeeklyBaseSalaryField);
 		addField("Commission rate %", commissionRatePercentageField);

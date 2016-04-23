@@ -5,11 +5,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class SalariedEmployeeFieldsPanel extends EmployeeFieldsPanel<SalariedEmployeeViewModel>{
 	public IntegerField monthlySalaryField = new IntegerField();
-	
+
 	public SalariedEmployeeFieldsPanel() {
 		initFields();
 	}
-
+	
 	private void initFields() {
 		addField("Salary", monthlySalaryField);
 	}

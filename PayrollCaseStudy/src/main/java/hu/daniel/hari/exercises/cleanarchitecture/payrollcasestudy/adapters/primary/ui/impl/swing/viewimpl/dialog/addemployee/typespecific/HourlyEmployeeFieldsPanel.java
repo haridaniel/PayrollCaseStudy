@@ -9,7 +9,7 @@ public class HourlyEmployeeFieldsPanel extends EmployeeFieldsPanel<HourlyEmploye
 	public HourlyEmployeeFieldsPanel() {
 		initFields();
 	}
-
+	
 	private void initFields() {
 		addField("Hourly wage", hourlyWageField);
 	}

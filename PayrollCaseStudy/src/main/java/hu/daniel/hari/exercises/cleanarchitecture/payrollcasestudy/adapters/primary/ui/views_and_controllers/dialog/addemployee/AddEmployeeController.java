@@ -17,7 +17,10 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.CommissionedEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.DirectPaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.EmployeeViewModelVisitor;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.PaymasterPaymentMethod;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.PaymentMethod.PaymentMethodVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.HourlyEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.SalariedEmployeeViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.requestcreator.CommissionedRequestCreator;
@@ -27,18 +30,26 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddHourlyEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddSalariedEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToAbstractPaymentMethodUseCase.ChangeToAbstractPaymentMethodUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.paymentmethod.ChangeToDirectPaymentMethodRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AddEmployeeUseCaseValidationException.AddEmployeeValidationError;
 
 public class AddEmployeeController extends DefaultClosableViewController<AddEmployeeView> implements AddEmployeeViewListener {
 
-	private AddEmployeeUseCaseFactory useCaseFactory;
+	private AddEmployeeUseCaseFactory addEmployeeUseCaseFactory;
+	private ChangeToAbstractPaymentMethodUseCaseFactory changePaymentMethodUseCaseFactory;
 	private EventBus eventBus;
 
 	@Inject
-	public AddEmployeeController(AddEmployeeUseCaseFactory addEmployeeUseCaseFactory, EventBus eventBus) {
+	public AddEmployeeController(
+			AddEmployeeUseCaseFactory addEmployeeUseCaseFactory,
+			ChangeToAbstractPaymentMethodUseCaseFactory changePaymentMethodUseCaseFactory,
+			EventBus eventBus
+			) {
 		super(eventBus);
-		this.useCaseFactory = addEmployeeUseCaseFactory;
+		this.addEmployeeUseCaseFactory = addEmployeeUseCaseFactory;
+		this.changePaymentMethodUseCaseFactory = changePaymentMethodUseCaseFactory;
 		this.eventBus = eventBus;
 	}
 
@@ -78,8 +89,9 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 
 		public void onAddEmployee(T model) {
 			try {
-				validateFields(model);
-				executeUseCase(model);
+				validate(model);
+				executeAddEmployeeUseCase(model);
+				model.paymentMethod.accept(new ExecuteChangePaymentMethodUseCaseExecutor(model.employeeId.get()));
 				eventBus.post(new AddedEmployeeEvent(model.employeeId.get(), model.name));
 				close();
 			} catch (FieldValidatorException e) {
@@ -89,42 +101,71 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 			}
 		}
 
-		protected abstract void validateFields(T model);
-		protected abstract void executeUseCase(T model);
+		private void validate(T model) {
+			throwIfThereAreErrors(getValidationErrors(model));
+		}
+		private void throwIfThereAreErrors(List<FieldValidatorError> fieldValidatorErrors) {
+			if(!fieldValidatorErrors.isEmpty())
+				throw new FieldValidatorException(fieldValidatorErrors);
+		}
+
+		protected abstract List<FieldValidatorError> getValidationErrors(T model);
+		protected abstract void executeAddEmployeeUseCase(T model);
 		
 	}
+	
+	private class ExecuteChangePaymentMethodUseCaseExecutor implements PaymentMethodVisitor<Void> {
+		private Integer employeeId;
+		public ExecuteChangePaymentMethodUseCaseExecutor(Integer employeeId) {
+			this.employeeId = employeeId;
+		}
+
+		@Override
+		public Void visit(PaymasterPaymentMethod paymentMethod) {
+			changePaymentMethodUseCaseFactory.changeToPaymasterPaymentMethodUseCase();
+			return null;
+		}
+
+		@Override
+		public Void visit(DirectPaymentMethod paymentMethod) {
+			changePaymentMethodUseCaseFactory.changeToDirectPaymentMethodUseCase().execute(
+					new ChangeToDirectPaymentMethodRequest(employeeId, paymentMethod.accountNumber));			
+			return null;
+		}
+	}
+	
 	private class OnAddSalariedEmployeeHandler extends OnAddEmployeeHandler<SalariedEmployeeViewModel> {
 		@Override
-		protected void validateFields(SalariedEmployeeViewModel model) {
-			new AddSalariedEmployeeFieldsValidator(model);
+		protected List<FieldValidatorError> getValidationErrors(SalariedEmployeeViewModel model) {
+			return new AddSalariedEmployeeFieldsValidator(model).getErrors();
 		}
 		@Override
-		protected void executeUseCase(SalariedEmployeeViewModel model) {
-			useCaseFactory.addSalariedEmployeeUseCase().execute(new SalariedRequestCreator().toRequest(model));
+		protected void executeAddEmployeeUseCase(SalariedEmployeeViewModel model) {
+			addEmployeeUseCaseFactory.addSalariedEmployeeUseCase().execute(new SalariedRequestCreator().toRequest(model));
 		}
 	}
 	
 	private class OnAddHourlyEmployeeHandler extends OnAddEmployeeHandler<HourlyEmployeeViewModel> {
 		@Override
-		protected void validateFields(HourlyEmployeeViewModel model) {
-			new AddHourlyEmployeeFieldsValidator(model);
+		protected List<FieldValidatorError> getValidationErrors(HourlyEmployeeViewModel model) {
+			return new AddHourlyEmployeeFieldsValidator(model).getErrors();
 		}
 
 		@Override
-		protected void executeUseCase(HourlyEmployeeViewModel model) {
-			useCaseFactory.addHourlyEmployeeUseCase().execute(new HourlyRequestCreator().toRequest(model));
+		protected void executeAddEmployeeUseCase(HourlyEmployeeViewModel model) {
+			addEmployeeUseCaseFactory.addHourlyEmployeeUseCase().execute(new HourlyRequestCreator().toRequest(model));
 		}
 	}
 	
 	private class OnAddCommissionedEmployeeHandler extends OnAddEmployeeHandler<CommissionedEmployeeViewModel> {
 		@Override
-		protected void validateFields(CommissionedEmployeeViewModel model) {
-			new AddCommissionedEmployeeFieldsValidator(model);
+		protected List<FieldValidatorError> getValidationErrors(CommissionedEmployeeViewModel model) {
+			return new AddCommissionedEmployeeFieldsValidator(model).getErrors();
 		}
 
 		@Override
-		protected void executeUseCase(CommissionedEmployeeViewModel model) {
-			useCaseFactory.addCommissionedEmployeeUseCase().execute(new CommissionedRequestCreator().toRequest(model));
+		protected void executeAddEmployeeUseCase(CommissionedEmployeeViewModel model) {
+			addEmployeeUseCaseFactory.addCommissionedEmployeeUseCase().execute(new CommissionedRequestCreator().toRequest(model));
 		}
 	}
 	

@@ -24,14 +24,28 @@ public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmploye
 		public String address;
 		public PaymentMethod paymentMethod;
 		
-		public static class PaymentMethod {
+		public interface PaymentMethod {
+			
+			<T> T accept(PaymentMethodVisitor<T> visitor);
+			public interface PaymentMethodVisitor<T> {
+				T visit(PaymasterPaymentMethod paymentMethod);
+				T visit(DirectPaymentMethod paymentMethod);
+			}
 		}
-		public static class PaymasterPaymentMethod extends PaymentMethod {
+		public static class PaymasterPaymentMethod implements PaymentMethod {
+			@Override
+			public <T> T accept(PaymentMethodVisitor<T> visitor) {
+				return visitor.visit(this);
+			}
 		}
-		public static class DirectPaymentMethod extends PaymentMethod {
+		public static class DirectPaymentMethod implements PaymentMethod {
 			public String accountNumber;
 			public DirectPaymentMethod(String accountNumber) {
 				this.accountNumber = accountNumber;
+			}
+			@Override
+			public <T> T accept(PaymentMethodVisitor<T> visitor) {
+				return visitor.visit(this);
 			}
 		}
 		
