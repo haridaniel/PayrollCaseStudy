@@ -7,11 +7,12 @@ import javax.inject.Provider;
 
 import com.google.common.eventbus.EventBus;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.confirm.ConfirmMessageFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddEmployeeDialogUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddTimeCardDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.AddTimeCardDialogUI.AddTimeCardDialogUIFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addtimecard.AddTimeCardDialog;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.ConfirmDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog.ConfirmDialogListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
@@ -29,8 +30,10 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 	private EventBus eventBus;
 	
 	private Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider;
+	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private AddTimeCardDialogUIFactory addTimeCardDialogUIFactory;
 	private ObservableSelectedEployeeItem observableSelectedEployeeItem;
+	private ConfirmMessageFormatter confirmMessageFormatter;
 
 	@Inject
 	public EmployeeManagerController(
@@ -38,12 +41,16 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory, 
 			EventBus eventBus,
 			Provider<AddEmployeeDialogUI> addEmployeeDialogUIProvider,
-			AddTimeCardDialogUIFactory addTimeCardDialogUIFactory
+			Provider<ConfirmDialogUI> confirmDialogUIProvider,
+			AddTimeCardDialogUIFactory addTimeCardDialogUIFactory,
+			ConfirmMessageFormatter confirmMessageFormatter
 			) {
 		this.deleteEmployeeUseCaseFactory = deleteEmployeeUseCaseFactory;
 		this.eventBus = eventBus;
 		this.addEmployeeDialogUIProvider = addEmployeeDialogUIProvider;
+		this.confirmDialogUIProvider = confirmDialogUIProvider;
 		this.addTimeCardDialogUIFactory = addTimeCardDialogUIFactory;
+		this.confirmMessageFormatter = confirmMessageFormatter;
 	}
 
 	public void setView(EmployeeManagerView view) {
@@ -67,9 +74,14 @@ public class EmployeeManagerController implements EmployeeManagerViewListener {
 
 	@Override
 	public void onDeleteEmployeeAction() {
-		EmployeeViewItem employeeViewItem = observableSelectedEployeeItem.get().get();
-		deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeViewItem.id));
-		eventBus.post(new DeletedEmployeeEvent(employeeViewItem.id, employeeViewItem.name));
+		EmployeeViewItem employeeItem = observableSelectedEployeeItem.get().get();
+		confirmDialogUIProvider.get().show(confirmMessageFormatter.deleteEmployee(employeeItem.name), new ConfirmDialogListener() {
+			@Override
+			public void onOk() {
+				deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeItem.id));
+				eventBus.post(new DeletedEmployeeEvent(employeeItem.id, employeeItem.name));
+			}
+		});
 	}
 
 	@Override

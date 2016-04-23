@@ -63,7 +63,7 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 
 
 	@Override
-	public void setListener(EmployeeListViewListener listener) {
+	public void setViewListener(EmployeeListViewListener listener) {
 		this.listener = listener;
 	}
 

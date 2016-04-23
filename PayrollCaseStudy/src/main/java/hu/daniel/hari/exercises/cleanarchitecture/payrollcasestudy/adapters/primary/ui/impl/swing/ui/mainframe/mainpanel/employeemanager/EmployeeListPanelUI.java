@@ -21,7 +21,7 @@ public class EmployeeListPanelUI {
 			) {
 		this.controller = controller;
 		this.view = view;
-		view.setListener(controller);
+		view.setViewListener(controller);
 		controller.setView(view);
 	}
 

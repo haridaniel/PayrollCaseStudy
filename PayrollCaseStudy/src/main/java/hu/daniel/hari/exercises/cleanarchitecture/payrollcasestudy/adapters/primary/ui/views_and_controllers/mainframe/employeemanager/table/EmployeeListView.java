@@ -3,12 +3,12 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.util.List;
 import java.util.Optional;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 
 public interface EmployeeListView extends 
-	HasListener<EmployeeListView.EmployeeListViewListener>,
+	HasViewListener<EmployeeListView.EmployeeListViewListener>,
 	ModelConsumer<EmployeeListView.EmployeeListViewModel>
 {
 

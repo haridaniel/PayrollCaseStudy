@@ -23,7 +23,7 @@ public class PayPanelUI {
 		this.controller = controller;
 		this.payListPanelUI = payListPanelUI;
 		view = new PayPanel(payListPanelUI.view);
-		view.setListener(controller);
+		view.setViewListener(controller);
 		controller.setView(view);
 		payListPanelUI.getObservablePayListState().addChangeListener(controller);
 	}

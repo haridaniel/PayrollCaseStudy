@@ -3,7 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.AddEmployeeDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeController;
@@ -18,14 +17,12 @@ public class AddEmployeeDialogUI {
 			Provider<JFrame> rootFrameProvider
 			) {
 		view = new AddEmployeeDialog(rootFrameProvider.get());
-		view.setListener(controller);
+		view.setViewListener(controller);
 		controller.setView(view);
 	}
 	
 	public void show() {
-		SwingUtilities.invokeLater(() -> 
-			view.setVisible(true)
-		);
+		view.showDialog();
 	}
 	
 }

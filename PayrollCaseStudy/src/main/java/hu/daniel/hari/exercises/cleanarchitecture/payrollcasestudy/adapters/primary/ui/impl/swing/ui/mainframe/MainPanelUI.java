@@ -18,7 +18,7 @@ public class MainPanelUI {
 			PayPanelUI payPanelUI
 			) {
 		view = new MainPanel(employeeManagerPanelUI.view, payPanelUI.view);
-		view.setListener(controller);
+		view.setViewListener(controller);
 		controller.setView(view);
 		employeeManagerPanelUI.setObservableCurrentDate(controller.getObservableCurrentDate());
 		payPanelUI.setObservableCurrentDate(controller.getObservableCurrentDate());

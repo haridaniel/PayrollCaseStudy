@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.error;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -23,14 +23,19 @@ public class ErrorDialog extends DefaultModalDialog<CloseableViewListener> imple
 	public ErrorDialog(JFrame parentFrame) {
 		super(parentFrame, "Error");
 		initUI();
-		centerParent();
 	}
 	
+	@Override
+	public void setModel(ErrorViewModel viewModel) {
+		textPane.setText(viewModel.errorMessage);
+		textPane.setCaretPosition(0);
+	}
+
 	private void initUI() {
 		setLocationRelativeTo(getParent());
 		setModal(true);
 
-		setBounds(100, 100, 450, 300);
+		setSize(450, 300);
 		getContentPane().setLayout(new BorderLayout());
 
 		JLabel lblNewLabel = new JLabel("Uncaugth exception:");
@@ -56,7 +61,7 @@ public class ErrorDialog extends DefaultModalDialog<CloseableViewListener> imple
 				JButton closeButton = new JButton("Close");
 				closeButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						getListener().onCloseRequested();
+						getViewListener().onCloseRequested();
 					}
 				});
 				closeButton.setActionCommand("Cancel");
@@ -65,11 +70,5 @@ public class ErrorDialog extends DefaultModalDialog<CloseableViewListener> imple
 		}
 
 	}
-
-	@Override
-	public void setModel(ErrorViewModel viewModel) {
-		textPane.setText(viewModel.errorMessage);
-		textPane.setCaretPosition(0);
-	}
-
+	
 }

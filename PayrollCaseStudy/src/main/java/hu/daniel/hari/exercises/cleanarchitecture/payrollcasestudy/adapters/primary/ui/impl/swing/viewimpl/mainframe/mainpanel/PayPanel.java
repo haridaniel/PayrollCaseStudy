@@ -24,7 +24,7 @@ public class PayPanel extends JPanel implements PayView {
 	}
 	
 	@Override
-	public void setListener(PayViewListener listener) {
+	public void setViewListener(PayViewListener listener) {
 		this.listener = listener;
 	}
 

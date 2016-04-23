@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class OkCancelButtonBar extends JPanel {
+	public JButton okButton;
+	
 	private OkCancelButtonBarListener listener;
 	private String okLabelString;
 	private String cancelLabelString;
@@ -27,7 +29,7 @@ public class OkCancelButtonBar extends JPanel {
 		JPanel buttonPane = this;
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		{
-			JButton okButton = new JButton(okLabelString);
+			okButton = new JButton(okLabelString);
 			okButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					listener.onOk();

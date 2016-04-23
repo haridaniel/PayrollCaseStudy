@@ -3,7 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import com.google.inject.assistedinject.Assisted;
 
@@ -23,14 +22,12 @@ public class AddTimeCardDialogUI {
 			) {
 		AddTimeCardController controller = controllerFactory.create(employeeId);
 		view = new AddTimeCardDialog(rootFrameProvider.get());
-		view.setListener(controller);
+		view.setViewListener(controller);
 		controller.setView(view);
 	}
 	
 	public void show() {
-		SwingUtilities.invokeLater(() -> 
-			view.setVisible(true)
-		);
+		view.showDialog();
 	}
 	
 	public interface AddTimeCardDialogUIFactory {

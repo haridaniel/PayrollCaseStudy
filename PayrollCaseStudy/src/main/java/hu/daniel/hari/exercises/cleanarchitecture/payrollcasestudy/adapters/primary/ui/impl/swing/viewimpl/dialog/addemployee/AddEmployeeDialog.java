@@ -32,7 +32,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.AddEmployeeViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView.EmployeeViewModel.PaymentMethod;
 
-public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListener> implements AddEmployeeView {
+public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListener> implements AddEmployeeView, OkCancelButtonBarListener {
 
 	private final FieldsPanel fieldsPanel = new FieldsPanel();
 	private ValidationErrorMessagesLabel errorMessageLabel;
@@ -72,7 +72,6 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 		initUI();
 		initCommonFields();
 		populateComboBoxes();
-		centerParent();
 		initListeners();
 		initDefaults();
 	}
@@ -130,6 +129,18 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 	public EmployeeViewModel getModel() {
 		return fillBaseModel(currentEmployeeFieldsPanel.getModel());
 	}
+	@Override
+	public void setModel(ValidationErrorMessagesModel viewModel) {
+		errorMessageLabel.setMessages(viewModel.validationErrorMessages);
+	}
+	@Override
+	public void onOk() {
+		getViewListener().onAddEmployee();
+	}
+	@Override
+	public void onCancel() {
+		getViewListener().onCancel();
+	}
 	private EmployeeViewModel fillBaseModel(EmployeeViewModel viewModel) {
 		viewModel.employeeId = ifEmployeeId.getInteger();
 		viewModel.name = tfName.getText();
@@ -183,24 +194,9 @@ public class AddEmployeeDialog extends DefaultModalDialog<AddEmployeeViewListene
 			}
 		}
 		{
-			OkCancelButtonBar okCancelButtonBar = new OkCancelButtonBar(new OkCancelButtonBarListener() {
-				@Override
-				public void onOk() {
-					getListener().onAddEmployee();
-				}
-				
-				@Override
-				public void onCancel() {
-					getListener().onCancel();
-				}
-			}, "ADD", "CANCEL");
+			OkCancelButtonBar okCancelButtonBar = new OkCancelButtonBar(this, "ADD", "CANCEL");
 			getContentPane().add(okCancelButtonBar, BorderLayout.SOUTH);
 		}
 		
-	}
-
-	@Override
-	public void setModel(ValidationErrorMessagesModel viewModel) {
-		errorMessageLabel.setMessages(viewModel.validationErrorMessages);
 	}
 }

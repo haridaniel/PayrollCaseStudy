@@ -19,7 +19,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewListener;
 
-public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListener> implements AddTimeCardView {
+public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListener> implements AddTimeCardView, OkCancelButtonBarListener {
 
 	private final FieldsPanel fieldsPanel = new FieldsPanel();
 
@@ -36,16 +36,38 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 		super(parentFrame, "Add TimeCard");
 		initUI();
 		initFields();
-		centerParent();
-		setFocusField(hoursField);
+		setFocus(hoursField);
 	}
 	
+	@Override
+	public void setModel(AddTimeCardViewInputModel viewModel) {
+		dateField.setDate(viewModel.defaultDate);
+		employeeNameField.setText(viewModel.employeeName);
+	}
+	@Override
+	public AddTimeCardViewOutputModel getModel() {
+		AddTimeCardViewOutputModel outputModel = new AddTimeCardViewOutputModel();
+		outputModel.date = dateField.getDate();
+		outputModel.workingHourQty = hoursField.getInteger();
+		return outputModel;
+	}
+	@Override
+	public void setValidationErrorMessagesModel(ValidationErrorMessagesModel errorMessagesModel) {
+		validationErrorMessagesLabel.setMessages(errorMessagesModel.validationErrorMessages);
+	}
+	@Override
+	public void onOk() {
+		getViewListener().onAdd();
+	}
+	@Override
+	public void onCancel() {
+		getViewListener().onCancel();
+	}
 	private void initFields() {
 		fieldsPanel.addField("Employee", employeeNameField);
 		fieldsPanel.addField("Date", dateField);
 		fieldsPanel.addField("Working hours", hoursField);
 	}
-	
 	private void initUI() {
 		getContentPane().setLayout(new BorderLayout());
 		{
@@ -64,36 +86,10 @@ public class AddTimeCardDialog extends DefaultModalDialog<AddTimeCardViewListene
 			}
 		}
 		{
-			OkCancelButtonBar okCancelButtonBar = new OkCancelButtonBar(new OkCancelButtonBarListener() {
-				@Override
-				public void onOk() {
-					getListener().onAdd();
-				}
-				
-				@Override
-				public void onCancel() {
-					getListener().onCancel();
-				}
-			}, "ADD", "CANCEL");
+			OkCancelButtonBar okCancelButtonBar = new OkCancelButtonBar(this, "ADD", "CANCEL");
 			getContentPane().add(okCancelButtonBar, BorderLayout.SOUTH);
 		}
 		
-	}
-	@Override
-	public void setModel(AddTimeCardViewInputModel viewModel) {
-		dateField.setDate(viewModel.defaultDate);
-		employeeNameField.setText(viewModel.employeeName);
-	}
-	@Override
-	public AddTimeCardViewOutputModel getModel() {
-		AddTimeCardViewOutputModel outputModel = new AddTimeCardViewOutputModel();
-		outputModel.date = dateField.getDate();
-		outputModel.workingHourQty = hoursField.getInteger();
-		return outputModel;
-	}
-	@Override
-	public void setValidationErrorMessagesModel(ValidationErrorMessagesModel errorMessagesModel) {
-		validationErrorMessagesLabel.setMessages(errorMessagesModel.validationErrorMessages);
 	}
 
 }

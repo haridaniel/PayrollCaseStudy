@@ -110,7 +110,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 	}
 
 	@Override
-	public void setListener(MainPanelViewListener listener) {
+	public void setViewListener(MainPanelViewListener listener) {
 		this.listener = listener;
 	}
 
