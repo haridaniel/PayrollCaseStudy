@@ -7,31 +7,25 @@ import javax.swing.JFrame;
 import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addtimecard.AddTimeCardDialog;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardController.AddTimeCardControllerFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardUI;
 
-public class AddTimeCardDialogUI {
+public class AddTimeCardUIImpl extends AddTimeCardUI<AddTimeCardDialog> {
 	
 	private AddTimeCardDialog view;
 
 	@Inject
-	public AddTimeCardDialogUI(
+	public AddTimeCardUIImpl(
 			AddTimeCardControllerFactory controllerFactory,
-			Provider<JFrame> rootFrameProvider,
-			@Assisted int employeeId
+			@Assisted int employeeId,
+			Provider<JFrame> rootFrameProvider
 			) {
-		AddTimeCardController controller = controllerFactory.create(employeeId);
-		view = new AddTimeCardDialog(rootFrameProvider.get());
-		view.setViewListener(controller);
-		controller.setView(view);
+		super(controllerFactory, employeeId);
+		setView(view = new AddTimeCardDialog(rootFrameProvider.get()));
 	}
 	
 	public void show() {
 		view.showDialog();
-	}
-	
-	public interface AddTimeCardDialogUIFactory {
-		AddTimeCardDialogUI create(int employeeId);
 	}
 	
 }
