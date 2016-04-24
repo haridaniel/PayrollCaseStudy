@@ -27,8 +27,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddTimeCardRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 
-public class AddTimeCardController extends DefaultClosableViewController<AddTimeCardView> implements AddTimeCardViewListener {
-
+public class AddTimeCardController extends DefaultClosableViewController<AddTimeCardView> implements 
+	AddTimeCardViewListener 
+{
 	private EventBus eventBus;
 	private int employeeId;
 	private GetEmployeeUseCaseFactory getEmployeeUseCaseFactory;
@@ -53,7 +54,9 @@ public class AddTimeCardController extends DefaultClosableViewController<AddTime
 		this.confirmMessageFormatter = confirmMessageFormatter;
 		this.employeeId = employeeId;
 	}
-
+	
+	
+	
 	@Override
 	protected boolean isAllowedToCloseNow() {
 		return true;
@@ -62,6 +65,7 @@ public class AddTimeCardController extends DefaultClosableViewController<AddTime
 	@Override
 	public void setView(AddTimeCardView view) {
 		super.setView(view);
+		view.setViewListener(this);
 		setDefaultsToView();
 	}
 

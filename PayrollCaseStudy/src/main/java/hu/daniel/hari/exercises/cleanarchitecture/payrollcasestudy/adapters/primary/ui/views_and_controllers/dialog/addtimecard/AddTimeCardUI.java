@@ -3,21 +3,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.UI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardController.AddTimeCardControllerFactory;
 
-public abstract class AddTimeCardUI<V extends AddTimeCardView> extends UI<V> {
+public abstract class AddTimeCardUI<V extends AddTimeCardView> extends UI<V, AddTimeCardController> {
 	
-	private AddTimeCardController controller;
-
 	public AddTimeCardUI(
 			AddTimeCardControllerFactory controllerFactory,
 			int employeeId
 			) {
-		controller = controllerFactory.create(employeeId);
-	}
-	
-	@Override
-	protected void setView(V view) {
-		view.setViewListener(controller);
-		controller.setView(view);
+		super(controllerFactory.create(employeeId));
 	}
 	
 	public abstract void show();

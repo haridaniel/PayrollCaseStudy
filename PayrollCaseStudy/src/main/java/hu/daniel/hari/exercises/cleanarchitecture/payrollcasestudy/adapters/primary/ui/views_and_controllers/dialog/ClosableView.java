@@ -2,9 +2,11 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Closeable;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.View;
 
 public interface ClosableView<T extends CloseableViewListener> extends 
-	HasViewListener<T>,
-	Closeable
+	View, 
+	Closeable,
+	HasViewListener<T>
 {
 }

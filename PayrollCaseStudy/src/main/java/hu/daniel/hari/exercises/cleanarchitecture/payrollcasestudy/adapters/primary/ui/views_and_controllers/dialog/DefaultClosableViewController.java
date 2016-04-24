@@ -4,7 +4,12 @@ import java.util.Optional;
 
 import com.google.common.eventbus.EventBus;
 
-public abstract class DefaultClosableViewController<T extends ClosableView<? extends CloseableViewListener>> implements CloseableViewListener {
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
+
+public abstract class DefaultClosableViewController<T extends ClosableView<? extends CloseableViewListener>> implements 
+	Controller<T>,
+	CloseableViewListener 
+{
 
 	private T view;
 	private Optional<EventBus> eventBus;

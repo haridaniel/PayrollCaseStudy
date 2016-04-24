@@ -10,12 +10,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedTimeCardEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PaymentsFulfilledEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarView.StatusBarViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarView.StatusBarViewModel.MessageType;
 
-public class StatusBarController {
+public class StatusBarController implements Controller<StatusBarView> {
 
-	private StatusBarView statusBarView;
+	private StatusBarView view;
 	private EventMessageFormatter messageFormatter = new EventMessageFormatter();
 
 	@Inject
@@ -23,8 +24,9 @@ public class StatusBarController {
 		eventBus.register(this);
 	}
 	
-	public void setView(StatusBarView statusBarView) {
-		this.statusBarView = statusBarView;
+	@Override
+	public void setView(StatusBarView view) {
+		this.view = view;
 	}
 	
 	@Subscribe
@@ -48,11 +50,11 @@ public class StatusBarController {
 	}
 	
 	private void infoMessage(String message) {
-		statusBarView.setModel(new StatusBarViewModel(message, MessageType.INFO));
+		view.setModel(new StatusBarViewModel(message, MessageType.INFO));
 	}
 
 	private void confirmMessage(String message) {
-		statusBarView.setModel(new StatusBarViewModel(message, MessageType.CONFIRM));
+		view.setModel(new StatusBarViewModel(message, MessageType.CONFIRM));
 	}
 	
 }

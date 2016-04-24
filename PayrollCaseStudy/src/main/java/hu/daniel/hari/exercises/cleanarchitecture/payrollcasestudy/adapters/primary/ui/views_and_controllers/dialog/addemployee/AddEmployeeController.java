@@ -32,7 +32,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.paymentmethod.ChangeToDirectPaymentMethodRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.UseCaseValidationException;
 
-public class AddEmployeeController extends DefaultClosableViewController<AddEmployeeView> implements AddEmployeeViewListener {
+public class AddEmployeeController extends DefaultClosableViewController<AddEmployeeView> implements 
+	AddEmployeeViewListener 
+{
 
 	private AddEmployeeUseCaseFactory addEmployeeUseCaseFactory;
 	private ChangeToAbstractPaymentMethodUseCaseFactory changePaymentMethodUseCaseFactory;
@@ -50,6 +52,12 @@ public class AddEmployeeController extends DefaultClosableViewController<AddEmpl
 		this.eventBus = eventBus;
 	}
 
+	@Override
+	public void setView(AddEmployeeView view) {
+		super.setView(view);
+		view.setViewListener(this);
+	}
+	
 	@Override
 	protected boolean isAllowedToCloseNow() {
 		return true;

@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.View;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 
-public interface EmployeeListView extends 
+public interface EmployeeListView extends View,
 	HasViewListener<EmployeeListView.EmployeeListViewListener>,
 	ModelConsumer<EmployeeListView.EmployeeListViewModel>
 {

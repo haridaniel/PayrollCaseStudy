@@ -4,18 +4,17 @@ import javax.inject.Inject;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.StatusBarPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.statusbar.StatusBarUI;
 
-public class StatusBarUI {
-
-	public final StatusBarPanel statusBarPanel;
+public class StatusBarUIImpl extends StatusBarUI<StatusBarPanel> {
 
 	@Inject
-	public StatusBarUI(
+	public StatusBarUIImpl(
 			StatusBarController controller,
 			StatusBarPanel statusBarPanel
 			) {
-		this.statusBarPanel = statusBarPanel;
-		controller.setView(statusBarPanel);
+		super(controller);
+		setView(statusBarPanel);
 	}
 	
 }

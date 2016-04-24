@@ -2,8 +2,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.View;
 
-public interface EmployeeManagerView extends HasViewListener<EmployeeManagerView.EmployeeManagerViewListener>,
+public interface EmployeeManagerView extends View,
+	HasViewListener<EmployeeManagerView.EmployeeManagerViewListener>,
 	ModelConsumer<EmployeeManagerView.EmployeeManagerViewModel>
 {
 
