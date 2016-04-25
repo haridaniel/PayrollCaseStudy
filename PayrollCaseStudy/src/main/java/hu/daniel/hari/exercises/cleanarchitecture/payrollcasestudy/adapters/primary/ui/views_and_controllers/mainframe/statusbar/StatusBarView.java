@@ -3,9 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.View;
 
-public interface StatusBarView extends View, 
+public interface StatusBarView extends 
+	View, 
 	ModelConsumer<StatusBarView.StatusBarViewModel>
-	
 {
 
 	public static class StatusBarViewModel {

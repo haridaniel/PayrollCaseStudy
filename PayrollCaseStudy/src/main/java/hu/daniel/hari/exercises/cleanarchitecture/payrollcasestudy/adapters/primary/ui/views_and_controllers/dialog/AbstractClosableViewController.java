@@ -4,24 +4,25 @@ import java.util.Optional;
 
 import com.google.common.eventbus.EventBus;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 
-public abstract class DefaultClosableViewController<T extends ClosableView<? extends CloseableViewListener>> implements 
-	Controller<T>,
+/** Registers, and unregisters from eventbus on close **/
+public abstract class AbstractClosableViewController<T extends ClosableView<VL>, VL extends CloseableViewListener> extends 
+	AbstractController<T, VL> implements 
 	CloseableViewListener 
 {
 
-	private T view;
 	private Optional<EventBus> eventBus;
 
-	public DefaultClosableViewController(
+	public AbstractClosableViewController(
 			EventBus eventBus
 			) {
 		this.eventBus = Optional.ofNullable(eventBus);
 		registerThisToEventbus();
 	}
 
-	public DefaultClosableViewController() {
+	public AbstractClosableViewController() {
 		this(null);
 	}
 
@@ -29,21 +30,13 @@ public abstract class DefaultClosableViewController<T extends ClosableView<? ext
 		eventBus.ifPresent(e -> e.register(this));
 	}
 
-	public void setView(T view) {
-		this.view = view;
-	}
-	
-	protected T getView() {
-		return view;
-	}
-	
 	@Override
-	public void onCloseRequested() {
-		if(isAllowedToCloseNow())
+	public void onCloseAction() {
+		if(onCloseActionIsAllowed())
 			close();
 	}
 	
-	protected abstract boolean isAllowedToCloseNow();
+	protected abstract boolean onCloseActionIsAllowed();
 
 	protected void close() {
 		unregisterThisFromEventBus();

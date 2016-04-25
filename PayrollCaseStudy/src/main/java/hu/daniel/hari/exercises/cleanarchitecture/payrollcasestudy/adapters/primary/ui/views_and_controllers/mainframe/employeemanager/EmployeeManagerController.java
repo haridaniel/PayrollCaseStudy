@@ -12,6 +12,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.ConfirmDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog.ConfirmDialogListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardUI.AddTimeCardUIFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
@@ -24,9 +25,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.DeleteEmployeeRequest;
 
-public class EmployeeManagerController implements Controller<EmployeeManagerView>, EmployeeManagerViewListener {
+public class EmployeeManagerController extends 
+	AbstractController<EmployeeManagerView, EmployeeManagerViewListener> implements
+	EmployeeManagerViewListener 
+{
 
-	private EmployeeManagerView view;
 	private DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory;
 	private EventBus eventBus;
 	
@@ -54,16 +57,16 @@ public class EmployeeManagerController implements Controller<EmployeeManagerView
 		this.confirmMessageFormatter = confirmMessageFormatter;
 	}
 
-	public void setView(EmployeeManagerView view) {
-		this.view = view;
-		view.setViewListener(this);
-	}
-	
 	public void setObservableSelectedEployeeId(ObservableSelectedEployeeItem observableSelectedEployeeItem) {
 		this.observableSelectedEployeeItem = observableSelectedEployeeItem;
 		observableSelectedEployeeItem.addChangeListener(newValue -> {
 			onSelectedEmployeeIdChanged();
 		});
+	}
+
+	@Override
+	protected EmployeeManagerViewListener getViewListener() {
+		return this;
 	}
 
 	private void onSelectedEmployeeIdChanged() {

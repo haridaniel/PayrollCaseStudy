@@ -9,6 +9,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.EmployeeChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
@@ -20,13 +21,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.EmployeeListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 
-public class EmployeeListController implements 
-		Controller<EmployeeListView>, 
-		EmployeeListViewListener, 
-		ChangeListener<LocalDate> 
+public class EmployeeListController extends
+	AbstractController<EmployeeListView, EmployeeListViewListener> implements 
+	EmployeeListViewListener,
+	ChangeListener<LocalDate>
 {
 	
-	private EmployeeListView view;
 	private ListEmployeesUseCaseFactory useCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
 	private ObservableSelectedEployeeViewItemImpl observableSelectedEployeeViewItem = new ObservableSelectedEployeeViewItemImpl();
@@ -38,12 +38,6 @@ public class EmployeeListController implements
 			) {
 		this.useCaseFactory = useCaseFactory;
 		eventBus.register(this);
-	}
-	
-	@Override
-	public void setView(EmployeeListView view) {
-		this.view = view;
-		view.setViewListener(this);
 	}
 	
 	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {
@@ -84,5 +78,10 @@ public class EmployeeListController implements
 		public ObservableSelectedEployeeViewItemImpl() {
 			super(Optional.empty());
 		}
+	}
+
+	@Override
+	protected EmployeeListViewListener getViewListener() {
+		return this;
 	}
 }

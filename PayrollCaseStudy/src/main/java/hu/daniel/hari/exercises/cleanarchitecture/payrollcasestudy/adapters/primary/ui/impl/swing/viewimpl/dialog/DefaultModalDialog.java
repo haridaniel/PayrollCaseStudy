@@ -18,7 +18,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
  *
  * @param <T>
  */
-public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog implements ClosableView<T> {
+public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog implements 
+	ClosableView<T> 
+{
 
 	private T listener;
 
@@ -35,7 +37,7 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				listener.onCloseRequested();
+				listener.onCloseAction();
 			}
 		});
 	}

@@ -58,7 +58,7 @@ public class ConfirmDialog extends DefaultModalDialog<CloseableViewListener> imp
 	}
 
 	@Override
-	public void onCloseRequested() {
+	public void onCloseAction() {
 		close();
 	}
 	

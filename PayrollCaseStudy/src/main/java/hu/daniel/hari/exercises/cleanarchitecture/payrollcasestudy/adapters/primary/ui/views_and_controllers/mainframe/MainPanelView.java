@@ -2,12 +2,12 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import java.time.LocalDate;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ControlView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelProducer;
 
-public interface MainPanelView extends 
-	HasViewListener<MainPanelView.MainPanelViewListener>,
+public interface MainPanelView extends
+	ControlView<MainPanelView.MainPanelViewListener>,
 	ModelConsumer<MainPanelView.MainPanelViewModel>,
 	ModelProducer<MainPanelView.MainPanelViewModel>
 {

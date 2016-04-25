@@ -9,7 +9,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
-public interface AddTimeCardView extends ClosableView<AddTimeCardView.AddTimeCardViewListener>,
+public interface AddTimeCardView extends 
+	ClosableView<AddTimeCardView.AddTimeCardViewListener>,
 	ModelConsumer<AddTimeCardView.AddTimeCardViewInputModel>,
 	ModelProducer<AddTimeCardView.AddTimeCardViewOutputModel>
 {

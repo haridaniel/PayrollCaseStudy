@@ -1,11 +1,10 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.HasViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ControlView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.View;
 
-public interface EmployeeManagerView extends View,
-	HasViewListener<EmployeeManagerView.EmployeeManagerViewListener>,
+public interface EmployeeManagerView extends
+	ControlView<EmployeeManagerView.EmployeeManagerViewListener>,
 	ModelConsumer<EmployeeManagerView.EmployeeManagerViewModel>
 {
 

@@ -61,7 +61,7 @@ public class ErrorDialog extends DefaultModalDialog<CloseableViewListener> imple
 				JButton closeButton = new JButton("Close");
 				closeButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						getViewListener().onCloseRequested();
+						getViewListener().onCloseAction();
 					}
 				});
 				closeButton.setActionCommand("Cancel");

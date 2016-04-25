@@ -11,6 +11,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PaymentsFulfilledEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.ConfirmDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog.ConfirmDialogListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.ObservableValue.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.pay.PayView.PayViewListener;
@@ -20,9 +22,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase.PaymentFulfillUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.PaymentFulfillRequest;
 
-public class PayController implements PayViewListener, ChangeListener<PayListState> {
+public class PayController extends 
+	AbstractController<PayView, PayViewListener> implements
+	PayViewListener, 
+	ChangeListener<PayListState> 
+{
 
-	private PayView view;
 	private PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
@@ -43,10 +48,6 @@ public class PayController implements PayViewListener, ChangeListener<PayListSta
 		this.eventBus = eventBus;
 	}
 
-	public void setView(PayView view) {
-		this.view = view;
-	}
-	
 	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {
 		this.observableCurrentDate = observableCurrentDate;
 	}
@@ -74,6 +75,11 @@ public class PayController implements PayViewListener, ChangeListener<PayListSta
 		return new PayViewModel() {{
 			isFulfillButtonEnabled = !payListState.isEmpty;
 		}};
+	}
+
+	@Override
+	protected PayViewListener getViewListener() {
+		return this;
 	}
 
 }

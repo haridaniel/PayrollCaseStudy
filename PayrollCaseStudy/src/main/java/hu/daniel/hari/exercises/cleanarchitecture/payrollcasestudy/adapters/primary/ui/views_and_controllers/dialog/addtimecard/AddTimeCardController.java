@@ -16,7 +16,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidationErrorPresenter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException.FieldValidatorError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DefaultClosableViewController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.AbstractClosableViewController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewInputModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewOutputModel;
@@ -27,7 +27,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddTimeCardRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 
-public class AddTimeCardController extends DefaultClosableViewController<AddTimeCardView> implements 
+public class AddTimeCardController extends 
+	AbstractClosableViewController<AddTimeCardView, AddTimeCardViewListener> implements 
 	AddTimeCardViewListener 
 {
 	private EventBus eventBus;
@@ -55,17 +56,14 @@ public class AddTimeCardController extends DefaultClosableViewController<AddTime
 		this.employeeId = employeeId;
 	}
 	
-	
-	
 	@Override
-	protected boolean isAllowedToCloseNow() {
+	protected boolean onCloseActionIsAllowed() {
 		return true;
 	}
 	
 	@Override
 	public void setView(AddTimeCardView view) {
 		super.setView(view);
-		view.setViewListener(this);
 		setDefaultsToView();
 	}
 
@@ -135,6 +133,11 @@ public class AddTimeCardController extends DefaultClosableViewController<AddTime
 
 	public static interface AddTimeCardControllerFactory {
 		AddTimeCardController create(int employeeId);
+	}
+
+	@Override
+	protected AddTimeCardViewListener getViewListener() {
+		return this;
 	}
 	
 }

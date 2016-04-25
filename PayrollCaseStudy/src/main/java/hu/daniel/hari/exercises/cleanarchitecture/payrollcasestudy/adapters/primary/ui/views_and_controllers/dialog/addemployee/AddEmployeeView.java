@@ -8,7 +8,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
-public interface AddEmployeeView extends ClosableView<AddEmployeeView.AddEmployeeViewListener>,
+public interface AddEmployeeView extends 
+	ClosableView<AddEmployeeView.AddEmployeeViewListener>,
 	ModelProducer<AddEmployeeView.EmployeeViewModel>,
 	ModelConsumer<ValidationErrorMessagesModel>
 {
