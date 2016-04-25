@@ -8,15 +8,15 @@ import javax.inject.Inject;
 
 import com.google.inject.Provider;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.ErrorDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.error.ErrorDialogUI;
 
 public class UncaugthExceptionHandler {
 	
-	private Provider<ErrorDialogUI> errorDialogUIProvider;
+	private Provider<ErrorDialogUI<?>> errorDialogUIProvider;
 
 	@Inject
 	public UncaugthExceptionHandler(
-			Provider<ErrorDialogUI> errorDialogUIProvider
+			Provider<ErrorDialogUI<?>> errorDialogUIProvider
 			) {
 		this.errorDialogUIProvider = errorDialogUIProvider;
 		initSystemEventQueueDispatchHook();

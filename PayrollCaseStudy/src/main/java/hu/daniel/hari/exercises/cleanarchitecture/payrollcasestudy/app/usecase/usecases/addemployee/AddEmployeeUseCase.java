@@ -38,7 +38,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	@Override
 	protected final void executeInTransaction(R request) throws UseCaseValidationException {
 		new Validator().validate(request);
-		
+
 		Employee employee = employeeFactory.employee();
 		
 		setFields(employee, request);

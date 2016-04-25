@@ -9,9 +9,10 @@ import javax.swing.SwingConstants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.component.composite.OkCancelButtonBar.OkCancelButtonBarListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.DefaultModalDialog;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog.ConfirmDialogListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI.ConfirmDialogListener;
 
+/** This has no controller */
 public class ConfirmDialog extends DefaultModalDialog<CloseableViewListener> implements CloseableViewListener, OkCancelButtonBarListener{
 	private JLabel lbMessage;
 	
@@ -78,9 +79,5 @@ public class ConfirmDialog extends DefaultModalDialog<CloseableViewListener> imp
 			getContentPane().add(okCancelButtonBar, BorderLayout.SOUTH);
 			
 		}
-
-	public interface ConfirmDialogListener {
-		void onOk();
-	}
 
 }

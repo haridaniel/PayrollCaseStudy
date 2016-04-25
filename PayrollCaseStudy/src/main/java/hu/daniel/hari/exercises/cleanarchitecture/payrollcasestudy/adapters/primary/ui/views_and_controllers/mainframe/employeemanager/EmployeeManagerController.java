@@ -9,12 +9,11 @@ import com.google.common.eventbus.EventBus;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.confirm.ConfirmMessageFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog.ConfirmDialogUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog.ConfirmDialogListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardUI.AddTimeCardUIFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI.ConfirmDialogListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
@@ -33,7 +32,7 @@ public class EmployeeManagerController extends
 	private DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory;
 	private EventBus eventBus;
 	
-	private Provider<AddEmployeeUI> addEmployeeUIProvider;
+	private Provider<AddEmployeeUI<?>> addEmployeeUIProvider;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private AddTimeCardUIFactory addTimeCardUIFactory;
 	private ObservableSelectedEployeeItem observableSelectedEployeeItem;
@@ -44,7 +43,7 @@ public class EmployeeManagerController extends
 			DeleteEmployeeUseCaseFactory deleteEmployeeUseCaseFactory, 
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory, 
 			EventBus eventBus,
-			Provider<AddEmployeeUI> addEmployeeUIProvider,
+			Provider<AddEmployeeUI<?>> addEmployeeUIProvider,
 			Provider<ConfirmDialogUI> confirmDialogUIProvider,
 			AddTimeCardUIFactory addTimeCardUIFactory,
 			ConfirmMessageFormatter confirmMessageFormatter
