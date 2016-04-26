@@ -11,13 +11,20 @@ public class PayUIImpl extends
 	PayUI<PayPanel>
 
 {
+	private PayListUIImpl payListUIImpl;
+
 	@Inject
 	public PayUIImpl(
 			PayController controller,
 			PayListUIImpl payListUIImpl
 			) {
 		super(controller, payListUIImpl);
-		setView(new PayPanel(payListUIImpl.view));
+		this.payListUIImpl = payListUIImpl;
+	}
+
+	@Override
+	protected PayPanel createView() {
+		return new PayPanel(payListUIImpl.getView());
 	}
 
 }

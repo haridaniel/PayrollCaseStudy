@@ -12,6 +12,9 @@ public class MainPanelUIImpl extends
 	MainPanelUI<MainPanel>
 {
 
+	private EmployeeManagerUIImpl employeeManagerUIImpl;
+	private PayUIImpl payUIImpl;
+
 	@Inject
 	public MainPanelUIImpl(
 			MainPanelController controller,
@@ -19,7 +22,13 @@ public class MainPanelUIImpl extends
 			PayUIImpl payUIImpl
 			) {
 		super(controller, employeeManagerUIImpl, payUIImpl);
-		setView(new MainPanel(employeeManagerUIImpl.view, payUIImpl.view));
+		this.employeeManagerUIImpl = employeeManagerUIImpl;
+		this.payUIImpl = payUIImpl;
+	}
+
+	@Override
+	protected MainPanel createView() {
+		return new MainPanel(employeeManagerUIImpl.getView(), payUIImpl.getView());
 	}
 
 }

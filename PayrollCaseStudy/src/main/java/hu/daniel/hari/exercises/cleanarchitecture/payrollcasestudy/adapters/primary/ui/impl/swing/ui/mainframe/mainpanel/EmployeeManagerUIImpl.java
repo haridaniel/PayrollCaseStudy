@@ -9,13 +9,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class EmployeeManagerUIImpl extends EmployeeManagerUI<EmployeeManagerPanel>{
 
+	private EmployeeListUIImpl employeeListUIImpl;
+
 	@Inject
 	public EmployeeManagerUIImpl(
 			EmployeeManagerController controller,
 			EmployeeListUIImpl employeeListUIImpl
 			) {
 		super(controller, employeeListUIImpl);
-		setView(new EmployeeManagerPanel(employeeListUIImpl.view));
+		this.employeeListUIImpl = employeeListUIImpl;
+	}
+
+	@Override
+	protected EmployeeManagerPanel createView() {
+		return new EmployeeManagerPanel(employeeListUIImpl.getView());
 	}
 
 }

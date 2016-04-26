@@ -17,7 +17,7 @@ public class MainFrameUIImpl implements MainFrameUI {
 			MainPanelUIImpl mainPanelUI,
 			StatusBarUIImpl statusBarUI 
 			) {
-		view = new MainFrameWindow(mainPanelUI.view, statusBarUI.view);
+		view = new MainFrameWindow(mainPanelUI.getView(), statusBarUI.getView());
 	}
 	
 	@Override

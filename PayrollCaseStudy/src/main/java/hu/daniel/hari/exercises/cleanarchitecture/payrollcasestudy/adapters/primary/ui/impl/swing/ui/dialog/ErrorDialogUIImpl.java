@@ -11,19 +11,25 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class ErrorDialogUIImpl extends
 	ErrorDialogUI<ErrorDialog>
 {
-	
+	private Provider<JFrame> rootFrameProvider;
+
 	@Inject
 	public ErrorDialogUIImpl(
 			ErrorDialogController controller, 
 			Provider<JFrame> rootFrameProvider
 			) {
 		super(controller);
-		setView(new ErrorDialog(rootFrameProvider.get()));
+		this.rootFrameProvider = rootFrameProvider;
 	}
 	
 	@Override
 	protected void showDialog() {
-		view.showDialog();
+		getView().showDialog();
+	}
+
+	@Override
+	protected ErrorDialog createView() {
+		return new ErrorDialog(rootFrameProvider.get());
 	}
 	
 }

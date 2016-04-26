@@ -6,7 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.UI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.pay.paylist.PayListUI;
 
-public class PayUI<V extends PayView> extends
+public abstract class PayUI<V extends PayView> extends
 	UI<V, PayController>
 {
 

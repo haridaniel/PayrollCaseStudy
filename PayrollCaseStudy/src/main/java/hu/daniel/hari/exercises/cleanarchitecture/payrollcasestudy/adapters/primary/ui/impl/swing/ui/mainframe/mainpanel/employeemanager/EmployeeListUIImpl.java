@@ -8,13 +8,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class EmployeeListUIImpl extends EmployeeListUI<EmployeeListPanel> {
 
+	private EmployeeListPanel view;
+
 	@Inject
 	public EmployeeListUIImpl(
 			EmployeeListController controller,
 			EmployeeListPanel view
 			) {
 		super(controller);
-		setView(view);
+		this.view = view;
+	}
+
+	@Override
+	protected EmployeeListPanel createView() {
+		return view;
 	}
 
 }

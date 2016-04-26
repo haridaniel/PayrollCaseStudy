@@ -8,13 +8,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class PayListUIImpl extends PayListUI<PayListPanel> {
 
+	private PayListPanel view;
+
 	@Inject
 	public PayListUIImpl(
 			PayListController controller,
 			PayListPanel view
 			) {
 		super(controller);
-		setView(view);
+		this.view = view;
+	}
+
+	@Override
+	protected PayListPanel createView() {
+		return view;
 	}
 
 }

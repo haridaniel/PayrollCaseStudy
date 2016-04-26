@@ -6,7 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.UI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListUI;
 
-public class EmployeeManagerUI<V extends EmployeeManagerView> extends UI<V, EmployeeManagerController> {
+public abstract class EmployeeManagerUI<V extends EmployeeManagerView> extends UI<V, EmployeeManagerController> {
 
 	private EmployeeListUI<?> employeeListUI;
 	

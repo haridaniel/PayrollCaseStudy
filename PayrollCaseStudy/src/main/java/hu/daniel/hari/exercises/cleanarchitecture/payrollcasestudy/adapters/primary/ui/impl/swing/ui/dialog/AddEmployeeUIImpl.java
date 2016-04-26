@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.AddEmployeeDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeView;
 
 public class AddEmployeeUIImpl extends 
 	AddEmployeeUI<AddEmployeeDialog> 
@@ -21,17 +20,16 @@ public class AddEmployeeUIImpl extends
 			Provider<JFrame> rootFrameProvider
 		) {
 		super(controller);
-//		setView(new AddEmployeeDialog(rootFrameProvider.get()));
 		this.rootFrameProvider = rootFrameProvider;
 	}
 
 	@Override
 	public void show() {
-		view.showDialog();
+		getView().showDialog();
 	}
 
 	@Override
-	protected AddEmployeeDialog getView() {
+	protected AddEmployeeDialog createView() {
 		return new AddEmployeeDialog(rootFrameProvider.get());
 	}
 	

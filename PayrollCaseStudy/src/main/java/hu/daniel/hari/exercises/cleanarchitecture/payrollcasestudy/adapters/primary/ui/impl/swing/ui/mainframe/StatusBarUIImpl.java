@@ -8,13 +8,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class StatusBarUIImpl extends StatusBarUI<StatusBarPanel> {
 
+	private StatusBarPanel statusBarPanel;
+
 	@Inject
 	public StatusBarUIImpl(
 			StatusBarController controller,
 			StatusBarPanel statusBarPanel
 			) {
 		super(controller);
-		setView(statusBarPanel);
+		this.statusBarPanel = statusBarPanel;
+	}
+
+	@Override
+	protected StatusBarPanel createView() {
+		return statusBarPanel;
 	}
 	
 }

@@ -12,7 +12,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 
 public class AddTimeCardUIImpl extends AddTimeCardUI<AddTimeCardDialog> {
 	
-	private AddTimeCardDialog view;
+	private Provider<JFrame> rootFrameProvider;
 
 	@Inject
 	public AddTimeCardUIImpl(
@@ -21,11 +21,16 @@ public class AddTimeCardUIImpl extends AddTimeCardUI<AddTimeCardDialog> {
 			Provider<JFrame> rootFrameProvider
 			) {
 		super(controllerFactory, employeeId);
-		setView(view = new AddTimeCardDialog(rootFrameProvider.get()));
+		this.rootFrameProvider = rootFrameProvider;
 	}
 	
 	public void show() {
-		view.showDialog();
+		getView().showDialog();
+	}
+
+	@Override
+	protected AddTimeCardDialog createView() {
+		return new AddTimeCardDialog(rootFrameProvider.get());
 	}
 	
 }
