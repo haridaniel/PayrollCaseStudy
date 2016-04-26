@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIImplConstants;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DialogView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
 /**
@@ -19,7 +19,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
  * @param <T>
  */
 public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog implements 
-	ClosableView<T> 
+	DialogView<T> 
 {
 
 	private T listener;
@@ -55,13 +55,6 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 		return listener;
 	}
 	
-	public void showDialog() {
-		SwingUtilities.invokeLater(() -> {
-			setVisible(true);
-			centerParent();
-		});
-	}
-	
 	private void centerParent() {
 		//TODO: not working... swing suxx
 		setLocationRelativeTo(getParent());
@@ -78,6 +71,18 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 			public void windowOpened(WindowEvent e) {
 				component.requestFocusInWindow();
 			}
+		});
+	}
+	
+	@Override
+	public void showIt() {
+		showDialog();
+	}
+	
+	private void showDialog() {
+		SwingUtilities.invokeLater(() -> {
+			setVisible(true);
+			centerParent();
 		});
 	}
 

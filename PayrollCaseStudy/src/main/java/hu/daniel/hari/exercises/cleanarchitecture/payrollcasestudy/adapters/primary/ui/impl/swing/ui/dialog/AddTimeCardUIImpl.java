@@ -21,8 +21,4 @@ public class AddTimeCardUIImpl extends AddTimeCardUI<AddTimeCardDialog> {
 		super(controllerFactory, new AddTimeCardDialog(rootFrameProvider.get()), employeeId);
 	}
 	
-	public void show() {
-		getView().showDialog();
-	}
-
 }

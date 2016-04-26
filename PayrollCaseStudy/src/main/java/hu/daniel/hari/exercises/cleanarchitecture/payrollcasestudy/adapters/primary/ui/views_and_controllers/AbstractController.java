@@ -3,9 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 public abstract class AbstractController<V extends ControlView<VL>, VL> implements 
 	Controller<V> 
 {
-	@Deprecated
-	//Todo:remove
-	protected V view;
+	private V view;
 
 	@Override
 	public void setView(V view) {

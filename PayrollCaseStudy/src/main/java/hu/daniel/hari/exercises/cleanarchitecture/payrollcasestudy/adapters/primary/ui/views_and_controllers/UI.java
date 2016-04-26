@@ -16,7 +16,6 @@ public abstract class UI<V extends View, C extends Controller<? super V>> {
 	private void init() {
 		controller.setView(view);
 	}
-
 	
 	public V getView() {
 		return view;

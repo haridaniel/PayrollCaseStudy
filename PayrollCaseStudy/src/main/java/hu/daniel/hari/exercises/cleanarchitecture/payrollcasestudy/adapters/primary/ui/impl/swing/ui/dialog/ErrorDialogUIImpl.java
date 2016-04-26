@@ -20,9 +20,4 @@ public class ErrorDialogUIImpl extends
 		super(controller, new ErrorDialog(rootFrameProvider.get()));
 	}
 	
-	@Override
-	protected void showDialog() {
-		getView().showDialog();
-	}
-
 }

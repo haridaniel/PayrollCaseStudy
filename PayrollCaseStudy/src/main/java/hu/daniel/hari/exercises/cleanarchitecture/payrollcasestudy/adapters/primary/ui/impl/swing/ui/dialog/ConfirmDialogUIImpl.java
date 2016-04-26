@@ -20,7 +20,7 @@ public class ConfirmDialogUIImpl implements ConfirmDialogUI {
 	@Override
 	public void show(String message, ConfirmDialogListener confirmDialogListener) {
 		new ConfirmDialog(rootFrameProvider.get(), message, confirmDialogListener)
-			.showDialog();
+			.showIt();
 	}
 
 }

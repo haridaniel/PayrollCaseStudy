@@ -5,12 +5,12 @@ import java.io.StringWriter;
 
 import javax.inject.Inject;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.AbstractClosableViewController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.AbstractDialogViewController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.error.ErrorDialogView.ErrorViewModel;
 
 public class ErrorDialogController extends 
-	AbstractClosableViewController<ErrorDialogView, CloseableViewListener> 
+	AbstractDialogViewController<ErrorDialogView, CloseableViewListener> 
 {
 
 	public void setThrowable(Throwable throwable) {

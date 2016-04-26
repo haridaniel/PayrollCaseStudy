@@ -10,6 +10,8 @@ public abstract class AddEmployeeUI<V extends AddEmployeeView> extends
 		super(controller, view);
 	}
 
-	public abstract void show();
+	public void show() {
+		controller.show();
+	}
 	
 }

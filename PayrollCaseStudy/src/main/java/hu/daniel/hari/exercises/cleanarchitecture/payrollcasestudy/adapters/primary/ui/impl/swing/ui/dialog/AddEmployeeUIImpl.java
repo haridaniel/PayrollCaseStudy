@@ -19,9 +19,4 @@ public class AddEmployeeUIImpl extends
 		super(controller, new AddEmployeeDialog(rootFrameProvider.get()));
 	}
 
-	@Override
-	public void show() {
-		getView().showDialog();
-	}
-
 }

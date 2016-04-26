@@ -73,7 +73,7 @@ public class EmployeeManagerController extends
 	}
 
 	private void updateView() {
-		view.setModel(new EmployeeManagerViewPresenter().present(observableSelectedEployeeItem.get()));
+		getView().setModel(new EmployeeManagerViewPresenter().present(observableSelectedEployeeItem.get()));
 	}
 
 	@Override

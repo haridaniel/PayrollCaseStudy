@@ -72,7 +72,7 @@ public class PayController extends
 
 	@Override
 	public void onChanged(PayListState payListState) {
-		view.setModel(present(observablePayListState.get()));
+		getView().setModel(present(observablePayListState.get()));
 	}
 
 	private PayViewModel present(PayListState payListState) {

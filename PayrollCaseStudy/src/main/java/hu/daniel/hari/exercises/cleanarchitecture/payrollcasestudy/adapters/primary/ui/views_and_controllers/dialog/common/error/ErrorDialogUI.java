@@ -18,9 +18,7 @@ public abstract class ErrorDialogUI<V extends ErrorDialogView> extends
 	
 	public void show(Throwable e) {
 		controller.setThrowable(e);
-		showDialog();
+		controller.show();
 	}
-
-	protected abstract void showDialog();
 	
 }

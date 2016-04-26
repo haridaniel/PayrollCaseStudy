@@ -6,11 +6,11 @@ import java.util.Optional;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelProducer;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.ClosableView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.DialogView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.CloseableViewListener;
 
 public interface AddTimeCardView extends 
-	ClosableView<AddTimeCardView.AddTimeCardViewListener>,
+	DialogView<AddTimeCardView.AddTimeCardViewListener>,
 	ModelConsumer<AddTimeCardView.AddTimeCardViewInputModel>,
 	ModelProducer<AddTimeCardView.AddTimeCardViewOutputModel>
 {

@@ -15,7 +15,9 @@ public abstract class AddTimeCardUI<V extends AddTimeCardView> extends
 		super(controllerFactory.create(employeeId), view);
 	}
 	
-	public abstract void show();
+	public void show() {
+		controller.show();
+	}
 	
 	public interface AddTimeCardUIFactory {
 		AddTimeCardUI<? extends AddTimeCardView> create(int employeeId);

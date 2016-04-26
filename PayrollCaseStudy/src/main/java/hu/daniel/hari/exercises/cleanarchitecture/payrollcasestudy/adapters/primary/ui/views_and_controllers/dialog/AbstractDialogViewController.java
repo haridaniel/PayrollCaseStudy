@@ -8,21 +8,21 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 
 /** Registers, and unregisters from eventbus on close **/
-public abstract class AbstractClosableViewController<T extends ClosableView<VL>, VL extends CloseableViewListener> extends 
+public abstract class AbstractDialogViewController<T extends DialogView<VL>, VL extends CloseableViewListener> extends 
 	AbstractController<T, VL> implements 
 	CloseableViewListener 
 {
 
 	private Optional<EventBus> eventBus;
 
-	public AbstractClosableViewController(
+	public AbstractDialogViewController(
 			EventBus eventBus
 			) {
 		this.eventBus = Optional.ofNullable(eventBus);
 		registerThisToEventbus();
 	}
 
-	public AbstractClosableViewController() {
+	public AbstractDialogViewController() {
 		this(null);
 	}
 
@@ -30,6 +30,10 @@ public abstract class AbstractClosableViewController<T extends ClosableView<VL>,
 		eventBus.ifPresent(e -> e.register(this));
 	}
 
+	public void show() {
+		getView().showIt();
+	}
+	
 	@Override
 	public void onCloseAction() {
 		if(onCloseActionIsAllowed())
@@ -40,12 +44,11 @@ public abstract class AbstractClosableViewController<T extends ClosableView<VL>,
 
 	protected void close() {
 		unregisterThisFromEventBus();
-		view.close();
+		getView().close();
 	}
 
 	private void unregisterThisFromEventBus() {
 		eventBus.ifPresent(e -> e.unregister(this));
 	}
-
 
 }

@@ -15,7 +15,7 @@ public class MainPanelController extends
 	private ObservableValueImpl<LocalDate> observableCurrentDate = new ObservableValueImpl<>();
 
 	public void setDefaultModelToView() {
-		view.setModel(new MainPanelViewModel(getDefaultDate()));
+		getView().setModel(new MainPanelViewModel(getDefaultDate()));
 	}
 
 	private LocalDate getDefaultDate() {
@@ -35,7 +35,7 @@ public class MainPanelController extends
 
 	@Override
 	public void onChangedCurrentDate() {
-		observableCurrentDate.set(view.getModel().currentDate);
+		observableCurrentDate.set(getView().getModel().currentDate);
 	}
 
 	@Override

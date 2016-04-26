@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.UIImplConstants;
@@ -24,6 +25,8 @@ public class MainFrameWindow extends JFrame {
 		statusBarHolder.add(statusBarPanel);
 	}
 
+	
+	
 	private void initUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle(UIImplConstants.APP_TITLE);
@@ -54,6 +57,14 @@ public class MainFrameWindow extends JFrame {
 		statusBarHolder = new JPanel();
 		bottomPanel.add(statusBarHolder, BorderLayout.NORTH);
 		statusBarHolder.setLayout(new BorderLayout(0, 0));
+	}
+
+
+
+	public void showIt() {
+		SwingUtilities.invokeLater(() -> {
+			setVisible(true);
+		});		
 	}
 
 }

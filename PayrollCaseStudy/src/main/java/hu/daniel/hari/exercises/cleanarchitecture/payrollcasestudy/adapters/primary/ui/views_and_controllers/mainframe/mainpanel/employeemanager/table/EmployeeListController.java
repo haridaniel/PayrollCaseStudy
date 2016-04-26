@@ -65,7 +65,7 @@ public class EmployeeListController extends
 	}
 	
 	private void update() {
-		view.setModel(new EmployeeListPresenter(observableCurrentDate.get(), executeEmployeeListUseCase()).toViewModel());
+		getView().setModel(new EmployeeListPresenter(observableCurrentDate.get(), executeEmployeeListUseCase()).toViewModel());
 	}
 
 	private EmployeeListResponse executeEmployeeListUseCase() {

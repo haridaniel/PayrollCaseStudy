@@ -1,7 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui;
 
 import javax.inject.Inject;
-import javax.swing.SwingUtilities;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.MainPanelUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.StatusBarUIImpl;
@@ -22,9 +21,7 @@ public class MainFrameUIImpl implements MainFrameUI {
 	
 	@Override
 	public void show() {
-		SwingUtilities.invokeLater(() -> {
-			view.setVisible(true);
-		});
+		view.showIt();
 	}
 	
 }
