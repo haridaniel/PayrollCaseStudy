@@ -13,18 +13,29 @@ public class AddEmployeeUIImpl extends
 	AddEmployeeUI<AddEmployeeDialog> 
 {
 
+	private Provider<JFrame> rootFrameProvider;
+
 	@Inject
 	public AddEmployeeUIImpl(
 			AddEmployeeController controller,
 			Provider<JFrame> rootFrameProvider
 		) {
 		super(controller);
-		setView(new AddEmployeeDialog(rootFrameProvider.get()));
+//		setView(new AddEmployeeDialog(rootFrameProvider.get()));
+		this.rootFrameProvider = rootFrameProvider;
 	}
 
 	@Override
 	public void show() {
 		view.showDialog();
 	}
+
+	@Override
+	protected AddEmployeeDialog getView() {
+		return new AddEmployeeDialog(rootFrameProvider.get());
+	}
+	
+	
+	
 	
 }
