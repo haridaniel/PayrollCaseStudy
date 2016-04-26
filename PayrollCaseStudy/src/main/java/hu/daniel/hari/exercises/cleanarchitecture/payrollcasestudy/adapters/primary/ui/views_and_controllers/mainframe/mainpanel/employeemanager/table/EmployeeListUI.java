@@ -7,13 +7,16 @@ import javax.inject.Inject;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.UI;
 
-public abstract class EmployeeListUI<V extends EmployeeListView> extends UI<V, EmployeeListController> {
+public abstract class EmployeeListUI<V extends EmployeeListView> extends 
+	UI<V, EmployeeListController> 
+{
 
 	@Inject
 	public EmployeeListUI(
-			EmployeeListController controller
+			EmployeeListController controller, 
+			V view
 			) {
-		super(controller);
+		super(controller, view);
 	}
 
 	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {

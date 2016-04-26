@@ -10,9 +10,10 @@ public abstract class ErrorDialogUI<V extends ErrorDialogView> extends
 
 	@Inject
 	public ErrorDialogUI(
-			ErrorDialogController controller 
+			ErrorDialogController controller,
+			V view
 			) {
-		super(controller);
+		super(controller, view);
 	}
 	
 	public void show(Throwable e) {

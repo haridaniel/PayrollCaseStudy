@@ -13,16 +13,17 @@ public abstract class MainPanelUI<V extends MainPanelView> extends
 	@Inject
 	public MainPanelUI(
 			MainPanelController controller,
+			V view,
 			EmployeeManagerUI<?> employeeManagerUI,
 			PayUI<?> payUI
 			) {
-		super(controller);
+		super(controller, view);
 		employeeManagerUI.setObservableCurrentDate(controller.getObservableCurrentDate());
 		payUI.setObservableCurrentDate(controller.getObservableCurrentDate());
 	}
 
 	@Inject
-	private void initDefaults() {
+	private void init() {
 		controller.setDefaultModelToView();
 	}
 

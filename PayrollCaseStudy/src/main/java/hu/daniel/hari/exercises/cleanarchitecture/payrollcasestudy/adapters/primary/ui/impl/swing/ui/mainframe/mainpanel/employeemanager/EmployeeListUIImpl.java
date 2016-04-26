@@ -15,13 +15,8 @@ public class EmployeeListUIImpl extends EmployeeListUI<EmployeeListPanel> {
 			EmployeeListController controller,
 			EmployeeListPanel view
 			) {
-		super(controller);
+		super(controller, view);
 		this.view = view;
-	}
-
-	@Override
-	protected EmployeeListPanel createView() {
-		return view;
 	}
 
 }

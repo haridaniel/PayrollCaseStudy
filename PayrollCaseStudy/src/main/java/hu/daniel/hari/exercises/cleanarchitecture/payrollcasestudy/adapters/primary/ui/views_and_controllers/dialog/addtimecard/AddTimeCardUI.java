@@ -9,9 +9,10 @@ public abstract class AddTimeCardUI<V extends AddTimeCardView> extends
 	
 	public AddTimeCardUI(
 			AddTimeCardControllerFactory controllerFactory,
+			V view,
 			int employeeId
 			) {
-		super(controllerFactory.create(employeeId));
+		super(controllerFactory.create(employeeId), view);
 	}
 	
 	public abstract void show();

@@ -14,11 +14,12 @@ public abstract class PayUI<V extends PayView> extends
 
 	public PayUI(
 			PayController controller,
+			V view,
 			PayListUI<?> payListUI
 			) {
-		super(controller);
+		super(controller, view);
 		this.payListUI = payListUI;
-		payListUI.getObservablePayListState().addChangeListener(controller);
+		controller.setObservablePayListState(payListUI.getObservablePayListState());
 	}
 
 	public void setObservableCurrentDate(ObservableValue<LocalDate> observableCurrentDate) {

@@ -11,16 +11,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class AddEmployeeUIImpl extends 
 	AddEmployeeUI<AddEmployeeDialog> 
 {
-
-	private Provider<JFrame> rootFrameProvider;
-
 	@Inject
 	public AddEmployeeUIImpl(
 			AddEmployeeController controller,
 			Provider<JFrame> rootFrameProvider
 		) {
-		super(controller);
-		this.rootFrameProvider = rootFrameProvider;
+		super(controller, new AddEmployeeDialog(rootFrameProvider.get()));
 	}
 
 	@Override
@@ -28,12 +24,4 @@ public class AddEmployeeUIImpl extends
 		getView().showDialog();
 	}
 
-	@Override
-	protected AddEmployeeDialog createView() {
-		return new AddEmployeeDialog(rootFrameProvider.get());
-	}
-	
-	
-	
-	
 }

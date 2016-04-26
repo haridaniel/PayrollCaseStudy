@@ -4,6 +4,7 @@ public abstract class AbstractController<V extends ControlView<VL>, VL> implemen
 	Controller<V> 
 {
 	@Deprecated
+	//Todo:remove
 	protected V view;
 
 	@Override

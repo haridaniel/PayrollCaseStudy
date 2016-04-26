@@ -11,24 +11,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class MainPanelUIImpl extends
 	MainPanelUI<MainPanel>
 {
-
-	private EmployeeManagerUIImpl employeeManagerUIImpl;
-	private PayUIImpl payUIImpl;
-
 	@Inject
 	public MainPanelUIImpl(
 			MainPanelController controller,
 			EmployeeManagerUIImpl employeeManagerUIImpl,
 			PayUIImpl payUIImpl
 			) {
-		super(controller, employeeManagerUIImpl, payUIImpl);
-		this.employeeManagerUIImpl = employeeManagerUIImpl;
-		this.payUIImpl = payUIImpl;
-	}
-
-	@Override
-	protected MainPanel createView() {
-		return new MainPanel(employeeManagerUIImpl.getView(), payUIImpl.getView());
+		super(controller, new MainPanel(employeeManagerUIImpl.getView(), payUIImpl.getView()), employeeManagerUIImpl, payUIImpl);
 	}
 
 }

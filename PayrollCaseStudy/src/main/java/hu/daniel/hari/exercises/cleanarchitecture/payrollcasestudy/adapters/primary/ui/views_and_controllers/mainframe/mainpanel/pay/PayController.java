@@ -30,10 +30,10 @@ public class PayController extends
 
 	private PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
+	private ObservableValue<PayListState> observablePayListState;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private ConfirmMessageFormatter confirmMessageFormatter;
 	private EventBus eventBus;
-	private PayListState payListState;
 
 	@Inject
 	public PayController(
@@ -52,9 +52,14 @@ public class PayController extends
 		this.observableCurrentDate = observableCurrentDate;
 	}
 
+	public void setObservablePayListState(ObservableValue<PayListState> observablePayListState) {
+		this.observablePayListState = observablePayListState;
+		observablePayListState.addChangeListener(this);
+	}
+
 	@Override
 	public void onFulfillPayAction() {
-		confirmDialogUIProvider.get().show(confirmMessageFormatter.fulfillPayments(payListState.itemCount), new ConfirmDialogListener() {
+		confirmDialogUIProvider.get().show(confirmMessageFormatter.fulfillPayments(observablePayListState.get().itemCount), new ConfirmDialogListener() {
 			@Override
 			public void onOk() {
 				PaymentFulfillUseCase useCase = paymentFulfillUseCaseFactory.paymentFulfillUseCase();
@@ -67,8 +72,7 @@ public class PayController extends
 
 	@Override
 	public void onChanged(PayListState payListState) {
-		this.payListState = payListState;
-		view.setModel(present(payListState));
+		view.setModel(present(observablePayListState.get()));
 	}
 
 	private PayViewModel present(PayListState payListState) {

@@ -6,11 +6,10 @@ public abstract class AddEmployeeUI<V extends AddEmployeeView> extends
 	UI<V, AddEmployeeController> 
 {
 	
-	public AddEmployeeUI(AddEmployeeController controller) {
-		super(controller);
+	public AddEmployeeUI(AddEmployeeController controller, V view) {
+		super(controller, view);
 	}
 
 	public abstract void show();
-	
 	
 }
