@@ -6,23 +6,20 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.mainpanel.PayUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.MainPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainPanelController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainPanelUI;
 
-public class MainPanelUI {
-
-	public final MainPanel view;
+public class MainPanelUIImpl extends
+	MainPanelUI<MainPanel>
+{
 
 	@Inject
-	public MainPanelUI(
+	public MainPanelUIImpl(
 			MainPanelController controller,
 			EmployeeManagerUIImpl employeeManagerUIImpl,
-			PayUIImpl payPanelUI
+			PayUIImpl payUIImpl
 			) {
-		view = new MainPanel(employeeManagerUIImpl.view, payPanelUI.view);
-		view.setViewListener(controller);
-		controller.setView(view);
-		employeeManagerUIImpl.setObservableCurrentDate(controller.getObservableCurrentDate());
-		payPanelUI.setObservableCurrentDate(controller.getObservableCurrentDate());
-		controller.setDefaultModelToView();
+		super(controller, employeeManagerUIImpl, payUIImpl);
+		setView(new MainPanel(employeeManagerUIImpl.view, payUIImpl.view));
 	}
 
 }
