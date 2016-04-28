@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 import java.time.LocalDate;
 import java.util.List;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AffiliationTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.EmployeeBaseForResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse;
 
@@ -15,6 +16,7 @@ public class EmployeeListResponse implements Response {
 
 	public static class EmployeeForEmployeeListResponse extends EmployeeBaseForResponse {
 		public PaymentTypeResponse paymentTypeResponse;
+		public AffiliationTypeResponse affiliationTypeResponse;
 		public LocalDate nextPayDay;
 	}
 	

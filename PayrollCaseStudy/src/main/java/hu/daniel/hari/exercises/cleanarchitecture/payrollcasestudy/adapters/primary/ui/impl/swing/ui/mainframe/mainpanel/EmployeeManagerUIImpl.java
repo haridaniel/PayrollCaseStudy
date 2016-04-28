@@ -2,6 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import javax.inject.Inject;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.mainpanel.employeemanager.AffiliationButtonUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.mainpanel.employeemanager.EmployeeListUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.EmployeeManagerPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerController;
@@ -12,9 +13,17 @@ public class EmployeeManagerUIImpl extends EmployeeManagerUI<EmployeeManagerPane
 	@Inject
 	public EmployeeManagerUIImpl(
 			EmployeeManagerController controller,
-			EmployeeListUIImpl employeeListUIImpl
+			EmployeeListUIImpl employeeListUIImpl,
+			AffiliationButtonUIImpl affiliationButtonUIImpl
 			) {
-		super(controller, new EmployeeManagerPanel(employeeListUIImpl.getView()), employeeListUIImpl);
+		super(controller, 
+				new EmployeeManagerPanel(
+					employeeListUIImpl.getView(),
+					affiliationButtonUIImpl.getView()
+					), 
+			employeeListUIImpl,
+			affiliationButtonUIImpl
+			);
 	}
 
 }

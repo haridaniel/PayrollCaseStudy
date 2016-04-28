@@ -1,6 +1,8 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,11 +14,14 @@ import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.employeemanager.EmployeeListPanel;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.employeemanager.affiliation.AffiliationButtonViewImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
 
 public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView {
+	private JPanel bottomButtonPanel;
 	private JPanel tableHolder;
+	
 	private JButton btDeleteEmployee;
 	private JButton btAddTimeCard;
 	private JButton btAddSalesReceipt;
@@ -24,8 +29,11 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 
 	private EmployeeManagerViewListener listener;
 
-	public EmployeeManagerPanel(EmployeeListPanel employeeListPanel) {
-		initUI();
+	public EmployeeManagerPanel(
+			EmployeeListPanel employeeListPanel,
+			AffiliationButtonViewImpl affiliationButton
+			) {
+		initUI(affiliationButton);
 		tableHolder.add(employeeListPanel);
 	}
 
@@ -56,7 +64,7 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 		
 	}
 
-	private void initUI() {
+	private void initUI(AffiliationButtonViewImpl affiliationButton) {
 
 		setLayout(new BorderLayout(0, 0));
 
@@ -64,8 +72,8 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 		tableHolder.setLayout(new BorderLayout(0, 0));
 		add(tableHolder, BorderLayout.CENTER);
 
-		JPanel buttonPanel = new JPanel();
-		add(buttonPanel, BorderLayout.EAST);
+		JPanel rigthButtonPanel = new JPanel();
+		add(rigthButtonPanel, BorderLayout.EAST);
 
 		btDeleteEmployee = new JButton("Delete");
 		btDeleteEmployee.addActionListener(new ActionListener() {
@@ -81,7 +89,7 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 			}
 		});
 
-		GroupLayout gl_buttonPanel = new GroupLayout(buttonPanel);
+		GroupLayout gl_buttonPanel = new GroupLayout(rigthButtonPanel);
 		gl_buttonPanel.setHorizontalGroup(
 				gl_buttonPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_buttonPanel.createSequentialGroup()
@@ -100,10 +108,11 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 						.addComponent(btDeleteEmployee)
 						.addGap(237))
 				);
-		buttonPanel.setLayout(gl_buttonPanel);
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		rigthButtonPanel.setLayout(gl_buttonPanel);
+		
+		bottomButtonPanel = new JPanel();
+		add(bottomButtonPanel, BorderLayout.SOUTH);
+		bottomButtonPanel.setLayout(new FlowLayout());
 
 		btAddTimeCard = new JButton("Add time card..");
 		btAddTimeCard.addActionListener(new ActionListener() {
@@ -111,7 +120,7 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 				onAddTimeCardAction();
 			}
 		});
-		panel.add(btAddTimeCard);
+		bottomButtonPanel.add(btAddTimeCard);
 
 		btAddSalesReceipt = new JButton("Add sales receipt..");
 		btAddSalesReceipt.addActionListener(new ActionListener() {
@@ -119,7 +128,7 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 				onAddSalesReceiptAction();
 			}
 		});
-		panel.add(btAddSalesReceipt);
+		bottomButtonPanel.add(btAddSalesReceipt);
 
 		btAddServiceCharge = new JButton("Add Service charge..");
 		btAddServiceCharge.addActionListener(new ActionListener() {
@@ -128,8 +137,8 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 			}
 
 		});
-		panel.add(btAddServiceCharge);
-
+		bottomButtonPanel.add(btAddServiceCharge);
+		bottomButtonPanel.add(affiliationButton);
 	}
 	
 	@Override

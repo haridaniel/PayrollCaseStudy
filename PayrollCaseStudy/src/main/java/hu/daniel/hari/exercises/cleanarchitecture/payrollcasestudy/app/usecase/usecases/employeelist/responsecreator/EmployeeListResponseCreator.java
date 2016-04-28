@@ -7,12 +7,14 @@ import java.util.stream.Collectors;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.AffiliationTypeResponse.AffiliationTypeResponseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseFactory;
 
 public class EmployeeListResponseCreator {
 
 	private LocalDate baseDate;
 	private PaymentTypeResponseFactory paymentTypeResponseFactory = new PaymentTypeResponseFactory();
+	private AffiliationTypeResponseFactory affiliationTypeResponseFactory = new AffiliationTypeResponseFactory();
 	
 	public EmployeeListResponseCreator(LocalDate baseDate) {
 		this.baseDate = baseDate;
@@ -32,6 +34,7 @@ public class EmployeeListResponseCreator {
 		response.name = employee.getName();
 		response.address = employee.getAddress();
 		response.paymentTypeResponse = employee.getPaymentType().accept(paymentTypeResponseFactory);
+		response.affiliationTypeResponse = affiliationTypeResponseFactory.create(employee.getAffiliation());
 		response.nextPayDay = employee.getPaymentSchedule().getSameOrNextPayDate(baseDate);
 		return response;
 	}

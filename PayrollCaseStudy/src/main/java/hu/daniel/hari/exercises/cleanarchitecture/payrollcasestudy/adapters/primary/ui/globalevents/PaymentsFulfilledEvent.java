@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class PaymentsFulfilledEvent implements EmployeeChangedEvent {
 	public LocalDate payDate;
 	public int employeeCount;
-	public int totalGrossAmount;
+	public int totalNetAmount;
 
-	public PaymentsFulfilledEvent(LocalDate payDate, int employeeCount, int totalGrossAmount) {
+	public PaymentsFulfilledEvent(LocalDate payDate, int employeeCount, int totalNetAmount) {
 		this.payDate = payDate;
 		this.employeeCount = employeeCount;
-		this.totalGrossAmount = totalGrossAmount;
+		this.totalNetAmount = totalNetAmount;
 	}
 }

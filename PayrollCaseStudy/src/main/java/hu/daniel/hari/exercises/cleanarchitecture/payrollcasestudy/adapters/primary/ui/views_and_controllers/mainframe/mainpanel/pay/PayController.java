@@ -65,7 +65,7 @@ public class PayController extends
 				PaymentFulfillUseCase useCase = paymentFulfillUseCaseFactory.paymentFulfillUseCase();
 				useCase.execute(new PaymentFulfillRequest(observableCurrentDate.get()));
 				eventBus.post(new PaymentsFulfilledEvent(observableCurrentDate.get(), 
-						useCase.getResponse().payCheckCount, useCase.getResponse().totalGrossAmount));
+						useCase.getResponse().payCheckCount, useCase.getResponse().totalNetAmount));
 			}
 		});
 	}

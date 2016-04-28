@@ -17,9 +17,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.ObservableSelectedEployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem.PaymentType.PaymentTypeVisitor;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType.PaymentTypeVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.DeleteEmployeeUseCase.DeleteEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.DeleteEmployeeRequest;
@@ -56,7 +55,7 @@ public class EmployeeManagerController extends
 		this.confirmMessageFormatter = confirmMessageFormatter;
 	}
 
-	public void setObservableSelectedEployeeId(ObservableSelectedEployeeItem observableSelectedEployeeItem) {
+	public void setObservableSelectedEmployee(ObservableSelectedEployeeItem observableSelectedEployeeItem) {
 		this.observableSelectedEployeeItem = observableSelectedEployeeItem;
 		observableSelectedEployeeItem.addChangeListener(newValue -> {
 			onSelectedEmployeeIdChanged();
@@ -107,13 +106,17 @@ public class EmployeeManagerController extends
 			ButtonEnabledStates buttonsEnabledStates = new ButtonEnabledStates();
 			buttonsEnabledStates.deleteEmployee = selectedEmployeeViewItem.isPresent();
 			selectedEmployeeViewItem.ifPresent((employeeItem) -> {
-				presentButtonsEnabledStatesForSelectedEmployee(buttonsEnabledStates, employeeItem);
+				presentButtonsEnabledStatesForEmployee(buttonsEnabledStates, employeeItem);
 			});
 			return buttonsEnabledStates;
 		}
 
-		private void presentButtonsEnabledStatesForSelectedEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeViewItem employeeItem) {
-			employeeItem.paymentType.accept(new PaymentTypeVisitor() {
+		private void presentButtonsEnabledStatesForEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeViewItem employeeItem) {
+			presentButtonsEnabledForPaymentType(buttonsEnabledStates, employeeItem.paymentType);
+		}
+
+		private void presentButtonsEnabledForPaymentType(ButtonEnabledStates buttonsEnabledStates, PaymentType paymentType) {
+			paymentType.accept(new PaymentTypeVisitor() {
 				@Override
 				public void visitCommissioned() {
 					buttonsEnabledStates.addSalesReceipt = true;

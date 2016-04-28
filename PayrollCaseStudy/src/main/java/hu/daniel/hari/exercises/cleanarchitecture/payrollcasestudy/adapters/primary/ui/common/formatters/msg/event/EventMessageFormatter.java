@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date.SmartDateFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedTimeCardEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PaymentsFulfilledEvent;
 
@@ -22,8 +23,16 @@ public class EventMessageFormatter {
 	}
 
 	public String format(PaymentsFulfilledEvent event) {
-		return String.format("Payments has been fulfilled for %s employee for pay-day %s as a total gross of %s.", 
-				event.employeeCount, smartDateFormatter.format(event.payDate), event.totalGrossAmount);
+		return String.format("Payments has been fulfilled for %s employee for pay-day %s as a total net of %s.", 
+				event.employeeCount, smartDateFormatter.format(event.payDate), event.totalNetAmount);
+	}
+
+	public String format(AffiliationChangedEvent event) {
+		return changesHasBeenSaved();
+	}
+
+	private String changesHasBeenSaved() {
+		return String.format("Saved");
 	} 
 	
 }

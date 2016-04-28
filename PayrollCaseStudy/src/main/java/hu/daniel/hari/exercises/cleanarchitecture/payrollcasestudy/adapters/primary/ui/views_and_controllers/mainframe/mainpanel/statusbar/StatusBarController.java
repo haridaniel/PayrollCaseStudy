@@ -8,6 +8,7 @@ import com.google.common.eventbus.Subscribe;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.event.EventMessageFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedTimeCardEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PaymentsFulfilledEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
@@ -30,24 +31,30 @@ public class StatusBarController implements Controller<StatusBarView> {
 	}
 	
 	@Subscribe
-	public void onAddedEmployee(AddedEmployeeEvent event) {
+	public void on(AddedEmployeeEvent event) {
 		confirmMessage(messageFormatter.format(event));
 	}
 	
 	@Subscribe
-	public void onAddedTimeCard(AddedTimeCardEvent event) {
+	public void on(AddedTimeCardEvent event) {
 		confirmMessage(messageFormatter.format(event));
 	}
 	
 	@Subscribe
-	public void onDeletedEmployee(DeletedEmployeeEvent event) {
+	public void on(DeletedEmployeeEvent event) {
 		infoMessage(messageFormatter.format(event));
 	}
 
 	@Subscribe
-	public void onPaymentsFulfilled(PaymentsFulfilledEvent event) {
+	public void on(PaymentsFulfilledEvent event) {
 		infoMessage(messageFormatter.format(event));
 	}
+
+	@Subscribe
+	public void on(AffiliationChangedEvent event) {
+		infoMessage(messageFormatter.format(event));
+	}
+
 	
 	private void infoMessage(String message) {
 		view.setModel(new StatusBarViewModel(message, MessageType.INFO));

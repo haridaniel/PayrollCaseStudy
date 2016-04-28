@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ControlView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ModelConsumer;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem;
 
 public interface EmployeeListView extends
 	ControlView<EmployeeListView.EmployeeListViewListener>,
@@ -21,32 +21,6 @@ public interface EmployeeListView extends
 
 		public EmployeeListViewModel(List<EmployeeViewItem> employeeViewItems) {
 			this.employeeViewItems = employeeViewItems;
-		}
-
-		public static class EmployeeViewItem {
-			public int id;
-			public String name;
-			public String address;
-			public String waging;
-			public String nextPayDay;
-			public PaymentType paymentType;
-			
-			public enum PaymentType {
-				SALARIED {@Override public void accept(PaymentTypeVisitor visitor) {visitor.visitSalaried();}},		
-				HOURLY {@Override public void accept(PaymentTypeVisitor visitor) {visitor.visitHourly();}},
-				COMMISSIONED {@Override public void accept(PaymentTypeVisitor visitor) {visitor.visitCommissioned();}};
-				
-				public abstract void accept(PaymentTypeVisitor visitor);
-
-				public interface PaymentTypeVisitor {
-					void visitCommissioned();
-					void visitHourly();
-					void visitSalaried();
-				}
-
-				
-			}
-			
 		}
 		
 	}

@@ -2,10 +2,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 public class PaymentFulfillResponse implements Response {
 	public int payCheckCount;
-	public int totalGrossAmount;
+	public int totalNetAmount;
 
 	public PaymentFulfillResponse(int payCheckCount, int totalGrossAmount) {
 		this.payCheckCount = payCheckCount;
-		this.totalGrossAmount = totalGrossAmount;
+		this.totalNetAmount = totalGrossAmount;
 	}
 }

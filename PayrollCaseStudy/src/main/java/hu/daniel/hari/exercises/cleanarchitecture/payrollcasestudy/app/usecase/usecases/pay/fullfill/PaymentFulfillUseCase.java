@@ -44,11 +44,11 @@ public class PaymentFulfillUseCase implements UseCase<PaymentFulfillRequest>, Ha
 	private PaymentFulfillResponse fullfill(List<PayCheck> payChecks) {
 		payChecks.stream()
 			.forEach(it -> fullfill(it));
-		return new PaymentFulfillResponse(payChecks.size(), calcTotalGrossAmount(payChecks));
+		return new PaymentFulfillResponse(payChecks.size(), calcTotalNetAmount(payChecks));
 	}
 	
-	private int calcTotalGrossAmount(List<PayCheck> payChecks) {
-		return payChecks.stream().mapToInt(PayCheck::getGrossAmount).sum();
+	private int calcTotalNetAmount(List<PayCheck> payChecks) {
+		return payChecks.stream().mapToInt(PayCheck::getNetAmount).sum();
 	}
 
 	private void fullfill(PayCheck payCheck) {

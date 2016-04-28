@@ -4,20 +4,23 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.affiliation.AffiliationResponseToEnumConverter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.date.SmartDateFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToEnumConverter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.paymenttype.PaymentTypeResponseToStringFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 
 class EmployeeListPresenter {
-
+	
 	private EmployeeListResponse response;
 	private SmartDateFormatter smartDateFormatter;
+	
 	private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
 	private PaymentTypeResponseToEnumConverter paymentTypeResponseToEnumConverter = new PaymentTypeResponseToEnumConverter();
+	private AffiliationResponseToEnumConverter affiliationResponseToEnumConverter = new AffiliationResponseToEnumConverter();
 
 	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
 		this.response = response;
@@ -42,6 +45,7 @@ class EmployeeListPresenter {
 		employeeViewItem.waging = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToStringFormatter);
 		employeeViewItem.nextPayDay = smartDateFormatter.format(employeeItem.nextPayDay);
 		employeeViewItem.paymentType = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToEnumConverter);
+		employeeViewItem.affiliationType = affiliationResponseToEnumConverter.toAffiliationType(employeeItem.affiliationTypeResponse);
 		return employeeViewItem;
 	}
 
