@@ -30,9 +30,6 @@ public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetE
 		return response;
 	}
 	
-	public static interface GetEmployeeUseCaseFactory extends UseCaseFactory {
-		GetEmployeeUseCase getEmployeeUseCase();
-	}
 	
 	private static class GetEmployeeResponseCreator {
 		public GetEmployeeResponse toResponse(Employee employee) {
@@ -49,5 +46,8 @@ public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetE
 		
 	}
 
+	public static interface GetEmployeeUseCaseFactory extends UseCaseFactory {
+		GetEmployeeUseCase getEmployeeUseCase();
+	}
 }
 

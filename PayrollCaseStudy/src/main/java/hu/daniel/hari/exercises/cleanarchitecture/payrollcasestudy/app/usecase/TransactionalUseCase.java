@@ -4,7 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public abstract class TransactionalUseCase<R extends Request> implements UseCase<R> {
-	private TransactionalRunner transactionalRunner;
+	private final TransactionalRunner transactionalRunner;
 
 	public TransactionalUseCase(TransactionalRunner transactionalRunner) {
 		this.transactionalRunner = transactionalRunner;

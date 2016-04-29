@@ -5,7 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public abstract class TransactionalEmployeeGatewayUseCase<R extends Request> extends TransactionalUseCase<R> {
-	protected EmployeeGateway employeeGateway;
+	protected final EmployeeGateway employeeGateway;
 
 	public TransactionalEmployeeGatewayUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
 		super(transactionalRunner);

@@ -15,10 +15,14 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem.AffiliationType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView.AffiliationButtonViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView.AffiliationButtonViewModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeaffiliation.AddUnionMemberAffiliationUseCase.AddUnionMemberAffiliationUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeaffiliation.RemoveUnionMemberAffiliationUseCase.RemoveUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.AddUnionMemberAffiliationUseCase.AddUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.GetUnionMemberAffiliationUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.GetUnionMemberAffiliationUseCase.GetUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.RemoveUnionMemberAffiliationUseCase.RemoveUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.GetUnionMemberAffiliationResponse;
 
 public class AffiliationButtonController extends 
 	AbstractController<AffiliationButtonView, AffiliationButtonViewListener> implements 
@@ -26,16 +30,19 @@ public class AffiliationButtonController extends
 	ChangeListener<Optional<EmployeeViewItem>>
 {
 	private ObservableSelectedEployeeItem observableSelectedEmployee;
+	private GetUnionMemberAffiliationUseCaseFactory getUnionMemberAffiliationUseCaseFactory;
 	private AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory;
 	private RemoveUnionMemberAffiliationUseCaseFactory removeUnionMemberAffiliationUseCaseFactory;
 	private EventBus eventBus;
 
 	@Inject
 	public AffiliationButtonController(
+			GetUnionMemberAffiliationUseCaseFactory getUnionMemberAffiliationUseCaseFactory,
 			AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory,
 			RemoveUnionMemberAffiliationUseCaseFactory removeUnionMemberAffiliationUseCaseFactory,
 			EventBus eventBus
 			) {
+		this.getUnionMemberAffiliationUseCaseFactory = getUnionMemberAffiliationUseCaseFactory;
 		this.addUnionMemberAffiliationUseCaseFactory = addUnionMemberAffiliationUseCaseFactory;
 		this.removeUnionMemberAffiliationUseCaseFactory = removeUnionMemberAffiliationUseCaseFactory;
 		this.eventBus = eventBus;
@@ -113,7 +120,12 @@ public class AffiliationButtonController extends
 	private class RemoveUnionMemberAction implements Action {
 		@Override
 		public void execute(EmployeeViewItem e) {
-			int unionMemberId = 0;
+			//TODO: HERE we call new usecase 
+			GetUnionMemberAffiliationUseCase unionMemberAffiliationUseCase = getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase();
+			unionMemberAffiliationUseCase.execute(new GetUnionMemberAffiliationRequest(e.id));
+			GetUnionMemberAffiliationResponse unionMemberAffiliationResponse = unionMemberAffiliationUseCase.getResponse();
+			int unionMemberId = unionMemberAffiliationResponse.unionMemberId;
+			
 			removeUnionMemberAffiliationUseCaseFactory.removeUnionMemberAffiliationUseCase().execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
 		}
 		@Override
