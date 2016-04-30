@@ -3,7 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.awt.GridLayout;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Vector;
+import java.util.stream.IntStream;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -49,10 +51,7 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 		ListSelectionModel selectionModel = table.getSelectionModel();
 		if(selectionModel.isSelectionEmpty())
 			return Optional.empty();
-		
-		int index = selectionModel.getMinSelectionIndex();
-		EmployeeViewItem employeeViewItem = viewModel.employeeViewItems.get(index);
-		return Optional.of(employeeViewItem);
+		return Optional.of(viewModel.employeeViewItems.get(selectionModel.getMinSelectionIndex()));
 	}
 
 
@@ -63,11 +62,31 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 
 	@Override
 	public void setModel(EmployeeListViewModel viewModel) {
+		Optional<EmployeeViewItem> lastSelectedEmployee = getOptionalSelectedEmployeeViewItem();
 		this.viewModel = viewModel;
 		table.setModel(new TableModelBuilder().toTableModel(viewModel));
+		selectEmployeeIfPossible(lastSelectedEmployee);
 		fireEmployeeSelectionChangedEvent();
 	}
+
+	private void selectEmployeeIfPossible(Optional<EmployeeViewItem> employee) {
+		employee.ifPresent((e) -> {
+			selectEmployeeIfExists(e.id);
+		});
+	}
 	
+	private void selectEmployeeIfExists(int employeeId) {
+		getIndexOf(employeeId).ifPresent((i) -> {
+			table.getSelectionModel().setSelectionInterval(i, i);
+		});
+	}
+
+	private OptionalInt getIndexOf(int employeeId) {
+		return IntStream.range(0, viewModel.employeeViewItems.size())
+			.filter((i) -> viewModel.employeeViewItems.get(i).id == employeeId)
+			.findFirst();
+	}
+
 	private static class TableModelBuilder {
 		public TableModel toTableModel(EmployeeListViewModel viewModel) {
 			return new DefaultTableModel(dataVector(viewModel.employeeViewItems), columnNames());

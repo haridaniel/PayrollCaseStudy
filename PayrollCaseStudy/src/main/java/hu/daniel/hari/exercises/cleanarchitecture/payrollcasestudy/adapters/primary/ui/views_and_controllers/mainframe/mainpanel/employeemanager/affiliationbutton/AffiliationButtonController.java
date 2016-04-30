@@ -120,13 +120,13 @@ public class AffiliationButtonController extends
 	private class RemoveUnionMemberAction implements Action {
 		@Override
 		public void execute(EmployeeViewItem e) {
-			//TODO: HERE we call new usecase 
+			removeUnionMemberAffiliationUseCaseFactory.removeUnionMemberAffiliationUseCase().execute(
+					new RemoveUnionMemberAffiliationRequest(getUnionMemberAffiliation(e).unionMemberId));
+		}
+		private GetUnionMemberAffiliationResponse getUnionMemberAffiliation(EmployeeViewItem e) {
 			GetUnionMemberAffiliationUseCase unionMemberAffiliationUseCase = getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase();
 			unionMemberAffiliationUseCase.execute(new GetUnionMemberAffiliationRequest(e.id));
-			GetUnionMemberAffiliationResponse unionMemberAffiliationResponse = unionMemberAffiliationUseCase.getResponse();
-			int unionMemberId = unionMemberAffiliationResponse.unionMemberId;
-			
-			removeUnionMemberAffiliationUseCaseFactory.removeUnionMemberAffiliationUseCase().execute(new RemoveUnionMemberAffiliationRequest(unionMemberId));
+			return unionMemberAffiliationUseCase.getResponse();
 		}
 		@Override
 		public String getButtonText() {
