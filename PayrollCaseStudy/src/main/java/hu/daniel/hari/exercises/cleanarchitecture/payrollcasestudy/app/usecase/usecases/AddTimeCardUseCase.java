@@ -44,7 +44,7 @@ public class AddTimeCardUseCase extends TransactionalEmployeeGatewayUseCase<AddT
 		if(paymentType instanceof HourlyPaymentType) {
 			return (HourlyPaymentType) paymentType;
 		} else {
-			throw new TriedToAddTimeCardToNonHourlyEmployeeException();
+			throw new NotHourlyEmployeeException();
 		}
 	}
 
@@ -52,7 +52,7 @@ public class AddTimeCardUseCase extends TransactionalEmployeeGatewayUseCase<AddT
 		return timeCardFactory.timeCard(request.date, request.workingHoursQty);
 	}
 	
-	public static class TriedToAddTimeCardToNonHourlyEmployeeException extends RuntimeException {
+	public static class NotHourlyEmployeeException extends RuntimeException {
 	}
 
 	public static class TimeCardAlreadyExistsException extends RuntimeException {

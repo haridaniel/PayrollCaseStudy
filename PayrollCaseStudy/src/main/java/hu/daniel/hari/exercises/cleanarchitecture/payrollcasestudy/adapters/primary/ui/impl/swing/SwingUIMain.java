@@ -34,7 +34,7 @@ public class SwingUIMain {
 		//Primary ports
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 
-		//TODO: Guice exception swallows
+		//TODO: Guice exception swallows in swing
 		try {
 			start(useCaseFactories);
 		} catch (Exception e) {

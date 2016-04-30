@@ -110,7 +110,6 @@ public class AffiliationButtonController extends
 			int weeklyDueAmount = 500;
 			addUnionMemberAffiliationUseCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(e.id, unionMemberId, weeklyDueAmount));
 		}
-		//TODO: internationalize
 		@Override
 		public String getButtonText() {
 			return "Change to Union Member";
