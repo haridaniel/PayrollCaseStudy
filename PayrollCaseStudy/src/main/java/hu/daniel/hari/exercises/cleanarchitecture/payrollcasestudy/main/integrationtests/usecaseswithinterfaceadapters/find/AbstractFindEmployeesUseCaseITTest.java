@@ -23,7 +23,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 public abstract class AbstractFindEmployeesUseCaseITTest<T extends Response> extends AbstractUseCaseITTest {
 
 	protected int employeeId = 1;
-
 	private String name = "Bela";
 	private String address = "address";
 
