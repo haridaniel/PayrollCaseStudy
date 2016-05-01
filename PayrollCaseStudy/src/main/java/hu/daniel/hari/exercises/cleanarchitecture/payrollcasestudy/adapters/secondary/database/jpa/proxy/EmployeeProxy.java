@@ -157,7 +157,8 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 			boolean isChanged = oldValue != null && newValue != oldValue;
 			if(isChanged) {
 				removeFromJPAEmployee.run();
-				em.remove(oldValue);
+//				em.remove(oldValue);
+				em.remove(em.contains(oldValue) ? oldValue : em.merge(oldValue));
 				em.flush();
 			}
 		}

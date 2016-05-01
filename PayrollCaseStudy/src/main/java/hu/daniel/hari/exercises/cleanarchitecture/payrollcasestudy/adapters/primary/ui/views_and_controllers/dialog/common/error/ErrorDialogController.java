@@ -18,7 +18,7 @@ public class ErrorDialogController extends
 	}
 	
 	@Override
-	protected boolean onCloseActionIsAllowed() {
+	protected boolean onCloseAction_shouldCloseAutomatically() {
 		return true;
 	}
 

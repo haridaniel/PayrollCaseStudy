@@ -6,7 +6,7 @@ public class IdAlreadyExistsValidationError implements ValidationError {
 		this.nameOfExistingUser = nameOfExistingUser;
 	}
 	@Override
-	public <T> T accept(AddEmployeeValidationErrorVisitor<T> visitor) {
+	public <T> T accept(ValidationErrorVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 }

@@ -36,11 +36,11 @@ public abstract class AbstractDialogViewController<T extends DialogView<VL>, VL 
 	
 	@Override
 	public void onCloseAction() {
-		if(onCloseActionIsAllowed())
+		if(onCloseAction_shouldCloseAutomatically())
 			close();
 	}
 	
-	protected abstract boolean onCloseActionIsAllowed();
+	protected abstract boolean onCloseAction_shouldCloseAutomatically();
 
 	protected void close() {
 		unregisterThisFromEventBus();

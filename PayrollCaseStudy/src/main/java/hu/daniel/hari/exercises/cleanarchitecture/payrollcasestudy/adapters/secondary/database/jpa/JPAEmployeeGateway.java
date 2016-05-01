@@ -72,6 +72,11 @@ public class JPAEmployeeGateway implements EmployeeGateway {
 	}
 
 	@Override
+	public boolean isEmployeeExistsByUnionMemberId(int unionMemberId) {
+		return jPAEmployeeDao.isEmployeeExistsByUnionMemberId(unionMemberId);
+	}
+	
+	@Override
 	public int findEmployeeIdByUnionMemberId(int unionMemberId) {
 		try {
 			return jPAEmployeeDao.getEmployeeIdByUnionMemberId(unionMemberId);

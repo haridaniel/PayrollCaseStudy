@@ -2,9 +2,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 public interface ValidationError {
 	
-	public abstract <T> T accept(ValidationError.AddEmployeeValidationErrorVisitor<T> visitor);
+	public abstract <T> T accept(ValidationError.ValidationErrorVisitor<T> visitor);
 	
-	public interface AddEmployeeValidationErrorVisitor<T> {
+	public interface ValidationErrorVisitor<T> {
 		T visit(IdAlreadyExistsValidationError idAlreadyExistsValidationError);
 		T visit(NameAlreadyExistsValidationError nameAlreadyExistsValidationError);
 	}

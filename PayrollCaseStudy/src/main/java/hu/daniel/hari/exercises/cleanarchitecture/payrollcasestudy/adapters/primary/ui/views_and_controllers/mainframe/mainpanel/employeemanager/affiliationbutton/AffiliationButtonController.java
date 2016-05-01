@@ -10,6 +10,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ObservableValue.ChangeListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberUI.AddUnionMemberUIFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.ObservableSelectedEployeeItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.EmployeeViewItem.AffiliationType;
@@ -29,22 +30,25 @@ public class AffiliationButtonController extends
 	AffiliationButtonViewListener, 
 	ChangeListener<Optional<EmployeeViewItem>>
 {
+	private EventBus eventBus;
 	private ObservableSelectedEployeeItem observableSelectedEmployee;
 	private GetUnionMemberAffiliationUseCaseFactory getUnionMemberAffiliationUseCaseFactory;
 	private AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory;
 	private RemoveUnionMemberAffiliationUseCaseFactory removeUnionMemberAffiliationUseCaseFactory;
-	private EventBus eventBus;
+	private AddUnionMemberUIFactory addUnionMemberUIFactory;
 
 	@Inject
 	public AffiliationButtonController(
 			GetUnionMemberAffiliationUseCaseFactory getUnionMemberAffiliationUseCaseFactory,
 			AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory,
 			RemoveUnionMemberAffiliationUseCaseFactory removeUnionMemberAffiliationUseCaseFactory,
+			AddUnionMemberUIFactory addUnionMemberUIFactory,
 			EventBus eventBus
 			) {
 		this.getUnionMemberAffiliationUseCaseFactory = getUnionMemberAffiliationUseCaseFactory;
 		this.addUnionMemberAffiliationUseCaseFactory = addUnionMemberAffiliationUseCaseFactory;
 		this.removeUnionMemberAffiliationUseCaseFactory = removeUnionMemberAffiliationUseCaseFactory;
+		this.addUnionMemberUIFactory = addUnionMemberUIFactory;
 		this.eventBus = eventBus;
 	}
 
@@ -58,7 +62,6 @@ public class AffiliationButtonController extends
 		EmployeeViewItem employee = observableSelectedEmployee.get().get();
 		Action action = toAction(employee.affiliationType);
 		action.execute(employee);
-		eventBus.post(new AffiliationChangedEvent());
 		update();
 	}
 
@@ -106,13 +109,11 @@ public class AffiliationButtonController extends
 	private class ChangeToUnionMemberAction implements Action {
 		@Override
 		public void execute(EmployeeViewItem e) {
-			int unionMemberId = 6000;
-			int weeklyDueAmount = 500;
-			addUnionMemberAffiliationUseCaseFactory.addUnionMemberAffiliationUseCase().execute(new AddUnionMemberAffiliationRequest(e.id, unionMemberId, weeklyDueAmount));
+			addUnionMemberUIFactory.create(e.id).show();
 		}
 		@Override
 		public String getButtonText() {
-			return "Change to Union Member";
+			return "Change to Union Member..";
 		}
 
 	}
@@ -121,6 +122,7 @@ public class AffiliationButtonController extends
 		public void execute(EmployeeViewItem e) {
 			removeUnionMemberAffiliationUseCaseFactory.removeUnionMemberAffiliationUseCase().execute(
 					new RemoveUnionMemberAffiliationRequest(getUnionMemberAffiliation(e).unionMemberId));
+			eventBus.post(new AffiliationChangedEvent());
 		}
 		private GetUnionMemberAffiliationResponse getUnionMemberAffiliation(EmployeeViewItem e) {
 			GetUnionMemberAffiliationUseCase unionMemberAffiliationUseCase = getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase();

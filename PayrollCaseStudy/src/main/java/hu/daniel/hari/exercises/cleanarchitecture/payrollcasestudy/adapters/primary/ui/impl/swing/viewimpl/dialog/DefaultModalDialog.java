@@ -81,8 +81,8 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 	
 	private void showDialog() {
 		SwingUtilities.invokeLater(() -> {
-			setVisible(true);
 			centerParent();
+			setVisible(true);
 		});
 	}
 

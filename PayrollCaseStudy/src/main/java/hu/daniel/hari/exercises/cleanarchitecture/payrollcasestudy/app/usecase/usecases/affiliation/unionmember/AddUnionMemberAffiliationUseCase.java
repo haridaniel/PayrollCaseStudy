@@ -3,15 +3,16 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddServiceChargeUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.Error;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.MultipleUseCaseErrorsExceptionBuilder;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public class AddUnionMemberAffiliationUseCase extends TransactionalEmployeeGatewayUseCase<AddUnionMemberAffiliationRequest> {
 
 	private AffiliationFactory affiliationFactory;
+	private AddUnionMemberAffiliationRequest request;
 
 	public AddUnionMemberAffiliationUseCase(
 			TransactionalRunner transactionalRunner, 
@@ -24,12 +25,41 @@ public class AddUnionMemberAffiliationUseCase extends TransactionalEmployeeGatew
 
 	@Override
 	protected void executeInTransaction(AddUnionMemberAffiliationRequest request) {
-		Employee employee = employeeGateway.findById(request.employeeId);
-		employee.setAffiliation(affiliationFactory.unionMemberAffiliation(request.unionMemberId, request.weeklyDueAmount));
+		this.request = request;
+		new Validator();
+		employeeGateway.findById(request.employeeId)
+			.setAffiliation(affiliationFactory.unionMemberAffiliation(request.unionMemberId, request.weeklyDueAmount));
+	}
+
+	private final class Validator extends MultipleUseCaseErrorsExceptionBuilder<AddUnionMemberAffiliationError> {
+		@Override
+		protected void addErrors() {
+			validateUnionMemberIdNotExists(request.unionMemberId);
+		}
+	
+		private void validateUnionMemberIdNotExists(int unionMemberId) {
+			if(employeeGateway.isEmployeeExistsByUnionMemberId(unionMemberId)) {
+				Employee ownerEmployee = employeeGateway.findById(employeeGateway.findEmployeeIdByUnionMemberId(unionMemberId));
+				addError(new UnionMemberIdAlreadyExistsError(ownerEmployee.getId(), ownerEmployee.getName()));
+			}
+		}
 	}
 
 	public static interface AddUnionMemberAffiliationUseCaseFactory {
 		AddUnionMemberAffiliationUseCase addUnionMemberAffiliationUseCase();
 	}
 
+	public static class AddUnionMemberAffiliationError extends Error {
+	}
+	
+	public static class UnionMemberIdAlreadyExistsError extends AddUnionMemberAffiliationError {
+		public int ownerEmployeeId;
+		public String ownerEmployeeName;
+		public UnionMemberIdAlreadyExistsError(int ownerEmployeeId, String ownerEmployeeName) {
+			this.ownerEmployeeId = ownerEmployeeId;
+			this.ownerEmployeeName = ownerEmployeeName;
+		}
+	}
+	
+	
 }

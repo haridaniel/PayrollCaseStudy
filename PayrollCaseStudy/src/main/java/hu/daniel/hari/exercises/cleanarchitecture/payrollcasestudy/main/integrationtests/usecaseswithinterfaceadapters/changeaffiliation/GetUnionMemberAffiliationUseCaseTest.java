@@ -24,7 +24,7 @@ public class GetUnionMemberAffiliationUseCaseTest extends AbstractUseCaseITTest 
 	}
 
 	@Test
-	public void testAddUnionMemberAffiliationUseCase() {
+	public void testGetUnionMemberAffiliationUseCase() {
 		givenAnEmployeeWithUnionMemberAffiliation();
 		thenResponseShouldBeCorrect(whenExecuteUseCase());
 	}

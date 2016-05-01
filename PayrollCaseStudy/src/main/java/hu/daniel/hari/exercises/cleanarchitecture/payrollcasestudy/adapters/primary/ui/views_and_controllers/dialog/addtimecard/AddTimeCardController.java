@@ -57,7 +57,7 @@ public class AddTimeCardController extends
 	}
 	
 	@Override
-	protected boolean onCloseActionIsAllowed() {
+	protected boolean onCloseAction_shouldCloseAutomatically() {
 		return true;
 	}
 	
@@ -103,14 +103,18 @@ public class AddTimeCardController extends
 		} catch (FieldValidatorException e) {
 			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
 		} catch (TimeCardAlreadyExistsException e) {
-			confirmDialogUIProvider.get().show(confirmMessageFormatter.timeCardAlreadyExists(), new ConfirmDialogListener() {
-				@Override
-				public void onOk() {
-					addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toRequest(model, true));
-					onAdded(model);
-				}
-			});
+			onTimeCardAlreadyExists(model);
 		} 
+	}
+
+	private void onTimeCardAlreadyExists(AddTimeCardViewOutputModel model) {
+		confirmDialogUIProvider.get().show(confirmMessageFormatter.timeCardAlreadyExists(), new ConfirmDialogListener() {
+			@Override
+			public void onOk() {
+				addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toRequest(model, true));
+				onAdded(model);
+			}
+		});
 	}
 
 	private void onAdded(AddTimeCardViewOutputModel model) {

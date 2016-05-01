@@ -48,6 +48,15 @@ public class InMemoryEntityGateway implements EmployeeGateway {
 		employeesById.remove(employeeId);
 	}
 
+	//TODO: TEST
+	@Override
+	public boolean isEmployeeExistsByUnionMemberId(int unionMemberId) {
+		return employeesById.values().stream()
+				.filter(employee -> (employee.getAffiliation() instanceof UnionMemberAffiliation))
+				.filter(employee -> ((UnionMemberAffiliation) employee.getAffiliation()).getUnionMemberId() == unionMemberId)
+				.count() > 0;
+	}
+
 	// Wrong performance, but ok now
 	@Override
 	public int findEmployeeIdByUnionMemberId(int unionMemberId) {

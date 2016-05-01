@@ -49,6 +49,17 @@ public class JPAEmployeeDao {
 		}
 	}
 
+	public boolean isEmployeeExistsByUnionMemberId(int unionMemberId) {
+		return em.createQuery(
+				  "SELECT "
+				+ "CASE WHEN COUNT(*) > 0 THEN true ELSE false END "
+				+ "FROM JPAUnionMemberAffiliation unionMemberAffiliation "
+				+ "WHERE unionMemberAffiliation.unionMemberId = :unionMemberId ",
+						Boolean.class)
+				.setParameter("unionMemberId", unionMemberId)
+				.getSingleResult();
+	}
+
 	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
 		return em.createQuery(
 				  "SELECT employeeId "
