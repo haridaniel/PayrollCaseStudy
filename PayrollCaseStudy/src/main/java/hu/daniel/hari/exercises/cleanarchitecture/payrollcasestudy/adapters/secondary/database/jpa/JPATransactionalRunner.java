@@ -1,22 +1,24 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public class JPATransactionalRunner implements TransactionalRunner {
-	@Inject private EntityManager entityManager;
+	@Inject private Provider<EntityManager> entityManagerProvider;
 
-	@Inject
-	public void inited() {
-		System.err.println("JPATransactionalRunner" + entityManager);
-	}
+	//http://stackoverflow.com/questions/10762974/should-jpa-entity-manager-be-closed
+	//jvisualvm
 
 	@Override
 	public void executeInTransaction(Runnable runnable) {
-		EntityTransaction transaction = createTransaction();
+		EntityManager entityManager = entityManagerProvider.get();
+		System.err.println(entityManager);
+		EntityTransaction transaction = createTransaction(entityManager);
+//		EntityTransaction transaction = createTransaction();
 		try {
 			runnable.run();
 			transaction.commit();
@@ -27,7 +29,7 @@ public class JPATransactionalRunner implements TransactionalRunner {
 		}
 	}
 	
-	private EntityTransaction createTransaction() {
+	private EntityTransaction createTransaction(EntityManager entityManager) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
 		return transaction;
