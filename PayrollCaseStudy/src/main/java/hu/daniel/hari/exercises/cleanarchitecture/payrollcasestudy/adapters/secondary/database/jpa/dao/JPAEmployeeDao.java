@@ -11,11 +11,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.paymentclassification.commissioned.JPASalesReceipt;
 
 public class JPAEmployeeDao {
-
+	
 	private EntityManager em;
 
 	@Inject
 	public JPAEmployeeDao(EntityManager em) {
+		System.err.println("new JPAEmployeeDao + " + em);
 		this.em = em;
 	}
 

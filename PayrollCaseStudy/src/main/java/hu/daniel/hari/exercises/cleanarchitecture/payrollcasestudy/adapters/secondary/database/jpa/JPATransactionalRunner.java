@@ -9,6 +9,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 public class JPATransactionalRunner implements TransactionalRunner {
 	@Inject private EntityManager entityManager;
 
+	@Inject
+	public void inited() {
+		System.err.println("JPATransactionalRunner" + entityManager);
+	}
+
 	@Override
 	public void executeInTransaction(Runnable runnable) {
 		EntityTransaction transaction = createTransaction();
