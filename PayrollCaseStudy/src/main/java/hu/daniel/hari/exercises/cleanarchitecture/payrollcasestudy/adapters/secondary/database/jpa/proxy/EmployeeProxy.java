@@ -36,7 +36,6 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	private AffiliationProxy affiliationProxy;
 
 	@Inject private ProxyFactory proxyFactory;
-//	@Inject private EntityManager em;
 	@Inject private Provider<EntityManager> emProvider;
 	
 	private OneToOneRelationsUpdater oneToOneRelationsUpdater = new OneToOneRelationsUpdater();
@@ -164,12 +163,15 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 			boolean isChanged = oldValue != null && newValue != oldValue;
 			if(isChanged) {
 				removeFromJPAEmployee.run();
-				EntityManager em = emProvider.get();
-//				em.remove(oldValue);
-				em.remove(em.contains(oldValue) ? oldValue : em.merge(oldValue));
-				em.flush();
+				entityManager().remove(oldValue);
+				entityManager().flush();
 			}
 		}
+
+	}
+	
+	private EntityManager entityManager() {
+		return emProvider.get();
 	}
 
 	@Override
