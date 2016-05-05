@@ -1,11 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing;
 
-import javax.swing.JFrame;
-
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
@@ -93,9 +89,4 @@ public class SwingUIModule extends AbstractModule {
 		install(new FactoryModuleBuilder().build(AddUnionMemberControllerFactory.class));
 	}
 	
-	@Provides 
-	JFrame getRootFrame(Injector injector) {
-		return injector.getInstance(MainFrameUIImpl.class).view;
-	}
-
 }

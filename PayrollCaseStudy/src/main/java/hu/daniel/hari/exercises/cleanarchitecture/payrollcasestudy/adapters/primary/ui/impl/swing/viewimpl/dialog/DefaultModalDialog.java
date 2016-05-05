@@ -56,7 +56,6 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 	}
 	
 	private void centerParent() {
-		//TODO: not working... swing suxx
 		setLocationRelativeTo(getParent());
 	}
 	

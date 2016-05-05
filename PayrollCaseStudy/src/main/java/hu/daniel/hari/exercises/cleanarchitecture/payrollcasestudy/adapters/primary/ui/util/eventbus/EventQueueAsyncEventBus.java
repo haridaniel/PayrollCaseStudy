@@ -10,6 +10,7 @@ public class EventQueueAsyncEventBus extends AsyncEventBus {
 
 	public EventQueueAsyncEventBus() {
 		super(new EventQueueExecutor());
+		
 	}
 
 	@Override

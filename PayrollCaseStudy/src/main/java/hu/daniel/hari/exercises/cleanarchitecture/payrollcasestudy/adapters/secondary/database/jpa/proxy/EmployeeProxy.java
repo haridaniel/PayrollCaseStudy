@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.JPAEmployee;
@@ -35,7 +36,8 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	private AffiliationProxy affiliationProxy;
 
 	@Inject private ProxyFactory proxyFactory;
-	@Inject private EntityManager em;
+//	@Inject private EntityManager em;
+	@Inject private Provider<EntityManager> emProvider;
 	
 	private OneToOneRelationsUpdater oneToOneRelationsUpdater = new OneToOneRelationsUpdater();
 	
@@ -46,7 +48,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	
 	@Inject
 	public void inited() {
-		System.err.println("EmployeeProxy + " + em);
+//		System.err.println("EmployeeProxy + " + em);
 	}
 
 	@Override
@@ -162,6 +164,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 			boolean isChanged = oldValue != null && newValue != oldValue;
 			if(isChanged) {
 				removeFromJPAEmployee.run();
+				EntityManager em = emProvider.get();
 //				em.remove(oldValue);
 				em.remove(em.contains(oldValue) ? oldValue : em.merge(oldValue));
 				em.flush();

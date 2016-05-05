@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import com.google.inject.assistedinject.Assisted;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.MainFrameUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addunionmemberaffiliation.AddUnionMemberDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberController.AddUnionMemberControllerFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberUI;
@@ -17,9 +18,9 @@ public class AddUnionMemberUIImpl extends
 	public AddUnionMemberUIImpl(
 			AddUnionMemberControllerFactory controllerFactory, 
 			@Assisted int employeeId,
-			Provider<JFrame> rootFrameProvider
+			MainFrameUIImpl mainFrameUIImpl
 			) {
-		super(controllerFactory, new AddUnionMemberDialog(rootFrameProvider.get()), employeeId);
+		super(controllerFactory, new AddUnionMemberDialog(mainFrameUIImpl.view), employeeId);
 	}
 
 }

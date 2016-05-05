@@ -1,25 +1,24 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.dialog;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.swing.JFrame;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.MainFrameUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialog;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI;
 
 public class ConfirmDialogUIImpl implements ConfirmDialogUI {
-	private Provider<JFrame> rootFrameProvider;
+	private MainFrameUIImpl mainFrameUIImpl;
 
 	@Inject
 	public ConfirmDialogUIImpl(
-			Provider<JFrame> rootFrameProvider
+			MainFrameUIImpl mainFrameUIImpl
 			) {
-		this.rootFrameProvider = rootFrameProvider;
+		this.mainFrameUIImpl = mainFrameUIImpl;
 	}
 	
 	@Override
 	public void show(String message, ConfirmDialogListener confirmDialogListener) {
-		new ConfirmDialog(rootFrameProvider.get(), message, confirmDialogListener)
+		new ConfirmDialog(mainFrameUIImpl.view, message, confirmDialogListener)
 			.showIt();
 	}
 

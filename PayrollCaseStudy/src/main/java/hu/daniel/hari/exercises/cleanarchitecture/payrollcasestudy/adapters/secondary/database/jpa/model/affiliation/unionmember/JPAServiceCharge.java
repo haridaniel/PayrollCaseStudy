@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -21,6 +22,8 @@ public class JPAServiceCharge {
 	@Embeddable
 	public static class ID implements Serializable {
 		public Integer unionMemberId;
+
+		@Column(name="\"date\"")
 		public LocalDate date;
 
 		public ID() {
