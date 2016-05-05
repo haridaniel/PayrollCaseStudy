@@ -10,9 +10,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 public class JPATransactionalRunner implements TransactionalRunner {
 	@Inject private Provider<EntityManager> entityManagerProvider;
 
-	//http://stackoverflow.com/questions/10762974/should-jpa-entity-manager-be-closed
-	//jvisualvm
-
 	@Override
 	public void executeInTransaction(Runnable runnable) {
 		EntityManager entityManager = entityManagerProvider.get();

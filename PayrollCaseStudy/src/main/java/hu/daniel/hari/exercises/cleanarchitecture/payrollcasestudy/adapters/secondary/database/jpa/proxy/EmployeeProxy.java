@@ -44,11 +44,6 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	public EmployeeProxy(JPAEmployee jpaEmployee) {
 		this.jpaEmployee = jpaEmployee;
 	}
-	
-	@Inject
-	public void inited() {
-//		System.err.println("EmployeeProxy + " + em);
-	}
 
 	@Override
 	public int getId() {

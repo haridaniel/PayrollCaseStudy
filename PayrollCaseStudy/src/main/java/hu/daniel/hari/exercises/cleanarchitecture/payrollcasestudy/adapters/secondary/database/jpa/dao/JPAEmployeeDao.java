@@ -14,11 +14,6 @@ public class JPAEmployeeDao {
 	
 	@Inject private Provider<EntityManager> emProvider;
 
-	@Inject
-	public JPAEmployeeDao() {
-//		System.err.println("new JPAEmployeeDao + ");
-	}
-
 	public void persist(JPAEmployee jpaEmployee) {
 		em().persist(jpaEmployee);
 	}
