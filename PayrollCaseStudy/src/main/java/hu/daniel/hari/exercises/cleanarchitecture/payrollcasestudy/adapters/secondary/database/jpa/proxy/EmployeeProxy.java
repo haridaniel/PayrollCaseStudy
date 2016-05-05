@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.JPAEmployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.model.affiliation.JPAAffiliation;
@@ -22,9 +21,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 
-/**
- * Violates LSP by downcasting in the setter methods?
- */
 @AutoBindedProxy(JPAEmployee.class)
 public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 
@@ -36,7 +32,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	private AffiliationProxy affiliationProxy;
 
 	@Inject private ProxyFactory proxyFactory;
-	@Inject private Provider<EntityManager> emProvider;
+	@Inject private Provider<EntityManager> entityManagerProvider;
 	
 	private OneToOneRelationsUpdater oneToOneRelationsUpdater = new OneToOneRelationsUpdater();
 	
@@ -166,7 +162,7 @@ public class EmployeeProxy extends Employee implements Proxy<JPAEmployee> {
 	}
 	
 	private EntityManager entityManager() {
-		return emProvider.get();
+		return entityManagerProvider.get();
 	}
 
 	@Override

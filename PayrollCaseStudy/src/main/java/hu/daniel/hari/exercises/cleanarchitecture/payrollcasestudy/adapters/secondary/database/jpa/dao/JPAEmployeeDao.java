@@ -12,14 +12,14 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 
 public class JPAEmployeeDao {
 	
-	@Inject private Provider<EntityManager> emProvider;
+	@Inject private Provider<EntityManager> entityManagerProvider;
 
 	public void persist(JPAEmployee jpaEmployee) {
-		em().persist(jpaEmployee);
+		entityManager().persist(jpaEmployee);
 	}
 
 	public JPAEmployee find(int employeeId) {
-		return em().find(JPAEmployee.class, employeeId);
+		return entityManager().find(JPAEmployee.class, employeeId);
 	}
 	
 	public boolean isExists(int employeeId) {
@@ -27,25 +27,25 @@ public class JPAEmployeeDao {
 	}
 	
 	public List<JPAEmployee> findAll() {
-		CriteriaQuery<JPAEmployee> criteria = em().getCriteriaBuilder().createQuery(JPAEmployee.class);
-		return em().createQuery(
+		CriteriaQuery<JPAEmployee> criteria = entityManager().getCriteriaBuilder().createQuery(JPAEmployee.class);
+		return entityManager().createQuery(
 				criteria.select(criteria
 						.from(JPAEmployee.class))
 				).getResultList();
 	}
 
 	public void delete(int employeeId) {
-		em().remove(find(employeeId));
+		entityManager().remove(find(employeeId));
 	}
 
 	public void deleteAll() {
 		for (JPAEmployee jpaEmployee : findAll()) {
-			em().remove(jpaEmployee);
+			entityManager().remove(jpaEmployee);
 		}
 	}
 
 	public boolean isEmployeeExistsByUnionMemberId(int unionMemberId) {
-		return em().createQuery(
+		return entityManager().createQuery(
 				  "SELECT "
 				+ "CASE WHEN COUNT(*) > 0 THEN true ELSE false END "
 				+ "FROM JPAUnionMemberAffiliation unionMemberAffiliation "
@@ -56,7 +56,7 @@ public class JPAEmployeeDao {
 	}
 
 	public int getEmployeeIdByUnionMemberId(int unionMemberId) {
-		return em().createQuery(
+		return entityManager().createQuery(
 				  "SELECT employeeId "
 				+ "FROM JPAUnionMemberAffiliation unionMemberAffiliation "
 				+ "WHERE unionMemberAffiliation.unionMemberId = :unionMemberId ",
@@ -65,8 +65,8 @@ public class JPAEmployeeDao {
 				.getSingleResult();
 	}
 
-	public EntityManager em() {
-		return emProvider.get();
+	private EntityManager entityManager() {
+		return entityManagerProvider.get();
 	}
 
 }

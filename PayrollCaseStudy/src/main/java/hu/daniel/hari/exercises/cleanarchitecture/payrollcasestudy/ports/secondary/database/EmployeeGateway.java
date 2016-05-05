@@ -17,6 +17,7 @@ public interface EmployeeGateway {
 	 * @throws NoSuchEmployeeException
 	 */
 	int findEmployeeIdByUnionMemberId(int unionMemberId);
+	
 	boolean isEmployeeExistsByUnionMemberId(int unionMemberId);
 	
 	Collection<Employee> findAll();

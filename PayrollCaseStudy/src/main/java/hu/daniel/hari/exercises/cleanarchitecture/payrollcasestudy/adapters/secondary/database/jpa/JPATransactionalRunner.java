@@ -12,22 +12,19 @@ public class JPATransactionalRunner implements TransactionalRunner {
 
 	@Override
 	public void executeInTransaction(Runnable runnable) {
-		EntityManager entityManager = entityManagerProvider.get();
-		System.err.println(entityManager);
-		EntityTransaction transaction = createTransaction(entityManager);
-//		EntityTransaction transaction = createTransaction();
+		EntityTransaction transaction = beginTransaction();
 		try {
 			runnable.run();
 			transaction.commit();
-			entityManager.clear();
+			entityManagerProvider.get().clear();
 		} catch (RuntimeException e) {
 			transaction.rollback();
 			throw e;
 		}
 	}
 	
-	private EntityTransaction createTransaction(EntityManager entityManager) {
-		EntityTransaction transaction = entityManager.getTransaction();
+	private EntityTransaction beginTransaction() {
+		EntityTransaction transaction = entityManagerProvider.get().getTransaction();
 		transaction.begin();
 		return transaction;
 	}

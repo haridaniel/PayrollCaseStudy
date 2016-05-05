@@ -101,8 +101,8 @@
 			<version>9.4-1204-jdbc42</version>
 			<scope>runtime</scope>
 		</dependency>
-	
-		<dependency>
+		
+		<dependency>	<!-- Should be removed before publish! -->
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.2.0</version>
