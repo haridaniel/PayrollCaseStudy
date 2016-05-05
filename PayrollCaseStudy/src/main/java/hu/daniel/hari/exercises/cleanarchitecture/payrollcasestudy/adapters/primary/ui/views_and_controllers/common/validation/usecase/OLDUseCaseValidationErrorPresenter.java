@@ -6,7 +6,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationErrorMessagesModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.UseCaseValidationException;
 
-public class UseCaseValidationErrorPresenter {
+@Deprecated
+public class OLDUseCaseValidationErrorPresenter {
 	private UseCaseValidationErrorFormatter errorFormatter = new UseCaseValidationErrorFormatter();
 	
 	public ValidationErrorMessagesModel present(UseCaseValidationException e) {

@@ -15,13 +15,13 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberView.AddUnionMemberViewInputModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberView.AddUnionMemberViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addunionmemberaffiliation.AddUnionMemberView.AddUnionMemberViewOutputModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.MultipleUseCaseErrorsException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.AddUnionMemberAffiliationUseCase.AddUnionMemberAffiliationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.AddUnionMemberAffiliationUseCase.AddUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleUseCaseErrorsException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
 
 public class AddUnionMemberController extends
 	AbstractDialogViewController<AddUnionMemberView, AddUnionMemberViewListener> implements
@@ -81,6 +81,7 @@ public class AddUnionMemberController extends
 		} catch (MultipleUseCaseErrorsException e) {
 			List<AddUnionMemberAffiliationError> errors = e.getErrors();
 			System.out.println();
+			//getView().setValidationErrorMessagesModel();
 			//?
 		} 
 		

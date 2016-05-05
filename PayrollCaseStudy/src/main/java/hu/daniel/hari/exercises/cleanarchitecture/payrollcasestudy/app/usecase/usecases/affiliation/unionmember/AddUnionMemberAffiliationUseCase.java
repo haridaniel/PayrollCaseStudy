@@ -3,9 +3,10 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.Error;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.MultipleUseCaseErrorsExceptionBuilder;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.UnionMemberIdAlreadyExistsError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -47,18 +48,6 @@ public class AddUnionMemberAffiliationUseCase extends TransactionalEmployeeGatew
 
 	public static interface AddUnionMemberAffiliationUseCaseFactory {
 		AddUnionMemberAffiliationUseCase addUnionMemberAffiliationUseCase();
-	}
-
-	public static class AddUnionMemberAffiliationError extends Error {
-	}
-	
-	public static class UnionMemberIdAlreadyExistsError extends AddUnionMemberAffiliationError {
-		public int ownerEmployeeId;
-		public String ownerEmployeeName;
-		public UnionMemberIdAlreadyExistsError(int ownerEmployeeId, String ownerEmployeeName) {
-			this.ownerEmployeeId = ownerEmployeeId;
-			this.ownerEmployeeName = ownerEmployeeName;
-		}
 	}
 	
 	

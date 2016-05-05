@@ -10,8 +10,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.MultipleUseCaseErrorsExceptionBuilder;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.IdAlreadyExistsValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.AddEmployeeError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.IdAlreadyExistsValidationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.UseCaseValidationException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.ValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
@@ -21,6 +24,7 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	private EmployeeFactory employeeFactory;
 	private PaymentMethodFactory paymentMethodFactory;
 	private AffiliationFactory affiliationFactory;
+	private R request;
 	
 	public AddEmployeeUseCase(
 			TransactionalRunner transactionalRunner, 
@@ -36,8 +40,9 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	}
 	
 	@Override
-	protected final void executeInTransaction(R request) throws UseCaseValidationException {
-		new Validator().validate(request);
+	protected final void executeInTransaction(R request){
+		this.request = request;
+		new Validator();
 
 		Employee employee = employeeFactory.employee();
 		
@@ -74,31 +79,43 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		AddCommissionedEmployeeUseCase addCommissionedEmployeeUseCase();
 	}
 	
-	private class Validator {
-		List<ValidationError> validationErrors = new ArrayList<>();
+	private final class Validator extends MultipleUseCaseErrorsExceptionBuilder<AddEmployeeError> {
+
+		@Override
+		protected void addErrors() {
+			checkIdExists();
+			checkNameExists();
+		}
 		
-		private void validate(R request) {
-			checkIdExists(request);
-			checkNameExists(request);
-			throwIfThereAreErrors();
-		}
-
-		private void throwIfThereAreErrors() {
-			if(!validationErrors.isEmpty())
-				throw new UseCaseValidationException(validationErrors);
-		}
-
-		private void checkIdExists(R request) {
+		private void checkIdExists() {
 			if(employeeGateway.isExists(request.employeeId)) {
 				Employee employee = employeeGateway.findById(request.employeeId);
-				validationErrors.add(new IdAlreadyExistsValidationError(employee.getName()));
+				addError(new IdAlreadyExistsValidationError(employee.getName()));
 			}
 		}
 		
-		private void checkNameExists(R request) {
+		private void checkNameExists() {
 			// TODO Auto-generated method stub
 		}
 		
 	}
+	
+	
+//	private class Old_Validator {
+//		List<ValidationError> validationErrors = new ArrayList<>();
+//		
+//		private void validate(R request) {
+//			checkIdExists(request);
+//			checkNameExists(request);
+//			throwIfThereAreErrors();
+//		}
+//
+//		private void throwIfThereAreErrors() {
+//			if(!validationErrors.isEmpty())
+//				throw new UseCaseValidationException(validationErrors);
+//		}
+//
+//		
+//	}
 	
 }

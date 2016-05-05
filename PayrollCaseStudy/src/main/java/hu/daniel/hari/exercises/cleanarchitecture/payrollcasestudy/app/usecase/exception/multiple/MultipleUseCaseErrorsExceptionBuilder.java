@@ -3,6 +3,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.Error;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleUseCaseErrorsException;
+
 public abstract class MultipleUseCaseErrorsExceptionBuilder<E extends Error> {
 	private List<E> errors = new ArrayList<>();
 	
