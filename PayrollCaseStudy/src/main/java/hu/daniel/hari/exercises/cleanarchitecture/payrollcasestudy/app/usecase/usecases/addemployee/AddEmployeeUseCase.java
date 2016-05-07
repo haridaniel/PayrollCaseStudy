@@ -1,8 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee.EmployeeFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
@@ -14,9 +11,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.e
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.AddEmployeeError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.IdAlreadyExistsValidationError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.UseCaseValidationException;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.error.validation.ValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -99,23 +93,5 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 		}
 		
 	}
-	
-	
-//	private class Old_Validator {
-//		List<ValidationError> validationErrors = new ArrayList<>();
-//		
-//		private void validate(R request) {
-//			checkIdExists(request);
-//			checkNameExists(request);
-//			throwIfThereAreErrors();
-//		}
-//
-//		private void throwIfThereAreErrors() {
-//			if(!validationErrors.isEmpty())
-//				throw new UseCaseValidationException(validationErrors);
-//		}
-//
-//		
-//	}
 	
 }
