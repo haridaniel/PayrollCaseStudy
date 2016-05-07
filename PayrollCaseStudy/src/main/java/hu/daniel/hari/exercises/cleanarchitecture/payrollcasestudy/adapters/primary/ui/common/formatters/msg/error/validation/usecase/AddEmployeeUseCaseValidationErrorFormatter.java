@@ -1,13 +1,9 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.error.validation.usecase;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.AddEmployeeError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.AddEmployeeError.AddEmployeeErrorVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.IdAlreadyExistsValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.NameAlreadyExistsValidationError;
-import oracle.net.aso.e;
 
 public class AddEmployeeUseCaseValidationErrorFormatter extends 
 	MultipleFormatter<AddEmployeeError> implements 

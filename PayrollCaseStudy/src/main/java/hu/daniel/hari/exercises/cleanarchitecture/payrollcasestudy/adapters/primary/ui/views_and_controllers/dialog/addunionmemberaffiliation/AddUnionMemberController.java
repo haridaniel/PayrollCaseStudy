@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.assistedinject.Assisted;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.msg.unionmember.UnionMemberFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationSingleErrorMessageModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidationErrorPresenter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException.FieldValidatorError;
@@ -22,6 +24,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.UnionMemberIdAlreadyExistsException;
 
 public class AddUnionMemberController extends
 	AbstractDialogViewController<AddUnionMemberView, AddUnionMemberViewListener> implements
@@ -78,11 +81,9 @@ public class AddUnionMemberController extends
 			onAdded();
 		} catch (FieldValidatorException e) {
 			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
-		} catch (MultipleUseCaseErrorsException e) {
-			List<AddUnionMemberAffiliationError> errors = e.getErrors();
-			System.out.println();
-			//getView().setValidationErrorMessagesModel();
-			//?
+		} catch (UnionMemberIdAlreadyExistsException e) {
+			UnionMemberFormatter unionMemberFormatter = new UnionMemberFormatter();
+			getView().setValidationErrorMessagesModel(new ValidationSingleErrorMessageModel(unionMemberFormatter.format(e)));
 		} 
 		
 	}

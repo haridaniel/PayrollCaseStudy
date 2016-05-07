@@ -3,10 +3,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.exception.multiple.MultipleUseCaseErrorsExceptionBuilder;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.AddUnionMemberAffiliationError;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.UnionMemberIdAlreadyExistsError;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.UnionMemberIdAlreadyExistsException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -32,20 +30,19 @@ public class AddUnionMemberAffiliationUseCase extends TransactionalEmployeeGatew
 			.setAffiliation(affiliationFactory.unionMemberAffiliation(request.unionMemberId, request.weeklyDueAmount));
 	}
 
-	private final class Validator extends MultipleUseCaseErrorsExceptionBuilder<AddUnionMemberAffiliationError> {
-		@Override
-		protected void addErrors() {
+	private final class Validator  {
+		public Validator() {
 			validateUnionMemberIdNotExists(request.unionMemberId);
 		}
 	
 		private void validateUnionMemberIdNotExists(int unionMemberId) {
 			if(employeeGateway.isEmployeeExistsByUnionMemberId(unionMemberId)) {
 				Employee ownerEmployee = employeeGateway.findById(employeeGateway.findEmployeeIdByUnionMemberId(unionMemberId));
-				addError(new UnionMemberIdAlreadyExistsError(ownerEmployee.getId(), ownerEmployee.getName()));
+				throw new UnionMemberIdAlreadyExistsException(ownerEmployee.getId(), ownerEmployee.getName());
 			}
 		}
 	}
-
+	
 	public static interface AddUnionMemberAffiliationUseCaseFactory {
 		AddUnionMemberAffiliationUseCase addUnionMemberAffiliationUseCase();
 	}
