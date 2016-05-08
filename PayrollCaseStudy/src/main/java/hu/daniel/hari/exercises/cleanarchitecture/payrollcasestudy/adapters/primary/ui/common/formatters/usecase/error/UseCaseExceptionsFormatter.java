@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember.UnionMemberIdAlreadyExistsException;
 
-public class UnionMemberFormatter {
+public class UseCaseExceptionsFormatter {
 
 	public String format(UnionMemberIdAlreadyExistsException e) {
 		return String.format("%s already owns this union member id!", e.ownerEmployeeName);

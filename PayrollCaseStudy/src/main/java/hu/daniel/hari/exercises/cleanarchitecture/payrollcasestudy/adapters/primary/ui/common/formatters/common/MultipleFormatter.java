@@ -7,12 +7,12 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 
 public abstract class MultipleFormatter<T>  {
 
-	public List<String> formatAll(List<T> errors) {
-		return errors.stream()
-				.map(it -> format(it))
+	public List<String> formatAll(List<T> elements) {
+		return elements.stream()
+				.map(element -> format(element))
 				.collect(Collectors.toList());
 	}
 
-	protected abstract String format(T it);
+	protected abstract String format(T element);
 
 }

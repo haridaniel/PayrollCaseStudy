@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.assistedinject.Assisted;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.usecase.error.UnionMemberFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.usecase.error.UseCaseExceptionsFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.ValidationSingleErrorMessageModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidationErrorPresenter;
@@ -82,8 +82,7 @@ public class AddUnionMemberController extends
 		} catch (FieldValidatorException e) {
 			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
 		} catch (UnionMemberIdAlreadyExistsException e) {
-			UnionMemberFormatter unionMemberFormatter = new UnionMemberFormatter();
-			getView().setValidationErrorMessagesModel(new ValidationSingleErrorMessageModel(unionMemberFormatter.format(e)));
+			getView().setValidationErrorMessagesModel(new ValidationSingleErrorMessageModel(new UseCaseExceptionsFormatter().format(e)));
 		} 
 		
 	}
