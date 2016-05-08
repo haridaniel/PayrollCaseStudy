@@ -17,7 +17,7 @@ public class JPATimeCardDao {
 		this.entityManager = entityManager;
 	}
 
-	public Collection<JPATimeCard> findJPATimeCardsIn(DateInterval dateInterval) {
+	public Collection<JPATimeCard> findIn(DateInterval dateInterval) {
 		return entityManager.createQuery(
 				  "SELECT tc FROM JPATimeCard tc "
 				+ "WHERE tc.id.date >= :intervalFrom "
@@ -27,6 +27,7 @@ public class JPATimeCardDao {
 				.setParameter("intervalTo", dateInterval.to)
 				.getResultList();
 	}
+
 	
 	
 }

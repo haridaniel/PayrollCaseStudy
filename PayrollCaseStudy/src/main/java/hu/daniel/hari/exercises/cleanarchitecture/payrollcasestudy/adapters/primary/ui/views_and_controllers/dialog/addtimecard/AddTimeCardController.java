@@ -11,6 +11,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.controller.msg.ConfirmMessageFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AddedTimeCardEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.UpdatedTimeCardEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidationErrorPresenter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.common.validation.field.FieldValidatorException;
@@ -20,12 +21,14 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardView.AddTimeCardViewOutputModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.confirm.ConfirmDialogUI.ConfirmDialogListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddTimeCardUseCase.AddTimeCardUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.AddTimeCardUseCase.TimeCardAlreadyExistsException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase.GetEmployeeUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.AddTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.timecard.AddTimeCardUseCase.AddTimeCardUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.timecard.AddTimeCardUseCase.TimeCardAlreadyExistsException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.timecard.UpdateTimeCardUseCase.UpdateTimeCardUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.GetEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.timecard.AddTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.timecard.UpdateTimeCardRequest;
 
 public class AddTimeCardController extends 
 	AbstractDialogViewController<AddTimeCardView, AddTimeCardViewListener> implements 
@@ -35,6 +38,7 @@ public class AddTimeCardController extends
 	private int employeeId;
 	private GetEmployeeUseCaseFactory getEmployeeUseCaseFactory;
 	private AddTimeCardUseCaseFactory addTimeCardUseCaseFactory;
+	private UpdateTimeCardUseCaseFactory updateTimeCardUseCaseFactory;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private ConfirmMessageFormatter confirmMessageFormatter;
 
@@ -43,6 +47,7 @@ public class AddTimeCardController extends
 			EventBus eventBus,
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory,
 			AddTimeCardUseCaseFactory addTimeCardUseCaseFactory,
+			UpdateTimeCardUseCaseFactory updateTimeCardUseCaseFactory,
 			Provider<ConfirmDialogUI> confirmDialogUIProvider,
 			ConfirmMessageFormatter confirmMessageFormatter,
 			@Assisted int employeeId
@@ -51,6 +56,7 @@ public class AddTimeCardController extends
 		this.eventBus = eventBus;
 		this.getEmployeeUseCaseFactory = getEmployeeUseCaseFactory;
 		this.addTimeCardUseCaseFactory = addTimeCardUseCaseFactory;
+		this.updateTimeCardUseCaseFactory = updateTimeCardUseCaseFactory;
 		this.confirmDialogUIProvider = confirmDialogUIProvider;
 		this.confirmMessageFormatter = confirmMessageFormatter;
 		this.employeeId = employeeId;
@@ -98,7 +104,7 @@ public class AddTimeCardController extends
 		AddTimeCardViewOutputModel model = getView().getModel();
 		try {
 			validate(model);
-			addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toRequest(model, false));
+			addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toAddRequest(model));
 			onAdded(model);
 		} catch (FieldValidatorException e) {
 			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
@@ -111,8 +117,8 @@ public class AddTimeCardController extends
 		confirmDialogUIProvider.get().show(confirmMessageFormatter.timeCardAlreadyExists(), new ConfirmDialogListener() {
 			@Override
 			public void onOk() {
-				addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toRequest(model, true));
-				onAdded(model);
+				updateTimeCardUseCaseFactory.updateTimeCardUseCase().execute(toUpdateRequest(model));
+				onUpdated(model);
 			}
 		});
 	}
@@ -122,10 +128,18 @@ public class AddTimeCardController extends
 		close();
 	}
 
-	private AddTimeCardRequest toRequest(AddTimeCardViewOutputModel model, boolean forceOverwrite) {
-		return new AddTimeCardRequest(employeeId, model.date, model.workingHourQty.get(), forceOverwrite);
+	private void onUpdated(AddTimeCardViewOutputModel model) {
+		eventBus.post(new UpdatedTimeCardEvent(getEmployeeName(), model.date));
+		close();
 	}
-
+	
+	private AddTimeCardRequest toAddRequest(AddTimeCardViewOutputModel model) {
+		return new AddTimeCardRequest(employeeId, model.date, model.workingHourQty.get());
+	}
+	
+	private UpdateTimeCardRequest toUpdateRequest(AddTimeCardViewOutputModel model) {
+		return new UpdateTimeCardRequest(employeeId, model.date, model.workingHourQty.get());
+	}
 
 	private void validate(AddTimeCardViewOutputModel model) {
 		throwIfThereAreErrors(new AddTimeCardFieldsValidator().getErrors(model));

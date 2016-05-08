@@ -1,6 +1,8 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
@@ -14,6 +16,7 @@ public abstract class HourlyPaymentType extends PaymentType {
 	public abstract int getHourlyWage();
 
 	public abstract void addTimeCard(TimeCard timeCard);
+	public abstract Optional<TimeCard> getTimeCard(LocalDate date);
 	public abstract Collection<TimeCard> getTimeCardsIn(DateInterval payInterval);
 
 	@Override

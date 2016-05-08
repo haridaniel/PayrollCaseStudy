@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters;
 
 import static org.junit.Assert.*;
+
 import java.time.LocalDate;
 
 import org.junit.Test;
@@ -8,51 +9,53 @@ import org.junit.Test;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.TimeCard;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.timecard.AddTimeCardUseCase.TimeCardAlreadyExistsException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.timecard.UpdateTimeCardUseCase.TimeCardNotExistsException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.timecard.AddTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.timecard.UpdateTimeCardRequest;
 
-public class AddTimeCardUseCaseITTest extends AbstractUseCaseITTest {
+public class UpdateTimeCardUseCaseITTest extends AbstractUseCaseITTest {
 	private static final LocalDate A_DATE = LocalDate.of(2015, 11, 01);
 
 	private int employeeId = 1;
 	private LocalDate timeCardDate = A_DATE;
 	private int workingHoursQty = 8;
+	private int updatedWorkingHoursQty = 80;
 
-	public AddTimeCardUseCaseITTest(DatabaseProvider databaseProvider) {
+	public UpdateTimeCardUseCaseITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);
 	}
 	
 	@Test
-	public void testAddTimeCard() {
+	public void testUpdateTime() {
 		givenAHourlyEmployee();
-		whenAddingTimeCard();
-		thenTimeCardShouldBeAdded(database.employeeGateway().findById(employeeId));
+		givenATimeCard();
+		whenUpdatingTimeCard();
+		thenTimeCardShouldBeUpdated(database.employeeGateway().findById(employeeId));
 	}
-
-	@Test(expected=TimeCardAlreadyExistsException.class)
-	public void shouldThrowExceptionIfTimeCardAlreadyExists() {
+	
+	@Test(expected=TimeCardNotExistsException.class)
+	public void shouldThrowExceptionIfTimeCardNotExists() {
 		givenAHourlyEmployee();
-		whenAddingTimeCardTwoTimes();
+		whenUpdatingTimeCard();
 	}
 	
 	private void givenAHourlyEmployee() {
 		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(employeeId, "", "", 0));
 	}
 
-	private void whenAddingTimeCard() {
+	private void givenATimeCard() {
 		useCaseFactories.addTimeCardUseCase().execute(new AddTimeCardRequest(employeeId, timeCardDate, workingHoursQty));
 	}
-
-	private void whenAddingTimeCardTwoTimes() {
-		whenAddingTimeCard();
-		whenAddingTimeCard();
+	
+	private void whenUpdatingTimeCard() {
+		useCaseFactories.updateTimeCardUseCase().execute(new UpdateTimeCardRequest(employeeId, timeCardDate, updatedWorkingHoursQty));
 	}
 
-	private void thenTimeCardShouldBeAdded(Employee employee) {
+	private void thenTimeCardShouldBeUpdated(Employee employee) {
 		TimeCard timeCard = ((HourlyPaymentType) employee.getPaymentType())
 				.getTimeCard(timeCardDate).get();
-		assertEquals(workingHoursQty, timeCard.getWorkingHourQty());
+		assertEquals(updatedWorkingHoursQty, timeCard.getWorkingHourQty());
 	}
 }

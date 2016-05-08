@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
@@ -41,6 +42,12 @@ public class HourlyPaymentTypeImpl extends HourlyPaymentType {
 				.filter(date -> dateInterval.isBetweenInclusive(date))
 				.map(date -> timeCardsByDate.get(date))
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<TimeCard> getTimeCard(LocalDate date) {
+		return getTimeCardsIn(DateInterval.ofSingleDate(date)).stream()
+				.findFirst();
 	}
 
 }

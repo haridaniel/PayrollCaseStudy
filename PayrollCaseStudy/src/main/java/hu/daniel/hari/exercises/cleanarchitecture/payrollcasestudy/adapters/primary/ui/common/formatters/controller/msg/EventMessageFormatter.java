@@ -6,6 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PaymentsFulfilledEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.UpdatedTimeCardEvent;
 
 public class EventMessageFormatter {
 	private SmartDateFormatter smartDateFormatter = new SmartDateFormatter();
@@ -20,6 +21,10 @@ public class EventMessageFormatter {
 
 	public String format(AddedTimeCardEvent event) {
 		return String.format("Timecard of %s has been added to %s", event.date, event.employeeName);
+	}
+
+	public String format(UpdatedTimeCardEvent event) {
+		return String.format("%s's Timecard of %s has been updated", event.employeeName, event.date);
 	}
 
 	public String format(PaymentsFulfilledEvent event) {

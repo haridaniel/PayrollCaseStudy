@@ -6,7 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.IdAlreadyExistsValidationError;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.NameAlreadyExistsValidationError;
 
-public class AddEmployeeUseCaseValidationErrorFormatter extends 
+public class AddEmployeeUseCaseErrorFormatter extends 
 	MultipleFormatter<AddEmployeeError> implements 
 	AddEmployeeErrorVisitor 
 {
