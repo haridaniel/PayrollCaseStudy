@@ -17,12 +17,14 @@ public class JPATimeCardDao {
 		this.entityManager = entityManager;
 	}
 
-	public Collection<JPATimeCard> findIn(DateInterval dateInterval) {
+	public Collection<JPATimeCard> findBy(int employeeId, DateInterval dateInterval) {
 		return entityManager.createQuery(
 				  "SELECT tc FROM JPATimeCard tc "
-				+ "WHERE tc.id.date >= :intervalFrom "
-				+ "AND	 tc.id.date <= :intervalTo ",
+				+ "WHERE 	tc.id.employeeId = :employeeId "
+				+ "AND		tc.id.date >= :intervalFrom "
+				+ "AND	 	tc.id.date <= :intervalTo ",
 				JPATimeCard.class)
+				.setParameter("employeeId", employeeId)
 				.setParameter("intervalFrom", dateInterval.from)
 				.setParameter("intervalTo", dateInterval.to)
 				.getResultList();

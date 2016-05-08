@@ -47,7 +47,7 @@ public class UnionMemberAffiliationProxy extends UnionMemberAffiliation implemen
 
 	@Override
 	public Collection<ServiceCharge> getServiceChargesIn(DateInterval dateInterval) {
-		return proxyAll(jpaServiceChargeDao.findJPAServiceChargesIn(dateInterval));
+		return proxyAll(jpaServiceChargeDao.findBy(jpaUnionMemberAffiliation.getUnionMemberId(), dateInterval));
 	}
 
 	private List<ServiceCharge> proxyAll(Collection<JPAServiceCharge> jpaServiceCharges) {

@@ -17,12 +17,14 @@ public class JPASalesReceiptDao {
 		this.entityManager = entityManager;
 	}
 
-	public Collection<JPASalesReceipt> findJPASalesReceiptsIn(DateInterval dateInterval) {
+	public Collection<JPASalesReceipt> findBy(int employeeId, DateInterval dateInterval) {
 		return entityManager.createQuery(
 				"SELECT salesReceipt FROM JPASalesReceipt salesReceipt "
-						+ "WHERE salesReceipt.id.date >= :intervalFrom "
+						+ "WHERE salesReceipt.id.employeeId = :employeeId "
+						+ "AND	 salesReceipt.id.date >= :intervalFrom "
 						+ "AND	 salesReceipt.id.date <= :intervalTo ",
 						JPASalesReceipt.class)
+				.setParameter("employeeId", employeeId)
 				.setParameter("intervalFrom", dateInterval.from)
 				.setParameter("intervalTo", dateInterval.to)
 				.getResultList();

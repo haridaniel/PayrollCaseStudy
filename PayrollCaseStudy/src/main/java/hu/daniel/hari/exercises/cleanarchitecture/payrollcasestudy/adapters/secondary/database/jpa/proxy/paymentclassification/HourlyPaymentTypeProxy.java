@@ -49,7 +49,7 @@ public class HourlyPaymentTypeProxy extends HourlyPaymentType implements Payment
 
 	@Override
 	public Collection<TimeCard> getTimeCardsIn(DateInterval dateInterval) {
-		return proxyAll(timeCardDao.findIn(dateInterval));
+		return proxyAll(timeCardDao.findBy(hourlyJPAPaymentType.employeeId, dateInterval));
 	}
 
 	@Override

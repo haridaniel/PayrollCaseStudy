@@ -46,7 +46,7 @@ public class CommissionedPaymentTypeProxy extends CommissionedPaymentType implem
 
 	@Override
 	public Collection<SalesReceipt> getSalesReceiptsIn(DateInterval dateInterval) {
-		return proxyAll(salesReceiptDao.findJPASalesReceiptsIn(dateInterval));
+		return proxyAll(salesReceiptDao.findBy(commissionedJPAPaymentType.employeeId, dateInterval));
 	}
 
 	private Collection<SalesReceipt> proxyAll(Collection<JPASalesReceipt> jpaSalesReceipts) {
