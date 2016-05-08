@@ -3,8 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.util.List;
 import java.util.stream.Collectors;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.add.AddEmployeeError;
-
 public abstract class MultipleFormatter<T>  {
 
 	public List<String> formatAll(List<T> elements) {
