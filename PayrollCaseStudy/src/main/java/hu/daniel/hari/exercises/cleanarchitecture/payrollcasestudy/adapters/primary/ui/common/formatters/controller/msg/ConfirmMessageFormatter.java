@@ -11,7 +11,7 @@ public class ConfirmMessageFormatter {
 	}
 
 	public String timeCardAlreadyExists() {
-		return String.format("Timecard already exists for such date. Overwrite?");
+		return String.format("Timecard already exists for such date. Update?");
 	}
 	
 }

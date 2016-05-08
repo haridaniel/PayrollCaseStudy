@@ -58,7 +58,7 @@ public class StatusBarController implements Controller<StatusBarView> {
 
 	@Subscribe
 	public void on(AffiliationChangedEvent event) {
-		infoMessage(messageFormatter.format(event));
+		confirmMessage(messageFormatter.format(event));
 	}
 
 	
