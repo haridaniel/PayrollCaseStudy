@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.Error;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleUseCaseErrorsException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleErrorsUseCaseException;
 
-public abstract class MultipleUseCaseErrorsExceptionBuilder<E extends Error> {
+public abstract class MultipleErrorsUseCaseExceptionThrower<E extends Error> {
 	private List<E> errors = new ArrayList<>();
 	
-	public MultipleUseCaseErrorsExceptionBuilder() throws MultipleUseCaseErrorsException {
+	public MultipleErrorsUseCaseExceptionThrower() throws MultipleErrorsUseCaseException {
 		addErrors();
 		throwIfThereAreErrors();
 	}
@@ -22,7 +22,7 @@ public abstract class MultipleUseCaseErrorsExceptionBuilder<E extends Error> {
 	
 	public void throwIfThereAreErrors() {
 		if(!errors.isEmpty())
-			throw new MultipleUseCaseErrorsException(errors);
+			throw new MultipleErrorsUseCaseException(errors);
 	}
 
 }

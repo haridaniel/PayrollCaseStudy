@@ -2,10 +2,12 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 import java.util.List;
 
-public class MultipleUseCaseErrorsException extends RuntimeException {
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.UseCaseException;
+
+public class MultipleErrorsUseCaseException extends UseCaseException {
 	private final List<?> errors;
 
-	public <E extends Error> MultipleUseCaseErrorsException(List<E> errors) {
+	public <E extends Error> MultipleErrorsUseCaseException(List<E> errors) {
 		this.errors = errors;
 	}
 	

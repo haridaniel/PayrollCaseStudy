@@ -1,6 +1,8 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.response.employee.affiliation.unionmember;
 
-public class UnionMemberIdAlreadyExistsException extends RuntimeException {
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.UseCaseException;
+
+public class UnionMemberIdAlreadyExistsException extends UseCaseException {
 	public int ownerEmployeeId;
 	public String ownerEmployeeName;
 	public UnionMemberIdAlreadyExistsException(int ownerEmployeeId, String ownerEmployeeName) {

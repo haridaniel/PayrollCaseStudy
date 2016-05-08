@@ -30,7 +30,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.validator.AddSalariedEmployeeFieldsValidator;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee.AddEmployeeUseCase.AddEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToAbstractPaymentMethodUseCase.ChangeToAbstractPaymentMethodUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleUseCaseErrorsException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.exception.multiple.MultipleErrorsUseCaseException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.ui.requestresponse.request.changeemployee.paymentmethod.ChangeToDirectPaymentMethodRequest;
 
 public class AddEmployeeController extends 
@@ -102,7 +102,7 @@ public class AddEmployeeController extends
 				close();
 			} catch (FieldValidatorException e) {
 				getView().setModel(new FieldValidationErrorPresenter().present(e));
-			} catch (MultipleUseCaseErrorsException e) {
+			} catch (MultipleErrorsUseCaseException e) {
 				getView().setModel(new ValidationErrorMessagesModel(
 						new AddEmployeeUseCaseValidationErrorFormatter().formatAll(e.getErrors())));
 			}
