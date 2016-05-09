@@ -1,9 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory;
 
-import javax.persistence.EntityManager;
-
-import org.mockito.Mockito;
-
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EntityFactory;
@@ -15,7 +11,6 @@ public class InMemoryDatabase implements Database {
 	private EmployeeGateway employeeGateway = new InMemoryEntityGateway();
 
 	public InMemoryDatabase() {
-		
 	}
 	
 	@Override
