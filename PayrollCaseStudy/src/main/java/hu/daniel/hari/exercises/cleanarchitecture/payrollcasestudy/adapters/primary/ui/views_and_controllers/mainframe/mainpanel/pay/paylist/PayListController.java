@@ -12,6 +12,7 @@ import com.google.common.eventbus.Subscribe;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.usecase.response.PaymentMethodTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.common.formatters.usecase.response.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.EmployeeChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.globalevents.PersistentDataChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.ObservableValueImpl;
@@ -59,7 +60,7 @@ public class PayListController implements
 	}
 
 	@Subscribe
-	public void onEmployeeChanged(EmployeeChangedEvent e) {
+	public void on(PersistentDataChangedEvent e) {
 		update();
 	}
 

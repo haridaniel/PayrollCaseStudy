@@ -19,16 +19,11 @@ public class MainPanelController extends
 	}
 
 	private LocalDate getDefaultDate() {
-//		return LocalDate.now();
-		return getDebugDate();
+		return LocalDate.now();
+//		return LocalDate.of(2016, 4, 14); //DEBUG
+//		return LocalDate.of(2016, 4, 15); //DEBUG
 	}
 
-	@Deprecated
-	private LocalDate getDebugDate() {
-//		return LocalDate.of(2016, 4, 14);
-		return LocalDate.of(2016, 4, 15);
-	}
-	
 	public ObservableValue<LocalDate> getObservableCurrentDate() {
 		return observableCurrentDate;
 	}

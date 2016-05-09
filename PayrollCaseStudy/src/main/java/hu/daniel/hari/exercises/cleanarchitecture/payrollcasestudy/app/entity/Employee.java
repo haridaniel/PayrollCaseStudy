@@ -30,7 +30,6 @@ public abstract class Employee {
 	}
 
 	public PayCheck createPayCheck(LocalDate payDate) {
-		
 		DateInterval payInterval = getPaymentSchedule().getPayInterval(payDate);
 		int grossAmount = getPaymentType().calculateAmount(payInterval);
 		int deductionsAmount = getAffiliation().calculateDeductionsAmount(payInterval);

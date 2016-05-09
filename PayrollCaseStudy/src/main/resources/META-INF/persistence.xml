@@ -44,8 +44,7 @@
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle9iDialect" />
 			<property name="hibernate.connection.username" value="payroll" />
         	<property name="hibernate.connection.password" value="payroll" />
-
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 <!-- 			<property name="hibernate.hbm2ddl.auto" value="update" /> -->
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 <!-- 			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
