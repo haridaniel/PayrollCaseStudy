@@ -1,14 +1,11 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.ui.mainframe.mainpanel.employeemanager;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.employeemanager;
 
 import javax.inject.Inject;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.mainframe.mainpanel.employeemanager.EmployeeListPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.table.EmployeeListUI;
 
 public class EmployeeListUIImpl extends EmployeeListUI<EmployeeListPanel> {
-
-	private EmployeeListPanel view;
 
 	@Inject
 	public EmployeeListUIImpl(
@@ -16,7 +13,6 @@ public class EmployeeListUIImpl extends EmployeeListUI<EmployeeListPanel> {
 			EmployeeListPanel view
 			) {
 		super(controller, view);
-		this.view = view;
 	}
 
 }

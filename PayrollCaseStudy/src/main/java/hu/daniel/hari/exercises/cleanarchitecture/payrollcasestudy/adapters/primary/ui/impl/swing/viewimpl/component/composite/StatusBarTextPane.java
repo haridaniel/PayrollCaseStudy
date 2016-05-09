@@ -10,7 +10,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-//TODO: CLEAN
+//TODO: This is an old thing, has to be cleaned
 public class StatusBarTextPane extends JTextPane {
 
 	private static final Color BLACK_COLOR = Color.black;
