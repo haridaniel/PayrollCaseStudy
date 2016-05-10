@@ -3,7 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.sec
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.moneytransfer.BankTransferPort;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.banktransfer.BankTransferPort;
 
 public class BankTransferPortMock implements BankTransferPort {
 	private Log log = LogFactory.getLog(getClass());
