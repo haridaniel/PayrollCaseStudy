@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import javax.inject.Inject;
 
-/** It's role to create the view and the controller, connect them, and 
+/** It's role to create(or ask for) the view and the controller, connect them, and 
  *  also provide a single interface to reach them as a UI element / 
  */
 public abstract class UI<V extends View, C extends Controller<? super V>> {
