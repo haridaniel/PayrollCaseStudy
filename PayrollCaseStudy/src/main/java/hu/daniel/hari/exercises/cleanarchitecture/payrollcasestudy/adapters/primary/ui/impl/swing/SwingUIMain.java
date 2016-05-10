@@ -24,9 +24,9 @@ public class SwingUIMain {
 		
 		//Secondary ports
 		
-//		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
+		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB).getDatabase();
 //		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB).getDatabase();
-		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.ORACLE_LOCAL_DB).getDatabase();
+//		Database database = new JPADatabaseModule(JPAPersistenceUnitNames.ORACLE_LOCAL_DB).getDatabase();
 //		Database database = new InMemoryDatabase();
 		
 		BankTransferPortMock bankTransferPort = new BankTransferPortMock();

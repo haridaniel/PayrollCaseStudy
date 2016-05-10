@@ -1,16 +1,17 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.util.eventbus;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.util.eventbus;
 
 import java.util.concurrent.Executor;
 
+import javax.inject.Singleton;
 import javax.swing.SwingUtilities;
 
 import com.google.common.eventbus.AsyncEventBus;
 
+@Singleton
 public class EventQueueAsyncEventBus extends AsyncEventBus {
 
 	public EventQueueAsyncEventBus() {
 		super(new EventQueueExecutor());
-		
 	}
 
 	@Override

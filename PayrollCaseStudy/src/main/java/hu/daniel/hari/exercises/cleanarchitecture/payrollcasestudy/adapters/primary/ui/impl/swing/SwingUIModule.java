@@ -6,13 +6,13 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.error.UncaugthExceptionHandler;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.util.eventbus.EventQueueAsyncEventBus;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.MainFrameUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addemployee.AddEmployeeUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addtimecard.AddTimeCardUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.addunionmemberaffiliation.AddUnionMemberUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ConfirmDialogUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.impl.swing.viewimpl.dialog.common.ErrorDialogUIImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.util.eventbus.EventQueueAsyncEventBus;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addemployee.AddEmployeeUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardController.AddTimeCardControllerFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.addtimecard.AddTimeCardUI;
@@ -41,21 +41,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 
 public class SwingUIModule extends AbstractModule {
 	private UseCaseFactories useCaseFactories;
-	private EventBus eventBus;
 
 	public SwingUIModule(UseCaseFactories useCaseFactories) {
 		this.useCaseFactories = useCaseFactories;
-		eventBus = createEventBus();
-	}
-	
-	private EventBus createEventBus() {
-		return new EventQueueAsyncEventBus();
 	}
 
 	@Override
 	protected void configure() {
 		bind(UseCaseFactories.class).toInstance(useCaseFactories);
-		bind(EventBus.class).toInstance(eventBus);
+		bind(EventBus.class).to(EventQueueAsyncEventBus.class).asEagerSingleton();
 		bind(UncaugthExceptionHandler.class).asEagerSingleton();
 		bindUseCaseFactories();
 		bindUIs();

@@ -13,9 +13,9 @@ public class StaticIntegrationTestsConfig {
 
 	public static final List<DatabaseProvider> DATABASE_PROVIDERS = new ArrayList<DatabaseProvider>() {{
 		add(new InMemoryDatabaseProvider());
-//		add(new SingletonJPADatabaseProvider(JPAPersistenceUnitNames.HSQL_DB));
+		add(new SingletonJPADatabaseProvider(JPAPersistenceUnitNames.HSQL_DB));
 //		add(new SingletonJPADatabaseProvider(JPAPersistenceUnitNames.POSTGRES_LOCAL_DB));
-		add(new SingletonJPADatabaseProvider(JPAPersistenceUnitNames.ORACLE_LOCAL_DB));
+//		add(new SingletonJPADatabaseProvider(JPAPersistenceUnitNames.ORACLE_LOCAL_DB));
 	}};
 	
 }
