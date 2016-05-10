@@ -2,7 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.ui.swin
 
 import javax.swing.JButton;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView;
+
 import java.awt.event.ActionListener;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;

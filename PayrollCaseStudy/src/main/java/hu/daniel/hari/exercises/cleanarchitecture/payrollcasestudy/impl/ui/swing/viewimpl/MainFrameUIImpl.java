@@ -3,7 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.ui.swin
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.mainframe.MainFrameUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.MainFrameUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.ui.swing.viewimpl.mainframe.MainPanelUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.ui.swing.viewimpl.mainframe.StatusBarUIImpl;
 

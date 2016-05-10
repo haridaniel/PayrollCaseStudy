@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import com.google.inject.Provider;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.ui.views_and_controllers.dialog.common.error.ErrorDialogUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.common.error.ErrorDialogUI;
 
 @Singleton
 public class UncaugthExceptionHandler {
