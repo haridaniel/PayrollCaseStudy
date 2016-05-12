@@ -19,7 +19,7 @@
 		<!-- OTHER MODULES -->
 		<dependency>
 			<groupId>hu.daniel.hari.payroll</groupId>
-			<artifactId>PayrollCaseStudy</artifactId>
+			<artifactId>PayrollPorts</artifactId>
 			<version>1.0</version>
 		</dependency>
 		

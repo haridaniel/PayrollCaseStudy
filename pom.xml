@@ -17,9 +17,13 @@
 	</properties>
 
 	<modules>
-		<module>PayrollCaseStudy</module>
 		<module>PayrollGuiSwingImpl</module>
 		<module>PayrollDBAdapterJPA</module>
+		<module>PayrollDBAdapterInMemory</module>
+		<module>PayrollPorts</module>
+		<module>PayrollEntities</module>
+		<module>PayrollInteractors</module>
+		<module>PayrollGuiAdminAdapter</module>
 	</modules>
 
 	<dependencies>
