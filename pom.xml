@@ -19,8 +19,8 @@
 	<modules>
 		<module>PayrollCaseStudy</module>
 		<module>PayrollGuiSwingImpl</module>
+		<module>PayrollDBAdapterJPA</module>
 	</modules>
-
 
 	<dependencies>
 			<!-- TEST -->
