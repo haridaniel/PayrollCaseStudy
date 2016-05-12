@@ -12,38 +12,16 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<guice.version>3.0</guice.version>
 	</properties>
 
 	<dependencies>
-		<!-- MODULE DEPENDENCIES -->
-		
+	
+		<!-- OTHER MODULES -->
 		<dependency>
 			<groupId>hu.daniel.hari.payroll</groupId>
 			<artifactId>PayrollCaseStudy</artifactId>
 			<version>1.0</version>
 		</dependency>
-
-		<!-- TEST -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>2.0.2-beta</version>
-		</dependency>
-
-		<!-- LOG -->
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-
-		<!-- JPADatabase -->
 
 		<!-- GUICE for dependency management -->
 		<dependency>
@@ -51,33 +29,13 @@
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-persist</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-assistedinject</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>0.9.9-RC2</version>
-		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.javassist</groupId> -->
-		<!-- <artifactId>javassist</artifactId> -->
-		<!-- <version>3.18.2-GA</version> -->
-		<!-- </dependency> -->
-
 		
-		<!-- Guava. using: -->
-		<!-- Eventbus -->
+		<!-- Guava. using: Eventbus -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
