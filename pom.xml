@@ -16,7 +16,7 @@
 
 	<modules>
 		<module>PayrollCaseStudy</module>
-	<!--	<module>PayrollGuiSwingImpl</module> -->
+		<module>PayrollGuiSwingImpl</module>
 	</modules>
 
 	<dependencies>
