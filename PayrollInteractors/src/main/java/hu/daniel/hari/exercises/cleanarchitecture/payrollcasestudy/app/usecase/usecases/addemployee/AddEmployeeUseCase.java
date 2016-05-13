@@ -67,12 +67,6 @@ public abstract class AddEmployeeUseCase<R extends AddEmployeeRequest> extends T
 	protected abstract PaymentType getPaymentType(R request);
 	protected abstract PaymentSchedule getPaymentSchedule();
 
-	public static interface AddEmployeeUseCaseFactory {
-		AddSalariedEmployeeUseCase addSalariedEmployeeUseCase();
-		AddHourlyEmployeeUseCase addHourlyEmployeeUseCase();
-		AddCommissionedEmployeeUseCase addCommissionedEmployeeUseCase();
-	}
-	
 	private final class Validator extends MultipleErrorsUseCaseExceptionThrower<AddEmployeeError> {
 
 		@Override

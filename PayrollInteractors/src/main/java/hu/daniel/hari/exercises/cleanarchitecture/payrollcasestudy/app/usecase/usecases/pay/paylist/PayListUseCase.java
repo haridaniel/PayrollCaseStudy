@@ -71,8 +71,4 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 		}
 
 	}
-
-	public static interface PayListUseCaseFactory {
-		PayListUseCase payListUseCase();
-	}
 }

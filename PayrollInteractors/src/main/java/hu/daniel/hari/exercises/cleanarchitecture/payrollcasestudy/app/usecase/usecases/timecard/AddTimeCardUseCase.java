@@ -40,9 +40,5 @@ public class AddTimeCardUseCase extends AbstractTimeCardUseCase<AddTimeCardReque
 	
 	public static class TimeCardAlreadyExistsException extends UseCaseException {
 	}
-
-	public static interface AddTimeCardUseCaseFactory {
-		AddTimeCardUseCase addTimeCardUseCase();
-	}
 	
 }

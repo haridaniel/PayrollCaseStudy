@@ -19,8 +19,4 @@ public abstract class ChangeEmployeeUseCase<T extends ChangeEmployeeRequest> ext
 
 	protected abstract void change(Employee employee, T request);
 	
-	public static interface ChangeEmployeeUseCaseFactory {
-		ChangeEmployeeNameUseCase changeEmployeeNameUseCase();
-	}
-	
 }

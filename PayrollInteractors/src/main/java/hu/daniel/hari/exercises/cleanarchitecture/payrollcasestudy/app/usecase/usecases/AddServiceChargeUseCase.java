@@ -48,9 +48,5 @@ public class AddServiceChargeUseCase extends TransactionalEmployeeGatewayUseCase
 	private ServiceCharge createServiceCharge(AddServiceChargeRequest request) {
 		return serviceChargeFactory.serviceCharge(request.date, request.amount);
 	}
-
-	public static interface AddServiceChargeUseCaseFactory {
-		AddServiceChargeUseCase addServiceChargeUseCase();
-	}
 	
 }

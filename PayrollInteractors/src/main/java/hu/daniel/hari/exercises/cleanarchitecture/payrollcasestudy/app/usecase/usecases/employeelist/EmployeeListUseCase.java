@@ -25,10 +25,6 @@ public class EmployeeListUseCase extends TransactionalEmployeeGatewayUseCase<Emp
 	public EmployeeListResponse getResponse() {
 		return response;
 	}
-	
-	public static interface ListEmployeesUseCaseFactory {
-		EmployeeListUseCase employeeListUseCase();
-	}
 
 }
 

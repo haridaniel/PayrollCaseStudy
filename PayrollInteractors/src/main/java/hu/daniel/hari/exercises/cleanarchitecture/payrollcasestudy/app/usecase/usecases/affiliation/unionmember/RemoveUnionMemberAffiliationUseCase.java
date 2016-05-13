@@ -29,8 +29,4 @@ public class RemoveUnionMemberAffiliationUseCase extends TransactionalEmployeeGa
 		return employeeGateway.findById(employeeGateway.findEmployeeIdByUnionMemberId(unionMemberId));
 	}
 
-	public static interface RemoveUnionMemberAffiliationUseCaseFactory {
-		RemoveUnionMemberAffiliationUseCase removeUnionMemberAffiliationUseCase();
-	}
-
 }

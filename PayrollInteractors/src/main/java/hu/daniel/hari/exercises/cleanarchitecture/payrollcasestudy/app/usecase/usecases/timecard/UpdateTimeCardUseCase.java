@@ -29,9 +29,5 @@ public class UpdateTimeCardUseCase extends AbstractTimeCardUseCase<UpdateTimeCar
 	
 	public static class TimeCardNotExistsException extends UseCaseException {
 	}
-
-	public static interface UpdateTimeCardUseCaseFactory {
-		UpdateTimeCardUseCase updateTimeCardUseCase();
-	}
 	
 }

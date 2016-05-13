@@ -1,0 +1,9 @@
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories;
+
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToDirectPaymentMethodUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.changeemployee.paymentmethod.ChangeToPaymasterPaymentMethodUseCase;
+
+public interface ChangeToAbstractPaymentMethodUseCaseFactory {
+	 ChangeToDirectPaymentMethodUseCase changeToDirectPaymentMethodUseCase(); 
+	 ChangeToPaymasterPaymentMethodUseCase changeToPaymasterPaymentMethodUseCase(); 
+}

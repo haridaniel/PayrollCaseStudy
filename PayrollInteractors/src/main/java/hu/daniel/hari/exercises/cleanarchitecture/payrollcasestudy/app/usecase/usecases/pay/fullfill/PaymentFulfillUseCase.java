@@ -59,10 +59,6 @@ public class PaymentFulfillUseCase implements UseCase<PaymentFulfillRequest>, Ha
 		return employeeGateway.findById(employeeId);
 	}
 
-	public static interface PaymentFulfillUseCaseFactory {
-		PaymentFulfillUseCase paymentFulfillUseCase();
-	}
-
 	@Override
 	public PaymentFulfillResponse getResponse() {
 		return response;

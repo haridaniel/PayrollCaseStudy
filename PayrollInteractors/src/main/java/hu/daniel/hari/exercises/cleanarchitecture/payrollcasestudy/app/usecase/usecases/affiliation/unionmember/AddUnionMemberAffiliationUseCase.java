@@ -43,9 +43,5 @@ public class AddUnionMemberAffiliationUseCase extends TransactionalEmployeeGatew
 		}
 	}
 	
-	public static interface AddUnionMemberAffiliationUseCaseFactory {
-		AddUnionMemberAffiliationUseCase addUnionMemberAffiliationUseCase();
-	}
-	
 	
 }

@@ -46,8 +46,4 @@ public class AddSalesReceiptUseCase extends TransactionalEmployeeGatewayUseCase<
 	public static class TriedToAddSalesReceiptToNonCommissionedEmployeeException extends RuntimeException {
 	}
 	
-	public static interface AddSalesReceiptUseCaseFactory {
-		AddSalesReceiptUseCase addSalesReceiptUseCaseFactory();
-	}
-	
 }
