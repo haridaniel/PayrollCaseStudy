@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.PaymentFulfillUseCaseFactory;
+
 public interface UseCaseFactories extends 
 		AddEmployeeUseCaseFactory,
 		ChangeToAbstractPaymentMethodUseCaseFactory,

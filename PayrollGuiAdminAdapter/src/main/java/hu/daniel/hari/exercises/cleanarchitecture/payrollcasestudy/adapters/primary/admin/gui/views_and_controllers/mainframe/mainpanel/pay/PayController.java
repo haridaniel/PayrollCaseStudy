@@ -17,9 +17,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.pay.PayView.PayViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.pay.PayView.PayViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.pay.paylist.PayListState;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PaymentFulfillRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.PaymentFulfillUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PaymentFulfillResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.PaymentFulfillUseCaseFactory;
 
 public class PayController extends 
 	AbstractController<PayView, PayViewListener> implements
@@ -61,10 +61,10 @@ public class PayController extends
 		confirmDialogUIProvider.get().show(confirmMessageFormatter.fulfillPayments(observablePayListState.get().itemCount), new ConfirmDialogListener() {
 			@Override
 			public void onOk() {
-				PaymentFulfillUseCase useCase = paymentFulfillUseCaseFactory.paymentFulfillUseCase();
-				useCase.execute(new PaymentFulfillRequest(observableCurrentDate.get()));
+				PaymentFulfillResponse response = paymentFulfillUseCaseFactory.paymentFulfillUseCase().execute(
+						new PaymentFulfillRequest(observableCurrentDate.get()));
 				eventBus.post(new PaymentsFulfilledEvent(observableCurrentDate.get(), 
-						useCase.getResponse().payCheckCount, useCase.getResponse().totalNetAmount));
+						response.payCheckCount, response.totalNetAmount));
 			}
 		});
 	}

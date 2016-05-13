@@ -1,24 +1,21 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.UseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PaymentFulfillRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PaymentFulfillResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.FunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 
-public class PaymentFulfillUseCase implements UseCase<PaymentFulfillRequest>, HasResponse<PaymentFulfillResponse> {
+public class PaymentFulfillUseCase implements FunctionUseCase<PaymentFulfillRequest, PaymentFulfillResponse> {
 
 	private EmployeeGateway employeeGateway;
 	private PaymentFulfillerFactory paymentFulfillerFactory;
-	private PaymentFulfillResponse response;
 
 	public PaymentFulfillUseCase(
 			EmployeeGateway employeeGateway,
@@ -30,8 +27,8 @@ public class PaymentFulfillUseCase implements UseCase<PaymentFulfillRequest>, Ha
 	}
 	
 	@Override
-	public void execute(PaymentFulfillRequest request) {
-		response = fullfill(createPayChecks(request.payDate));
+	public PaymentFulfillResponse execute(PaymentFulfillRequest request) {
+		return fullfill(createPayChecks(request.payDate));
 	}
 
 	private List<PayCheck> createPayChecks(LocalDate payDate) {
@@ -59,11 +56,4 @@ public class PaymentFulfillUseCase implements UseCase<PaymentFulfillRequest>, Ha
 		return employeeGateway.findById(employeeId);
 	}
 
-	@Override
-	public PaymentFulfillResponse getResponse() {
-		return response;
-	}
-
-
-	
 }
