@@ -2,8 +2,9 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 
 public interface Response {
 	
-	public static final EmptyResponse EMPTY_RESPONSE = new EmptyResponse();
+	@Deprecated
 	public static final class EmptyResponse implements Response {
+		public static final EmptyResponse INSTANCE = new EmptyResponse();
 	}
 	
 	
