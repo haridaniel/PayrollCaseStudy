@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.newversion.usecases;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases;
 
 public class AbstractUseCase {
 	private boolean executed;
