@@ -3,7 +3,6 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primar
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.changeemployee.ChangeEmployeeRequest;
 
 public class ChangeToDirectPaymentMethodRequest extends ChangeEmployeeRequest {
-
 	public String accountNumber;
 
 	public ChangeToDirectPaymentMethodRequest(int employeeId, String accountNumber) {
