@@ -25,6 +25,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swin
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.dialog.addunionmemberaffiliation.AddUnionMemberUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.dialog.common.ConfirmDialogUIImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.dialog.common.ErrorDialogUIImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.AddEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.AddTimeCardUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.AddUnionMemberAffiliationUseCaseFactory;
@@ -37,7 +38,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.PaymentFulfillUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.RemoveUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.UpdateTimeCardUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.UseCaseFactories;
 
 public class SwingUIModule extends AbstractModule {
 	private UseCaseFactories useCaseFactories;
