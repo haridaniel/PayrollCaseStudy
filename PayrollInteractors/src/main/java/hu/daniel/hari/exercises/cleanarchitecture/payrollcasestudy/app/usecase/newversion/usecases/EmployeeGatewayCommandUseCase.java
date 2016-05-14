@@ -1,14 +1,13 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.newversion.usecases;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.Request;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-@Deprecated
-public abstract class TransactionalEmployeeGatewayUseCase<R extends Request> extends TransactionalUseCase<R> {
-	protected final EmployeeGateway employeeGateway;
+public abstract class EmployeeGatewayCommandUseCase<R extends Request> extends TransactionalCommandUseCase<R> {
+	protected EmployeeGateway employeeGateway;
 
-	public TransactionalEmployeeGatewayUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
+	public EmployeeGatewayCommandUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
 		super(transactionalRunner);
 		this.employeeGateway = employeeGateway;
 	}

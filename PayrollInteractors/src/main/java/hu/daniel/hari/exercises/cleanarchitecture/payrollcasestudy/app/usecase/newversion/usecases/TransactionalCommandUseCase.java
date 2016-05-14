@@ -4,7 +4,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.CommandUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public abstract class TransactionalCommandUseCase<T extends Request> implements CommandUseCase<T>{
+public abstract class TransactionalCommandUseCase<T extends Request> extends AbstractUseCase implements CommandUseCase<T> {
 	private final TransactionalRunner transactionalRunner;
 
 	public TransactionalCommandUseCase(TransactionalRunner transactionalRunner) {
@@ -13,6 +13,7 @@ public abstract class TransactionalCommandUseCase<T extends Request> implements 
 	
 	@Override
 	public final void execute(T request) {
+		checkFirstExecution();
 		transactionalRunner.executeInTransaction(() -> {
 			executeInTransaction(request);
 		});
