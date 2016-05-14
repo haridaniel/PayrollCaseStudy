@@ -1,8 +1,8 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.exception.multiple;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.exception.multiple;
 
 import java.util.List;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.exception.UseCaseException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.exception.UseCaseException;
 
 public class MultipleErrorsUseCaseException extends UseCaseException {
 	private final List<?> errors;

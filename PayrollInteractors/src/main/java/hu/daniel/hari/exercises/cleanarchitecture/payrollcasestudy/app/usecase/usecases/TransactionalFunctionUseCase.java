@@ -5,7 +5,10 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.FunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public abstract class TransactionalFunctionUseCase<T extends Request, R extends Response> extends AbstractUseCase implements FunctionUseCase<T, R> {
+public abstract class TransactionalFunctionUseCase<T extends Request, R extends Response> extends 
+	AbstractUseCase implements 
+	FunctionUseCase<T, R> 
+{
 	private final TransactionalRunner transactionalRunner;
 
 	public TransactionalFunctionUseCase(TransactionalRunner transactionalRunner) {

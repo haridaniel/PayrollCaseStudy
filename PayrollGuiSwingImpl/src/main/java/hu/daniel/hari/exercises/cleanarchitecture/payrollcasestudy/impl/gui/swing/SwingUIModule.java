@@ -48,7 +48,6 @@ public class SwingUIModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(UseCaseFactories.class).toInstance(useCaseFactories);
 		bind(EventBus.class).to(EventQueueAsyncEventBus.class).asEagerSingleton();
 		bind(UncaugthExceptionHandler.class).asEagerSingleton();
 		bindUseCaseFactories();

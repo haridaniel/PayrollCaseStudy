@@ -12,7 +12,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-
 public class AddSalariedEmployeeUseCase extends AddEmployeeUseCase<AddSalariedEmployeeRequest> {
 	private PaymentTypeFactory paymentTypeFactory;
 	private PaymentScheduleFactory paymentScheduleFactory;
