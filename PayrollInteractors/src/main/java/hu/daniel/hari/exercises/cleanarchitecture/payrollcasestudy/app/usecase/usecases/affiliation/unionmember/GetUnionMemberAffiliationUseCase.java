@@ -5,16 +5,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.af
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.newversion.usecases.EmployeeGatewayFunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.GetUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.employee.affiliation.unionmember.GetUnionMemberAffiliationResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public class GetUnionMemberAffiliationUseCase extends 
-	TransactionalEmployeeGatewayUseCase<GetUnionMemberAffiliationRequest> implements
-	HasResponse<GetUnionMemberAffiliationResponse>
+	EmployeeGatewayFunctionUseCase<GetUnionMemberAffiliationRequest, GetUnionMemberAffiliationResponse>
 {
-	private GetUnionMemberAffiliationResponse response;
 
 	public GetUnionMemberAffiliationUseCase(
 			TransactionalRunner transactionalRunner, 
@@ -24,9 +23,9 @@ public class GetUnionMemberAffiliationUseCase extends
 	}
 
 	@Override
-	protected void executeInTransaction(GetUnionMemberAffiliationRequest request) {
+	protected GetUnionMemberAffiliationResponse executeInTransaction(GetUnionMemberAffiliationRequest request) {
 		Employee employee = employeeGateway.findById(request.employeeId);
-		this.response = toResponse(employee, getUnionMemberAffiliation(employee)); 
+		return toResponse(employee, getUnionMemberAffiliation(employee)); 
 	}
 
 	private UnionMemberAffiliation getUnionMemberAffiliation(Employee employee) {
@@ -42,11 +41,6 @@ public class GetUnionMemberAffiliationUseCase extends
 		response.employeeId = employee.getId();
 		response.unionMemberId = unionMemberAffiliation.getUnionMemberId();
 		response.weeklyDueAmount = unionMemberAffiliation.getWeeklyDueAmount();
-		return response;
-	}
-
-	@Override
-	public GetUnionMemberAffiliationResponse getResponse() {
 		return response;
 	}
 

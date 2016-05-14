@@ -35,9 +35,8 @@ public class GetUnionMemberAffiliationUseCaseTest extends AbstractUseCaseITTest 
 	}
 
 	private GetUnionMemberAffiliationResponse whenExecuteUseCase() {
-		GetUnionMemberAffiliationUseCase useCase = useCaseFactories.getUnionMemberAffiliationUseCase();
-		useCase.execute(new GetUnionMemberAffiliationRequest(employeeId));
-		return useCase.getResponse();
+		return useCaseFactories.getUnionMemberAffiliationUseCase()
+				.execute(new GetUnionMemberAffiliationRequest(employeeId));
 	}
 
 	private void thenResponseShouldBeCorrect(GetUnionMemberAffiliationResponse response) {

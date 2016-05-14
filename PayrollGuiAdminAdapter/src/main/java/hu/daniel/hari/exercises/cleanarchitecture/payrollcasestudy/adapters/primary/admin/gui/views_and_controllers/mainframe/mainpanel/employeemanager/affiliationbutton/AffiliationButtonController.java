@@ -21,9 +21,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.employee.affiliation.unionmember.GetUnionMemberAffiliationResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.AddUnionMemberAffiliationUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.GetUnionMemberAffiliationUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.RemoveUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.AddUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.GetUnionMemberAffiliationUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.RemoveUnionMemberAffiliationUseCaseFactory;
 
 public class AffiliationButtonController extends 
 	AbstractController<AffiliationButtonView, AffiliationButtonViewListener> implements 
@@ -125,9 +125,8 @@ public class AffiliationButtonController extends
 			eventBus.post(new AffiliationChangedEvent());
 		}
 		private GetUnionMemberAffiliationResponse getUnionMemberAffiliation(EmployeeViewItem e) {
-			GetUnionMemberAffiliationUseCase unionMemberAffiliationUseCase = getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase();
-			unionMemberAffiliationUseCase.execute(new GetUnionMemberAffiliationRequest(e.id));
-			return unionMemberAffiliationUseCase.getResponse();
+			return getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase()
+					.execute(new GetUnionMemberAffiliationRequest(e.id));
 		}
 		@Override
 		public String getButtonText() {

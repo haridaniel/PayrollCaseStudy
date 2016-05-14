@@ -29,6 +29,7 @@ public class PaymentFulfillUseCase extends AbstractUseCase implements FunctionUs
 	
 	@Override
 	public PaymentFulfillResponse execute(PaymentFulfillRequest request) {
+		checkFirstExecution();
 		return fullfill(createPayChecks(request.payDate));
 	}
 
