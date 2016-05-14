@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.addemployee;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employee.add;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee.EmployeeFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.Affiliation.AffiliationFactory;
@@ -7,17 +7,15 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentmethod.PaymentMethod.PaymentMethodFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentschedule.PaymentSchedule.PaymentScheduleFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddEmployeeRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddSalariedEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-
-public class AddSalariedEmployeeUseCase extends AddEmployeeUseCase<AddSalariedEmployeeRequest> {
+public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase<AddHourlyEmployeeRequest> {
 	private PaymentTypeFactory paymentTypeFactory;
 	private PaymentScheduleFactory paymentScheduleFactory;
 
-	public AddSalariedEmployeeUseCase(
+	public AddHourlyEmployeeUseCase(
 			TransactionalRunner transactionalRunner, 
 			EmployeeGateway employeeGateway, 
 			EmployeeFactory employeeFactory, 
@@ -32,13 +30,13 @@ public class AddSalariedEmployeeUseCase extends AddEmployeeUseCase<AddSalariedEm
 	}
 
 	@Override
-	protected PaymentType getPaymentType(AddSalariedEmployeeRequest request) {
-		return paymentTypeFactory.salariedPaymentType(request.monthlySalary);
+	protected PaymentType getPaymentType(AddHourlyEmployeeRequest request) {
+		return paymentTypeFactory.hourlyPaymentType(request.hourlyWage);
 	}
 
 	@Override
 	protected PaymentSchedule getPaymentSchedule() {
-		return paymentScheduleFactory.monthlyPaymentSchedule();
+		return paymentScheduleFactory.weeklyPaymentSchedule();
 	}
 
 }
