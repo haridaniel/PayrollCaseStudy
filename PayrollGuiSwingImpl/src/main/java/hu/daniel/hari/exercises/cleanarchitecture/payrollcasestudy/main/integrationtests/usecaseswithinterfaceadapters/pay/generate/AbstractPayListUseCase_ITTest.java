@@ -7,6 +7,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PayListRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PayListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PayListResponse.PayListResponseItem;
 
 public abstract class AbstractPayListUseCase_ITTest extends AbstractUseCaseITTest {
@@ -16,9 +17,8 @@ public abstract class AbstractPayListUseCase_ITTest extends AbstractUseCaseITTes
 	}
 
 	protected Collection<PayListResponseItem> whenGeneratePayUseCaseExecuted(LocalDate payDate) {
-		PayListUseCase payListUseCase = useCaseFactories.payListUseCase();
-		payListUseCase.execute(new PayListRequest(payDate));
-		return payListUseCase.getResponse().payListResponseItems;
+		return useCaseFactories.payListUseCase().execute(new PayListRequest(payDate))
+				.payListResponseItems;
 	}
 
 }

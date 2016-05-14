@@ -9,6 +9,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Em
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.newversion.usecases.EmployeeGatewayFunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PayListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PayListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PayListResponse.PayListResponseItem;
@@ -17,9 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListRequest> implements HasResponse<PayListResponse> {
-
-	private PayListResponse response;
+public class PayListUseCase extends EmployeeGatewayFunctionUseCase<PayListRequest, PayListResponse> {
 
 	public PayListUseCase(
 			TransactionalRunner transactionalRunner, 
@@ -29,8 +28,8 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 	}
 
 	@Override
-	protected void executeInTransaction(PayListRequest request) {
-		response = new PayListResponseCreator().toResponse(createPayChecks(request.payDate));
+	protected PayListResponse executeInTransaction(PayListRequest request) {
+		return new PayListResponseCreator().toResponse(createPayChecks(request.payDate));
 	}
 
 	private List<PayCheck> createPayChecks(LocalDate payDate) {
@@ -38,11 +37,6 @@ public class PayListUseCase extends TransactionalEmployeeGatewayUseCase<PayListR
 			.filter(e -> e.isPayDate(payDate))
 			.map(e -> e.createPayCheck(payDate))
 			.collect(Collectors.toList());
-	}
-
-	@Override
-	public PayListResponse getResponse() {
-		return response;
 	}
 
 	private class PayListResponseCreator {
