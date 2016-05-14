@@ -16,9 +16,7 @@ public class EmployeeListUseCaseITTest extends AbstractFindEmployeesUseCaseITTes
 
 	@Override
 	protected EmployeeListResponse whenExecuteUseCase() {
-		EmployeeListUseCase employeesOverviewUseCase = useCaseFactories.employeeListUseCase();
-		employeesOverviewUseCase.execute(new EmployeeListRequest(LocalDate.now()));
-		return employeesOverviewUseCase.getResponse();
+		return useCaseFactories.employeeListUseCase().execute(new EmployeeListRequest(LocalDate.now()));
 	}
 
 	@Override

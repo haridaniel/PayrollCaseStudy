@@ -20,7 +20,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.employeelist.EmployeeListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.EmployeeListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.EmployeeListResponse;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.ListEmployeesUseCaseFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.EmployeeListUseCaseFactory;
 
 public class EmployeeListController extends
 	AbstractController<EmployeeListView, EmployeeListViewListener> implements 
@@ -28,13 +28,13 @@ public class EmployeeListController extends
 	ChangeListener<LocalDate>
 {
 	
-	private ListEmployeesUseCaseFactory useCaseFactory;
+	private EmployeeListUseCaseFactory useCaseFactory;
 	private ObservableValue<LocalDate> observableCurrentDate;
 	private ObservableSelectedEployeeViewItemImpl observableSelectedEployeeViewItem = new ObservableSelectedEployeeViewItemImpl();
 
 	@Inject
 	public EmployeeListController(
-			ListEmployeesUseCaseFactory useCaseFactory, 
+			EmployeeListUseCaseFactory useCaseFactory, 
 			EventBus eventBus
 			) {
 		this.useCaseFactory = useCaseFactory;
@@ -70,9 +70,7 @@ public class EmployeeListController extends
 	}
 
 	private EmployeeListResponse executeEmployeeListUseCase() {
-		EmployeeListUseCase useCase = useCaseFactory.employeeListUseCase();
-		useCase.execute(new EmployeeListRequest(observableCurrentDate.get()));
-		return useCase.getResponse();
+		return useCaseFactory.employeeListUseCase().execute(new EmployeeListRequest(observableCurrentDate.get()));
 	}
 
 	private static class ObservableSelectedEployeeViewItemImpl extends ObservableValueImpl<Optional<EmployeeViewItem>> implements ObservableSelectedEployeeItem {

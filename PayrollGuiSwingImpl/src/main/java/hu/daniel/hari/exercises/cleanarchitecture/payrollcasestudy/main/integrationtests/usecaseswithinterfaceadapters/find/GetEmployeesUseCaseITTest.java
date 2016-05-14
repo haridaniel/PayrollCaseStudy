@@ -1,6 +1,5 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.find;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.find.GetEmployeeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.GetEmployeeResponse;
@@ -13,9 +12,7 @@ public class GetEmployeesUseCaseITTest extends AbstractFindEmployeesUseCaseITTes
 
 	@Override
 	protected GetEmployeeResponse whenExecuteUseCase() {
-		GetEmployeeUseCase useCase = useCaseFactories.getEmployeeUseCase();
-		useCase.execute(new GetEmployeeRequest(employeeId));
-		return useCase.getResponse();
+		return useCaseFactories.getEmployeeUseCase().execute(new GetEmployeeRequest(employeeId));
 	}
 
 	@Override

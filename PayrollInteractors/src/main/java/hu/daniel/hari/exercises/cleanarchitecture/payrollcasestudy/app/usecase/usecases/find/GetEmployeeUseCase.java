@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.HasResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.TransactionalEmployeeGatewayUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.newversion.usecases.EmployeeGatewayFunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.GetEmployeeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.GetEmployeeResponse.EmployeeForGetEmployeeResponse;
@@ -10,25 +11,19 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class GetEmployeeUseCase extends TransactionalEmployeeGatewayUseCase<GetEmployeeRequest> implements HasResponse<GetEmployeeResponse> {
+public class GetEmployeeUseCase extends EmployeeGatewayFunctionUseCase<GetEmployeeRequest, GetEmployeeResponse> {
 
 	private GetEmployeeResponseCreator getEmployeeResponseCreator = new GetEmployeeResponseCreator();
-	private GetEmployeeResponse response;
 	
 	public GetEmployeeUseCase(TransactionalRunner transactionalRunner, EmployeeGateway employeeGateway) {
 		super(transactionalRunner, employeeGateway);
 	}
 
 	@Override
-	protected void executeInTransaction(GetEmployeeRequest request) {
-		response = getEmployeeResponseCreator.toResponse(employeeGateway.findById(request.employeeId));
+	protected GetEmployeeResponse executeInTransaction(GetEmployeeRequest request) {
+		return getEmployeeResponseCreator.toResponse(employeeGateway.findById(request.employeeId));
 	}
 
-	@Override
-	public GetEmployeeResponse getResponse() {
-		return response;
-	}
-	
 	
 	private static class GetEmployeeResponseCreator {
 		public GetEmployeeResponse toResponse(Employee employee) {

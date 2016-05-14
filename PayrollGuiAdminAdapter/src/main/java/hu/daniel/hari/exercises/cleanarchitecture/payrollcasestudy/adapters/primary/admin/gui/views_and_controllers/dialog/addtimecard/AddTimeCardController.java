@@ -26,8 +26,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.GetEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.timecard.AddTimeCardRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.timecard.UpdateTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.GetEmployeeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.newversion.factories.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.AddTimeCardUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecasefactories.UpdateTimeCardUseCaseFactory;
 
 public class AddTimeCardController extends 
@@ -78,9 +79,8 @@ public class AddTimeCardController extends
 	}
 
 	private String getEmployeeName() {
-		GetEmployeeUseCase getEmployeeUseCase = getEmployeeUseCaseFactory.getEmployeeUseCase();
-		getEmployeeUseCase.execute(new GetEmployeeRequest(employeeId));
-		return getEmployeeUseCase.getResponse().employeeForGetEmployeeResponse.name;
+		return getEmployeeUseCaseFactory.getEmployeeUseCase().execute(new GetEmployeeRequest(employeeId))
+				.employeeForGetEmployeeResponse.name;
 	}
 
 	private LocalDate getDefaultDate() {
