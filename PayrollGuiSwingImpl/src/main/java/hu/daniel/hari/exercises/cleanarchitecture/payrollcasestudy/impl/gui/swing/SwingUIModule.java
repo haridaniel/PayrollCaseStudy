@@ -5,7 +5,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.UseCaseFactoriesForGUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.addemployee.AddEmployeeUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.addtimecard.AddTimeCardController.AddTimeCardControllerFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.addtimecard.AddTimeCardUI;
@@ -48,10 +47,9 @@ public class SwingUIModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(EventBus.class).to(EventQueueAsyncEventBus.class).asEagerSingleton();
-		bind(UncaugthExceptionHandler.class).asEagerSingleton();
 		bindUseCaseFactories();
 		bindUIs();
+		bindEagerSingletons();
 		installAssistedFactories();
 	}
 
@@ -69,14 +67,19 @@ public class SwingUIModule extends AbstractModule {
 		bind(AddUnionMemberAffiliationUseCaseFactory.class).toInstance(useCaseFactories);
 		bind(RemoveUnionMemberAffiliationUseCaseFactory.class).toInstance(useCaseFactories);
 	}
-	
+
 	private void bindUIs() {
 		bind(new TypeLiteral<AddEmployeeUI<?>>(){}).to(AddEmployeeUIImpl.class);
 		bind(new TypeLiteral<ErrorDialogUI<?>>(){}).to(ErrorDialogUIImpl.class);
 		bind(ConfirmDialogUI.class).to(ConfirmDialogUIImpl.class);
 		bind(MainFrameUI.class).to(MainFrameUIImpl.class);
 	}
-	
+
+	private void bindEagerSingletons() {
+		bind(EventBus.class).to(EventQueueAsyncEventBus.class).asEagerSingleton();
+		bind(UncaugthExceptionHandler.class).asEagerSingleton();
+	}
+
 	private void installAssistedFactories() {
 		install(new FactoryModuleBuilder().implement(new TypeLiteral<AddTimeCardUI<? extends AddTimeCardView>>() {}, AddTimeCardUIImpl.class).build(AddTimeCardUIFactory.class));
 		install(new FactoryModuleBuilder().implement(new TypeLiteral<AddUnionMemberUI<? extends AddUnionMemberView>>() {}, AddUnionMemberUIImpl.class).build(AddUnionMemberUIFactory.class));
