@@ -25,6 +25,7 @@
 		<module>PayrollInteractors</module>
 		<module>PayrollGuiAdminAdapter</module>
 		<module>PayrollMain</module>
+		<module>PayrollDevTemp</module>
 	</modules>
 
 	<dependencies>
