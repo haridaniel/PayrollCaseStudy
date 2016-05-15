@@ -1,17 +1,13 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters;
 
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactories;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactoriesImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.UseCaseFactoriesForGUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAllImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.ParameterizedMultipleDatabaseITTest;
 
 public abstract class AbstractUseCaseITTest extends ParameterizedMultipleDatabaseITTest {
 
-	protected UseCaseFactories useCaseFactories = new UseCaseFactoriesImpl(database, null);
+	protected UseCaseFactoriesForGUI useCaseFactories = new UseCaseFactoriesAllImpl(database, null);
 
 	public AbstractUseCaseITTest(DatabaseProvider databaseProvider) {
 		super(databaseProvider);

@@ -23,7 +23,7 @@ public abstract class MainPanelUI<V extends MainPanelView> extends
 	}
 
 	@Inject
-	private void init() {
+	private void initialize() {
 		controller.setDefaultModelToView();
 	}
 

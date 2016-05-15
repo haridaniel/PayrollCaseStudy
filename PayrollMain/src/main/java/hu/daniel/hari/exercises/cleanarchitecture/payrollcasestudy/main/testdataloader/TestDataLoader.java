@@ -1,8 +1,6 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.dev;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.testdataloader;
 
-import java.util.Optional;
-
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factory_impl.UseCaseFactories;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAll;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddCommissionedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.addemployee.AddSalariedEmployeeRequest;
@@ -11,7 +9,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public class TestDataLoader {
 
-	public void clearDatabaseAndInsertTestData(Database database, UseCaseFactories useCaseFactories) {
+	public void clearDatabaseAndInsertTestData(Database database, UseCaseFactoriesAll useCaseFactories) {
 		clearDatabase(database);
 		insertTestEmployees(useCaseFactories);
 	}
@@ -22,7 +20,7 @@ public class TestDataLoader {
 		);
 	}
 
-	private void insertTestEmployees(UseCaseFactories useCaseFactories) {
+	private void insertTestEmployees(UseCaseFactoriesAll useCaseFactories) {
 		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(1, "Kovács Pista", "Vác, Damjanich u. 1.", 3000));
 		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(2, "Pandacsöki Boborján", "Budapest XI.", 21));
 		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(3, "Telki Zoltán", "Budapest Ovari u.", 25));

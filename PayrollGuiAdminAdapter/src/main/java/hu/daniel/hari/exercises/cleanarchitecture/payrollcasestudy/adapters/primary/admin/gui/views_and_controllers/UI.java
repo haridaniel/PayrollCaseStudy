@@ -16,7 +16,7 @@ public abstract class UI<V extends View, C extends Controller<? super V>> {
 	}
 
 	@Inject
-	private void init() {
+	protected void init() {
 		controller.setView(view);
 	}
 	
