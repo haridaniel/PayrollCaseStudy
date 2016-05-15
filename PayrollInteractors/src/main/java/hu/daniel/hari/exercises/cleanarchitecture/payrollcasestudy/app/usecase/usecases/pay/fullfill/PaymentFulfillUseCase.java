@@ -11,7 +11,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PaymentFulfillRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PaymentFulfillResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.FunctionUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.banktransfer.BankTransferPort;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 public class PaymentFulfillUseCase extends AbstractUseCase implements FunctionUseCase<PaymentFulfillRequest, PaymentFulfillResponse> {
 
@@ -20,11 +22,12 @@ public class PaymentFulfillUseCase extends AbstractUseCase implements FunctionUs
 
 	public PaymentFulfillUseCase(
 			EmployeeGateway employeeGateway,
-			PaymentFulfillerFactory paymentFulfillerFactory
+			TransactionalRunner transactionalRunner,
+			BankTransferPort bankTransferPort
 			) {
 		super();
 		this.employeeGateway = employeeGateway;
-		this.paymentFulfillerFactory = paymentFulfillerFactory;
+		paymentFulfillerFactory = new PaymentFulfillerFactory(bankTransferPort, transactionalRunner);
 	}
 	
 	@Override

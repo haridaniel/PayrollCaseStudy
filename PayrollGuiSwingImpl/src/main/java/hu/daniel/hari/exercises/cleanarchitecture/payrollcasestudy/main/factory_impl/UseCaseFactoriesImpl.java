@@ -17,8 +17,6 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.other.timecard.AddTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.other.timecard.UpdateTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactoryImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.banktransfer.BankTransferPort;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
@@ -31,8 +29,7 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	private EmployeeGateway employeeGateway;
 	private TransactionalRunner transactionalRunner;
 	private EntityFactory entityFactory;
-
-	private PaymentFulfillerFactory paymentFulfillerFactory;
+	private BankTransferPort bankTransferPort;
 
 	public UseCaseFactoriesImpl(
 			Database database, 
@@ -41,8 +38,7 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 		this.transactionalRunner = database.transactionalRunner();
 		this.employeeGateway = database.employeeGateway();
 		this.entityFactory = database.entityFactory();
-		
-		paymentFulfillerFactory = new PaymentFulfillerFactoryImpl(bankTransferPort, transactionalRunner);
+		this.bankTransferPort = bankTransferPort;
 	}
 
 	@Override
@@ -122,7 +118,7 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 
 	@Override
 	public PaymentFulfillUseCase paymentFulfillUseCase() {
-		return new PaymentFulfillUseCase(employeeGateway, paymentFulfillerFactory);
+		return new PaymentFulfillUseCase(employeeGateway, transactionalRunner, bankTransferPort);
 	}
 
 	@Override

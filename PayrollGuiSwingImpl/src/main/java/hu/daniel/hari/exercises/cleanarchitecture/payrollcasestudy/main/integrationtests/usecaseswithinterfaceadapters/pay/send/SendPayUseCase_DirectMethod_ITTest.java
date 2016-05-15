@@ -4,12 +4,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.fullfillers.PaymentFulfillerFactoryImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.config.DatabaseProvider;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.integrationtests.usecaseswithinterfaceadapters.AbstractUseCaseITTest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.request.PaymentFulfillRequest;
@@ -29,7 +27,8 @@ public class SendPayUseCase_DirectMethod_ITTest extends AbstractUseCaseITTest {
 
 	private PaymentFulfillUseCase paymentFulfillUseCase = new PaymentFulfillUseCase(
 			database.employeeGateway(), 
-			new PaymentFulfillerFactoryImpl(bankTransferPortSpy, database.transactionalRunner())
+			database.transactionalRunner(),
+			bankTransferPortSpy
 			);
 
 	public SendPayUseCase_DirectMethod_ITTest(DatabaseProvider databaseProvider) {
