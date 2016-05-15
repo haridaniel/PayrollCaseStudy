@@ -11,9 +11,6 @@
 	<artifactId>PayrollMain</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 
 		<!-- OTHER MODULES -->
@@ -43,22 +40,6 @@
 			<version>1.0</version>
 		</dependency>
 
-		<!-- GUICE for dependency management -->
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-assistedinject</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
-		
 	</dependencies>
-
-	<build>
-
-	</build>
 
 </project>

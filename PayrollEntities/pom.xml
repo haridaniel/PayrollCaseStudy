@@ -11,15 +11,4 @@
 	<artifactId>PayrollEntities</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-	</properties>
-
-	<dependencies>
-	
-	</dependencies>
-
-	<build>
-
-	</build>
-
 </project>

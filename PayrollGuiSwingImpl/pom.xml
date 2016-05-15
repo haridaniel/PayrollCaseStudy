@@ -11,9 +11,6 @@
 	<artifactId>PayrollGuiSwingImpl</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 	
 		<!-- OTHER MODULES -->
@@ -44,9 +41,5 @@
 
 
 	</dependencies>
-
-	<build>
-
-	</build>
 
 </project>

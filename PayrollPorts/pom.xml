@@ -11,9 +11,6 @@
 	<artifactId>PayrollPorts</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-	</properties>
-
 	<dependencies>
 
 		<!-- OTHER MODULES -->
@@ -24,9 +21,5 @@
 		</dependency>
 		
 	</dependencies>
-
-	<build>
-
-	</build>
 
 </project>
