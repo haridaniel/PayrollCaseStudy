@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 //		case1();
 		case2();
+		
 	}
 
 	private static void case1() {
