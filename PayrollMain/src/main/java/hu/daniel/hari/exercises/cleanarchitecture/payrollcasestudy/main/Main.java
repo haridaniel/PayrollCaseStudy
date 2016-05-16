@@ -12,7 +12,7 @@ public class Main {
 	private static void case1() {
 		Payroll.builder()
 			.withDatabaseInMemory()
-			.withBankTransferPortMock()
+			.withBankTransferPortFake()
 			.withLoadedTestData()
 			.buildGuiAdminSwing()
 			.run();
@@ -21,7 +21,7 @@ public class Main {
 	private static void case2() {
 		Payroll.builder()
 			.withDatabaseJPA(JPAPersistenceUnit.HSQL_DB)
-			.withBankTransferPortMock()
+			.withBankTransferPortFake()
 			.withLoadedTestData()
 			.buildGuiAdminSwing()
 			.run();

@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.banktransfer.BankTransferPortMock;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.banktransfer.FakeBankTransferPort;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.inmemory.InMemoryDatabase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPADatabaseModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnit;
@@ -13,51 +13,39 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public class Payroll {
 	
-	public static Builder builder() {
-		return new Builder();
+	public static ConcreteBuilder builder() {
+		return new ConcreteBuilder();
 	}
 	
-	public static class Builder {
+	@SuppressWarnings("unchecked")
+	public static abstract class Builder<T extends Builder<T>> {
 		private Database database;
 		private BankTransferPort bankTransferPort;
 		private boolean loadTestData;
 
-		public Builder withDatabase(Database database) {
+		public T withDatabase(Database database) {
 			this.database = database;
-			return this;
+			return (T) this;
 		}
 
-		public Builder withBankTransferPort(BankTransferPort bankTransferPort) {
+		public T withBankTransferPort(BankTransferPort bankTransferPort) {
 			this.bankTransferPort = bankTransferPort;
-			return this;
+			return (T) this;
 		}
 
-		public Builder withLoadedTestData() {
+		public T withLoadedTestData() {
 			loadTestData = true;
-			return this;
-		}
-		
-		public Builder withDatabaseInMemory() {
-			withDatabase(new InMemoryDatabase());
-			return this;
-		}
-		public Builder withDatabaseJPA(JPAPersistenceUnit jpaPersistenceUnit) {
-			withDatabase(JPADatabaseModule.createAndStart(jpaPersistenceUnit).getDatabase());
-			return this;
-		}
-		public Builder withBankTransferPortMock() {
-			withBankTransferPort(new BankTransferPortMock());
-			return this;
+			return (T) this;
 		}
 		
 		public UseCaseFactoriesAll buildUseCaseFactories() {
-			checkBuildiness();
+			checkBuildability();
 			UseCaseFactoriesAllImpl useCaseFactories = new UseCaseFactoriesAllImpl(database, bankTransferPort);
 			onUseCaseFactoriesBuilt(useCaseFactories);
 			return useCaseFactories;
 		}
 
-		private void checkBuildiness() {
+		private void checkBuildability() {
 			checkForNull(database, "database should be selected");
 			checkForNull(bankTransferPort, "bankTransferPort should be selected");
 		}
@@ -83,7 +71,22 @@ public class Payroll {
 		
 	}
 	
-	public static class ConcreteBuilder extends Builder {
+	public static class ConcreteBuilder extends Builder<ConcreteBuilder> {
+
+		public ConcreteBuilder withDatabaseInMemory() {
+			withDatabase(new InMemoryDatabase());
+			return this;
+		}
+		public ConcreteBuilder withDatabaseJPA(JPAPersistenceUnit jpaPersistenceUnit) {
+			withDatabase(JPADatabaseModule.createAndStart(jpaPersistenceUnit).getDatabase());
+			return this;
+		}
+		public ConcreteBuilder withBankTransferPortFake() {
+			withBankTransferPort(new FakeBankTransferPort());
+			return this;
+		}
+		
+		
 	}
 	
 }
