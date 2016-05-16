@@ -16,8 +16,8 @@ public class JPADatabaseModule implements Closeable{
 	private JPADatabase jpaDatabase;
 	private PersistService persistService;
 
-	public JPADatabaseModule(String persistenceUnitName) {
-		Injector injector = createInjector(persistenceUnitName);
+	public JPADatabaseModule(JPAPersistenceUnit jpaPersistenceUnit) {
+		Injector injector = createInjector(jpaPersistenceUnit.name);
 		jpaDatabase = injector.getInstance(JPADatabase.class);
 		persistService = injector.getInstance(PersistService.class);
 		startJpaPersistModule();

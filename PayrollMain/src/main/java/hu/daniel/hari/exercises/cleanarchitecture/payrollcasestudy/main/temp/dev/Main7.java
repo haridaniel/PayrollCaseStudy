@@ -2,8 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.temp.de
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.banktransfer.BankTransferPortMock;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPADatabaseModule;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnitNames;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.SwingGuiImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnit;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.GuiSwingImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAll;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAllImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.testdataloader.TestDataLoader;
@@ -12,7 +12,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 public class Main7 {
 
 	public static void main(String[] args) {
-		JPADatabaseModule jpaDatabaseModule = new JPADatabaseModule(JPAPersistenceUnitNames.HSQL_DB);
+		JPADatabaseModule jpaDatabaseModule = new JPADatabaseModule(JPAPersistenceUnit.HSQL_DB);
 		Database database = jpaDatabaseModule.getDatabase();
 		
 		BankTransferPortMock bankTransferPort = new BankTransferPortMock();
@@ -21,7 +21,7 @@ public class Main7 {
 		
 		new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactoriesAll);
 
-		new SwingGuiImpl(useCaseFactoriesAll);
+		new GuiSwingImpl(useCaseFactoriesAll);
 		
 //		jpaDatabaseModule.close();
 	}
