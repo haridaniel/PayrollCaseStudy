@@ -11,29 +11,26 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
-public class JPADatabaseModule implements Closeable{
-
+public class JPADatabaseModule implements Closeable {
+	private JPAPersistenceUnit jpaPersistenceUnit;
 	private JPADatabase jpaDatabase;
 	private PersistService persistService;
 
-	public JPADatabaseModule(JPAPersistenceUnit jpaPersistenceUnit) {
-		Injector injector = createInjector(jpaPersistenceUnit.name);
+	private JPADatabaseModule(JPAPersistenceUnit jpaPersistenceUnit) {
+		this.jpaPersistenceUnit = jpaPersistenceUnit;
+		Injector injector = createInjector();
 		jpaDatabase = injector.getInstance(JPADatabase.class);
 		persistService = injector.getInstance(PersistService.class);
-		startJpaPersistModule();
+		persistService.start();
 	}
 
-	private Injector createInjector(String persistenceUnitName) {
+	private Injector createInjector() {
 		return Guice.createInjector(Stage.DEVELOPMENT,
 				new GuiceModule(),
-				new JpaPersistModule(persistenceUnitName)
+				new JpaPersistModule(jpaPersistenceUnit.name)
 				);
 	}
 
-	private void startJpaPersistModule() {
-		persistService.start();
-	}
-	
 	@Override
 	public void close() {
 		persistService.stop();
@@ -44,10 +41,12 @@ public class JPADatabaseModule implements Closeable{
 	}
 
 	private class GuiceModule extends AbstractModule {
-		
 		@Override
 		protected void configure() {
 		}
-		
+	}
+
+	public static JPADatabaseModule createAndStart(JPAPersistenceUnit jpaPersistenceUnit) {
+		return new JPADatabaseModule(jpaPersistenceUnit);
 	}
 }

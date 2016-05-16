@@ -13,7 +13,7 @@ public class SingletonJPADatabaseProvider implements DatabaseProvider {
 	private Database database;
 
 	public SingletonJPADatabaseProvider(JPAPersistenceUnit persistenceUnit) {
-		this.database = new JPADatabaseModule(persistenceUnit).getDatabase();
+		this.database = JPADatabaseModule.createAndStart(persistenceUnit).getDatabase();
 	}
 	
 	@Override

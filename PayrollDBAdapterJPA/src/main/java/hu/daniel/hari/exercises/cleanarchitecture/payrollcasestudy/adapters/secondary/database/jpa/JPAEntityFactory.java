@@ -52,7 +52,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EntityFactory;
 
 @Singleton
-public class JPAEntityFactory implements EntityFactory {
+class JPAEntityFactory implements EntityFactory {
 	
 	@Inject private ProxyFactory proxyFactory;
 

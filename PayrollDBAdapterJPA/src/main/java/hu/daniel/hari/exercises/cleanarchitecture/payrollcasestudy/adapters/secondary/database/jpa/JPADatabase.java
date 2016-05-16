@@ -11,7 +11,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
 @Singleton
-public class JPADatabase implements Database {
+class JPADatabase implements Database {
 
 	@Inject private JPATransactionalRunner jpaTransactionalRunner;
 	@Inject private JPAEntityFactory entityFactory;

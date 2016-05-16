@@ -14,7 +14,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 
-public class JPAEmployeeGateway implements EmployeeGateway {
+class JPAEmployeeGateway implements EmployeeGateway {
 	
 	@Inject private JPAEmployeeDao jPAEmployeeDao;
 	@Inject private ProxyFactory proxyFactory;

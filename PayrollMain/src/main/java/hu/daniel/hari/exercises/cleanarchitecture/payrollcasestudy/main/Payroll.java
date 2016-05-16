@@ -42,7 +42,7 @@ public class Payroll {
 			return this;
 		}
 		public Builder withDatabaseJPA(JPAPersistenceUnit jpaPersistenceUnit) {
-			withDatabase(new JPADatabaseModule(jpaPersistenceUnit).getDatabase());
+			withDatabase(JPADatabaseModule.createAndStart(jpaPersistenceUnit).getDatabase());
 			return this;
 		}
 		public Builder withBankTransferPortMock() {

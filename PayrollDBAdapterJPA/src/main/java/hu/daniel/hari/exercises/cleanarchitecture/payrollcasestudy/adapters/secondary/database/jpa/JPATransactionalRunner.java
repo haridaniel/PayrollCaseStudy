@@ -7,7 +7,7 @@ import javax.persistence.EntityTransaction;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
-public class JPATransactionalRunner implements TransactionalRunner {
+class JPATransactionalRunner implements TransactionalRunner {
 	@Inject private Provider<EntityManager> entityManagerProvider;
 
 	@Override
