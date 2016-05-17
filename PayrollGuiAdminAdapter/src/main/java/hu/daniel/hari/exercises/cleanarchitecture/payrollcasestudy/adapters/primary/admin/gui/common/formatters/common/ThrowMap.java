@@ -12,7 +12,7 @@ public class ThrowMap<K, V> {
 
 	protected V getOrThrow(K key) {
 		if(!map.containsKey(key))
-			throw new RuntimeException("not found: " + key);
+			throw new RuntimeException("key not found: " + key);
 		return map.get(key);
 	}
 	
