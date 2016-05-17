@@ -9,10 +9,8 @@ public abstract class PaymentSchedule {
 	
 	public abstract boolean isPayDate(LocalDate date);
 	
-	/**
-	 * @throws NotAPaydayException
-	 */
-	public final DateInterval getPayInterval(LocalDate payDate) {
+	/** @throws NotAPaydayException	**/
+	public final DateInterval getPayInterval(LocalDate payDate) throws NotAPaydayException {
 		return getPayIntervalForValidatedPayDate(validatePayDate(payDate));
 	}
 	

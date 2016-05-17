@@ -6,7 +6,7 @@ public class PayCheck {
 
 	private LocalDate date;
 	private int employeeId;
-	private final int grossAmount;
+	private int grossAmount;
 	private int deductionsAmount;
 	private int netAmount;
 	
