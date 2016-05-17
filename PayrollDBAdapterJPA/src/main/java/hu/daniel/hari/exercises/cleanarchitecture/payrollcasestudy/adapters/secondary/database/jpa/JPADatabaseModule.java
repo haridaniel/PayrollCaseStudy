@@ -9,6 +9,8 @@ import com.google.inject.Stage;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.ProxyFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.factory.AutoBindedProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
 public class JPADatabaseModule implements Closeable {
@@ -43,6 +45,7 @@ public class JPADatabaseModule implements Closeable {
 	private class GuiceModule extends AbstractModule {
 		@Override
 		protected void configure() {
+			bind(ProxyFactory.class).to(AutoBindedProxyFactory.class);
 		}
 	}
 
