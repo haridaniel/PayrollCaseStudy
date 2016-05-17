@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.usecase.usecases.pay.list.gross;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.usecase.usecases.pay.list.gross;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.response.PayListResponse.PayListResponseItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.testutil.TestUtils;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.usecase.usecases.pay.list.AbstractPayListUseCase_ITTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.testutil.TestUtils;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.usecase.usecases.pay.list.AbstractPayListUseCase_ITTest;
 
 public abstract class PayListUseCase_AbstractPaymentTypeITTest extends AbstractPayListUseCase_ITTest {
 

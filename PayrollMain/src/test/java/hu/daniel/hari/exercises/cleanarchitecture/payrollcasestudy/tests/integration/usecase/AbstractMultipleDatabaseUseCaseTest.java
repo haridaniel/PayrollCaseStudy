@@ -1,8 +1,8 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.usecase;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.usecase;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.UseCaseFactoriesForGUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAllImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.AbstractMultipleDatabaseTest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.AbstractMultipleDatabaseTest;
 
 public abstract class AbstractMultipleDatabaseUseCaseTest extends AbstractMultipleDatabaseTest {
 

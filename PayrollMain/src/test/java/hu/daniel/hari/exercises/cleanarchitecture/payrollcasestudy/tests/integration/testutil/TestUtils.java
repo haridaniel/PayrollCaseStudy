@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.testutil;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration.testutil;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

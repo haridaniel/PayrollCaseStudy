@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.tests.integration;
 
 import java.util.ArrayList;
 import java.util.Collection;
