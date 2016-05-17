@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -8,7 +8,8 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymentclassification.StrictIntervalPaymentType.InvalidIntervalException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.SalariedPaymentType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.StrictIntervalPaymentType.InvalidIntervalException;
 
 public class SalariedPaymentTypeTest {
 	private static final DateInterval A_MONTH_INTERVAL = 			DateInterval.of(LocalDate.of(2015, 12, 01), LocalDate.of(2015, 12, 31));
