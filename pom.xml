@@ -23,7 +23,7 @@
 		<module>PayrollPorts</module>
 		<module>PayrollEntities</module>
 		<module>PayrollInteractors</module>
-		<module>PayrollGuiAdminAdapter</module>
+		<module>PayrollAdminAdapterGui</module>
 		<module>PayrollMain</module>
 		<module>PayrollDevTemp</module>
 	</modules>

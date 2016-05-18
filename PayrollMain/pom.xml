@@ -31,7 +31,7 @@
 		</dependency>
 		<dependency>
 			<groupId>hu.daniel.hari.payroll</groupId>
-			<artifactId>PayrollGuiAdminAdapter</artifactId>
+			<artifactId>PayrollAdminAdapterGui</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>

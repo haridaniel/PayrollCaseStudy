@@ -8,7 +8,7 @@
 		<version>1.0</version>
 	</parent>
 	
-	<artifactId>PayrollGuiAdminAdapter</artifactId>
+	<artifactId>PayrollAdminAdapterGui</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
