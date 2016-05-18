@@ -4,13 +4,12 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Constants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.DateInterval;
 
 public abstract class HourlyPaymentType extends PaymentType {
-	// Business rule constants 
-	// (can be refactored to configurable later whenever business requests it) 
-	public static final int DAILY_NORMAL_HOURS = 8;
-	public static final double OVERTIME_WAGE_MULTIPLIER = 1.5d;
+	public static final int DAILY_NORMAL_HOURS = Constants.HOURLY_PAYMENTTYPE_DAILY_NORMAL_HOURS;
+	public static final double OVERTIME_WAGE_MULTIPLIER = Constants.HOURLY_PAYMENTTYPE_OVERTIME_WAGE_MULTIPLIER;
 
 	public abstract void setHourlyWage(int hourlyWage);
 	public abstract int getHourlyWage();
