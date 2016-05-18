@@ -15,8 +15,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.MainPanelView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.UIImplConstants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.Constants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.MainPanelView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.GuiConstants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.component.field.DateField;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.mainframe.mainpanel.EmployeeManagerPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.mainframe.mainpanel.PayPanel;
@@ -26,7 +27,7 @@ public class MainPanel extends JPanel implements MainPanelView {
 	private JPanel payDayPanelHolder;
 	private DateField currentDateField;
 	private MainPanelViewListener listener;
-	private String dateFormat = UIImplConstants.DATE_FORMAT;
+	private String dateFormat = Constants.DATE_FORMAT;
 	
 	public MainPanel(EmployeeManagerPanel employeeManagerPanel, PayPanel payPanel) {
 		initUI();

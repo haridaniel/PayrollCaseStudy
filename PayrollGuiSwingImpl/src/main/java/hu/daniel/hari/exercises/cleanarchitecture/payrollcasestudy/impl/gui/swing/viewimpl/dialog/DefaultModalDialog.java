@@ -8,9 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.CloseableViewListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.dialog.DialogView;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.UIImplConstants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.CloseableViewListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.DialogView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.GuiConstants;
 
 /**
  * Don't closes by itself, just sends message to listener  
@@ -43,7 +43,7 @@ public class DefaultModalDialog<T extends CloseableViewListener> extends JDialog
 	}
 	
 	private String buildTitle(String title) {
-		return UIImplConstants.APP_TITLE + (title == null? "" : " - " + title);
+		return GuiConstants.APP_TITLE + (title == null? "" : " - " + title);
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swi
 
 import javax.inject.Inject;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.statusbar.StatusBarController;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.mainpanel.statusbar.StatusBarUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.statusbar.StatusBarController;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.statusbar.StatusBarUI;
 
 public class StatusBarUIImpl extends StatusBarUI<StatusBarPanel> {
 

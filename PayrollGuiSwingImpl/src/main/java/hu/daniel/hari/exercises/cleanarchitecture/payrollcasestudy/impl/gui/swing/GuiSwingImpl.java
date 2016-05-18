@@ -2,13 +2,13 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swi
 
 import com.google.inject.Guice;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_and_controllers.mainframe.MainFrameUI;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.MainFrameUI;
 
 public class GuiSwingImpl implements Runnable {
 	private MainFrameUI mainFrameUI;
 
 	public GuiSwingImpl(UseCaseFactoriesForGUI useCaseFactories) {
-		mainFrameUI = Guice.createInjector(new SwingUIModule(useCaseFactories)).getInstance(MainFrameUI.class);
+		mainFrameUI = Guice.createInjector(new GuiSwingModule(useCaseFactories)).getInstance(MainFrameUI.class);
 	}
 
 	@Override

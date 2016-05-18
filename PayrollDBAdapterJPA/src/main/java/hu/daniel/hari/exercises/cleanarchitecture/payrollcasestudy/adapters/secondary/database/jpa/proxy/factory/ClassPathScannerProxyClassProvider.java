@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import org.reflections.Reflections;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.AutoBindedProxy;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.Proxy;
 
 /** Scans for Proxy classes under Proxy interface's package. 

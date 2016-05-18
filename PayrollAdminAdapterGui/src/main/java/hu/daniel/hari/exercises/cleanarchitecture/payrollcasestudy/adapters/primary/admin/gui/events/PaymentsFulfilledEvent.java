@@ -2,7 +2,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 
 import java.time.LocalDate;
 
-public class PaymentsFulfilledEvent implements EmployeeChangedEvent {
+public class PaymentsFulfilledEvent implements Event {
 	public LocalDate payDate;
 	public int employeeCount;
 	public int totalNetAmount;

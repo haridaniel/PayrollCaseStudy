@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.UIImplConstants;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.GuiConstants;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.mainframe.MainPanel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.viewimpl.mainframe.StatusBarPanel;
 
@@ -29,7 +29,7 @@ public class MainFrameWindow extends JFrame {
 	
 	private void initUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle(UIImplConstants.APP_TITLE);
+		setTitle(GuiConstants.APP_TITLE);
 		setSize(850, 500);
 		setLocationByPlatform(true);
 		

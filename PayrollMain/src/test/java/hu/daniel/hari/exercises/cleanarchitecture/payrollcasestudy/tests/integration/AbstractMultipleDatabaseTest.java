@@ -58,7 +58,7 @@ public abstract class AbstractMultipleDatabaseTest {
 
 	/** 
 	 * Faking new instance of the database for tests by clearing it's state. 
-	 * not thread safe
+	 * Not for parallel tests!
 	 * **/
 	private static class JPATestDatabaseProvider implements TestDatabaseProvider {
 		private Log log = LogFactory.getLog(getClass());
