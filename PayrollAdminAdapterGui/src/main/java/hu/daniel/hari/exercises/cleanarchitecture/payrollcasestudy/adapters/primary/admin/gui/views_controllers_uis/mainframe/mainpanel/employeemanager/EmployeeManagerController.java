@@ -18,6 +18,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.AffiliationType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType.PaymentTypeVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.DeleteEmployeeUseCaseFactory;
@@ -126,6 +127,7 @@ public class EmployeeManagerController extends
 
 		private void presentButtonsEnabledStatesForEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeViewItem employeeItem) {
 			presentButtonsEnabledForPaymentType(buttonsEnabledStates, employeeItem.paymentType);
+			presentButtonsEnabledForAffiliationType(buttonsEnabledStates, employeeItem.affiliationType);
 		}
 
 		private void presentButtonsEnabledForPaymentType(ButtonEnabledStates buttonsEnabledStates, PaymentType paymentType) {
@@ -142,6 +144,18 @@ public class EmployeeManagerController extends
 				public void visitSalaried() {
 				}
 			});
+		}
+
+		private void presentButtonsEnabledForAffiliationType(ButtonEnabledStates buttonsEnabledStates, AffiliationType affiliationType) {
+			switch (affiliationType) {
+			case NONE:
+				break;
+			case UNION_MEMBER:
+				buttonsEnabledStates.addServiceCharge = true;
+				break;
+			default:
+				throw new RuntimeException("notimplemented");
+			}
 		}
 		
 	}

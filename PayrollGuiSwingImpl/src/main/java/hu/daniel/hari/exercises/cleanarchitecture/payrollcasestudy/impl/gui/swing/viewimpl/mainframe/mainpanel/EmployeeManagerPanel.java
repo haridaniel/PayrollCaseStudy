@@ -128,6 +128,8 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 		});
 		bottomButtonPanel.add(btAddSalesReceipt);
 
+		bottomButtonPanel.add(affiliationButton);
+		
 		btAddServiceCharge = new JButton("Add Service charge..");
 		btAddServiceCharge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +138,6 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 
 		});
 		bottomButtonPanel.add(btAddServiceCharge);
-		bottomButtonPanel.add(affiliationButton);
 	}
 	
 	@Override
