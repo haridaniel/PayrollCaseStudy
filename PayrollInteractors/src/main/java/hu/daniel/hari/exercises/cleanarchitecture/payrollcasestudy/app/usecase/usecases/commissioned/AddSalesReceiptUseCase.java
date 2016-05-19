@@ -1,4 +1,4 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.other;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.commissioned;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.CommissionedPaymentType;
@@ -6,6 +6,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.pa
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.SalesReceipt;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.SalesReceipt.SalesReceiptFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.EmployeeGatewayCommandUseCase;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.exception.UseCaseException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.AddSalesReceiptRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
@@ -35,7 +36,7 @@ public class AddSalesReceiptUseCase extends EmployeeGatewayCommandUseCase<AddSal
 		if(paymentType instanceof CommissionedPaymentType) {
 			return (CommissionedPaymentType) paymentType;
 		} else {
-			throw new TriedToAddSalesReceiptToNonCommissionedEmployeeException();
+			throw new NotCommissionedPaymentTypeException();
 		}
 	}
 	
@@ -43,7 +44,7 @@ public class AddSalesReceiptUseCase extends EmployeeGatewayCommandUseCase<AddSal
 		return salesReceiptFactory.salesReceipt(request.date, request.amount);
 	}
 	
-	public static class TriedToAddSalesReceiptToNonCommissionedEmployeeException extends RuntimeException {
+	public class NotCommissionedPaymentTypeException extends UseCaseException {
 	}
 	
 }

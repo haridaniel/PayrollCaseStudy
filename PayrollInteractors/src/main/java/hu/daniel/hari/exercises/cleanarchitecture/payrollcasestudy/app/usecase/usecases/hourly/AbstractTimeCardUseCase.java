@@ -1,10 +1,11 @@
-package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.other.timecard;
+package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.hourly;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.Employee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.HourlyPaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.paymenttype.PaymentType;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.EmployeeGatewayCommandUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.timecard.AbstractTimeCardRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.exception.UseCaseException;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.hourly.AbstractTimeCardRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
@@ -28,10 +29,13 @@ public abstract class AbstractTimeCardUseCase<R extends AbstractTimeCardRequest>
 		if(paymentType instanceof HourlyPaymentType) {
 			return (HourlyPaymentType) paymentType;
 		} else {
-			throw new NotHourlyEmployeeException();
+			throw new NotHourlyPaymentTypeException();
 		}
 	}
 	
 	protected abstract void executeTimeCardOperation(R request, HourlyPaymentType hourlyPaymentType);
+	
+	public static class NotHourlyPaymentTypeException extends UseCaseException {
+	}
 	
 }

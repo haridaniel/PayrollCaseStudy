@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.exception.UseCaseException;
+
 public class AbstractUseCase {
 	private boolean executed;
 	
@@ -9,6 +11,6 @@ public class AbstractUseCase {
 		executed = true;
 	}
 	
-	private static class UseCaseAlreadyExecutedException extends RuntimeException {
+	class UseCaseAlreadyExecutedException extends UseCaseException {
 	}
 }

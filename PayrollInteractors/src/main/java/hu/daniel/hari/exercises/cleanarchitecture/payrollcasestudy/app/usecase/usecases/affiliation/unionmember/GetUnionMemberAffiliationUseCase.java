@@ -5,6 +5,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.af
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.affiliation.UnionMemberAffiliation;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.EmployeeGatewayFunctionUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.GetUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.changeemployee.affiliation.NotUnionMemberException;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.affiliation.unionmember.GetUnionMemberAffiliationResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.EmployeeGateway;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
@@ -40,9 +41,6 @@ public class GetUnionMemberAffiliationUseCase extends
 		response.unionMemberId = unionMemberAffiliation.getUnionMemberId();
 		response.weeklyDueAmount = unionMemberAffiliation.getWeeklyDueAmount();
 		return response;
-	}
-
-	public static class NotUnionMemberException extends RuntimeException {
 	}
 	
 }
