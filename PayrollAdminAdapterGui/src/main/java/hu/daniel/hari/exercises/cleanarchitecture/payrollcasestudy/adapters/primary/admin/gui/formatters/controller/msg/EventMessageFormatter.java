@@ -3,6 +3,7 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AddedTimeCardEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AffiliationChangedEvent;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.CalledNotImplementedFunctionEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.PaymentsFulfilledEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.UpdatedTimeCardEvent;
@@ -31,6 +32,10 @@ public class EventMessageFormatter {
 		return String.format("Payments has been fulfilled for %s employee for pay-day %s as a total net of %s.", 
 				event.employeeCount, smartDateFormatter.format(event.payDate), event.totalNetAmount);
 	}
+	
+	public String format(CalledNotImplementedFunctionEvent event) {
+		return String.format("%s function not implemented yet :(", event.functionName);
+	} 
 
 	public String format(AffiliationChangedEvent event) {
 		return changesHasBeenSaved();
@@ -38,6 +43,7 @@ public class EventMessageFormatter {
 
 	private String changesHasBeenSaved() {
 		return String.format("Saved");
-	} 
+	}
+
 	
 }

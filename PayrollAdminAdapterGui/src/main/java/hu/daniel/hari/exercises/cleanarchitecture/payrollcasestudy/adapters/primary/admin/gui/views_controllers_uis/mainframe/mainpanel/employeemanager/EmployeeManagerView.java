@@ -12,6 +12,8 @@ public interface EmployeeManagerView extends
 		void onDeleteEmployeeAction();
 		void onAddEmployeeAction();
 		void onAddTimeCardAction();
+		void onAddSalesReceiptAction();
+		void onAddServiceChargeAction();
 	}
 	
 	public static class EmployeeManagerViewModel {

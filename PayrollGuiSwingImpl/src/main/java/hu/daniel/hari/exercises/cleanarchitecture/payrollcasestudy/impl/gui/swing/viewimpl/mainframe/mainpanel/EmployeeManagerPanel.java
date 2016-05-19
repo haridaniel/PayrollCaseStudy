@@ -55,13 +55,11 @@ public class EmployeeManagerPanel extends JPanel implements EmployeeManagerView 
 	}
 
 	private void onAddSalesReceiptAction() {
-		// TODO Auto-generated method stub
-		
+		listener.onAddSalesReceiptAction();
 	}
 
 	private void onAddServiceChargeAction() {
-		// TODO Auto-generated method stub
-		
+		listener.onAddServiceChargeAction();
 	}
 
 	private void initUI(AffiliationButtonViewImpl affiliationButton) {

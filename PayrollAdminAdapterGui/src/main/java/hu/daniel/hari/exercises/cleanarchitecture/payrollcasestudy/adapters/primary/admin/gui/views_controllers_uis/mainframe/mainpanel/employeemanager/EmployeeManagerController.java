@@ -7,6 +7,7 @@ import javax.inject.Provider;
 
 import com.google.common.eventbus.EventBus;
 
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.CalledNotImplementedFunctionEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.DeletedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.controller.msg.ConfirmMessageFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.AbstractController;
@@ -90,6 +91,18 @@ public class EmployeeManagerController extends
 	@Override
 	public void onAddEmployeeAction() {
 		addEmployeeUIProvider.get().show();
+	}
+	
+	@Override
+	public void onAddSalesReceiptAction() {
+		eventBus.post(new CalledNotImplementedFunctionEvent("AddSalesReceipt"));
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void onAddServiceChargeAction() {
+		eventBus.post(new CalledNotImplementedFunctionEvent("AddServiceCharge"));
+		// TODO Auto-generated method stub
 	}
 	
 	@Override
