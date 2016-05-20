@@ -13,7 +13,7 @@ public interface EmployeeListView extends
 {
 
 	public static interface EmployeeListViewListener {
-		void onSelectionChanged(Optional<EmployeeViewItem> employee);
+		void onSelectionChanged(Optional<Integer> employeeIndex);
 	}
 	
 	public static class EmployeeListViewModel {

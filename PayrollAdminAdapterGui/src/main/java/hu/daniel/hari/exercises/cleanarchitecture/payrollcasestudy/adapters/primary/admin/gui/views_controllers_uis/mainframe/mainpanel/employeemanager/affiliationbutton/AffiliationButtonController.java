@@ -6,31 +6,28 @@ import javax.inject.Inject;
 
 import com.google.common.eventbus.EventBus;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AffiliationChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberUI.AddUnionMemberUIFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.ObservableSelectedEployeeItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.AffiliationType;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.ObservableSelectedEployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView.AffiliationButtonViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.affiliationbutton.AffiliationButtonView.AffiliationButtonViewModel;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.AddUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.GetUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.RemoveUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.GetUnionMemberAffiliationRequest;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.changeemployee.affiliation.AddUnionMemberAffiliationRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.changeemployee.affiliation.RemoveUnionMemberAffiliationRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.AffiliationTypeResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.affiliation.unionmember.GetUnionMemberAffiliationResponse;
 
 public class AffiliationButtonController extends 
 	AbstractController<AffiliationButtonView, AffiliationButtonViewListener> implements 
 	AffiliationButtonViewListener, 
-	ChangeListener<Optional<EmployeeViewItem>>
+	ChangeListener<Optional<EmployeeForEmployeeListResponse>>
 {
 	private EventBus eventBus;
-	private ObservableSelectedEployeeItem observableSelectedEmployee;
+	private ObservableSelectedEployee observableSelectedEmployee;
 	private GetUnionMemberAffiliationUseCaseFactory getUnionMemberAffiliationUseCaseFactory;
 	private RemoveUnionMemberAffiliationUseCaseFactory removeUnionMemberAffiliationUseCaseFactory;
 	private AddUnionMemberUIFactory addUnionMemberUIFactory;
@@ -55,19 +52,19 @@ public class AffiliationButtonController extends
 
 	@Override
 	public void onActionPerformed() {
-		EmployeeViewItem employee = observableSelectedEmployee.get().get();
-		Action action = toAction(employee.affiliationType);
+		EmployeeForEmployeeListResponse employee = observableSelectedEmployee.get().get();
+		Action action = toAction(employee.affiliationTypeResponse);
 		action.execute(employee);
 		update();
 	}
 
-	public void setObservableSelectedEmployee(ObservableSelectedEployeeItem observableSelectedEployee) {
+	public void setObservableSelectedEmployee(ObservableSelectedEployee observableSelectedEployee) {
 		this.observableSelectedEmployee = observableSelectedEployee;
 		observableSelectedEployee.addChangeListener(this);
 	}
 
 	@Override
-	public void onChanged(Optional<EmployeeViewItem> employee) {
+	public void onChanged(Optional<EmployeeForEmployeeListResponse> employee) {
 		update();
 	}
 
@@ -75,22 +72,22 @@ public class AffiliationButtonController extends
 		getView().setModel(present(observableSelectedEmployee.get()));
 	}
 
-	private AffiliationButtonViewModel present(Optional<EmployeeViewItem> employee) {
+	private AffiliationButtonViewModel present(Optional<EmployeeForEmployeeListResponse> employee) {
 		AffiliationButtonViewModel model = new AffiliationButtonViewModel();
 		model.enabled = employee.isPresent();
-		model.buttonText = employee.map(e -> toButtonText(e.affiliationType)).orElse("Affiliation..");
+		model.buttonText = employee.map(e -> toButtonText(e.affiliationTypeResponse)).orElse("Affiliation..");
 		return model;
 	}
-
-	private String toButtonText(AffiliationType affiliationType) {
+	
+	private String toButtonText(AffiliationTypeResponse affiliationType) {
 		return toAction(affiliationType).getButtonText();
 	}
 
-	private Action toAction(AffiliationType affiliationType) {
+	private Action toAction(AffiliationTypeResponse affiliationType) {
 		switch (affiliationType) {
 		case UNION_MEMBER:
 			return new RemoveUnionMemberAction();
-		case NONE:
+		case NO:
 			return new ChangeToUnionMemberAction();
 		default:
 			throw new RuntimeException("not implemented");
@@ -98,13 +95,13 @@ public class AffiliationButtonController extends
 	}
 
 	private static interface Action {
-		void execute(EmployeeViewItem e);
+		void execute(EmployeeForEmployeeListResponse e);
 		String getButtonText();
 	}
 
 	private class ChangeToUnionMemberAction implements Action {
 		@Override
-		public void execute(EmployeeViewItem e) {
+		public void execute(EmployeeForEmployeeListResponse e) {
 			addUnionMemberUIFactory.create(e.id).show();
 		}
 		@Override
@@ -115,12 +112,12 @@ public class AffiliationButtonController extends
 	}
 	private class RemoveUnionMemberAction implements Action {
 		@Override
-		public void execute(EmployeeViewItem e) {
+		public void execute(EmployeeForEmployeeListResponse e) {
 			removeUnionMemberAffiliationUseCaseFactory.removeUnionMemberAffiliationUseCase().execute(
 					new RemoveUnionMemberAffiliationRequest(getUnionMemberAffiliation(e).unionMemberId));
 			eventBus.post(new AffiliationChangedEvent());
 		}
-		private GetUnionMemberAffiliationResponse getUnionMemberAffiliation(EmployeeViewItem e) {
+		private GetUnionMemberAffiliationResponse getUnionMemberAffiliation(EmployeeForEmployeeListResponse e) {
 			return getUnionMemberAffiliationUseCaseFactory.getUnionMemberAffiliationUseCase()
 					.execute(new GetUnionMemberAffiliationRequest(e.id));
 		}

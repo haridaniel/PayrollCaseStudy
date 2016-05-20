@@ -18,12 +18,16 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeManagerView.EmployeeManagerViewModel.ButtonEnabledStates;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.AffiliationType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem.PaymentType.PaymentTypeVisitor;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.DeleteEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.GetEmployeeUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.DeleteEmployeeRequest;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.AffiliationTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.paymenttype.CommissionedPaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.paymenttype.HourlyPaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.paymenttype.PaymentTypeResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.paymenttype.PaymentTypeResponse.PaymentTypeResponseVisitor;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.paymenttype.SalariedPaymentTypeResponse;
 
 public class EmployeeManagerController extends 
 	AbstractController<EmployeeManagerView, EmployeeManagerViewListener> implements
@@ -36,7 +40,7 @@ public class EmployeeManagerController extends
 	private Provider<AddEmployeeUI<?>> addEmployeeUIProvider;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private AddTimeCardUIFactory addTimeCardUIFactory;
-	private ObservableSelectedEployeeItem observableSelectedEployeeItem;
+	private ObservableSelectedEployee observableSelectedEployee;
 	private ConfirmMessageFormatter confirmMessageFormatter;
 
 	@Inject
@@ -57,9 +61,9 @@ public class EmployeeManagerController extends
 		this.confirmMessageFormatter = confirmMessageFormatter;
 	}
 
-	public void setObservableSelectedEmployee(ObservableSelectedEployeeItem observableSelectedEployeeItem) {
-		this.observableSelectedEployeeItem = observableSelectedEployeeItem;
-		observableSelectedEployeeItem.addChangeListener(newValue -> {
+	public void setObservableSelectedEmployee(ObservableSelectedEployee observableSelectedEployee) {
+		this.observableSelectedEployee = observableSelectedEployee;
+		observableSelectedEployee.addChangeListener(newValue -> {
 			onSelectedEmployeeIdChanged();
 		});
 	}
@@ -74,17 +78,17 @@ public class EmployeeManagerController extends
 	}
 
 	private void updateView() {
-		getView().setModel(new EmployeeManagerViewPresenter().present(observableSelectedEployeeItem.get()));
+		getView().setModel(new EmployeeManagerViewPresenter().present(observableSelectedEployee.get()));
 	}
 
 	@Override
 	public void onDeleteEmployeeAction() {
-		EmployeeViewItem employeeItem = observableSelectedEployeeItem.get().get();
-		confirmDialogUIProvider.get().show(confirmMessageFormatter.deleteEmployee(employeeItem.name), new ConfirmDialogListener() {
+		EmployeeForEmployeeListResponse employee = observableSelectedEployee.get().get();
+		confirmDialogUIProvider.get().show(confirmMessageFormatter.deleteEmployee(employee.name), new ConfirmDialogListener() {
 			@Override
 			public void onOk() {
-				deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employeeItem.id));
-				eventBus.post(new DeletedEmployeeEvent(employeeItem.id, employeeItem.name));
+				deleteEmployeeUseCaseFactory.deleteEmployeeUseCase().execute(new DeleteEmployeeRequest(employee.id));
+				eventBus.post(new DeletedEmployeeEvent(employee.id, employee.name));
 			}
 		});
 	}
@@ -108,47 +112,52 @@ public class EmployeeManagerController extends
 	
 	@Override
 	public void onAddTimeCardAction() {
-		addTimeCardUIFactory.create(observableSelectedEployeeItem.get().get().id).show();
+		addTimeCardUIFactory.create(observableSelectedEployee.get().get().id).show();
 	}
 
 	private static class EmployeeManagerViewPresenter {
-		public EmployeeManagerViewModel present(Optional<EmployeeViewItem> selectedEmployeeViewItem) {
-			return new EmployeeManagerViewModel(presentButtonsEnabledStates(selectedEmployeeViewItem));
+		public EmployeeManagerViewModel present(Optional<EmployeeForEmployeeListResponse> selectedEmployee) {
+			return new EmployeeManagerViewModel(presentButtonsEnabledStates(selectedEmployee));
 		}
 	
-		private ButtonEnabledStates presentButtonsEnabledStates(Optional<EmployeeViewItem> selectedEmployeeViewItem) {
+		private ButtonEnabledStates presentButtonsEnabledStates(Optional<EmployeeForEmployeeListResponse> selectedEmployee) {
 			ButtonEnabledStates buttonsEnabledStates = new ButtonEnabledStates();
-			buttonsEnabledStates.deleteEmployee = selectedEmployeeViewItem.isPresent();
-			selectedEmployeeViewItem.ifPresent((employeeItem) -> {
-				presentButtonsEnabledStatesForEmployee(buttonsEnabledStates, employeeItem);
+			buttonsEnabledStates.deleteEmployee = selectedEmployee.isPresent();
+			selectedEmployee.ifPresent((e) -> {
+				presentButtonsEnabledStatesForEmployee(buttonsEnabledStates, e);
 			});
 			return buttonsEnabledStates;
 		}
 
-		private void presentButtonsEnabledStatesForEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeViewItem employeeItem) {
-			presentButtonsEnabledForPaymentType(buttonsEnabledStates, employeeItem.paymentType);
-			presentButtonsEnabledForAffiliationType(buttonsEnabledStates, employeeItem.affiliationType);
+		private void presentButtonsEnabledStatesForEmployee(ButtonEnabledStates buttonsEnabledStates, EmployeeForEmployeeListResponse employee) {
+			presentButtonsEnabledForPaymentType(buttonsEnabledStates, employee.paymentTypeResponse);
+			presentButtonsEnabledForAffiliationType(buttonsEnabledStates, employee.affiliationTypeResponse);
 		}
 
-		private void presentButtonsEnabledForPaymentType(ButtonEnabledStates buttonsEnabledStates, PaymentType paymentType) {
-			paymentType.accept(new PaymentTypeVisitor() {
+		private void presentButtonsEnabledForPaymentType(ButtonEnabledStates buttonsEnabledStates, PaymentTypeResponse paymentType) {
+			paymentType.accept(new PaymentTypeResponseVisitor<Void>() {
 				@Override
-				public void visitCommissioned() {
-					buttonsEnabledStates.addSalesReceipt = true;
+				public Void visit(SalariedPaymentTypeResponse salariedPaymentTypeResponse) {
+					return null;
 				}
+
 				@Override
-				public void visitHourly() {
+				public Void visit(HourlyPaymentTypeResponse hourlyPaymentTypeResponse) {
 					buttonsEnabledStates.addTimeCard = true;
+					return null;
 				}
+
 				@Override
-				public void visitSalaried() {
+				public Void visit(CommissionedPaymentTypeResponse commissionedPaymentTypeResponse) {
+					buttonsEnabledStates.addSalesReceipt = true;
+					return null;
 				}
 			});
 		}
 
-		private void presentButtonsEnabledForAffiliationType(ButtonEnabledStates buttonsEnabledStates, AffiliationType affiliationType) {
+		private void presentButtonsEnabledForAffiliationType(ButtonEnabledStates buttonsEnabledStates, AffiliationTypeResponse affiliationType) {
 			switch (affiliationType) {
-			case NONE:
+			case NO:
 				break;
 			case UNION_MEMBER:
 				buttonsEnabledStates.addServiceCharge = true;

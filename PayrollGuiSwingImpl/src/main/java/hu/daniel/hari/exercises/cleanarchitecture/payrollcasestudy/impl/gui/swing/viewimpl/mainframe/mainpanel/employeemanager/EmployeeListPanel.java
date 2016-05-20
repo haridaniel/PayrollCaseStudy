@@ -44,16 +44,19 @@ public class EmployeeListPanel extends JPanel implements EmployeeListView {
 	}
 
 	private void fireEmployeeSelectionChangedEvent() {
-		listener.onSelectionChanged(getOptionalSelectedEmployeeViewItem());
+		listener.onSelectionChanged(getOptionalSelectedEmployeeIndex());
 	}
 
-	private Optional<EmployeeViewItem> getOptionalSelectedEmployeeViewItem() {
+	private Optional<Integer> getOptionalSelectedEmployeeIndex() {
 		ListSelectionModel selectionModel = table.getSelectionModel();
 		if(selectionModel.isSelectionEmpty())
 			return Optional.empty();
-		return Optional.of(viewModel.employeeViewItems.get(selectionModel.getMinSelectionIndex()));
+		return Optional.of(selectionModel.getMinSelectionIndex());
 	}
-
+	
+	private Optional<EmployeeViewItem> getOptionalSelectedEmployeeViewItem() {
+		return getOptionalSelectedEmployeeIndex().map((index) -> viewModel.employeeViewItems.get(index));
+	}
 
 	@Override
 	public void setViewListener(EmployeeListViewListener listener) {

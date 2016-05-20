@@ -1,6 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -11,14 +12,14 @@ import com.google.common.eventbus.Subscribe;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.EmployeeChangedEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.AbstractController;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable.ChangeListener;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.ObservableSelectedEployeeItem;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.ObservableValue;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.ObservableSelectedEployee;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.EmployeeListUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.EmployeeListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 
 public class EmployeeListController extends
 	AbstractController<EmployeeListView, EmployeeListViewListener> implements 
@@ -28,7 +29,8 @@ public class EmployeeListController extends
 	
 	private EmployeeListUseCaseFactory useCaseFactory;
 	private Observable<LocalDate> observableCurrentDate;
-	private ObservableSelectedEployeeViewItemImpl observableSelectedEployeeViewItem = new ObservableSelectedEployeeViewItemImpl();
+	private List<EmployeeForEmployeeListResponse> employees;
+	private ObservableSelectedEployeeValue observableSelectedEployee = new ObservableSelectedEployeeValue();
 
 	@Inject
 	public EmployeeListController(
@@ -44,8 +46,8 @@ public class EmployeeListController extends
 		observableCurrentDate.addChangeListener(this);
 	}
 
-	public ObservableSelectedEployeeItem getObservableSelectedEployeeId() {
-		return observableSelectedEployeeViewItem;
+	public ObservableSelectedEployee getObservableSelectedEployee() {
+		return observableSelectedEployee;
 	}
 
 	@Subscribe
@@ -59,24 +61,22 @@ public class EmployeeListController extends
 	}
 
 	@Override
-	public void onSelectionChanged(Optional<EmployeeViewItem> employee) {
-		observableSelectedEployeeViewItem.set(employee);
+	public void onSelectionChanged(Optional<Integer> employeeIndex) {
+		observableSelectedEployee.set(employeeIndex.map((i) -> employees.get(i)));
 	}
 	
 	private void update() {
-		getView().setModel(new EmployeeListPresenter(observableCurrentDate.get(), executeEmployeeListUseCase()).toViewModel());
+		EmployeeListResponse employeeListResponse = useCaseFactory.employeeListUseCase().execute(new EmployeeListRequest(observableCurrentDate.get()));
+		employees = employeeListResponse.employees;
+		getView().setModel(new EmployeeListPresenter(observableCurrentDate.get(), employeeListResponse).toViewModel());
 	}
 
-	private EmployeeListResponse executeEmployeeListUseCase() {
-		return useCaseFactory.employeeListUseCase().execute(new EmployeeListRequest(observableCurrentDate.get()));
-	}
-
-	private static class ObservableSelectedEployeeViewItemImpl extends ObservableValue<Optional<EmployeeViewItem>> implements ObservableSelectedEployeeItem {
-		public ObservableSelectedEployeeViewItemImpl() {
+	private static class ObservableSelectedEployeeValue extends ObservableValue<Optional<EmployeeForEmployeeListResponse>> implements ObservableSelectedEployee {
+		public ObservableSelectedEployeeValue() {
 			super(Optional.empty());
 		}
 	}
-
+	
 	@Override
 	protected EmployeeListViewListener getViewListener() {
 		return this;

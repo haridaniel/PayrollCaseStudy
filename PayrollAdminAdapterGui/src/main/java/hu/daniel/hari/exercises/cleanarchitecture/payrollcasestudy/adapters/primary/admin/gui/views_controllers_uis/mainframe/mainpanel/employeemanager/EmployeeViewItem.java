@@ -10,21 +10,14 @@ public class EmployeeViewItem {
 	public AffiliationType affiliationType;
 
 	public enum PaymentType {
-		SALARIED {@Override public void accept(PaymentType.PaymentTypeVisitor visitor) {visitor.visitSalaried();}},		
-		HOURLY {@Override public void accept(PaymentType.PaymentTypeVisitor visitor) {visitor.visitHourly();}},
-		COMMISSIONED {@Override public void accept(PaymentType.PaymentTypeVisitor visitor) {visitor.visitCommissioned();}};
-
-		public abstract void accept(PaymentType.PaymentTypeVisitor visitor);
-
-		public interface PaymentTypeVisitor {
-			void visitCommissioned();
-			void visitHourly();
-			void visitSalaried();
-		}
+		SALARIED,		
+		HOURLY,
+		COMMISSIONED
+		;
 	}
 	
 	public enum AffiliationType {
-		NONE,
+		NO,
 		UNION_MEMBER
 	}
 

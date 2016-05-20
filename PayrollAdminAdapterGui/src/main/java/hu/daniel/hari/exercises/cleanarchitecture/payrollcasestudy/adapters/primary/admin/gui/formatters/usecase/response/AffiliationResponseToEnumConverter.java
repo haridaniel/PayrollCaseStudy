@@ -7,7 +7,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 public class AffiliationResponseToEnumConverter extends ThrowMap<AffiliationTypeResponse, AffiliationType> {
 	
 	public AffiliationResponseToEnumConverter() {
-		put(AffiliationTypeResponse.NO, AffiliationType.NONE);
+		put(AffiliationTypeResponse.NO, AffiliationType.NO);
 		put(AffiliationTypeResponse.UNION_MEMBER, AffiliationType.UNION_MEMBER);
 	}
 	

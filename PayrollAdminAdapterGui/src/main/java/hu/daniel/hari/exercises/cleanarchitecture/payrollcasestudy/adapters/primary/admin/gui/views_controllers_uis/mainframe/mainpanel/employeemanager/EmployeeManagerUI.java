@@ -21,8 +21,8 @@ public abstract class EmployeeManagerUI<V extends EmployeeManagerView> extends
 			) {
 		super(controller, view);
 		this.employeeListUI = employeeListUI;
-		controller.setObservableSelectedEmployee(employeeListUI.getObservableSelectedEmployee());
-		affiliationButtonUI.setObservableSelectedEmployee(employeeListUI.getObservableSelectedEmployee());
+		controller.setObservableSelectedEmployee(employeeListUI.getObservableSelectedEployee());
+		affiliationButtonUI.setObservableSelectedEmployee(employeeListUI.getObservableSelectedEployee());
 	}
 
 	public void setObservableCurrentDate(Observable<LocalDate> observableCurrentDate) {
