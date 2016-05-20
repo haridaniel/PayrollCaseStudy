@@ -6,19 +6,5 @@ public class EmployeeViewItem {
 	public String address;
 	public String waging;
 	public String nextPayDay;
-	public EmployeeViewItem.PaymentType paymentType;
-	public AffiliationType affiliationType;
-
-	public enum PaymentType {
-		SALARIED,		
-		HOURLY,
-		COMMISSIONED
-		;
-	}
-	
-	public enum AffiliationType {
-		NO,
-		UNION_MEMBER
-	}
 
 }

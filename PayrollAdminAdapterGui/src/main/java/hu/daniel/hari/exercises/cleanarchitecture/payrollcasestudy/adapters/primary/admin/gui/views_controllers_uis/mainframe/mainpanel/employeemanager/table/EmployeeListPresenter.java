@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.common.SmartDateFormatter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.usecase.response.AffiliationResponseToEnumConverter;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.usecase.response.PaymentTypeResponseToEnumConverter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.usecase.response.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel;
@@ -19,8 +17,6 @@ class EmployeeListPresenter {
 	private SmartDateFormatter smartDateFormatter;
 	
 	private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
-	private PaymentTypeResponseToEnumConverter paymentTypeResponseToEnumConverter = new PaymentTypeResponseToEnumConverter();
-	private AffiliationResponseToEnumConverter affiliationResponseToEnumConverter = new AffiliationResponseToEnumConverter();
 
 	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
 		this.response = response;
@@ -44,8 +40,6 @@ class EmployeeListPresenter {
 		employeeViewItem.address = employeeItem.address;
 		employeeViewItem.waging = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToStringFormatter);
 		employeeViewItem.nextPayDay = smartDateFormatter.format(employeeItem.nextPayDay);
-		employeeViewItem.paymentType = employeeItem.paymentTypeResponse.accept(paymentTypeResponseToEnumConverter);
-		employeeViewItem.affiliationType = affiliationResponseToEnumConverter.toAffiliationType(employeeItem.affiliationTypeResponse);
 		return employeeViewItem;
 	}
 

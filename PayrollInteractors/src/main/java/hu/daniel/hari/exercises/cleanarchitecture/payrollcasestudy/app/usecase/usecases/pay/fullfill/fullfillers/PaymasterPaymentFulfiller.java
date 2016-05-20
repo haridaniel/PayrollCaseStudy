@@ -18,7 +18,7 @@ public class PaymasterPaymentFulfiller implements PaymentFulfiller {
 	@Override
 	public void fulfillPayment(PayCheck payCheck) {
 		transactionalRunner.executeInTransaction(() -> {
-			log.info("(Mock) Paymaster payment record added for:" + payCheck);
+			log.info("(Fake) Paymaster payment record added for:" + payCheck);
 		});
 	}
 
