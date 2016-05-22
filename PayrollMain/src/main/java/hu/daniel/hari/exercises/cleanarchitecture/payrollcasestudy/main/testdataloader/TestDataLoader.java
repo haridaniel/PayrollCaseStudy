@@ -1,6 +1,6 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.testdataloader;
 
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAll;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.addemployee.AddCommissionedEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.addemployee.AddHourlyEmployeeRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.addemployee.AddSalariedEmployeeRequest;
@@ -9,7 +9,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.seconda
 
 public class TestDataLoader {
 
-	public void clearDatabaseAndInsertTestData(Database database, UseCaseFactoriesAll useCaseFactories) {
+	public void clearDatabaseAndInsertTestData(Database database, UseCaseFactories useCaseFactories) {
 		clearDatabase(database);
 		insertTestEmployees(useCaseFactories);
 	}
@@ -20,7 +20,7 @@ public class TestDataLoader {
 		);
 	}
 
-	private void insertTestEmployees(UseCaseFactoriesAll useCaseFactories) {
+	private void insertTestEmployees(UseCaseFactories useCaseFactories) {
 		useCaseFactories.addSalariedEmployeeUseCase().execute(new AddSalariedEmployeeRequest(1, "Stuart Dueton", "10 Rue Bailleul, Paris", 3000));
 		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(2, "Stéphane Toudret", "7 Rue du Joinville 75019, Paris", 21));
 		useCaseFactories.addHourlyEmployeeUseCase().execute(new AddHourlyEmployeeRequest(3, "John Merceland", "Ovari u. 45, 1092 Budapest", 25));

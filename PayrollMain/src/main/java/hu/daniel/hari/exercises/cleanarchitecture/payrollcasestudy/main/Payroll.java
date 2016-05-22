@@ -5,9 +5,9 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPADatabaseModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.JPAPersistenceUnit;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swing.GuiSwingImpl;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAll;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesAllImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase.UseCaseFactoriesImpl;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.testdataloader.TestDataLoader;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.banktransfer.BankTransferPort;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
@@ -38,9 +38,9 @@ public class Payroll {
 			return (T) this;
 		}
 		
-		public UseCaseFactoriesAll buildUseCaseFactories() {
+		public UseCaseFactories buildUseCaseFactories() {
 			checkBuildability();
-			UseCaseFactoriesAllImpl useCaseFactories = new UseCaseFactoriesAllImpl(database, bankTransferPort);
+			UseCaseFactoriesImpl useCaseFactories = new UseCaseFactoriesImpl(database, bankTransferPort);
 			loadTestDataIfRequested(useCaseFactories);
 			return useCaseFactories;
 		}
@@ -50,12 +50,12 @@ public class Payroll {
 			checkForNull(bankTransferPort, "bankTransferPort should be selected");
 		}
 
-		private void loadTestDataIfRequested(UseCaseFactoriesAllImpl useCaseFactories) {
+		private void loadTestDataIfRequested(UseCaseFactoriesImpl useCaseFactories) {
 			if(loadTestData)
 				loadTestData(useCaseFactories);
 		}
 
-		private void loadTestData(UseCaseFactoriesAllImpl useCaseFactories) {
+		private void loadTestData(UseCaseFactoriesImpl useCaseFactories) {
 			new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 		}
 
