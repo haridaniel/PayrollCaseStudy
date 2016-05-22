@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.controller.msg;
 
+import javax.inject.Inject;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AddedEmployeeEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AddedTimeCardEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.AffiliationChangedEvent;
@@ -8,9 +10,17 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.PaymentsFulfilledEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.events.UpdatedTimeCardEvent;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.common.SmartDateFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.common.SmartDateFormatter.SmartDateFormatterFactory;
 
 public class EventMessageFormatter {
-	private SmartDateFormatter smartDateFormatter = new SmartDateFormatter();
+	private SmartDateFormatter smartDateFormatter;
+
+	@Inject
+	public EventMessageFormatter(
+			SmartDateFormatterFactory smartDateFormatterFactory
+			) {
+		this.smartDateFormatter = smartDateFormatterFactory.ofCurrentDate();
+	}
 	
 	public String format(AddedEmployeeEvent event) {
 		return String.format("Added new employee: %s with id %s", event.name, event.employeeId);

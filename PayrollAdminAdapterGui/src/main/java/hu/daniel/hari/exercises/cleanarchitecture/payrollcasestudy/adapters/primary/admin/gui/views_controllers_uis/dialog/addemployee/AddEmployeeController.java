@@ -41,16 +41,22 @@ public class AddEmployeeController extends
 	private AddEmployeeUseCaseFactory addEmployeeUseCaseFactory;
 	private ChangeToAbstractPaymentMethodUseCaseFactory changePaymentMethodUseCaseFactory;
 	private EventBus eventBus;
+	private AddEmployeeUseCaseErrorFormatter addEmployeeUseCaseErrorFormatter;
+	private FieldValidationErrorPresenter fieldValidationErrorPresenter;
 
 	@Inject
 	public AddEmployeeController(
 			AddEmployeeUseCaseFactory addEmployeeUseCaseFactory,
 			ChangeToAbstractPaymentMethodUseCaseFactory changePaymentMethodUseCaseFactory,
+			AddEmployeeUseCaseErrorFormatter addEmployeeUseCaseErrorFormatter,
+			FieldValidationErrorPresenter fieldValidationErrorPresenter,
 			EventBus eventBus
 			) {
 		super(eventBus);
 		this.addEmployeeUseCaseFactory = addEmployeeUseCaseFactory;
 		this.changePaymentMethodUseCaseFactory = changePaymentMethodUseCaseFactory;
+		this.addEmployeeUseCaseErrorFormatter = addEmployeeUseCaseErrorFormatter;
+		this.fieldValidationErrorPresenter = fieldValidationErrorPresenter;
 		this.eventBus = eventBus;
 	}
 
@@ -101,10 +107,9 @@ public class AddEmployeeController extends
 				eventBus.post(new AddedEmployeeEvent(model.employeeId.get(), model.name));
 				close();
 			} catch (FieldValidatorException e) {
-				getView().setModel(new FieldValidationErrorPresenter().present(e));
+				getView().setModel(fieldValidationErrorPresenter.present(e));
 			} catch (MultipleErrorsUseCaseException e) {
-				getView().setModel(new ValidationErrorMessagesModel(
-						new AddEmployeeUseCaseErrorFormatter().formatAll(e.getErrors())));
+				getView().setModel(new ValidationErrorMessagesModel(addEmployeeUseCaseErrorFormatter.formatAll(e.getErrors())));
 			}
 		}
 

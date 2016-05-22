@@ -4,23 +4,34 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
+import com.google.inject.assistedinject.Assisted;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.common.SmartDateFormatter;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.common.SmartDateFormatter.SmartDateFormatterFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.usecase.response.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.EmployeeViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.EmployeeListResponse.EmployeeForEmployeeListResponse;
 
-class EmployeeListPresenter {
+public class EmployeeListPresenter {
 	
 	private EmployeeListResponse response;
+	private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter;
 	private SmartDateFormatter smartDateFormatter;
-	
-	private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
 
-	public EmployeeListPresenter(LocalDate currentDate, EmployeeListResponse response) {
+	@Inject
+	public EmployeeListPresenter(
+			@Assisted LocalDate currentDate, 
+			@Assisted EmployeeListResponse response,
+			PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter,
+			SmartDateFormatterFactory smartDateFormatterFactory
+			) {
 		this.response = response;
-		smartDateFormatter = new SmartDateFormatter(currentDate);
+		this.paymentTypeResponseToStringFormatter = paymentTypeResponseToStringFormatter;
+		this.smartDateFormatter = smartDateFormatterFactory.of(currentDate);
 	}
 
 	public EmployeeListViewModel toViewModel() {
@@ -43,4 +54,8 @@ class EmployeeListPresenter {
 		return employeeViewItem;
 	}
 
+	public interface EmployeeListPresenterFactory {
+		EmployeeListPresenter of(LocalDate currentDate, EmployeeListResponse response);
+	}
+	
 }

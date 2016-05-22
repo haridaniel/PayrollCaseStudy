@@ -41,6 +41,7 @@ public class AddTimeCardController extends
 	private UpdateTimeCardUseCaseFactory updateTimeCardUseCaseFactory;
 	private Provider<ConfirmDialogUI> confirmDialogUIProvider;
 	private ConfirmMessageFormatter confirmMessageFormatter;
+	private FieldValidationErrorPresenter fieldValidationErrorPresenter; 
 
 	@Inject
 	public AddTimeCardController(
@@ -50,6 +51,7 @@ public class AddTimeCardController extends
 			UpdateTimeCardUseCaseFactory updateTimeCardUseCaseFactory,
 			Provider<ConfirmDialogUI> confirmDialogUIProvider,
 			ConfirmMessageFormatter confirmMessageFormatter,
+			FieldValidationErrorPresenter fieldValidationErrorPresenter,
 			@Assisted int employeeId
 			) {
 		super(eventBus);
@@ -59,6 +61,7 @@ public class AddTimeCardController extends
 		this.updateTimeCardUseCaseFactory = updateTimeCardUseCaseFactory;
 		this.confirmDialogUIProvider = confirmDialogUIProvider;
 		this.confirmMessageFormatter = confirmMessageFormatter;
+		this.fieldValidationErrorPresenter = fieldValidationErrorPresenter;
 		this.employeeId = employeeId;
 	}
 	
@@ -106,7 +109,7 @@ public class AddTimeCardController extends
 			addTimeCardUseCaseFactory.addTimeCardUseCase().execute(toAddRequest(model));
 			onAdded(model);
 		} catch (FieldValidatorException e) {
-			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
+			getView().setValidationErrorMessagesModel(fieldValidationErrorPresenter.present(e));
 		} catch (TimeCardAlreadyExistsException e) {
 			onTimeCardAlreadyExists(model);
 		} 

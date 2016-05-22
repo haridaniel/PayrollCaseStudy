@@ -20,10 +20,14 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 public class StatusBarController implements Controller<StatusBarView> {
 
 	private StatusBarView view;
-	private EventMessageFormatter messageFormatter = new EventMessageFormatter();
+	private EventMessageFormatter messageFormatter;
 
 	@Inject
-	public StatusBarController(EventBus eventBus) {
+	public StatusBarController(
+			EventBus eventBus,
+			EventMessageFormatter eventMessageFormatter
+		) {
+		this.messageFormatter = eventMessageFormatter;
 		eventBus.register(this);
 	}
 	

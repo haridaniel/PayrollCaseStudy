@@ -32,18 +32,24 @@ public class AddUnionMemberController extends
 	private int employeeId;
 	private GetEmployeeUseCaseFactory getEmployeeUseCaseFactory;
 	private AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory;
+	private UseCaseExceptionsFormatter useCaseExceptionsFormatter;
+	private FieldValidationErrorPresenter fieldValidationErrorPresenter;
 
 	@Inject
 	public AddUnionMemberController(
 			EventBus eventBus,
 			GetEmployeeUseCaseFactory getEmployeeUseCaseFactory,
 			AddUnionMemberAffiliationUseCaseFactory addUnionMemberAffiliationUseCaseFactory,
+			UseCaseExceptionsFormatter useCaseExceptionsFormatter,
+			FieldValidationErrorPresenter fieldValidationErrorPresenter,
 			@Assisted int employeeId
 			) {
 		super(eventBus);
 		this.eventBus = eventBus;
 		this.getEmployeeUseCaseFactory = getEmployeeUseCaseFactory;
 		this.addUnionMemberAffiliationUseCaseFactory = addUnionMemberAffiliationUseCaseFactory;
+		this.useCaseExceptionsFormatter = useCaseExceptionsFormatter;
+		this.fieldValidationErrorPresenter = fieldValidationErrorPresenter;
 		this.employeeId = employeeId;
 	}
 	
@@ -77,9 +83,9 @@ public class AddUnionMemberController extends
 					new AddUnionMemberAffiliationRequest(employeeId, model.unionMemberId.get(), model.weeklyDueAmount.get()));
 			onAdded();
 		} catch (FieldValidatorException e) {
-			getView().setValidationErrorMessagesModel(new FieldValidationErrorPresenter().present(e));
+			getView().setValidationErrorMessagesModel(fieldValidationErrorPresenter.present(e));
 		} catch (UnionMemberIdAlreadyExistsException e) {
-			getView().setValidationErrorMessagesModel(new ValidationSingleErrorMessageModel(new UseCaseExceptionsFormatter().format(e)));
+			getView().setValidationErrorMessagesModel(new ValidationSingleErrorMessageModel(useCaseExceptionsFormatter.format(e)));
 		} 
 		
 	}

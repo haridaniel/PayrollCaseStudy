@@ -3,6 +3,8 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.pri
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.google.inject.assistedinject.Assisted;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.Constants;
 
 public class SmartDateFormatter {
@@ -11,11 +13,12 @@ public class SmartDateFormatter {
 	private String dateFormat = Constants.DATE_FORMAT;
 	private LocalDate currentDate;
 
+	public SmartDateFormatter(@Assisted LocalDate currentDate) {
+		this.currentDate = currentDate;
+	}
+	
 	public SmartDateFormatter() {
 		this(LocalDate.now());
-	}
-	public SmartDateFormatter(LocalDate currentDate) {
-		this.currentDate = currentDate;
 	}
 
 	public String format(LocalDate date) {
@@ -26,6 +29,11 @@ public class SmartDateFormatter {
 
 	private String toDateFormat(LocalDate date) {
 		return DateTimeFormatter.ofPattern(dateFormat).format(date);
+	}
+	
+	public static interface SmartDateFormatterFactory {
+		SmartDateFormatter of(LocalDate currentDate);
+		SmartDateFormatter ofCurrentDate();
 	}
 	
 }

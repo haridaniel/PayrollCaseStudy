@@ -14,12 +14,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.formatters.usecase.response.PaymentTypeResponseToStringFormatter;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Controller;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable.ChangeListener;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.pay.paylist.PayListView.PayListViewModel;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.pay.paylist.PayListView.PayListViewModel.PayListViewItem;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.PayListUseCaseFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.PaymentFulfillUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.PayListRequest;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.PayListResponse;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.PayListResponse.PayListResponseItem;
@@ -28,19 +27,20 @@ public class PayListController implements
 	Controller<PayListView>,
 	ChangeListener<LocalDate> 
 {
-	private PayListView view;
 	private PayListUseCaseFactory payListUseCaseFactory;
-	private PayListPresenter payListPresenter = new PayListPresenter();
+	private PayListView view;
+	private PayListPresenter payListPresenter;
 	private Observable<LocalDate> observableCurrentDate;
 	private ObservableValue<PayListState> observablePayListState = new ObservableValue<PayListState>(new PayListState(0, true));
 
 	@Inject
 	public PayListController(
 			PayListUseCaseFactory payListUseCaseFactory,
-			PaymentFulfillUseCaseFactory paymentFulfillUseCaseFactory,
+			PayListPresenter listPresenter,
 			EventBus eventBus
 			) {
 		this.payListUseCaseFactory = payListUseCaseFactory;
+		payListPresenter = listPresenter;
 		eventBus.register(this);
 	}
 
@@ -84,9 +84,18 @@ public class PayListController implements
 	}
 
 	private static class PayListPresenter {
-		private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter = new PaymentTypeResponseToStringFormatter();
-		private PaymentMethodTypeResponseToStringFormatter paymentMethodTypeResponseToStringFormatter = new PaymentMethodTypeResponseToStringFormatter();
-
+		private PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter;
+		private PaymentMethodTypeResponseToStringFormatter paymentMethodTypeResponseToStringFormatter;
+		
+		@Inject
+		public PayListPresenter(
+				PaymentTypeResponseToStringFormatter paymentTypeResponseToStringFormatter,
+				PaymentMethodTypeResponseToStringFormatter paymentMethodTypeResponseToStringFormatter
+				) {
+			this.paymentTypeResponseToStringFormatter = paymentTypeResponseToStringFormatter;
+			this.paymentMethodTypeResponseToStringFormatter = paymentMethodTypeResponseToStringFormatter;
+		}
+		
 		public PayListViewModel toViewModel(PayListResponse payListResponse) {
 			return new PayListViewModel(toViewModel(payListResponse.payListResponseItems));
 		}

@@ -15,6 +15,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.prim
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.Observable.ChangeListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.ObservableValue;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.ObservableSelectedEployee;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table.EmployeeListPresenter.EmployeeListPresenterFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.mainpanel.employeemanager.table.EmployeeListView.EmployeeListViewListener;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.EmployeeListUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.request.EmployeeListRequest;
@@ -28,6 +29,8 @@ public class EmployeeListController extends
 {
 	
 	private EmployeeListUseCaseFactory useCaseFactory;
+	private EmployeeListPresenterFactory employeeListPresenterFactory;
+	
 	private Observable<LocalDate> observableCurrentDate;
 	private List<EmployeeForEmployeeListResponse> employees;
 	private ObservableSelectedEployeeValue observableSelectedEployee = new ObservableSelectedEployeeValue();
@@ -35,9 +38,11 @@ public class EmployeeListController extends
 	@Inject
 	public EmployeeListController(
 			EmployeeListUseCaseFactory useCaseFactory, 
-			EventBus eventBus
+			EventBus eventBus,
+			EmployeeListPresenterFactory employeeListPresenterFactory
 			) {
 		this.useCaseFactory = useCaseFactory;
+		this.employeeListPresenterFactory = employeeListPresenterFactory;
 		eventBus.register(this);
 	}
 	
@@ -68,7 +73,7 @@ public class EmployeeListController extends
 	private void update() {
 		EmployeeListResponse employeeListResponse = useCaseFactory.employeeListUseCase().execute(new EmployeeListRequest(observableCurrentDate.get()));
 		employees = employeeListResponse.employees;
-		getView().setModel(new EmployeeListPresenter(observableCurrentDate.get(), employeeListResponse).toViewModel());
+		getView().setModel(employeeListPresenterFactory.of(observableCurrentDate.get(), employeeListResponse).toViewModel());
 	}
 
 	private static class ObservableSelectedEployeeValue extends ObservableValue<Optional<EmployeeForEmployeeListResponse>> implements ObservableSelectedEployee {
