@@ -40,7 +40,7 @@ public class Payroll {
 		
 		public UseCaseFactories buildUseCaseFactories() {
 			checkBuildability();
-			UseCaseFactoriesImpl useCaseFactories = new UseCaseFactoriesImpl(database, bankTransferPort);
+			UseCaseFactories useCaseFactories = new PayrollModule(database, bankTransferPort).getUseCaseFactories();
 			loadTestDataIfRequested(useCaseFactories);
 			return useCaseFactories;
 		}
@@ -50,12 +50,12 @@ public class Payroll {
 			checkForNull(bankTransferPort, "bankTransferPort should be selected");
 		}
 
-		private void loadTestDataIfRequested(UseCaseFactoriesImpl useCaseFactories) {
+		private void loadTestDataIfRequested(UseCaseFactories useCaseFactories) {
 			if(loadTestData)
 				loadTestData(useCaseFactories);
 		}
 
-		private void loadTestData(UseCaseFactoriesImpl useCaseFactories) {
+		private void loadTestData(UseCaseFactories useCaseFactories) {
 			new TestDataLoader().clearDatabaseAndInsertTestData(database, useCaseFactories);
 		}
 

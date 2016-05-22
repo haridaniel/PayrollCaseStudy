@@ -13,7 +13,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.secondary.database.jpa.proxy.factory.AutoBindedProxyFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.Database;
 
-public class JPADatabaseModule implements Closeable {
+public class JPADatabaseModule extends AbstractModule implements Closeable {
 	private JPAPersistenceUnit jpaPersistenceUnit;
 	private JPADatabase jpaDatabase;
 	private PersistService persistService;
@@ -28,9 +28,14 @@ public class JPADatabaseModule implements Closeable {
 
 	private Injector createInjector() {
 		return Guice.createInjector(Stage.DEVELOPMENT,
-				new GuiceModule(),
+				this,
 				new JpaPersistModule(jpaPersistenceUnit.name)
 				);
+	}
+	
+	@Override
+	protected void configure() {
+		bind(ProxyFactory.class).to(AutoBindedProxyFactory.class);
 	}
 
 	@Override
@@ -42,14 +47,8 @@ public class JPADatabaseModule implements Closeable {
 		return jpaDatabase;
 	}
 
-	private class GuiceModule extends AbstractModule {
-		@Override
-		protected void configure() {
-			bind(ProxyFactory.class).to(AutoBindedProxyFactory.class);
-		}
-	}
-
 	public static JPADatabaseModule createAndStart(JPAPersistenceUnit jpaPersistenceUnit) {
 		return new JPADatabaseModule(jpaPersistenceUnit);
 	}
+	
 }

@@ -1,5 +1,7 @@
 package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.usecase;
 
+import javax.inject.Inject;
+
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.AddServiceChargeUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.AddUnionMemberAffiliationUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.affiliation.unionmember.GetUnionMemberAffiliationUseCase;
@@ -18,7 +20,7 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.u
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.hourly.UpdateTimeCardUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.fullfill.PaymentFulfillUseCase;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.usecase.usecases.pay.paylist.PayListUseCase;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.factories.response.AffiliationTypeResponseFactoryImpl;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.main.PayrollModule;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.UseCaseFactories;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.response.employee.AffiliationTypeResponse.AffiliationTypeResponseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.banktransfer.BankTransferPort;
@@ -32,11 +34,14 @@ public class UseCaseFactoriesImpl implements UseCaseFactories {
 	private EmployeeGateway employeeGateway;
 	private TransactionalRunner transactionalRunner;
 	private EntityFactory entityFactory;
+	
 	private BankTransferPort bankTransferPort;
 	
-	private AffiliationTypeResponseFactory affiliationTypeResponseFactory = new AffiliationTypeResponseFactoryImpl();
+	@Inject private AffiliationTypeResponseFactory affiliationTypeResponseFactory;
 
-	public UseCaseFactoriesImpl(
+	/** use {@link PayrollModule} to instantiate **/
+	@Inject
+	private UseCaseFactoriesImpl(
 			Database database, 
 			BankTransferPort bankTransferPort
 			) {

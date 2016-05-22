@@ -2,18 +2,20 @@ package hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.impl.gui.swi
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.util.Providers;
 
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addemployee.AddEmployeeUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardController.AddTimeCardControllerFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardUI.AddTimeCardUIFactory;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberUI;
-import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberView;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addtimecard.AddTimeCardView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberController.AddUnionMemberControllerFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberUI.AddUnionMemberUIFactory;
+import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.addunionmemberaffiliation.AddUnionMemberView;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.common.confirm.ConfirmDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.dialog.common.error.ErrorDialogUI;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.primary.admin.gui.views_controllers_uis.mainframe.MainFrameUI;
@@ -39,11 +41,11 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.RemoveUnionMemberAffiliationUseCaseFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.primary.admin.usecase.factories.UpdateTimeCardUseCaseFactory;
 
-public class GuiSwingModule extends AbstractModule {
-	private UseCaseFactories useCaseFactories;
+class GuiSwingModule extends AbstractModule {
+	private Provider<UseCaseFactories> useCaseFactories;
 
 	public GuiSwingModule(UseCaseFactories useCaseFactories) {
-		this.useCaseFactories = useCaseFactories;
+		this.useCaseFactories = Providers.of(useCaseFactories);
 	}
 
 	@Override
@@ -55,18 +57,18 @@ public class GuiSwingModule extends AbstractModule {
 	}
 
 	private void bindUseCaseFactories() {
-		bind(DeleteEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(GetEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(EmployeeListUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(PaymentFulfillUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(PayListUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(AddEmployeeUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(AddTimeCardUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(UpdateTimeCardUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(ChangeToAbstractPaymentMethodUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(GetUnionMemberAffiliationUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(AddUnionMemberAffiliationUseCaseFactory.class).toInstance(useCaseFactories);
-		bind(RemoveUnionMemberAffiliationUseCaseFactory.class).toInstance(useCaseFactories);
+		bind(DeleteEmployeeUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(GetEmployeeUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(EmployeeListUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(PaymentFulfillUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(PayListUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(AddEmployeeUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(AddTimeCardUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(UpdateTimeCardUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(ChangeToAbstractPaymentMethodUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(GetUnionMemberAffiliationUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(AddUnionMemberAffiliationUseCaseFactory.class).toProvider(useCaseFactories);
+		bind(RemoveUnionMemberAffiliationUseCaseFactory.class).toProvider(useCaseFactories);
 	}
 
 	private void bindUIs() {

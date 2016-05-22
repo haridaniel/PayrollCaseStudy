@@ -5,8 +5,8 @@ import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.adapters.seco
 public class Main {
 
 	public static void main(String[] args) {
-		case1();
-//		case2();
+//		case1();
+		case2();
 		
 	}
 
