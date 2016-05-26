@@ -6,6 +6,13 @@ import org.apache.commons.logging.LogFactory;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.app.entity.PayCheck;
 import hu.daniel.hari.exercises.cleanarchitecture.payrollcasestudy.ports.secondary.database.TransactionalRunner;
 
+/**
+ * Unimplemented functionality. 
+ * This may be implemented as persisting a paymaster payment record,
+ * that will be processed by a future paymaster subsystem. 
+ * 
+ * @author Dani
+ */
 public class PaymasterPaymentFulfiller implements PaymentFulfiller {
 	private Log log = LogFactory.getLog(getClass());
 
