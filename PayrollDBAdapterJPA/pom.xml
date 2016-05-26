@@ -48,12 +48,13 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<dependency>	<!-- Should be removed before publish! -->
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.2.0</version>
-			<scope>runtime</scope>
-		</dependency>
+		<!-- ORCL (Should be removed before publish!) -->
+<!-- 		<dependency>	 -->
+<!-- 			<groupId>com.oracle</groupId> -->
+<!-- 			<artifactId>ojdbc6</artifactId> -->
+<!-- 			<version>11.2.0.2.0</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
 
 		<!-- GUICE for dependency management -->
 		<dependency>
